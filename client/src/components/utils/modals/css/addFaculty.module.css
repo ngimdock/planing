@@ -1,0 +1,11 @@
+/* Style for add faculty modal content layout */
+
+.controls {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button.controlsBtn {
+  margin-right: 10px;
+}
