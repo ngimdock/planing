@@ -23,6 +23,27 @@ class AdminModel {
 			console.log("Table Admin cree")
 		})
   }
+
+  static async create (payload) {
+    const query = `
+      INSERT INTO Admin (nomAdmin, passwordAdmin, emailAdmin, numTelephone)
+      VALUES (?, ?, ?, ?)
+    `
+    console.log(payload)
+
+    try {
+      const result = connection.execute(query, [payload.name, payload.password, payload.email, payload.phone])
+
+      console.log(result)
+
+      return { data: true }
+
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured while creating an admin user" }
+    }
+  }
 }
 
 export default AdminModel

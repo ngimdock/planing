@@ -30,7 +30,7 @@ class FacultyModel {
 
 		try{
 			// create on database
-			const results = await connection.execute(query, [nomFil])
+			const results = connection.execute(query, [nomFil])
 			return { data: true }
 		}catch(err){
 			return { error: err }
