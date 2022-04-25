@@ -1,8 +1,9 @@
 import express from "express"
-import FacultyModel from "./models/FacultyModel.js"
 
 //import router
 import FacultyRouter from "./routers/api/FacultyRouter.js"
+import AdminRouter from './routers/api/AdminRouter.js'
+import { initializeDB } from "./models/init.js"
 
 const app = express()
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // use some routes
 app.use("/faculty", FacultyRouter)
+app.use("/admin", AdminRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{
@@ -29,5 +31,6 @@ const PORT = process.env.post || 5000
 app.listen(PORT, () => {
 	console.log(`Runing on port ${PORT}`)
 
-	FacultyModel.init()
+	// Creation of tables in DB
+	initializeDB()
 })

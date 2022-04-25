@@ -3,14 +3,23 @@ import connection from "../utils/index.js"
 class FacultyModel {
 
 	static init() {
-		console.log(connection)
-		const query = `CREATE TABLE IF NOT EXISTS Filiere (idFil INTEGER PRIMARY KEY auto_increment, nomFil VARCHAR(255) NOT NULL)`
+		const query = `
+			CREATE TABLE IF NOT EXISTS Filiere 
+			(
+				idFil INTEGER PRIMARY KEY auto_increment, 
+				nomFil VARCHAR(255) NOT NULL
+			)
+		`
 
 		connection.query(query, (error, result, fields) => {
-			if(error)
-				return error
+			if(error) {
+				console.error(error)
+				
+				return 
+			}
 
-			return result
+			console.log(query)
+			console.log("Table Filiere cree")
 		})
 	}
 

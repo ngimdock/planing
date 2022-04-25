@@ -4,7 +4,6 @@ import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
-import Select from "../../inputs/select"
 
 const AddFacultyModalContent = () => {
   // Get global state
