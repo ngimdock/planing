@@ -1,0 +1,33 @@
+/* Declaration of fonts */
+
+@font-face {
+  font-family: "Nunito-Light";
+  src: url("../assets/fonts/Nunito/static/Nunito-Light.ttf");
+}
+
+@font-face {
+  font-family: "Nunito-Regular";
+  src: url("../assets/fonts/Nunito/static/Nunito-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Nunito-Medium";
+  src: url("../assets/fonts/Nunito/static/Nunito-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Nunito-Bold";
+  src: url("../assets/fonts/Nunito/static/Nunito-Bold.ttf");
+}
+
+/* Global style */
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #f8f8f8;
+  font-family: "Nunito-Regular";
+  overflow-x: hidden;
+  overflow-y: auto;
+}

@@ -1,0 +1,83 @@
+.container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: calc(100% - 70px);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  padding-inline: 15px;
+  min-height: 50px;
+  box-shadow: 0 1px 5px #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0.7;
+}
+
+.navbarTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+.navbarNav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.navbarMenuIcon {
+  margin-top: -5px;
+  margin-right: 20px;
+  cursor: pointer;
+  display: none;
+}
+
+.navbarNavItemText {
+  font-size: 14px;
+  font-family: "Nunito-Light";
+  color: #aaa;
+}
+
+.navbarLinks {
+  width: auto;
+  display: flex;
+  align-items: center;
+}
+
+.navbarLink {
+  width: auto;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-left: 15px;
+  transition: all 0.5s;
+}
+
+.navbarLinkText {
+  margin-left: 5px;
+}
+
+.navbarLinkText:hover {
+  color: #ff8500;
+}
+
+.navbarBottom {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.navbarTitle {
+  font-size: 22px;
+  font-family: "Nunito-Bold";
+  color: #ff8500;
+}
+
+@media screen and (max-width: 1100px) {
+  .navbarMenuIcon {
+    display: block;
+  }
+}
