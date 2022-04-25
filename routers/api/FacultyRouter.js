@@ -1,7 +1,7 @@
 import express from "express"
-import FacultyController from "../../controllers/FacultyController"
+import FacultyController from "../../controllers/FacultyController.js"
 
-FacultyRouter = express.router()
+const FacultyRouter = express.Router()
 
 // set some routes
 FacultyRouter.get("/all", FacultyController.getFaculties)

@@ -1,8 +1,6 @@
-import FacultyModel from "../models/FacultyModel"
+import FacultyModel from "../models/FacultyModel.js"
 
 class FacultyController {
-
-	static facultyModel = new FacultyModel()
 
 	static getFaculties = async (req, res) => {
 		res.send("This is all faculty")
@@ -10,10 +8,12 @@ class FacultyController {
 
 	
 	static createFaculty = async (req, res) => {
+
+		const { data } = await FacultyModel.create(req.body)
 		
-		try{
-			const result = await facultyModel.createFaculty()
-		}
+		if(data)
+			return res.status(201).json(data)
+		return res.status(500).json({ error: "an error occured" })
 	}
 }
 

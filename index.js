@@ -1,7 +1,10 @@
 import express from "express"
+import FacultyModel from "./models/FacultyModel.js"
+import TeacherModel from "./models/TeacherModel.js"
 
 //import router
-import FacultyRouter from "./routers/api/FacultyRouter"
+import FacultyRouter from "./routers/api/FacultyRouter.js"
+import TeacherRouter from "./routers/api/TeacherRouter.js"
 
 const app = express()
 
@@ -11,10 +14,24 @@ app.use(express.urlencoded({ extended: true }))
 
 // use some routes
 app.use("/faculty", FacultyRouter)
+app.use("/teacher", TeacherRouter)
 
 app.get("/", (req, res) =>  {
-	console.log("Welcome to hour planing project")
+	res.send([{
+		name: "blondelle",
+		age: 20
+	 },
+	 {
+		name: "dilane",
+		age: 20
+	 }
+	])
 })
 
 const PORT = process.env.post || 5000
-app.listen(POSR, () => console.log(`Runing on port ${PORT}`))
+app.listen(PORT, () => {
+	console.log(`Runing on port ${PORT}`)
+
+	FacultyModel.init()
+	TeacherModel.init()
+})
