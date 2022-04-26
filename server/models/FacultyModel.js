@@ -11,7 +11,7 @@ class FacultyModel {
 			)
 		`
 
-		try {
+	try {
       await connection.query(query)
 
       console.log("Table Filiere OK")
