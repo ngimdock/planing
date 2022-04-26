@@ -8,8 +8,6 @@ class GroupModel {
      */
     static async init () {
 
-    // TODO : Add the corresponding foreign keys to the query
-
       const query = `
         CREATE TABLE IF NOT EXISTS Groupe
         (

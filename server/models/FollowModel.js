@@ -7,12 +7,19 @@ class FollowModel {
      */
     static async init () {
 
-        // TODO add corresponding foreign keys 
+        // NOTE - correct request but cannot be implemented yet
 
         const query = `
           CREATE TABLE IF NOT EXISTS Suivre
           (
-
+              idGroupe INTEGER PRIMARY KEY NOT NULL,
+              codeCours INTEGER PRIMARY KEY NOT NULL,
+              CONSTRAINT FK_GroupeSuivre
+              FOREIGN KEY(idGroupe) REFERENCES Groupe (idGroupe),
+              CONSTRAINT FK_CoursSuivre
+              FOREIGN KEY(codeCours) REFERENCES Cours (codeCours)
+              ON DELETE CASCADE
+              ON UPDATE CASCADE
           )
         `
 
