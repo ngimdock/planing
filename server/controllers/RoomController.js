@@ -2,6 +2,14 @@ import RoomModel from "../models/RoomModel.js"
 
 class RoomController {
 
+    static getRoom = async (req, res) => {
+       
+        const { data, error } = await RoomModel.getRoom()
+
+        if(data) return res.status(200).json({ data })
+        return res.status(400).json({ error })
+    }
+
     static createRoom = async (req, res) => {
 
         //get data from body

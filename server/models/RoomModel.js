@@ -21,6 +21,23 @@ class RoomModel {
 		}
 	}
 
+	static getRoom = async (req, res) => {
+
+		const query = `
+								SELECT *
+								FROM Room
+								WHERE 1
+							`
+		try{
+			const [rows] = await connection.execute(query)
+			return { data: rows }
+		}catch(err){
+			console.log(err)
+
+			return { error: "An error occured when creating the room" }
+		}
+	}
+
 	static create = async (payload) => {
 
 		const query = `
