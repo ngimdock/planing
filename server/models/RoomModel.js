@@ -21,7 +21,7 @@ class RoomModel {
 		}
 	}
 
-	static getRoom = async (req, res) => {
+	static getRooms = async () => {
 
 		const query = `
 								SELECT *
@@ -34,7 +34,24 @@ class RoomModel {
 		}catch(err){
 			console.log(err)
 
-			return { error: "An error occured when creating the room" }
+			return { error: "An error occured when geting rooms" }
+		}
+	}
+
+	static getRoom = async (payload) => {
+
+		const query = `
+								SELECT *
+								FROM Room
+								WHERE idSalle = (?)
+							`
+		try{
+			const [rows] = await connection.execute(query, [payload])
+			return { data: rows }
+		}catch(err){
+			console.log(err)
+
+			return { error: "An error occured when geting the room" }
 		}
 	}
 
@@ -45,13 +62,45 @@ class RoomModel {
 							VALUE (?, ?)
 						`
 		try{
-			const [rows] = await connection.execute(query, [payload.nomSal, payload.capacite])
+			const [rows] = await connection.execute(query, [payload.nomSal, payload.capaciteSal])
 
 			return{ data: {...rows} }
 		}catch(err){
 			console.log(err)
 
 			return { error: "An error occured when creating the room" }
+		}
+	}
+
+	static update = async (payload) => {
+
+		const query = `
+							UPDATE Room
+							SET nomSal = (?), capaciteSal = (?)
+							WHERE idSalle = (?)
+						`
+		try{
+			const result = await connection.execute(query, [payload.nomSal, payload.capaciteSal, payload.id])
+			return { data: result }
+		}catch(err){
+			console.log(err)
+			return { error: "An error occured when updating the room" }
+		}
+	}
+
+	static delete = async (payload) => {
+
+		const query = `
+							DELETE
+							FROM Room
+							WHERE idSalle = (?)
+						`
+		try {
+			const [rows] = await connection.execute(query, [payload])
+			return { data: {...rows} }
+		}catch(err){
+			console.log(err);
+			return{ error: "An error occured when creating the room" }
 		}
 	}
 
