@@ -5,7 +5,7 @@ class SpecialityController {
     /**
      * 
      */
-    static getSpeciality = async (req, res) => {
+    static getSpecialities = async (req, res) => {
         res.send("This are all Specialities")
     }
 

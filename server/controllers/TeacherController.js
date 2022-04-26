@@ -5,14 +5,14 @@ class TeacherController {
     /**
      * 
      */
-    static getSpeciality = async (req, res) => {
+    static getTeachers = async (req, res) => {
         res.send("This are all Teachers")
     }
 
     /**
      * 
      */
-    static createSpeciality = async (req, res) => {
+    static createTeacher = async (req, res) => {
 
     }
 }
