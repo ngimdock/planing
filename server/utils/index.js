@@ -1,5 +1,5 @@
 import { config } from 'dotenv'
-import mysql from "mysql2"
+import mysql from "mysql2/promise"
 
 // Fetch data from .env file
 config()
@@ -10,7 +10,8 @@ const {
   DBNAME
 } = process.env
 
-const connection = mysql.createConnection({
+
+const connection = await mysql.createConnection({
   host: HOSTDB,
   user: USERDB,
   database: DBNAME

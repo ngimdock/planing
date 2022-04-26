@@ -2,7 +2,7 @@ import connection from "../utils/index.js"
 
 class FacultyModel {
 
-	static init() {
+	static async init() {
 		const query = `
 			CREATE TABLE IF NOT EXISTS Filiere 
 			(
@@ -11,16 +11,13 @@ class FacultyModel {
 			)
 		`
 
-		connection.query(query, (error, result, fields) => {
-			if(error) {
-				console.error(error)
-				
-				return 
-			}
+		try {
+      await connection.query(query)
 
-			console.log(query)
-			console.log("Table Filiere cree")
-		})
+      console.log("Table Filiere OK")
+    } catch (err) {
+      console.log(err)
+    }
 	}
 
 	static async create(data) {
@@ -28,11 +25,13 @@ class FacultyModel {
 
 		const query = "INSERT INTO Filiere (nomFil) VALUE (?)"
 
-		try{
+		try {
 			// create on database
-			const results = connection.execute(query, [nomFil])
+			const [rows] = await connection.execute(query, [nomFil])
+
+			console.log({ rows })
 			return { data: true }
-		}catch(err){
+		} catch(err){
 			return { error: err }
 		}
 	}

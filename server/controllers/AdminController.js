@@ -46,8 +46,25 @@ class AdminController {
     res.send("")
   }
 
-  static checkAdminExist (req, res) {
-    res.send("")
+  static async checkAdminExist (req, res) {
+    // Get data from request body
+    const { email } = req.body
+
+    if (email) {
+      const { data, error } = await AdminModel.verifyEmail(email)
+
+      if (data) {
+        if (data.length > 0) {
+          return res.json({ data: true })
+        }
+
+        return res.json({ data: false })
+      }
+
+      res.status(500).json({ error })
+    } else {
+      res.status(400).json({ error: "Provide an email address" })
+    }
   }
 }
 

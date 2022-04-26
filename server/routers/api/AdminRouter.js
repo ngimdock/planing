@@ -7,6 +7,6 @@ const AdminRouter = express.Router()
 AdminRouter.get("/current", AdminController.getCurrentUser)
 AdminRouter.post("/create", AdminController.create)
 AdminRouter.post("/signin", AdminController.signin)
-AdminRouter.post("/exist", AdminController.checkAdminExist)
+AdminRouter.post("/verify_email", AdminController.checkAdminExist)
 
 export default AdminRouter
