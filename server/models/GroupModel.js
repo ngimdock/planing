@@ -15,7 +15,15 @@ class GroupModel {
         (
           idGroupe INTEGER PRIMARY KEY auto_increment,
           nomGroupe VARCHAR(255) NOT NULL,
-          capaciteGroupe INTEGER NOT NULL
+          capaciteGroupe INTEGER NOT NULL,
+          codeClasse VARCHAR(255) NOT NULL,
+          idSpecialite INTEGER NOT NULL,
+          CONSTRAINT FK_ClasseGroupe 
+          FOREIGN KEY(codeClasse) REFERENCES Classe (codeClasse),
+          CONSTRAINT FK_SpecialiteGroupe
+          FOREIGN KEY(idSpecialite) REFERENCES Specialite (idSpecialite)
+          ON DELETE CASCADE
+          ON UPDATE CASCADE
         )
       `
 
