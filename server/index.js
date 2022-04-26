@@ -1,8 +1,11 @@
 import express from "express"
-import FacultyModel from "./models/FacultyModel.js"
 
 //import router
 import FacultyRouter from "./routers/api/FacultyRouter.js"
+import AdminRouter from './routers/api/AdminRouter.js'
+import NiveauRouter from "./routers/api/NiveauRouter.js"
+import AdminModel from "./models/AdminModel.js"
+import { initializeDB } from "./models/init.js"
 
 const app = express()
 
@@ -12,6 +15,8 @@ app.use(express.urlencoded({ extended: true }))
 
 // use some routes
 app.use("/faculty", FacultyRouter)
+app.use("/admin", AdminRouter)
+app.use("/niveau", NiveauRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{
@@ -26,8 +31,12 @@ app.get("/", (req, res) =>  {
 })
 
 const PORT = process.env.post || 5000
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
 	console.log(`Runing on port ${PORT}`)
 
-	FacultyModel.init()
+	// Creation of tables in DB
+	initializeDB()
+
+	const res = await AdminModel.verifyEmail("dilane@gmail.com")
+	console.log({res})
 })
