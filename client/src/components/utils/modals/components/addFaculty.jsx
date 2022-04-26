@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import styles from '../css/addFaculty.module.css'
+import styles from '../css/modalContent.module.css'
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
