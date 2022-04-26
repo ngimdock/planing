@@ -1,5 +1,15 @@
 import AdminModel from "../models/AdminModel.js";
 import bcrypt from 'bcrypt'
+import { config } from "dotenv";
+import jwt from 'jsonwebtoken'
+
+// Fetch data from .env file
+config()
+
+const {
+  EXPIRE_IN,
+  SECRET_CODE_TOKEN
+} = process.env
 
 class AdminController {
   static getCurrentUser (req, res) {
@@ -57,7 +67,11 @@ class AdminController {
         const verification = bcrypt.compareSync(password.toLowerCase(), data.passwordAdmin)
 
         if (verification) {
-          return res.status(200).json({ data: { ...data, passwordAdmin: undefined } })
+          const token = jwt.sign({ email: data.emailAdmin }, SECRET_CODE_TOKEN, {
+            expiresIn: `${EXPIRE_IN} min`,
+          });
+
+          return res.status(200).json({ data: { ...data, passwordAdmin: undefined, token } })
         }
 
         return res.status(500).json({ error: "Your password is incorrect" })
