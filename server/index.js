@@ -17,8 +17,8 @@ app.use(express.urlencoded({ extended: true }))
 // use some routes
 app.use("/faculty", FacultyRouter)
 app.use("/admin", AdminRouter)
-app.use("/niveau", NiveauRouter)
-app.use("/classe", ClassRouter)
+app.use("/level", NiveauRouter)
+app.use("/class", ClassRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{

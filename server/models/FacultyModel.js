@@ -23,14 +23,13 @@ class FacultyModel {
 	static async create(data) {
 		const { nomFil } = data
 
-		const query = "INSERT INTO Filiere (nomFil) VALUE (?)"
+		const query = "INSERT INTO Filiere (nomFil) VALUES (?)"
 
 		try {
 			// create on database
 			const [rows] = await connection.execute(query, [nomFil])
 
-			console.log({ rows })
-			return { data: true }
+			return { data: { id: rows.insertId } }
 		} catch(err){
 			return { error: err }
 		}

@@ -3,12 +3,12 @@ import FacultyModel from "./FacultyModel.js"
 import NiveauModel from "./NiveauModel.js"
 import ClassModel from './ClassModel.js';
 
-export const initializeDB = () => {
+export const initializeDB = async () => {
   try {
-    FacultyModel.init()
-    AdminModel.init()
-    NiveauModel.init()
-    ClassModel.init()
+    await AdminModel.init()
+    await FacultyModel.init()
+    await NiveauModel.init()
+    await ClassModel.init()
     
   } catch (err) {
     console.log(err)

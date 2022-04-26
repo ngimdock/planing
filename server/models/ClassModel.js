@@ -3,7 +3,7 @@ import connection from '../utils/index.js';
 class ClassModel {
 
     static async init(){
-        const query =`
+        const query = `
             CREATE TABLE IF NOT EXISTS Classe
             (
                 codeClasse VARCHAR(255) PRIMARY KEY, 
@@ -38,15 +38,18 @@ class ClassModel {
         
         const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
 
-		const query = "INSERT INTO Classe (codeClasse, nomClasse, capaciteClasse, idFil, idNiv) VALUE (?)"
+		const query = "INSERT INTO Classe (codeClasse, nomClasse, capaciteClasse, idFil, idNiv) VALUES (?, ?, ?, ?, ?)"
 
 		try {
+            console.log(value)
 			// insert row in Classe table 
-			const [rows] = await connection.execute(query, [value])
+			const [rows] = await connection.execute(query, value)
 
 			console.log({ rows })
-			return { data: true }
+			return { data }
 		} catch(err){
+            console.error(err)
+
 			return { error: err }
 		}
 	}
