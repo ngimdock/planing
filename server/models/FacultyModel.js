@@ -2,16 +2,22 @@ import connection from "../utils/index.js"
 
 class FacultyModel {
 
-	static init() {
-		console.log(connection)
-		const query = `CREATE TABLE IF NOT EXISTS Filiere (idFil INTEGER PRIMARY KEY auto_increment, nomFil VARCHAR(255) NOT NULL)`
+	static async init() {
+		const query = `
+			CREATE TABLE IF NOT EXISTS Filiere 
+			(
+				idFil INTEGER PRIMARY KEY auto_increment, 
+				nomFil VARCHAR(255) NOT NULL
+			)
+		`
 
-		connection.query(query, (error, result, fields) => {
-			if(error)
-				return error
+	try {
+      await connection.query(query)
 
-			return result
-		})
+      console.log("Table Filiere OK")
+    } catch (err) {
+      console.log(err)
+    }
 	}
 
 	static async create(data) {
@@ -19,11 +25,13 @@ class FacultyModel {
 
 		const query = "INSERT INTO Filiere (nomFil) VALUE (?)"
 
-		try{
+		try {
 			// create on database
-			const results = await connection.execute(query, [nomFil])
+			const [rows] = await connection.execute(query, [nomFil])
+
+			console.log({ rows })
 			return { data: true }
-		}catch(err){
+		} catch(err){
 			return { error: err }
 		}
 	}
