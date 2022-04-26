@@ -21,6 +21,23 @@ class RoomModel {
 		}
 	}
 
+	static create = async (payload) => {
+
+		const query = `
+							INSERT INTO Room (nomSal, capaciteSal)
+							VALUE (?, ?)
+						`
+		try{
+			const [rows] = await connection.execute(query, [payload.nomSal, payload.capacite])
+
+			return{ data: {...rows} }
+		}catch(err){
+			console.log(err)
+
+			return { error: "An error occured when creating the room" }
+		}
+	}
+
 }
 
 export default RoomModel

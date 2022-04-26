@@ -6,6 +6,7 @@ import FacultyRouter from "./routers/api/FacultyRouter.js"
 import AdminRouter from './routers/api/AdminRouter.js'
 import CourseRouter from './routers/api/CourseRouter.js'
 import AdminModel from "./models/AdminModel.js"
+import RoomRouter from './routers/api/RoomRouter.js';
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/faculty", FacultyRouter)
 app.use("/admin", AdminRouter)
 app.use("/course", CourseRouter)
+app.use("/room", RoomRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{
