@@ -1,1 +1,41 @@
-/* Style for signin page */
+.FirstSigninPage{
+    width: 100%;
+    height: 50%;
+    background: #03055E; 
+    position: fixed;
+}
+.FirstSigninContent{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 90px;
+    width: 40%;
+}
+.LogoImg {
+    width: 250px;
+    height: auto;
+  }
+.SignInDescription{
+    font-weight: bold;
+    color: #fff;
+    margin-top: 40px;
+    font-size: 26px;
+    transform: rotateZ(0deg);
+}
+.SecondSinginPage{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.SigninForm{
+    width: 300px;
+    height: auto;
+    margin-top: 500px;
+    padding: 0 20px 20px 0;
+    border: 1px solid gray;
+    border-radius: 15px;
+}
+.ContentSigninForm{
+    display: flex;
+    flex-direction: column;
+}
