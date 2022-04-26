@@ -42,8 +42,31 @@ class AdminController {
     }
   }
 
-  static signin (req, res) {
-    res.send("")
+  static async signin (req, res) {
+    // Get data from body
+    const {
+      email,
+      password
+    } = req.body
+
+    if (email && password) {
+      const { data, error } = await AdminModel.getCurrentUser(email)
+
+      if (data) {
+        console.log(data)
+        const verification = bcrypt.compareSync(password.toLowerCase(), data.passwordAdmin)
+
+        if (verification) {
+          return res.status(200).json({ data: { ...data, passwordAdmin: undefined } })
+        }
+
+        return res.status(500).json({ error: "Your password is incorrect" })
+      } else {
+        res.status(404).json({ error })
+      }
+    } else {
+      return res.status(400).json({ error: "Provide all the required data" })
+    }
   }
 
   static async checkAdminExist (req, res) {

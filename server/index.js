@@ -34,7 +34,4 @@ app.listen(PORT, async () => {
 
 	// Creation of tables in DB
 	initializeDB()
-
-	const res = await AdminModel.verifyEmail("dilane@gmail.com")
-	console.log({res})
 })
