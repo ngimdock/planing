@@ -1,0 +1,30 @@
+.Container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    border: 1px solid gray;
+}
+header{
+    height: 60px;
+    background-color:#03045E;
+    border-radius:  10px 10px 0 0;
+}
+.UserInfo{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+}
+.ImageProfil{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    position: relative;
+    top: -40px;
+    margin-left: 20px;
+}
+.Administrator{
+    display: flex;
+    flex-direction: column;
+}
