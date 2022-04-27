@@ -29,11 +29,10 @@ class SpecialityModel {
      */
     static async create(data) {
       const {
-        idSpecialite,
         nomSpecialite
       } = data
 
-      const value = [idSpecialite, nomSpecialite]
+      const value = [nomSpecialite]
 
       const query = "INSERT INTO Specialite(nomSpecialite) VALUES(?)"
 
