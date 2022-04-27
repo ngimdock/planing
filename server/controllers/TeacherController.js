@@ -10,7 +10,9 @@ class TeacherController {
     }
 
     /**
-     * 
+     * @param String {matriculeEns}
+     * @param String {nomEns}
+     * @param String {sexEns}
      */
     static createTeacher = async (req, res) => {
         // Get data from the request body
