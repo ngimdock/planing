@@ -1,9 +1,6 @@
 import ClassModel from "../models/ClassModel.js"
 
 class ClassController {
-    static getClass = async (req, res) => {
-		res.send("This is all Classes")
-	}
 
     static createClass = async (req, res) => {
 
@@ -23,16 +20,27 @@ class ClassController {
 	static findAllClass = async (req, res)=>{
 
 		const { data } = await ClassModel.findAll()
-		.catch(err => {
-			return console.log(err);
-		});
-		console.log(data)
+		
 		if(data){
 			return res.status(201).json(data)
 		}
 		return { error: "There were an error with getting the data of classes" }
 	}
 
+	static findById = async (req, res)=>{
+
+		const{ codeClasse } = req.body
+
+		if (codeClasse) {
+			const { data } = await ClassModel.findOne(codeClasse)
+
+			console.log(data)
+			if(data){
+				return res.status(201).json(data)
+			}
+		}
+		return { error: "There were an error with getting the data of classes" }
+	}
 
 }
 

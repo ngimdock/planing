@@ -60,7 +60,7 @@ class ClassModel {
 
 
   static async findAll () {
-      
+
     const query = `
       SELECT * 
       FROM Classe C, Niveau N, Filiere F
@@ -77,10 +77,25 @@ class ClassModel {
       return { error: "An error occured while getting all Classes" }
     }
   }
+  static async findOne (codeClasse) {
+      
+    const query = `
+      SELECT * 
+      FROM Classe C, Niveau N, Filiere F
+      WHERE C.codeClasse = ? AND C.idNiv =  N.idNiv AND C.idFil = F.idFil 
+    ` 
+    try {
+      const [rows] = await connection.execute(query, [codeClasse])
+
+      console.log(rows)
+      return {data : rows}
+    } catch (err) {
+      console.error(err)
+
+      return { error: "An error occured while getting  Class" }
+    }
+  }
 }
 
 
 export default ClassModel;
-
-
-
