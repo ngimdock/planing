@@ -28,7 +28,7 @@ class TeacherModel {
      * @param {Object} data The data recieved from the form
      * @returns {Object} data | error
      */
-    static create(data) {
+    static async create(data) {
       const {
         matriculeEns,
         nomEns,
