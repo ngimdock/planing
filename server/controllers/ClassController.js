@@ -42,6 +42,27 @@ class ClassController {
 		return { error: "There were an error with getting the data of classes" }
 	}
 
+	static updateClass = async (req, res) =>{
+
+		const { codeClasse } = req.body
+		if ( codeClasse ){
+
+			const { data } = await ClassModel.findOne(codeClasse)
+			if (data.length === 0){
+				res.status(400).json({message:"not found objet" })
+			}
+			else {
+
+				const {data: newData, error} = await ClassModel.update(codeClasse, req.body)
+				if ( newData )
+					return res.status(201).json({message: "sucessful update a Class "})
+				return res.status(400).json({error: error})
+			}
+			return res.status(500).json({ error: "an error occured with updated Class" })
+		}
+		return res.status(400).json({error: "not found Class"})
+	}
+
 }
 
 export default ClassController;

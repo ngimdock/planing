@@ -77,6 +77,7 @@ class ClassModel {
       return { error: "An error occured while getting all Classes" }
     }
   }
+
   static async findOne (codeClasse) {
       
     const query = `
@@ -95,6 +96,23 @@ class ClassModel {
       return { error: "An error occured while getting  Class" }
     }
   }
+
+  static async update ( codeClasse, data ){
+    const query = "UPDATE Classe SET nomClasse = ?, capaciteClasse = ?, idFil = ?, idNiv = ?  WHERE codeClasse=? "
+    const {
+        nomClasse, 
+        capaciteClasse, 
+        idFil, 
+        idNiv } = data
+
+    try {
+        const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
+        return {data : rows}
+    } catch (error) {
+        console.log(error)
+        return {error: error}
+    }   
+}
 }
 
 
