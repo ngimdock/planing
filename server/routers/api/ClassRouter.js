@@ -5,8 +5,9 @@ const ClassRouter = express.Router()
 
 
 ClassRouter.get('/all', ClassController.findAllClass)
-ClassRouter.get('/class', ClassController.findById)
-ClassRouter.put('/class', ClassController.updateClass)
+ClassRouter.get('/one', ClassController.findById)
+ClassRouter.put('/update', ClassController.updateClass)
+ClassRouter.delete('/delete', ClassController.deleteClasse)
 ClassRouter.post('/create', ClassController.createClass)
 
 export default ClassRouter;

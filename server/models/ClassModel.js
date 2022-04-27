@@ -112,7 +112,19 @@ class ClassModel {
         console.log(error)
         return {error: error}
     }   
+  }
+
+  static async delete ( codeClasse ){
+    const query = "DELETE FROM Classe WHERE codeClasse=?"
+    try {
+        const [rows] = await connection.execute(query, [codeClasse])
+        return {data : `sucessfully delete level ${codeClasse}` }
+    } catch (error) {
+        console.log(error)
+        return {error: error}
+    }   
 }
+
 }
 
 

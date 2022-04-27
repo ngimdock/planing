@@ -63,6 +63,23 @@ class ClassController {
 		return res.status(400).json({error: "not found Class"})
 	}
 
+	static deleteClasse = async (req, res) =>{
+
+		const { codeClasse } = req.body
+		if(codeClasse){
+			const { data } = await ClassModel.findOne(codeClasse)
+		
+			if(data){
+				const {data: newData, error} = await ClassModel.delete(codeClasse)
+				if(newData)
+					return res.status(200).json(newData)
+				return res.status(400).json({ error })
+			}
+			return res.status(500).json({ error: "an error occured with  Class" })
+		}
+		return res.status(400).json({error: "not found Class"})
+	}
+
 }
 
 export default ClassController;
