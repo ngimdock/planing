@@ -10,11 +10,11 @@ const SigninForm = () => {
             SIGN IN
         </div>
         <div className={styles.ContentSigninForm}>
-            <Input type="text"className={styles.InputSpace} placeholder="your email"/>
-            <Input type="text" className={styles.InputSpace}placeholder="your password"/>
+            <Input type="text" className={styles.inputSpace} placeholder="your email"/>
+            <Input type="text" className={styles.inputSpace} placeholder="your password"/>
             <Button className={styles.buttonForm}> Connexion </Button>
             <span className={styles.signinPasword}> You don't remenber your password?</span>
-            <span className={styles.signinClick}> Click here </span>
+            <span className={styles.signinClick}> click here </span>
         </div>
       </section>
     )

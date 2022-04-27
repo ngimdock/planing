@@ -52,7 +52,6 @@
 .Signinform{
     width: auto;
     height: auto;
-    border: 1px solid gray;
     border-radius: 15px;
     box-shadow: 0 5px 10px 3px gray;
     padding:20px;
@@ -66,11 +65,12 @@
     margin-top: 70px;
 }
 .titleSigninForm{
-    top: -50px;
-    height: 50px;
+    top: -35px;
+    height: 40px;
     width: 72%;
     padding: 20px;
     color: #fff;
+    border-radius: 10px;
     background-color:#3E4BFF;
     position: absolute;
     display: flex;
@@ -78,12 +78,13 @@
     justify-content: center;
     align-items: center;
 }
-.InputSpace{
-    height: px;
+.inputSpace{
+    height: 40px;
+    border-radius: 7px;
 }
 .signinPasword{
     color:gray;
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 14px;
 }
 .signinClick{
