@@ -21,6 +21,36 @@ class SpecialityModel {
         console.log(err)
       }
     }
+
+    /**
+     * 
+     * @param {Object} data The data recieved from the form
+     * @returns {Object} data | error
+     */
+    static async create(data) {
+      const {
+        idSpecialite,
+        nomSpecialite
+      } = data
+
+      const value = [idSpecialite, nomSpecialite]
+
+      const query = "INSERT INTO Specialite(nomSpecialite) VALUES(?)"
+
+      try {
+        console.log(value)
+        // inserting a row in the Speciality table
+        const [rows] = await connection.query(query, value)
+
+        console.log({ rows })
+
+        return { data }
+      } catch(err) {
+        console.log(error)
+
+        return { error: err }
+      }
+    }
 }
 
 export default SpecialityModel
