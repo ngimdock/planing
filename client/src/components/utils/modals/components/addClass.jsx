@@ -1,12 +1,130 @@
-import React from "react"
+import React, { useContext } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
+import styles from '../css/modalContent.module.css'
+import classStyles from '../css/classModalContent.module.css'
+import ModalContext from "../../../../datamanager/contexts/modalContext"
+import Select from "../../inputs/select"
+import { BsFillPlusCircleFill } from 'react-icons/bs'
 
 const AddClassModalContent = () => {
+  // Get global state
+  const { closeModal } = useContext(ModalContext)
+
   return (
     <section>
-      Add Class Modal Content
+      <Box 
+        sx={{
+          width: "100%",
+          marginBottom: 2
+        }}
+        className={classStyles.container}
+      >
+        <Input 
+          placeholder="nom"
+          fullWidth
+        />
+
+        <Select 
+          label="Filiere"
+          options={[
+            { value: "informatique", label: "Informatique" },
+            { value: "mathematique", label: "Mathematique" },
+            { value: "physique", label: "Physique" }
+          ]}
+          value="informatique"
+          fullWidth
+        />
+
+        <Select 
+          label="Niveau"
+          options={[
+            { value: "licence 1", label: "Licence 1" },
+            { value: "licence 2", label: "Licence 2" },
+            { value: "licence 3", label: "Licence 3" }
+          ]}
+          value="licence 1"
+          fullWidth
+        />
+
+        <Input 
+          placeholder="capacite"
+          type="number"
+          fullWidth
+        />
+
+        <span className={classStyles.groupLabel}>Groupes de la classe</span>
+        <Box className={classStyles.groupContainer}>
+          <Button 
+            text="nouveau groupe"
+            variant="outlined"
+            bgColor="#ff8500"
+            fontSize={12}
+            rounded
+          >
+            <BsFillPlusCircleFill 
+              size={15}
+              color="#ff8500"
+            />
+          </Button>
+        </Box>
+
+        <span className={classStyles.groupLabel}>Specialite</span>
+        <Box className={classStyles.groupContainer}>
+          <Select 
+            label="Specialite"
+            options={[
+              { value: "SI-GL", label: "Geni Logiciel" },
+              { value: "R", label: "Reseau" }
+            ]}
+            value="licence 1"
+            fullWidth
+          />
+
+          <span className={classStyles.groupLabel}>Groupes de la specialite</span>
+
+          <Box 
+            className={`
+              ${classStyles.groupContainer}
+              ${classStyles.specialityGroupContainer}
+            `}
+          >
+            <Button 
+              text="nouveau groupe"
+              variant="outlined"
+              bgColor="#ff8500"
+              fontSize={12}
+              rounded
+            >
+              <BsFillPlusCircleFill 
+                size={15}
+                color="#ff8500"
+              />
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+
+
+      <Box className={styles.controls}>
+        <Button 
+          text="Annuler"
+          variant="outlined"
+          bgColor="#ff8500"
+          fontSize={14}
+          rounded
+          className={styles.controlsBtn}
+          onClick={closeModal}
+        />
+
+        <Button 
+          text="Sauver"
+          variant="contained"
+          fontSize={14}
+          rounded
+        />
+      </Box>
     </section>
   )
 }
