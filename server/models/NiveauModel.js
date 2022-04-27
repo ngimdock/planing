@@ -69,7 +69,7 @@ class NiveauModel {
 
         try {
             const [rows] = await connection.execute(query, [nomNiv, id])
-            return {data : "Niveau sucessfull update"}
+            return {data : rows}
         } catch (error) {
             console.log(error)
             return {error: error}
