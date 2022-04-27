@@ -5,10 +5,8 @@ import { initializeDB } from "./models/init.js"
 import FacultyRouter from "./routers/api/FacultyRouter.js"
 import AdminRouter from './routers/api/AdminRouter.js'
 import NiveauRouter from "./routers/api/NiveauRouter.js"
-import AdminModel from "./models/AdminModel.js"
 import ClassRouter from "./routers/api/ClassRouter.js"
 import CourseRouter from './routers/api/CourseRouter.js'
-import AdminModel from "./models/AdminModel.js"
 import RoomRouter from './routers/api/RoomRouter.js';
 
 const app = express()
