@@ -26,7 +26,7 @@ class GroupModel {
       `
 
       try {
-        await connection.query(query)
+        await connection.execute(query)
   
         console.log("Table Groupe OK")
       } catch (err) {

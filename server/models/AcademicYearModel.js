@@ -1,26 +1,26 @@
 import connection from "../utils/index.js";
 
-class SpecialityModel {
+class AcademicYearModel {
     /**
      * Initialize the table called Specialite inside the DB
      */
     static async init () {
       const query = `
-        CREATE TABLE IF NOT EXISTS Specialite
+        CREATE TABLE IF NOT EXISTS AnneeAcademique
         (
-          idSpecialite INTEGER PRIMARY KEY auto_increment,
-          nomSpecialite VARCHAR(255) NOT NULL
+          idAnneeAca INTEGER PRIMARY KEY auto_increment,
+          valAnneeAca VARCHAR(255) NOT NULL
         )
       `
 
       try {
         await connection.execute(query)
   
-        console.log("Table Spécialité OK")
+        console.log("Table AnneeAcademique OK")
       } catch (err) {
         console.log(err)
       }
     }
 }
 
-export default SpecialityModel
+export default AcademicYearModel

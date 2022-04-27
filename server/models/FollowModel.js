@@ -6,17 +6,15 @@ class FollowModel {
      * 
      */
     static async init () {
-
-        // NOTE - correct request but cannot be implemented yet
-
         const query = `
           CREATE TABLE IF NOT EXISTS Suivre
           (
-              idGroupe INTEGER PRIMARY KEY NOT NULL,
-              codeCours INTEGER PRIMARY KEY NOT NULL,
-              CONSTRAINT FK_GroupeSuivre
+              idGroupe INTEGER NOT NULL,
+              codeCours VARCHAR(10) NOT NULL,
+              PRIMARY KEY (idGroupe, codeCours),
+              CONSTRAINT FK_SuivreGroupe
               FOREIGN KEY(idGroupe) REFERENCES Groupe (idGroupe),
-              CONSTRAINT FK_CoursSuivre
+              CONSTRAINT FK_SuivreCours
               FOREIGN KEY(codeCours) REFERENCES Cours (codeCours)
               ON DELETE CASCADE
               ON UPDATE CASCADE
@@ -24,7 +22,7 @@ class FollowModel {
         `
 
         try {
-            await connection.query(query)
+            await connection.execute(query)
 
             console.log("Table Suivre OK")
         } catch(err) {
