@@ -35,13 +35,14 @@ class SemesterModel {
       SELECT * 
       FROM Semestre S, AnneeAcademique A
       WHERE S.idAnneeAca = A.idAnneeAca
-      GROUP BY A.idAnneeAca
     `
 
     try {
       const [rows] = await connection.execute(query)
 
       console.log(rows)
+
+      return { data: rows }
     } catch (err) {
       console.error(err)
 
@@ -85,8 +86,8 @@ class SemesterModel {
 
     try {
       const [rows] = await connection.execute(query, [newValSemester, idSemester])
-
-      return { data: {id: rows.insertId} }
+      console.log(rows)
+      return { data: payload }
     } catch (err) {
       console.log(err)
 

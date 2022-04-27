@@ -2,7 +2,38 @@ import SemesterModel from "../models/SemesterModel.js"
 
 class SemesterController {
   static async findAll (req, res) {
-    res.send("")
+    const { data, error } = await SemesterModel.findAll()
+
+    if (data) {
+      const academicYear = []
+
+      for (let acaY of data) {
+        // Chech if academic year already exist
+        const index = academicYear.findIndex(elt => Number(elt.idAnneeAca) === Number(acaY.idAnneeAca))
+        const semester = {
+          idSemestre: acaY.idSemestre,
+          valSemestre: acaY.valSemestre
+        }
+
+        console.log({ academicYear, acaY })
+
+        if (index > -1) {
+          academicYear[index].semestres.push(semester)
+        } else {
+          const newAcaY = {
+            idAnneeAca: acaY.idAnneeAca,
+            valAnneeAca: acaY.valAnneeAca,
+            semestres: [ semester ]
+          }
+
+          academicYear.push(newAcaY)
+        }
+      }
+
+      return res.json({ data: academicYear })
+    }
+
+    return res.status(500).json({ error })
   }
 
   static async create (req, res) {
