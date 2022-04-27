@@ -22,7 +22,7 @@ class SpecialityController {
 
         if(nomSpecialite) {
 
-            const data = await SpecialityModel.create(data)
+            const { data } = await SpecialityModel.create(req.body)
 
             if(data) 
                 return res.status(201).json(data)
