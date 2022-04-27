@@ -4,6 +4,7 @@ import SigninForm from "./signinForm"
 
 // recuperation du logo1
 const logo = require('../../../assets/images/logo/logo1.png')
+const svg = require('../../../assets/images/svg/signin.png')
 
 const SigninBody = () => {
   return (
@@ -21,7 +22,11 @@ const SigninBody = () => {
          </div>
       </div>
       <div className={styles.SecondSinginPage}>
-        <img src="" alt="" />
+        <img 
+          src={svg} 
+          alt="svg" 
+          className={styles.signinSvg}  
+        />
         <SigninForm/>
       </div>
     </section>

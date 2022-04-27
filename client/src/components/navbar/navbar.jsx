@@ -98,7 +98,7 @@ const Navbar = () => {
             >Profil</span>
           </Link>
 
-          <Link to="#" className={styles.navbarLink}>
+          <Link to="/signin" className={styles.navbarLink}>
             <MdOutlineLogout 
               size={20}
               color="#828282"

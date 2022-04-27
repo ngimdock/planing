@@ -1,92 +1,163 @@
 .container {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
 }
 
-.FirstSigninPage{
-    width: 100%;
-    height: 400px;
-    background: url("../../../assets/images/svg/banner.svg"); 
-    position: fixed;
-    overflow: hidden;
+.FirstSigninPage {
+  width: 100%;
+  height: 400px;
+  background: url("../../../assets/images/svg/banner.svg") no-repeat;
+  /* background-size: contain; */
+  position: fixed;
+  overflow: hidden;
+  padding-inline: 250px;
 }
-.FirstSigninContent{
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-    margin-left: 90px;
-    width: 40%;
+.FirstSigninContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 20px;
 }
 .LogoImg {
-    width: 250px;
-    height: auto;
-  }
-.SignInDescription{
-    font-weight: bold;
-    color: #fff;
-    margin-top: 40px;
-    font-size: 26px;
-    transform: rotateZ(0deg);
+  width: 250px;
+  height: auto;
 }
-.SecondSinginPage{
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.SignInDescription {
+  font-weight: bold;
+  width: 500px;
+  color: #fff;
+  margin-top: 20px;
+  margin-left: 10px;
+  font-size: 26px;
+  transform: rotateZ(0deg);
+}
+.SecondSinginPage {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 300px;
+  height: auto;
+  padding: 0 250px 60px 250px;
+}
+.buttonForm {
+  margin-top: 30px;
+  height: 50px;
+  background-color: #3e4bff;
+  font-weight: bold;
+  font-size: 16px;
+}
+.signinSvg {
+  width: 350px;
+  height: auto;
+  margin-top: auto;
+}
+.Signinform {
+  width: auto;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px #aaa;
+  padding: 20px;
+  position: relative;
+  background-color: #fff;
+}
+.ContentSigninForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 70px;
+}
+.titleSigninForm {
+  top: -50px;
+  height: 50px;
+  width: 72%;
+  padding: 20px;
+  color: #fff;
+  background-color: #3e4bff;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-family: "Nunito-Bold";
+  font-size: 18px;
+}
+.InputSpace {
+  height: px;
+}
+.signinPasword {
+  color: gray;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.signinClick {
+  color: #ff8500;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 1300px) {
+  .FirstSigninPage {
+    padding-inline: 150px;
+  }
+
+  .SecondSinginPage {
+    padding: 0 150px 60px 150px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .FirstSigninPage {
+    padding-inline: 100px;
+  }
+
+  .SecondSinginPage {
+    padding: 0 100px 60px 100px;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .FirstSigninPage {
+    padding-inline: 20px;
+  }
+
+  .SecondSinginPage {
+    padding: 0 20px 60px 20px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    overflow-y: auto;
+  }
+
+  .signinSvg {
+    display: none;
+  }
+
+  .FirstSigninContent {
+    align-items: center;
+  }
+
+  .SignInDescription {
+    width: 500px;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .LogoImg {
+    width: 150px;
+  }
+
+  .SecondSinginPage {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    min-height: 300px;
-    height: auto;
-    padding: 0 100px 60px 100px;
-}
-.buttonForm{
-    top: 20px;
-    height: 55px;
-    background-color: #3E4BFF;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 16px;
-}
-.Signinform{
-    width: auto;
-    height: auto;
-    border: 1px solid gray;
-    border-radius: 15px;
-    box-shadow: 0 5px 10px 3px gray;
-    padding:20px;
-    position: relative;
-    background-color: #fff;
-}
-.ContentSigninForm{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 70px;
-}
-.titleSigninForm{
-    top: -50px;
-    height: 50px;
-    width: 72%;
-    padding: 20px;
-    color: #fff;
-    background-color:#3E4BFF;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-}
-.InputSpace{
-    height: px;
-}
-.signinPasword{
-    color:gray;
-    margin-top: 40px;
-    font-size: 14px;
-}
-.signinClick{
-    color: #FF8500;
-    font-size: 14px;
+    padding-bottom: 20px;
+  }
 }
