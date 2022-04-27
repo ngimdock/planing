@@ -8,6 +8,7 @@ import NiveauRouter from "./routers/api/NiveauRouter.js"
 import ClassRouter from "./routers/api/ClassRouter.js"
 import CourseRouter from './routers/api/CourseRouter.js'
 import RoomRouter from './routers/api/RoomRouter.js';
+import SemesterRouter from "./routers/api/SemesterRouter.js"
 
 const app = express()
 
@@ -22,6 +23,7 @@ app.use("/level", NiveauRouter)
 app.use("/class", ClassRouter)
 app.use("/course", CourseRouter)
 app.use("/room", RoomRouter)
+app.use("/semester", SemesterRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{

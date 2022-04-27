@@ -5,7 +5,8 @@ const Input = ({
   onChange,
   value,
   fullWidth,
-  type
+  type,
+  className
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
@@ -28,6 +29,7 @@ const Input = ({
       }}  
       onChange={onChange}
       value={value}
+      className={className}
     />
   )
 }
