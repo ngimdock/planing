@@ -22,6 +22,37 @@ class TeacherModel {
         console.log(err)
       }
     }
+
+    /**
+     * 
+     * @param {Object} data The data recieved from the form
+     * @returns {Object} data | error
+     */
+    static create(data) {
+      const {
+        matriculeEns,
+        nomEns,
+        sexEns
+      } = data
+
+      const value = [matriculeEns, nomEns, sexEns]
+
+      const query = "INSERT INTO Enseignant (matriculeEns, nomEns, sexEns) VALUES (?, ?, ?)"
+      
+      try {
+        console.log(value)
+        // insert row in the Teacher table
+        const [rows] = await connection.execute(query, value)
+         
+        console.log({ rows })
+        return { data }
+      } catch (err) {
+        console.log(err)
+
+        return { error : err }
+      }
+    
+    }
 }
 
 export default TeacherModel
