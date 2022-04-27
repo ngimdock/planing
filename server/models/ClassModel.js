@@ -37,19 +37,45 @@ class ClassModel {
         } = data
         
         const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
-
-		const query = "INSERT INTO Classe (codeClasse, nomClasse, capaciteClasse, idFil, idNiv) VALUE (?)"
+        console.log(value)
+		const query = `
+            INSERT INTO Classe
+            (codeClasse, 
+             nomClasse, 
+             capaciteClasse, 
+             idFil, 
+             idNiv
+            ) VALUES (?,?,?,?,?)`
 
 		try {
 			// insert row in Classe table 
-			const [rows] = await connection.execute(query, [value])
-
-			console.log({ rows })
+            
+			const [rows] = await connection.execute(query, [codeClasse, nomClasse, capaciteClasse, idFil, idNiv])
+			console.log("rows",{ rows })
 			return { data: true }
 		} catch(err){
 			return { error: err }
 		}
 	}
+
+
+  static async findAll () {
+    const query = `
+      SELECT * 
+      FROM Classe C, Niveau N, Filiere F
+      WHERE C.idNiv =  N.idNiv AND C.idFil = F.idFil
+    `
+
+    try {
+      const [rows] = await connection.execute(query)
+
+      console.log(rows)
+    } catch (err) {
+      console.error(err)
+
+      return { error: "An error occured while getting all Classes" }
+    }
+  }
 }
 
 
