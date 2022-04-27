@@ -17,7 +17,7 @@ const SigninBody = () => {
            className={styles.LogoImg}
            />
            <span className={styles.SignInDescription}>
-              Sign In and start generating your planning in an essay way.......
+              Connectez-vous est générez votre emploi de temps des cours facilement ...
            </span>
          </div>
       </div>

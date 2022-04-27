@@ -7,7 +7,7 @@ const SigninForm = () => {
   return (
     <section className={styles.Signinform}>
       <div className={styles.titleSigninForm}>
-        SIGN IN
+        CONNEXION
       </div>
       <div className={styles.ContentSigninForm}>
         <Input type="text"className={styles.InputSpace} placeholder="your email"/>
@@ -15,8 +15,8 @@ const SigninForm = () => {
 
         <Button className={styles.buttonForm}> Connexion </Button>
 
-        <span className={styles.signinPasword}> You don't remenber your password?</span>
-        <span className={styles.signinClick}> Click here </span>
+        <span className={styles.signinPasword}> Vous avez oublié votre mot de passe?</span>
+        <span className={styles.signinClick}> Cliquez ici </span>
       </div>
     </section>
   )
