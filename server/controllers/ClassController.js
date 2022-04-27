@@ -23,8 +23,11 @@ class ClassController {
 	static findAllClass = async (req, res)=>{
 
 		const { data } = await ClassModel.findAll()
+		.catch(err => {
+			return console.log(err);
+		});
 		console.log(data)
-		if (data) {
+		if(data){
 			return res.status(201).json(data)
 		}
 		return { error: "There were an error with getting the data of classes" }
