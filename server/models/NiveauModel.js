@@ -35,6 +35,58 @@ class NiveauModel {
 		}
 	}
 
+    static async findAll (){
+
+        const query = "SELECT * FROM Niveau"
+
+        try {
+            const [rows] = await connection.execute(query)
+            return {data : rows}
+        } catch (error) {
+            console.log(error)
+            return {error: error}
+        }
+         
+    }
+
+    static async findOne(id){
+
+        const query = "SELECT * FROM Niveau WHERE idNiv=?"
+
+        try {
+            const [rows] = await connection.execute(query,[id])
+            return {data : rows}
+        } catch (error) {
+            console.log(error)
+            return {error: error}
+        }
+         
+    }
+
+    static async update (id, data ){
+        const query = "UPDATE Niveau SET nomNiv=? WHERE idNiv=? "
+        const { nomNiv } = data
+
+        try {
+            const [rows] = await connection.execute(query, [nomNiv, id])
+            return {data : "Niveau sucessfull update"}
+        } catch (error) {
+            console.log(error)
+            return {error: error}
+        }   
+    }
+
+    static async delete (id){
+        const query = "DELETE FROM Niveau WHERE idNiv=?"
+        try {
+            const [rows] = await connection.execute(query, [id])
+            return {data : `sucessfully delete level ${id}` }
+        } catch (error) {
+            console.log(error)
+            return {error: error}
+        }   
+    }
+
 }
 
 export default NiveauModel 
