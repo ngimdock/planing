@@ -1,8 +1,15 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
 .FirstSigninPage{
     width: 100%;
-    height: 50%;
-    background: #03055E; 
+    height: 400px;
+    background: url("../../../assets/images/svg/banner.svg"); 
     position: fixed;
+    overflow: hidden;
 }
 .FirstSigninContent{
     display: flex;
@@ -23,19 +30,63 @@
     transform: rotateZ(0deg);
 }
 .SecondSinginPage{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-.SigninForm{
-    width: 300px;
+    min-height: 300px;
     height: auto;
-    margin-top: 500px;
-    padding: 0 20px 20px 0;
+    padding: 0 100px 60px 100px;
+}
+.buttonForm{
+    top: 20px;
+    height: 55px;
+    background-color: #3E4BFF;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+.Signinform{
+    width: auto;
+    height: auto;
     border: 1px solid gray;
     border-radius: 15px;
+    box-shadow: 0 5px 10px 3px gray;
+    padding:20px;
+    position: relative;
+    background-color: #fff;
 }
 .ContentSigninForm{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    margin-top: 70px;
+}
+.titleSigninForm{
+    top: -50px;
+    height: 50px;
+    width: 72%;
+    padding: 20px;
+    color: #fff;
+    background-color:#3E4BFF;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.InputSpace{
+    height: px;
+}
+.signinPasword{
+    color:gray;
+    margin-top: 40px;
+    font-size: 14px;
+}
+.signinClick{
+    color: #FF8500;
+    font-size: 14px;
 }

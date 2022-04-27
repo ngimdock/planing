@@ -7,7 +7,7 @@ const logo = require('../../../assets/images/logo/logo1.png')
 
 const SigninBody = () => {
   return (
-    <section>
+    <section className={styles.container}>
       <div className={styles.FirstSigninPage}>
          <div className={styles.FirstSigninContent}>
            <img 
@@ -20,7 +20,7 @@ const SigninBody = () => {
            </span>
          </div>
       </div>
-      <div className="SecondSinginPage">
+      <div className={styles.SecondSinginPage}>
         <img src="" alt="" />
         <SigninForm/>
       </div>
