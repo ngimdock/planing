@@ -61,15 +61,15 @@ const SigninForm = () => {
 
       if (data) {
         // Store token
-        localStorage.setItem("cpg-jwt", data.data.token)
+        localStorage.setItem("cpg-jwt", data.token)
 
         // Initialize payload
         const payload = {
-          id: data.data.idAdmin,
-          name: data.data.nomAdmin,
-          email: data.data.emailAdmin,
-          phone: data.data.numTelephone,
-          sexe: data.data.sexe
+          id: data.idAdmin,
+          name: data.nomAdmin,
+          email: data.emailAdmin,
+          phone: data.numTelephone,
+          sexe: data.sexe
         }
 
         // Login the user

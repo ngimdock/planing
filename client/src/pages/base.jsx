@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { Navigate, useLocation } from "react-router-dom"
+import AuthApi from "../api/auth"
 import Footer from "../components/footer/footer"
 import LoadingPage from "../components/loading/loadingPage"
 import Navbar from "../components/navbar/navbar"
@@ -19,15 +20,43 @@ const BaseLayout = ({ children }) => {
   // Get global state
   const { navigateTo } = useContext(NavigationContext)
   const { isOpen, currentModalName, closeModal } = useContext(ModalContext)
-  const { currentUser } = useContext(CurrentUserContext)
+  const { currentUser, login } = useContext(CurrentUserContext)
   
   // Set local state
   const [loading, setLoading] = useState(!currentUser ? true : false)
 
+  // Use effect section
   useEffect(() => {
     // Update the value of the current page inside the global state
     navigateTo(pagename)
   }, [pagename])
+
+  useEffect(() => {
+    if (!currentUser) {
+      getCurrentUser()
+    }
+  }, [currentUser])
+
+  // Some handlers
+  const getCurrentUser = async () => {
+    const { data } = await AuthApi.getCurrentUser()
+
+    if (data) {
+      // Initialize payload
+      const payload = {
+        id: data.data.idAdmin,
+        name: data.data.nomAdmin,
+        email: data.data.emailAdmin,
+        phone: data.data.numTelephone,
+        sexe: data.data.sexe
+      }
+
+      // Login the user
+      login(payload)
+    }
+      
+    setLoading(false)
+  }
 
   return (
     <Fragment>
