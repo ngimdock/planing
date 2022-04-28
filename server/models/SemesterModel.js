@@ -20,9 +20,6 @@ class SemesterModel {
 
     try {
       await connection.execute(query)
-      // await SemesterModel.create({ semester: 2, idAcademicYear: 5 })
-      // await SemesterModel.update({ idSemester: 1, newValSemester: 1 })
-      await SemesterModel.findAll()
 
       console.log("Table Semestre OK")
     } catch (err) {
@@ -35,13 +32,12 @@ class SemesterModel {
       SELECT * 
       FROM Semestre S, AnneeAcademique A
       WHERE S.idAnneeAca = A.idAnneeAca
-      GROUP BY A.idAnneeAca
     `
 
     try {
       const [rows] = await connection.execute(query)
 
-      console.log(rows)
+      return { data: rows }
     } catch (err) {
       console.error(err)
 
@@ -85,8 +81,8 @@ class SemesterModel {
 
     try {
       const [rows] = await connection.execute(query, [newValSemester, idSemester])
-
-      return { data: {id: rows.insertId} }
+      console.log(rows)
+      return { data: payload }
     } catch (err) {
       console.log(err)
 
