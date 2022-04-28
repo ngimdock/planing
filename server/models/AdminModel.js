@@ -1,4 +1,5 @@
 import connection from "../utils/index.js";
+import bcrypt from 'bcrypt'
 
 class AdminModel {
   /**
@@ -19,8 +20,15 @@ class AdminModel {
 
     try {
       await connection.query(query)
-
       console.log("Table Admin OK")
+
+      await AdminModel.createMainAdmin({
+        name: "Admin zero",
+        password: "admin",
+        email: "admin.zero@facsciences-uy1.cm",
+        phone: 650123456,
+        sexe: "masculin"
+      })
     } catch (err) {
       console.log(err)
     }
@@ -46,6 +54,31 @@ class AdminModel {
       console.log(err)
 
       return { error: "An error occured while creating an admin user" }
+    }
+  }
+
+  static async createMainAdmin (payload) {
+    const query = `
+      SELECT *
+      FROM Admin
+    `
+
+    try {
+      const [rows] = await connection.execute(query)
+
+      if (rows.length === 0) {
+        bcrypt.hash(payload.password.toLowerCase(), 10, async (err, hash) => {
+          if (err) return res.sendStatus(500);
+  
+          await AdminModel.create({...payload, password: hash})
+
+          console.log("Main Admin User created")
+        })
+      } else {
+        console.log("Main Admin User already exist")
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 
