@@ -12,7 +12,8 @@ class AdminModel {
         nomAdmin VARCHAR(255) NOT NULL,
         passwordAdmin VARCHAR(255) NOT NULL,
         emailAdmin VARCHAR(255) NOT NULL,
-        numTelephone INTEGER NOT NULL
+        numTelephone INTEGER NOT NULL,
+        sexe VARCHAR(20) NOT NULL
       )
     `
 
@@ -32,12 +33,12 @@ class AdminModel {
    */
   static async create (payload) {
     const query = `
-      INSERT INTO Admin (nomAdmin, passwordAdmin, emailAdmin, numTelephone)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO Admin (nomAdmin, passwordAdmin, emailAdmin, numTelephone, sexe)
+      VALUES (?, ?, ?, ?, ?)
     `
 
     try {
-      const [rows] = await connection.execute(query, [payload.name, payload.password, payload.email, payload.phone])
+      const [rows] = await connection.execute(query, [payload.name, payload.password, payload.email, payload.phone, payload.sexe])
 
       return { data: { ...rows, password: undefined } }
 

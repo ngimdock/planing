@@ -6,6 +6,7 @@ class Admin {
   name
   email
   phone
+  sexe
 
   constructor (data) {
     // Initialization
@@ -21,19 +22,22 @@ class Admin {
       id,
       name,
       email,
-      phone
+      phone,
+      sexe
     } = data
 
     if (
       id &&
       name &&
       email &&
-      phone
+      phone && 
+      sexe
     ) {
       this.id = id
       this.name = name
       this.email = email
       this.phone = phone
+      this.sexe = sexe
     } else {
       throw new Error("Provide all the required data")
     }
@@ -54,6 +58,10 @@ class Admin {
 
   get getPhone () {
     return this.phone
+  }
+
+  get getSexe () {
+    return this.sexe
   }
 }
 

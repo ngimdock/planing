@@ -12,7 +12,7 @@ class AuthApi extends DefaultApiCall {
     try {
       console.log({ email, password })
       const { data, error } = await axiosInstance.post('/admin/signin', { email, password })
-
+      
       if (data) {
         return { data }
       } else {

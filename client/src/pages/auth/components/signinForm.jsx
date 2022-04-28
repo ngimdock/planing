@@ -54,7 +54,7 @@ const SigninForm = () => {
       setLoading(true)
 
       // Send request and receive response
-      const {data, error} = await AuthApi.login("dilane@gmail.com", "admin")
+      const {data, error} = await AuthApi.login(email, password)
 
       // Stop loading
       setLoading(false)
@@ -68,7 +68,8 @@ const SigninForm = () => {
           id: data.data.idAdmin,
           name: data.data.nomAdmin,
           email: data.data.emailAdmin,
-          phone: data.data.numTelephone
+          phone: data.data.numTelephone,
+          sexe: data.data.sexe
         }
 
         // Login the user

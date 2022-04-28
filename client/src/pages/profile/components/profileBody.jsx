@@ -1,11 +1,16 @@
-import React from "react"
+import React, { useContext } from "react"
 import styles from '../css/Profile.module.css'
 import Button from "../../../components/utils/buttons/button"
 import { Box } from "@mui/material"
 import { BsFillPlusCircleFill } from 'react-icons/bs'
+import CurrentUserContext from "../../../datamanager/contexts/currentUserContext"
 
 const imageProfil = require('../../../assets/images/logo/image1.jpg')
+
 const ProfileBody = () => {
+  // Get global data
+  const { currentUser } = useContext(CurrentUserContext)
+
   return (
     <section className={styles.Container}>
       <header />
@@ -23,13 +28,12 @@ const ProfileBody = () => {
           sx={{
             display: 'flex',
             flexDirection: "row",
-            width: '100%',
             justifyContent: 'space-between'
           }}
           className={styles.UserInfoTop}
         >
           <div className={styles.Administrator}>
-            <span className={styles.NameUser}> Blondelle Kana</span>
+            <span className={styles.NameUser}>{ currentUser.getName }</span>
             <span className={styles.UserRule}> Administrator</span>
           </div>
 
@@ -53,15 +57,15 @@ const ProfileBody = () => {
 
       <div className={styles.information_content}>
         <span className={styles.info}>Email</span>
-        <span> blondelle.kana@facsciences-uy1.cm</span>
+        <span>{ currentUser.getEmail }</span>
       </div>
       <div className={styles.information_content}>
         <span className={styles.info}>Phone </span>
-        <span>675612258 </span>
+        <span>{ currentUser.getPhone }</span>
       </div>
       <div className={styles.information_content} style={{ borderRadius: "0 0 10px 10px" }}>
         <span className={styles.info}> Sexe</span>
-        <span> Feminin</span>
+        <span>{ currentUser.getSexe }</span>
       </div>
     </section>
   )

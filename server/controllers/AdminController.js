@@ -22,10 +22,11 @@ class AdminController {
       name,
       password,
       email,
-      phone
+      phone,
+      sexe
     } = req.body
 
-    if (name && password && email && phone) {
+    if (name && password && email && phone && sexe) {
       // Hash password
       const saltRounds = 10;
 
@@ -36,7 +37,8 @@ class AdminController {
           name,
           password: hash,
           email,
-          phone
+          phone,
+          sexe
         }
 
         const { data, error } = await AdminModel.create(payload)
@@ -65,9 +67,9 @@ class AdminController {
       const { data, error } = await AdminModel.getCurrentUser(email)
 
       if (data) {
-        console.log(data)
+        console.log({yo: data})
         const verification = bcrypt.compareSync(password.toLowerCase(), data.passwordAdmin)
-
+        console.log(verification)
         if (verification) {
           const token = jwt.sign({ email: data.emailAdmin }, SECRET_CODE_TOKEN, {
             expiresIn: `${EXPIRE_IN} min`,
