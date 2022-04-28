@@ -13,7 +13,7 @@ const {
 
 class AdminController {
   static getCurrentUser (req, res) {
-    res.send("")
+    return res.status(200).json({ data: {...req.user, password: undefined} })
   }
 
   static async create (req, res) {

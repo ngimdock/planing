@@ -11,3 +11,20 @@
   justify-content: center;
   align-items: center;
 }
+
+.logo {
+  width: 200px;
+  height: auto;
+  animation: loading 0.7s infinite alternate ease-in;
+  opacity: 1;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
