@@ -59,6 +59,8 @@ class AdminController {
       password
     } = req.body
 
+    console.log(email)
+
     if (email && password) {
       const { data, error } = await AdminModel.getCurrentUser(email)
 
@@ -79,6 +81,7 @@ class AdminController {
         res.status(404).json({ error })
       }
     } else {
+      console.log("mince")
       return res.status(400).json({ error: "Provide all the required data" })
     }
   }

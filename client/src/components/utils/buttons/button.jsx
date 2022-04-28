@@ -13,7 +13,8 @@ const Button = ({
   variant, // type of button (outlined | contained)
   hasShadow, // specify the boxShadow
   onClick, // click event handlercontrolsBtn
-  className // Classname for style
+  className, // Classname for style
+  disabled // Disabled the button
 }) => {
   // Default values section
   const defaultBgColor = bgColor ? bgColor : "#3e4bff"
@@ -21,6 +22,7 @@ const Button = ({
   const defaultFontSize = fontSize ? fontSize : 14
   const defaultVariant = variant && variant === "outlined" ? variant : "contained"
   const defaultHasShadow = hasShadow ? hasShadow : false
+  const defaultDisabled = !disabled ? false : disabled
 
 
   // Some functions
@@ -28,6 +30,7 @@ const Button = ({
 
   return (
     <CoreButton
+      disabled={defaultDisabled}
       onClick={onClick}
       variant={defaultVariant}
       sx={{

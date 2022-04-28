@@ -3,6 +3,7 @@ import Navigation from './router';
 import "./css/index.css"
 import NavigationProvider from './datamanager/providers/navigationProvider';
 import ModalProvider from './datamanager/providers/modalProvider';
+import CurrentUserProvider from './datamanager/providers/currentUserProvider';
 
 function App() {
   return (
