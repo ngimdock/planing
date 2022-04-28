@@ -7,11 +7,13 @@ import ModalProvider from './datamanager/providers/modalProvider';
 function App() {
   return (
     <Fragment>
-      <NavigationProvider>
-        <ModalProvider>
-          <Navigation />
-        </ModalProvider>
-      </NavigationProvider>
+      <CurrentUserProvider>
+        <NavigationProvider>
+          <ModalProvider>
+            <Navigation />
+          </ModalProvider>
+        </NavigationProvider>
+      </CurrentUserProvider>
     </Fragment>
   );
 }
