@@ -14,12 +14,14 @@ class AuthApi extends DefaultApiCall {
       const { data, error } = await axiosInstance.post('/admin/signin', { email, password })
 
       if (data) {
-        console.log(data)
+        return { data }
       } else {
-        console.log(error)
+        return { error }
       }
     } catch (err) {
       console.log(err)
+
+      return { error: "An error occured" }
     }
   }
 
