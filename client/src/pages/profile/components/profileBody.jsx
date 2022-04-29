@@ -5,7 +5,7 @@ import { Box } from "@mui/material"
 import { BsFillPlusCircleFill } from 'react-icons/bs'
 import CurrentUserContext from "../../../datamanager/contexts/currentUserContext"
 
-const imageProfil = require('../../../assets/images/logo/image1.jpg')
+const imageProfil = require('../../../assets/images/default.png')
 
 const ProfileBody = () => {
   // Get global data

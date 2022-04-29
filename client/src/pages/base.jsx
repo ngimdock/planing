@@ -41,7 +41,7 @@ const BaseLayout = ({ children }) => {
   const getCurrentUser = async () => {
     const { data } = await AuthApi.getCurrentUser()
 
-    if (data) {
+    if (data && data.data) {
       // Initialize payload
       const payload = {
         id: data.data.idAdmin,

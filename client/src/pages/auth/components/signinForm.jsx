@@ -58,6 +58,7 @@ const SigninForm = () => {
 
       // Stop loading
       setLoading(false)
+      console.log(data)
 
       if (data) {
         // Store token
@@ -117,7 +118,7 @@ const SigninForm = () => {
         <Input 
           error={passwordError.error}
           helperText={passwordError.helper}
-          type="text" 
+          type="password" 
           value={password}
           className={styles.InputSpace}
           placeholder="your password"
