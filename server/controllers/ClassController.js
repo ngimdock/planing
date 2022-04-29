@@ -2,7 +2,15 @@ import ClassModel from "../models/ClassModel.js"
 
 class ClassController {
 
-    static createClass = async (req, res) => {
+  static createClass = async (req, res) => {
+		// Get data from request body
+		const {
+			codeClasse,
+			nomClasse,
+			capaciteClasse,
+			idFil,
+			idNiv
+		} = req.body
 
 		if(req.body.constructor === Object && Object.keys(req.body).length === 0){
 

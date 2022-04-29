@@ -1,12 +1,13 @@
 import express from 'express'
 import AdminController from '../../controllers/AdminController.js'
+import authenticationMiddleware from '../../middlewares/auth.js'
 
 const AdminRouter = express.Router()
 
 // Some routes
-AdminRouter.get("/current", AdminController.getCurrentUser)
-AdminRouter.post("/create", AdminController.create)
+AdminRouter.get("/current", authenticationMiddleware, AdminController.getCurrentUser)
+AdminRouter.post("/create", authenticationMiddleware, AdminController.create)
 AdminRouter.post("/signin", AdminController.signin)
-AdminRouter.post("/verify_email", AdminController.checkAdminExist)
+AdminRouter.post("/verify_email", authenticationMiddleware, AdminController.checkAdminExist)
 
 export default AdminRouter

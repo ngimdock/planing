@@ -1,12 +1,16 @@
 import express from "express"
+import { initializeDB } from "./models/init.js"
 
 //import router
 import FacultyRouter from "./routers/api/FacultyRouter.js"
 import AdminRouter from './routers/api/AdminRouter.js'
 import NiveauRouter from "./routers/api/NiveauRouter.js"
-import AdminModel from "./models/AdminModel.js"
 import ClassRouter from "./routers/api/ClassRouter.js"
-import { initializeDB } from "./models/init.js"
+import CourseRouter from './routers/api/CourseRouter.js'
+import RoomRouter from './routers/api/RoomRouter.js';
+import SemesterRouter from "./routers/api/SemesterRouter.js"
+import TeacherRouter from "./routers/api/TeacherRouter.js"
+import SpecialityRouter from "./routers/api/SpecialityRouter.js"
 
 const app = express()
 
@@ -17,8 +21,13 @@ app.use(express.urlencoded({ extended: true }))
 // use some routes
 app.use("/faculty", FacultyRouter)
 app.use("/admin", AdminRouter)
-app.use("/niveau", NiveauRouter)
-app.use("/classe", ClassRouter)
+app.use("/level", NiveauRouter)
+app.use("/class", ClassRouter)
+app.use("/course", CourseRouter)
+app.use("/room", RoomRouter)
+app.use("/semester", SemesterRouter)
+app.use("/teacher", TeacherRouter)
+app.use("/speciality", SpecialityRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{
@@ -38,7 +47,4 @@ app.listen(PORT, async () => {
 
 	// Creation of tables in DB
 	initializeDB()
-
-	const res = await AdminModel.verifyEmail("dilane@gmail.com")
-	console.log({res})
 })

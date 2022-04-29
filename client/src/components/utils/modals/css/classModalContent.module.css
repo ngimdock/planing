@@ -1,0 +1,28 @@
+/* Style for class modal content */
+
+.container {
+  max-height: 400px;
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  padding-right: 5px;
+}
+
+.groupLabel {
+  font-family: "Nunito-Bold";
+}
+
+.groupContainer {
+  width: calc(100% - 40px);
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.specialityGroupContainer {
+  margin-bottom: 0;
+}
