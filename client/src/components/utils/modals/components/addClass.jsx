@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useCallback, useContext, useReducer, useTransition } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
@@ -7,29 +7,35 @@ import classStyles from '../css/classModalContent.module.css'
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import Select from "../../inputs/select"
 import { BsFillPlusCircleFill, BsX } from 'react-icons/bs'
+import reducer, { initialState } from '../reducers/classReducer'
 
-const GroupItem = () => {
+const GroupItem = ({ data: { id, name, capacity }, onDeleteGroup }) => {
   return (
     <Box
       className={classStyles.groupItem}
     >
-      <span className={classStyles.groupItemTitle}>Groupe 1</span>
+      <span className={classStyles.groupItemTitle}>{ name }</span>
 
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          right: 5,
-          "&:hover": {
-            cursor: "pointer"
-          }
-        }}
-      >
-        <BsX 
-          color="#828282"
-          size={25}
-        />
-      </Box>
+      {
+        id > 1 && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              right: 5,
+              "&:hover": {
+                cursor: "pointer"
+              }
+            }}
+            onClick={() => onDeleteGroup(id)}
+          >
+            <BsX 
+              color="#828282"
+              size={25}
+            />
+          </Box>
+        )
+      }
 
       <Input 
         placeholder="capacite"
@@ -38,6 +44,7 @@ const GroupItem = () => {
         sx={{
           mt: 1
         }}
+        value={capacity}
       />
     </Box>
   )
@@ -64,7 +71,7 @@ const SpecialityItem = () => {
           ${classStyles.specialityGroupContainer}
         `}
       >
-        <GroupItem />
+        {/* <GroupItem /> */}
 
         <Button 
           text="nouveau groupe"
@@ -87,6 +94,24 @@ const AddClassModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
 
+  // Set local state
+  const [classes, dispatch] = useReducer(reducer, initialState)
+
+  // Some handlers
+  const handleChange = (field, value) => {
+    dispatch({
+      type: "CHANGE_VALUE",
+      payload: {
+        field,
+        value
+      }
+    })
+  }
+
+  const handleAddGroup = () => dispatch({ type: "ADD_GROUP" })
+
+  const handleDeleteGroup = (id) => dispatch({ type: "DELETE_GROUP", payload: id })
+
   return (
     <section>
       <Box 
@@ -100,6 +125,8 @@ const AddClassModalContent = () => {
         <Input 
           placeholder="nom"
           fullWidth
+          onChange={(e) => handleChange("name", e.target.value)}
+          value={classes.name}
         />
 
         <Select 
@@ -109,8 +136,9 @@ const AddClassModalContent = () => {
             { value: "mathematique", label: "Mathematique" },
             { value: "physique", label: "Physique" }
           ]}
-          value="informatique"
+          value={classes.faculty}
           fullWidth
+          onGetValue={(value) => handleChange("faculty", value)}
         />
 
         <Select 
@@ -120,21 +148,32 @@ const AddClassModalContent = () => {
             { value: "licence 2", label: "Licence 2" },
             { value: "licence 3", label: "Licence 3" }
           ]}
-          value="licence 1"
+          value={classes.level}
           fullWidth
+          onGetValue={(value) => handleChange("level", value)}
         />
 
         <Input 
           placeholder="capacite"
           type="number"
           fullWidth
+          onChange={(e) => handleChange("capacity", e.target.value)}
+          value={classes.capacity}
         />
 
         <span className={classStyles.groupLabel}>Groupes de la classe</span>
         <Box className={classStyles.groupContainer}>
-          <GroupItem />
-          <GroupItem />
-          <GroupItem />
+          {
+            classes.groups.map((item) => {
+              return (
+                <GroupItem 
+                  key={item.id}
+                  data={item}
+                  onDeleteGroup={handleDeleteGroup}
+                />
+              )
+            })
+          }
 
           <Button 
             text="nouveau groupe"
@@ -142,6 +181,7 @@ const AddClassModalContent = () => {
             bgColor="#ff8500"
             fontSize={12}
             rounded
+            onClick={() => handleAddGroup()}
           >
             <BsFillPlusCircleFill 
               size={15}
