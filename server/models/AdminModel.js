@@ -71,6 +71,58 @@ class AdminModel {
       return { error: "An error occured while checking if an email has been already taken" }
     }
   }
+
+  /**
+   * Get information about the current user
+   * @param {string} email
+   * @returns 
+   */
+  static async getCurrentUser (email) {
+    const query = `
+      SELECT *
+      FROM Admin
+      WHERE emailAdmin = ?
+    `
+
+    try {
+      // Execute the query
+      const [rows] = await connection.execute(query, [email])
+
+      if (rows.length > 0) {
+        return { data: rows[0] }
+      } else {
+        return { error: "User not found" }
+      }
+
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured while getting admin's informations" }
+    }
+  }
+
+  static async signin (email, password) {
+    const query = `
+      SELECT *
+      FROM Admin
+      WHERE emailAdmin = ?
+      AND passwordAdmin = ?
+    `
+
+    try {
+      const [rows] = await connection.execute(query, [email, password])
+
+      if (rows.length > 0) {
+        return { data: rows[0] }
+      }
+
+      return { error: "User not found" }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured while login a user" }
+    }
+  }
 }
 
 export default AdminModel

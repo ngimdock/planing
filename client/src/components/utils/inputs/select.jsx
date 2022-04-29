@@ -28,7 +28,7 @@ const Select = ({
       fullWidth={fullWidth} 
       sx={{ 
         minWidth: 120, 
-        mt: 2,
+        mb: 2,
       }} 
       size="small"
     >
@@ -44,7 +44,7 @@ const Select = ({
         }}
       >
         <MenuItem value="">
-          <em>None</em>
+          <em>Vide</em>
         </MenuItem>
 
         {

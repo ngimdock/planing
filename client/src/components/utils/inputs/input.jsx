@@ -4,10 +4,15 @@ const Input = ({
   placeholder,
   onChange,
   value,
-  fullWidth
+  fullWidth,
+  type
 }) => {
+  // Default values section
+  const defaultType = type ? type : "text"
+
   return (
     <TextField 
+      type={defaultType}
       label={placeholder} 
       variant="outlined" 
       size='small'
@@ -18,7 +23,8 @@ const Input = ({
         "&:hover": {
           borderColor: "#ccc",
         },
-        fontFamily: "Nunito-Regular"
+        fontFamily: "Nunito-Regular",
+        marginBottom: 2
       }}  
       onChange={onChange}
       value={value}
