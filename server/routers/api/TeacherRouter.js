@@ -5,5 +5,7 @@ const TeacherRouter = express.Router()
 
 TeacherRouter.get("/", TeacherController.getTeachers)
 TeacherRouter.post('/create', TeacherController.createTeacher)
+TeacherRouter.patch('/update', TeacherController.updateTeacher)
+// TeacherRouter.patch('/delete', TeacherController.updateTeacher)
 
 export default TeacherRouter
