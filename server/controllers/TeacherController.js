@@ -33,7 +33,31 @@ class TeacherController {
         } else {
             return res.status(400).json({ error: "Provide all the required data" })
         }
+    }
 
+    /**
+     * 
+     * @param {int} id
+     * @returns 
+     */
+    static updateTeacher = async (req, res) =>  {
+        const {
+            matriculeEns,
+            nomEns,
+            sexEns
+        } = req.body
+
+        if(matriculeEns || nomEns || sexEns) {
+
+            const data = await TeacherModel.update(req.body)
+
+            if(data)
+                return res.status(200).json(data)
+            
+            return res.status(500).json({ error : "an error occured "})
+        } else {
+            return res.status(200).json({ error : "Provide all the required data" })
+        } 
     }
 }
 
