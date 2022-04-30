@@ -18,13 +18,14 @@ class TeacherController {
         const matriculeEns = req.params.matriculeEns
 
         if(matriculeEns && typeof matriculeEns === 'string') {
-            const { data, error } = await TeacherModel.getById(matriculeEns)
+            const data = await TeacherModel.getById(matriculeEns)
 
-            if(data.legnth > 0) {
-                res.status(200).json(data)
-                
+            console.log(data.length)
+
+            if(data.length > 0){
+                res.status(200).json(data)    
             } else {
-                res.status(404).json({ error : " No such teacher " })
+                res.status(404).json({ error: "No such teacher "})
             }
 
         } else {
@@ -78,15 +79,18 @@ class TeacherController {
 
             const data = await TeacherModel.update(req.body, currentMatriculeEns)
 
-            console.log(data)
+            if(data && data > 0) {
 
-            if(data > 0)
-                return res.status(200).json({ message : " The Teacher infos has been successfully modified "})
-            
-            // TODO -- Implement the Select Teacher by matricule method and use it here
-            // so as to return the newly modified teacher infos
+                const response = await TeacherModel.getById(matriculeEns)
 
-            return res.status(500).json({ error : " An error occured "})
+                if(response.length > 0){
+                    res.status(200).json(response)    
+                } else {
+                    res.status(404).json({ error: "No such teacher "})
+                }  
+            } else {
+                res.status(500).json({ error: " An error occured "})
+            }
         } else {
             return res.status(400).json({ error : "Provide all the required data" })
         } 

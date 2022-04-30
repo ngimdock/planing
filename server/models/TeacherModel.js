@@ -41,10 +41,10 @@ class TeacherModel {
 
         })
 
-        return { data : result }
+        return result
 
       } catch(err) {
-        
+
         console.log(err)
 
         return { error : err }
@@ -105,23 +105,8 @@ class TeacherModel {
 
         const queryResult = await connection.query(sql1, values).then(([result]) => {
 
-          console.log(result.affectedRows)
-
           return result.affectedRows
-          // if(result.affectedRows > 0) {
-  
-          //     const sql2 = `SELECT * FROM Enseignant WHERE matriculeEns = ${matriculeEns}`
-          //     let queryResult2 = connection.query(sql2).then(([data]) => {
-                
-          //       return [data]
-                
-          //     }).catch(error => {
-          //       return {error}
-          //     })  
-  
-          //     return { data : queryResult2 }
-              
-          // }
+          
         }).catch(error => {
           return {error}
         })
