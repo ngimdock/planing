@@ -32,7 +32,8 @@ const classReducer = (state = initialState, action) => {
         prevState.level = value
       } else if (field === "capacity") {
         prevState.capacity = Number(value)
-        prevState.groups[0].capacity = Number(value)
+
+        return computeGroupCapacity(prevState)[0]
       }
 
       return prevState
@@ -64,6 +65,92 @@ const classReducer = (state = initialState, action) => {
       }
 
       return computeGroupCapacity(prevState)[0]
+    }
+
+    case "ADD_SPECIALITY": {
+      const id = prevState.specialities.length === 0 ? 1 : prevState.specialities[prevState.specialities.length-1].id + 1
+
+      const newGroup = {
+        id: 1,
+        name: "Groupe 1",
+        capacity: 0
+      }
+
+      const newSpeciality = {
+        id,
+        value: 0,
+        capacity: 0,
+        groups: [ newGroup ]
+      }
+
+      prevState.specialities.push(newSpeciality)
+
+      return prevState
+    }
+
+    case "DELETE_SPECIALITY": {
+      const id = action.payload
+
+      if (id) {
+        const index = prevState.specialities.findIndex(speciality => Number(speciality.id) === Number(id))
+
+        if (index > -1) {
+          prevState.specialities.splice(index, 1)
+        }
+      }
+
+      return prevState
+    }
+
+    case "UPDATE_SPECIALITY_INFO": {
+      const {
+        id,
+        field,
+        value
+      } = action.payload
+
+      if (id && field && value) {
+        const index = prevState.specialities.findIndex(speciality => Number(speciality.id) === Number(id))
+
+        if (index > -1) {
+          // Update speciality information
+          if (field === "value") {
+            prevState.specialities[index].value = value
+          } else if (field === "capacity") {
+            prevState.specialities[index].capacity = Number(value)
+            prevState.specialities[index].groups[0].capacity = Number(value)
+          }
+        }
+      }
+
+      return prevState
+    }
+
+    case "ADD_SPECIALITY_GROUP": {
+      const idSpec = action.payload
+
+      if (idSpec) {
+        const index = prevState.specialities.findIndex(speciality => Number(speciality.id) === Number(idSpec))
+
+        if (index > -1) {
+          const speciality = prevState.specialities[index]
+          const id = speciality.groups.length === 1 ? 2 : speciality.groups[speciality.groups.length-1].id + 1
+          
+          const newGroup = {
+            id,
+            name: "Groupe " + id,
+            capacity: 0
+          }
+    
+          // const [prevStateUpdated, newGroupUpdated] = computeGroupCapacity(prevState, newGroup)
+    
+          // prevStateUpdated.groups.push(newGroupUpdated)
+
+          prevState.specialities[index].groups.push(newGroup)
+        }
+      }
+
+      return prevState
     }
 
     default: return state

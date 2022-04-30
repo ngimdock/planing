@@ -38,7 +38,7 @@ const GroupItem = ({ data: { id, name, capacity }, onDeleteGroup }) => {
       }
 
       <Input 
-        placeholder="capacite"
+        placeholder="capacité"
         type="number"
         fullWidth
         sx={{
@@ -50,20 +50,69 @@ const GroupItem = ({ data: { id, name, capacity }, onDeleteGroup }) => {
   )
 }
 
-const SpecialityItem = () => {
+const SpecialityItem = ({ 
+  data: { 
+    id, 
+    value, 
+    capacity, 
+    groups 
+  }, 
+  index, 
+  onDeleteSpeciality,
+  onUpdateSpeciality,
+  onAddSpecialityGroup
+}) => {
   return (
     <Box className={classStyles.groupContainer}>
+      <span 
+        className={classStyles.groupItemTitle} 
+        style={{ 
+          display: "block",
+          marginBottom: 15 
+        }}
+      >
+        { "specialite " + index }
+      </span>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 5,
+          right: 5,
+          "&:hover": {
+            cursor: "pointer"
+          }
+        }}
+        onClick={() => onDeleteSpeciality(id)}
+      >
+        <BsX 
+          color="#828282"
+          size={25}
+        />
+      </Box>
+
       <Select 
-        label="Specialite"
+        label="nom"
         options={[
-          { value: "SI-GL", label: "Geni Logiciel" },
-          { value: "R", label: "Reseau" }
+          { value: 0, label: "Geni Logiciel" },
+          { value: 1, label: "Reseau" }
         ]}
-        value="licence 1"
+        value={value}
         fullWidth
+        onGetValue={(value) => onUpdateSpeciality(id, "value", value)}
+      />
+      <Input 
+        placeholder="capacité"
+        type="number"
+        fullWidth
+        sx={{
+          mt: 1
+        }}
+        value={capacity}
+        onChange={(e) => onUpdateSpeciality(id, "capacity", e.target.value)}
       />
 
-      <span className={classStyles.groupLabel}>Groupes de la specialite</span>
+      <span className={classStyles.groupLabel}>Groupes de la spécialité</span>
 
       <Box 
         className={`
@@ -71,7 +120,17 @@ const SpecialityItem = () => {
           ${classStyles.specialityGroupContainer}
         `}
       >
-        {/* <GroupItem /> */}
+        {
+          groups.map((item) => {
+            return (
+              <GroupItem 
+                key={item.id}
+                data={item}
+                // onDeleteGroup={handleDeleteSpecialityGroup}
+              />
+            )
+          })
+        }
 
         <Button 
           text="nouveau groupe"
@@ -79,6 +138,7 @@ const SpecialityItem = () => {
           bgColor="#ff8500"
           fontSize={12}
           rounded
+          onClick={() => onAddSpecialityGroup(id)}
         >
           <BsFillPlusCircleFill 
             size={15}
@@ -111,6 +171,28 @@ const AddClassModalContent = () => {
   const handleAddGroup = () => dispatch({ type: "ADD_GROUP" })
 
   const handleDeleteGroup = (id) => dispatch({ type: "DELETE_GROUP", payload: id })
+
+  const handleAddSpeciality = () => dispatch({ type: "ADD_SPECIALITY" })
+
+  const handleDeleteSpeciality = (id) => dispatch({ type: "DELETE_SPECIALITY", payload: id })
+
+  const handleUpdateSpecialityInfo = (id, field, value) => {
+    dispatch({ 
+      type: "UPDATE_SPECIALITY_INFO", 
+      payload: {
+        id,
+        field,
+        value
+      }
+    })
+  }
+
+  const handleAddSpecialityGroup = (id) => {
+    dispatch({
+      type: "ADD_SPECIALITY_GROUP",
+      payload: id
+    })
+  }
 
   return (
     <section>
@@ -181,7 +263,7 @@ const AddClassModalContent = () => {
             bgColor="#ff8500"
             fontSize={12}
             rounded
-            onClick={() => handleAddGroup()}
+            onClick={handleAddGroup}
           >
             <BsFillPlusCircleFill 
               size={15}
@@ -190,22 +272,42 @@ const AddClassModalContent = () => {
           </Button>
         </Box>
 
-        <span className={classStyles.groupLabel}>Specialite</span>
-        
-        <SpecialityItem />
-
-        <Button 
-          text="Nouvelle specialite"
-          variant="outlined"
-          bgColor="#ff8500"
-          fontSize={12}
-          rounded
+        <Box 
+          sx={{
+            display: "block",
+          }}
         >
-          <BsFillPlusCircleFill 
-            size={15}
-            color="#ff8500"
-          />
-        </Button>
+          <p className={classStyles.groupLabel}>Spécialités</p>
+          
+          {
+            classes.specialities.map((speciality, index) => {
+              return (
+                <SpecialityItem 
+                  key={speciality.id}
+                  data={speciality}
+                  index={index + 1}
+                  onDeleteSpeciality={handleDeleteSpeciality}
+                  onUpdateSpeciality={handleUpdateSpecialityInfo}
+                  onAddSpecialityGroup={handleAddSpecialityGroup}
+                />
+              )
+            })
+          }
+
+          <Button 
+            text="Nouvelle spécialité"
+            variant="outlined"
+            bgColor="#ff8500"
+            fontSize={12}
+            rounded
+            onClick={handleAddSpeciality}
+          >
+            <BsFillPlusCircleFill 
+              size={15}
+              color="#ff8500"
+            />
+          </Button>
+        </Box>
       </Box>
 
 

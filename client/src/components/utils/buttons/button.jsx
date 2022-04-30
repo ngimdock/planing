@@ -49,7 +49,7 @@ const Button = ({
           borderColor: !isBtnContainedType() && defaultBgColor,
           borderWidth: !isBtnContainedType() && 2,
           boxShadow: defaultHasShadow ? 4 : 0,
-        },
+        }
       }}
       className={className}
     >
