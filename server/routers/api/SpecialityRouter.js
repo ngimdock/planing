@@ -6,5 +6,6 @@ const SpecialityRouter = express.Router()
 SpecialityRouter.get('/', SpecialityController.getSpecialities)
 SpecialityRouter.get('/:idSpecialite', SpecialityController.getSpeciality)
 SpecialityRouter.post('/create', SpecialityController.createSpeciality)
+SpecialityRouter.put('/update/:idSpecialite', SpecialityController.updateSpeciality)
 
 export default SpecialityRouter
