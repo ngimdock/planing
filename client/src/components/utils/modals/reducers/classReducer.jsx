@@ -47,9 +47,11 @@ const classReducer = (state = initialState, action) => {
         capacity: 0
       }
 
-      prevState.groups.push(newGroup)
+      const [prevStateUpdated, newGroupUpdated] = computeGroupCapacity(prevState, newGroup)
 
-      return prevState
+      prevStateUpdated.groups.push(newGroupUpdated)
+
+      return prevStateUpdated
     }
 
     case "DELETE_GROUP": {
@@ -61,11 +63,35 @@ const classReducer = (state = initialState, action) => {
         prevState.groups.splice(index, 1)
       }
 
-      return prevState
+      return computeGroupCapacity(prevState)[0]
     }
 
     default: return state
   }
+}
+
+// Helper function
+const computeGroupCapacity = (prevState, newGroup = null) => {
+  const groupNumber = prevState.groups.length + (newGroup ? 1 : 0)
+  let capacity = prevState.capacity
+  const capacityPerGroup = Math.floor(capacity / groupNumber)
+
+  if (newGroup) {
+    // Add capacity to the new group
+    newGroup.capacity = capacityPerGroup
+    capacity -= capacityPerGroup
+  }
+
+  // update capacity to the existing groups
+  for (let i = groupNumber - (newGroup ? 2 : 1); i > 0; i--) {
+    prevState.groups[i].capacity = capacityPerGroup
+    capacity -= capacityPerGroup
+  }
+
+  // Add capacity to the first group
+  prevState.groups[0].capacity = capacity
+
+  return [ prevState, newGroup ]
 }
 
 export {

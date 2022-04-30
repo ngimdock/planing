@@ -218,3 +218,14 @@
     padding-bottom: 20px;
   }
 }
+
+@media screen and (max-height: 640px) {
+  .SecondSinginPage {
+    position: absolute;
+    margin-top: 400px;
+  }
+
+  .container {
+    overflow-y: scroll;
+  }
+}
