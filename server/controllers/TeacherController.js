@@ -3,14 +3,22 @@ import TeacherModel from "../models/TeacherModel.js"
 class TeacherController {
 
     /**
-     * 
+     * Fetching all the teachers of the platform
+     * @param {null}
+     * @returns Object data | error
      */
     static getTeachers = async (req, res) => {
-        res.send("This are all Teachers")
+        const data = await TeacherModel.get()
+
+        if(data.length > 0) {
+            res.status(200).json(data)
+        } else {
+            res.status(500).json({ error : " An error occured " })
+        }
     }
 
     /**
-     * 
+     * Fetching the researched teacher from the platform
      * @param {String} matriculeEns The identifier of the teacher we are searching for 
      * @returns data | error
      */
@@ -34,6 +42,7 @@ class TeacherController {
     }
 
     /**
+     * Fetching the new teacher created
      * @param {String} matriculeEns The teacher's matricule
      * @param {String} nomEns The teacher's name
      * @param {String} sexEns The teacher's gender
@@ -50,16 +59,19 @@ class TeacherController {
         if (matriculeEns && nomEns && sexEns) {
             const { data } = await TeacherModel.create(req.body)
 
-            if(data)
+            if(data) {
                 return res.status(201).json(data)
+            } else {
+                return res.status(500).json({ error: "an error occured" })
+            }
 
-            return res.status(500).json({ error: "an error occured" })
         } else {
             return res.status(400).json({ error: "Provide all the required data" })
         }
     }
 
-     /**
+    /**
+     * Fetching the updated teacher infos
      * @param {String} newMatriculeEns The teacher's new matricule
      * @param {String} matriculeEns The teacher's current matricule
      * @param {String} nomEns The teacher's name
