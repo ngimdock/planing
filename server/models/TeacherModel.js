@@ -25,6 +25,34 @@ class TeacherModel {
 
     /**
      * 
+     * @param {String} matriculeEns 
+     * @returns {Object} data | error
+     */
+    static async getById(matriculeEns) {
+
+      const sql =`
+        SELECT * FROM Enseignant WHERE matriculeEns = ?
+      `
+      try {
+        const result = await connection.query(sql, [matriculeEns]).then(([response]) => {
+          // console.log({response})
+
+          return [...response]
+
+        })
+
+        return { data : result }
+
+      } catch(err) {
+        
+        console.log(err)
+
+        return { error : err }
+      }
+    }
+
+    /**
+     * 
      * @param {Object} data The data recieved from the form
      * @returns {Object} data | error
      */
