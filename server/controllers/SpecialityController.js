@@ -3,10 +3,18 @@ import SpecialityModel from "../models/SpecialityModel.js"
 class SpecialityController {
 
     /**
-     * 
+     * Fetching all the specialities of the platform
+     * @param {null}
+     * @returns Object data | error
      */
     static getSpecialities = async (req, res) => {
-        res.send("This are all Specialities")
+        const data = await SpecialityModel.get()
+
+        if(data.length > 0) {
+            res.status(200).json(data)
+        } else {
+            res.status(500).json({ error : " An error occured " })
+        }
     }
 
     /**
