@@ -10,6 +10,29 @@ class TeacherController {
     }
 
     /**
+     * 
+     * @param {String} matriculeEns The identifier of the teacher we are searching for 
+     * @returns data | error
+     */
+    static getTeacher = async (req, res) => {
+        const matriculeEns = req.params.matriculeEns
+
+        if(matriculeEns && typeof matriculeEns === 'string') {
+            const { data, error } = await TeacherModel.getById(matriculeEns)
+
+            if(data.legnth > 0) {
+                res.status(200).json(data)
+                
+            } else {
+                res.status(404).json({ error : " No such teacher " })
+            }
+
+        } else {
+            res.status(400).json({ error: " Provide all the required data "})
+        }
+    }
+
+    /**
      * @param {String} matriculeEns The teacher's matricule
      * @param {String} nomEns The teacher's name
      * @param {String} sexEns The teacher's gender
