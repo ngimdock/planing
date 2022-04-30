@@ -70,16 +70,31 @@ const classReducer = (state = initialState, action) => {
     case "ADD_SPECIALITY": {
       const id = prevState.specialities.length === 0 ? 1 : prevState.specialities[prevState.specialities.length-1].id + 1
 
+      // Default group
       const newGroup = {
         id: 1,
         name: "Groupe 1",
         capacity: 0
       }
 
+      // Get capacity value
+      let newCapacity = 0
+      
+      if (prevState.specialities.length > 0) {
+        for (let spec of prevState.specialities) {
+          newCapacity += spec.capacity
+        }
+
+        newCapacity = prevState.capacity - newCapacity
+      }
+
+      console.log({newCapacity})
+
+      // New speciality
       const newSpeciality = {
         id,
         value: 0,
-        capacity: 0,
+        capacity: newCapacity,
         groups: [ newGroup ]
       }
 
@@ -142,11 +157,11 @@ const classReducer = (state = initialState, action) => {
             capacity: 0
           }
     
-          // const [prevStateUpdated, newGroupUpdated] = computeGroupCapacity(prevState, newGroup)
+          const [prevStateUpdated, newGroupUpdated] = computeSpecialityGroupCapacity(prevState, newGroup)
     
-          // prevStateUpdated.groups.push(newGroupUpdated)
+          prevStateUpdated.specialities[index].groups.push(newGroupUpdated)
 
-          prevState.specialities[index].groups.push(newGroup)
+          return prevStateUpdated
         }
       }
 
@@ -172,7 +187,7 @@ const classReducer = (state = initialState, action) => {
         }
       }
 
-      return prevState
+      return computeSpecialityGroupCapacity(prevState)[0]
     }
 
     default: return state
@@ -200,6 +215,29 @@ const computeGroupCapacity = (prevState, newGroup = null) => {
   // Add capacity to the first group
   prevState.groups[0].capacity = capacity
 
+  return [ prevState, newGroup ]
+}
+
+const computeSpecialityGroupCapacity = (prevState, newGroup = null) => {
+  console.log(prevState)
+  const specialityGroupNumber = prevState.specialities.groups.length + (newGroup ? 1 : 0)
+  let capacity = prevState.specialities.capacity
+  const capacityPerGroup = Math.floor(capacity / specialityGroupNumber)
+
+  if (newGroup) {
+    // Add capacity to the new group
+    newGroup.capacity = capacityPerGroup
+    capacity -= capacityPerGroup
+  }
+
+  // Update capacity to the existing groups
+  for (let i = specialityGroupNumber - (newGroup ? 2 : 1); i > 0; i--) {
+    prevState.specialities.groups[i].capacity = capacityPerGroup
+    capacity -= capacityPerGroup
+  }
+
+  // Add capacity to the first group
+  prevState.specialities.groups[0].capacity = capacity
   return [ prevState, newGroup ]
 }
 
