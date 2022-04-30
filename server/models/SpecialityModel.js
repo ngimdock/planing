@@ -51,16 +51,16 @@ class SpecialityModel {
 
     /**
      * Querying the selected speciality infos
-     * @param {String} nomSpecialite 
+     * @param {String} idSpecialite 
      * @returns {Object} data | error
      */
-     static async getById(nomSpecialite) {
+     static async getById(idSpecialite) {
 
       const sql =`
-        SELECT * FROM Specialite WHERE nomSpecialite = ?
+        SELECT * FROM Specialite WHERE idSpecialite = ?
       `
       try {
-        const result = await connection.query(sql, [nomSpecialite]).then(([response]) => {
+        const result = await connection.query(sql, [idSpecialite]).then(([response]) => {
           
           return [...response]
         }).catch(error => {

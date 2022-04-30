@@ -19,14 +19,14 @@ class SpecialityController {
 
     /**
      * Fetching the researched speciality from the platform
-     * @param {String} nomSpecialite The name of the speciality we are searching for 
+     * @param {String} idSpecialite The identifier of the speciality we are searching for 
      * @returns data | error
      */
      static getSpeciality = async (req, res) => {
-        const nomSpecialite = req.params.nomSpecialite
+        const idSpecialite = parseInt(req.params.idSpecialite)
 
-        if(nomSpecialite && typeof nomSpecialite === 'string') {
-            const data = await SpecialityModel.getById(nomSpecialite)
+        if(idSpecialite && Number.isInteger(idSpecialite)) {
+            const data = await SpecialityModel.getById(idSpecialite)
 
             console.log(data.length)
 
