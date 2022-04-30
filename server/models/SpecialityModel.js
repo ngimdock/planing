@@ -23,6 +23,33 @@ class SpecialityModel {
     }
 
     /**
+     * Querying all the specialities of the platform
+     * @param {null} 
+     * @returns {Object} data | error
+     */
+     static async get() {
+
+      const query = `
+        SELECT * FROM Specialite
+      `
+
+      try {
+        const data = await connection.execute(query).then(([result]) => {          
+          return [...result]
+        }).catch(error => {
+          return { error }
+        })
+
+        return data
+
+      } catch(err) {
+        console.log(err)
+
+        return { error: err }
+      }
+    }
+
+    /**
      * 
      * @param {Object} data The data recieved from the form
      * @returns {Object} data | error
