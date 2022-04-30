@@ -18,7 +18,31 @@ class SpecialityController {
     }
 
     /**
-     * 
+     * Fetching the researched speciality from the platform
+     * @param {String} nomSpecialite The name of the speciality we are searching for 
+     * @returns data | error
+     */
+     static getSpeciality = async (req, res) => {
+        const nomSpecialite = req.params.nomSpecialite
+
+        if(nomSpecialite && typeof nomSpecialite === 'string') {
+            const data = await SpecialityModel.getById(nomSpecialite)
+
+            console.log(data.length)
+
+            if(data.length > 0){
+                res.status(200).json(data)    
+            } else {
+                res.status(404).json({ error: " No such speciality "})
+            }
+
+        } else {
+            res.status(400).json({ error: " Provide all the required data "})
+        }
+    }
+
+    /**
+     * Fetching the newly created speciality 
      * @param {String} nomSpecialite The name of the Speciality
      * @returns {Object} data | error
      */
