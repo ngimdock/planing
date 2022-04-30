@@ -35,10 +35,12 @@ class TeacherController {
         }
     }
 
-    /**
-     * 
-     * @param {int} id
-     * @returns 
+     /**
+     * @param {String} newMatriculeEns The teacher's new matricule
+     * @param {String} matriculeEns The teacher's current matricule
+     * @param {String} nomEns The teacher's name
+     * @param {String} sexEns The teacher's gender
+     * @returns {Object} data | error
      */
     static updateTeacher = async (req, res) =>  {
         const {
@@ -47,16 +49,23 @@ class TeacherController {
             sexEns
         } = req.body
 
-        if(matriculeEns || nomEns || sexEns) {
+        const currentMatriculeEns = req.params.currentMatriculeEns
 
-            const data = await TeacherModel.update(req.body)
+        if(currentMatriculeEns && (matriculeEns || nomEns || sexEns)) {
 
-            if(data)
-                return res.status(200).json(data)
+            const data = await TeacherModel.update(req.body, currentMatriculeEns)
+
+            console.log(data)
+
+            if(data > 0)
+                return res.status(200).json({ message : " The Teacher infos has been successfully modified "})
             
-            return res.status(500).json({ error : "an error occured "})
+            // TODO -- Implement the Select Teacher by matricule method and use it here
+            // so as to return the newly modified teacher infos
+
+            return res.status(500).json({ error : " An error occured "})
         } else {
-            return res.status(200).json({ error : "Provide all the required data" })
+            return res.status(400).json({ error : "Provide all the required data" })
         } 
     }
 }
