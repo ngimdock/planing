@@ -135,6 +135,31 @@ class SpecialityModel {
           return { error : err }
       }
     }
+
+    /**
+     * Deleting the speciality having the selected identifier
+     * @param {String} idSpecialite The speciality identifier
+     * @returns {number} The number of deleted speciality
+     */
+     static async delete(idSpecialite) {
+      const query = `
+        DELETE FROM Specialite WHERE idSpecialite = ?
+      `
+      try {
+      
+        const data = await connection.query(query, [idSpecialite]).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          console.log(error)
+        })
+
+        return data
+      } catch (err) {
+        console.log(err)
+
+        return { error : err }
+      }
+    }
 }
 
 export default SpecialityModel
