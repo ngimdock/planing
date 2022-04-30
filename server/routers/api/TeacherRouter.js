@@ -7,6 +7,6 @@ TeacherRouter.get("/", TeacherController.getTeachers)
 TeacherRouter.get("/:matriculeEns", TeacherController.getTeacher)
 TeacherRouter.post('/create', TeacherController.createTeacher)
 TeacherRouter.put('/update/:currentMatriculeEns', TeacherController.updateTeacher)
-// TeacherRouter.patch('/delete', TeacherController.updateTeacher)
+TeacherRouter.delete('/delete/:matriculeEns', TeacherController.deleteTeacher)
 
 export default TeacherRouter
