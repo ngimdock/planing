@@ -64,6 +64,39 @@ class SpecialityController {
             return res.status(400).json({ error: "Provide all the required data" })
         }
     }
+
+    /**
+     * Fetching the updated Speciality infos
+     * @param {String} idSpecialite The identifier of the speciality we are searching for 
+     * @returns {Object} data | error
+     */
+     static updateSpeciality = async (req, res) =>  {
+        const {
+            nomSpecialite,
+        } = req.body
+
+        const idSpecialite = parseInt(req.params.idSpecialite)
+        
+        if(nomSpecialite && idSpecialite && nomSpecialite != '' && Number.isInteger(idSpecialite)) {
+
+            const data = await SpecialityModel.update(idSpecialite, nomSpecialite)
+            
+            if(data && data > 0) {
+
+                const response = await SpecialityModel.getById(idSpecialite)
+
+                if(response.length > 0){
+                    res.status(200).json(response)    
+                } else {
+                    res.status(404).json({ error: "No such Speciality "})
+                }  
+            } else {
+                res.status(500).json({ error: " An error occured "})
+            }
+        } else {
+            return res.status(400).json({ error : "Provide all the required data" })
+        } 
+    }
 }
 
 export default SpecialityController
