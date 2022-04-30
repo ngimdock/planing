@@ -50,6 +50,34 @@ class SpecialityModel {
     }
 
     /**
+     * Querying the selected speciality infos
+     * @param {String} nomSpecialite 
+     * @returns {Object} data | error
+     */
+     static async getById(nomSpecialite) {
+
+      const sql =`
+        SELECT * FROM Specialite WHERE nomSpecialite = ?
+      `
+      try {
+        const result = await connection.query(sql, [nomSpecialite]).then(([response]) => {
+          
+          return [...response]
+        }).catch(error => {
+          return { error }
+        })
+
+        return result
+
+      } catch(err) {
+
+        console.log(err)
+
+        return { error : err }
+      }
+    }
+
+    /**
      * 
      * @param {Object} data The data recieved from the form
      * @returns {Object} data | error
