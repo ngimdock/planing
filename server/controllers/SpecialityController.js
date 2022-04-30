@@ -97,6 +97,30 @@ class SpecialityController {
             return res.status(400).json({ error : "Provide all the required data" })
         } 
     }
+
+    /**
+     * Deleting a Speciality of the platform using his identifier
+     * @param {number} idSpecialite The Speciality's identifier
+     * @returns {Object} response of the request
+     */
+     static deleteSpeciality = async (req, res) => {
+        const idSpecialite = parseInt(req.params.idSpecialite)
+        
+        if(idSpecialite && Number.isInteger(idSpecialite)) {
+            const data = await SpecialityModel.delete(idSpecialite)
+
+            if(data > 0) {
+                res.status(200).json({ message: " The Speciality has successfully been deleted " })
+            } else if(data == 0) {
+                res.status(404).json({ message: " The Speciality doesn't exist " })
+            } else {
+                res.status(500).json({ error: " An error occured "})
+
+            }
+        } else {
+            res.status(400).json({ error: " Provide all required data " })
+        }
+    }
 }
 
 export default SpecialityController
