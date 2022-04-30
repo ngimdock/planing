@@ -105,6 +105,36 @@ class SpecialityModel {
         return { error: err }
       }
     }
+
+    /**
+     * Updating the selected specialtty infos in the platform
+     * @param {number} idSpecialite The identifier of the given speciality
+     * @param {String} nomSpecialite The specialty new name
+     * @returns data | error
+     */
+     static async update(idSpecialite, nomSpecialite) {
+
+      const values = [nomSpecialite, idSpecialite]
+
+      const sql1 = `
+          UPDATE Specialite SET nomSpecialite = ? WHERE idSpecialite = ?
+        `
+      try {
+
+        const queryResult = await connection.query(sql1, values).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          return {error}
+        })
+
+        return queryResult
+
+      } catch(err) {
+          console.log(err)
+
+          return { error : err }
+      }
+    }
 }
 
 export default SpecialityModel
