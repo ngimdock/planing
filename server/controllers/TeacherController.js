@@ -106,6 +106,31 @@ class TeacherController {
         } else {
             return res.status(400).json({ error : "Provide all the required data" })
         } 
+
+    }
+
+    /**
+     * Deleting a teacher of the platform from his identifier
+     * @param {String} matriculeEns The teacher's identifier
+     * @returns {Object} response of the request
+     */
+    static deleteTeacher = async (req, res) => {
+        const matriculeEns = req.params.matriculeEns
+        
+        if(matriculeEns && typeof matriculeEns === 'string') {
+            const data = await TeacherModel.delete(matriculeEns)
+
+            if(data > 0) {
+                res.status(200).json({ message: " The teacher has successfully been deleted " })
+            } else if(data == 0) {
+                res.status(404).json({ message: " The teacher doesn't exist " })
+            } else {
+                res.status(500).json({ error: " An error occured "})
+
+            }
+        } else {
+            res.status(400).json({ error: " Provide all required data " })
+        }
     }
 }
 
