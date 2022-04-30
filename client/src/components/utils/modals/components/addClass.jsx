@@ -60,7 +60,8 @@ const SpecialityItem = ({
   index, 
   onDeleteSpeciality,
   onUpdateSpeciality,
-  onAddSpecialityGroup
+  onAddSpecialityGroup,
+  onDeleteSpecialityGroup
 }) => {
   return (
     <Box className={classStyles.groupContainer}>
@@ -126,7 +127,7 @@ const SpecialityItem = ({
               <GroupItem 
                 key={item.id}
                 data={item}
-                // onDeleteGroup={handleDeleteSpecialityGroup}
+                onDeleteGroup={(idGroup) => onDeleteSpecialityGroup(id, idGroup)}
               />
             )
           })
@@ -191,6 +192,16 @@ const AddClassModalContent = () => {
     dispatch({
       type: "ADD_SPECIALITY_GROUP",
       payload: id
+    })
+  }
+
+  const handleDeleteSpecialityGroup = (idSpec, idGroup) => {
+    dispatch({
+      type: "DELETE_SPECIALITY_GROUP",
+      payload: {
+        idSpec,
+        idGroup
+      }
     })
   }
 
@@ -289,6 +300,7 @@ const AddClassModalContent = () => {
                   onDeleteSpeciality={handleDeleteSpeciality}
                   onUpdateSpeciality={handleUpdateSpecialityInfo}
                   onAddSpecialityGroup={handleAddSpecialityGroup}
+                  onDeleteSpecialityGroup={handleDeleteSpecialityGroup}
                 />
               )
             })

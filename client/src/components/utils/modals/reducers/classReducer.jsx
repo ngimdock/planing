@@ -153,6 +153,28 @@ const classReducer = (state = initialState, action) => {
       return prevState
     }
 
+    case "DELETE_SPECIALITY_GROUP": {
+      const {
+        idSpec,
+        idGroup
+      } = action.payload
+
+      if (idSpec && idGroup) {
+        const indexSpec = prevState.specialities.findIndex(speciality => Number(speciality.id) === Number(idSpec))
+
+        if (indexSpec > -1) {
+          const speciality = prevState.specialities[indexSpec]
+          const indexGroup = speciality.groups.findIndex(group => Number(group.id) === Number(idGroup))
+
+          if (indexGroup > -1) {
+            prevState.specialities[indexSpec].groups.splice(indexGroup, 1)
+          }
+        }
+      }
+
+      return prevState
+    }
+
     default: return state
   }
 }
