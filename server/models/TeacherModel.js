@@ -37,6 +37,8 @@ class TeacherModel {
       try {
         const data = await connection.execute(query).then(([result]) => {          
           return [...result]
+        }).catch(error => {
+          return { error }
         })
 
         return data
@@ -139,6 +141,31 @@ class TeacherModel {
           console.log(err)
 
           return { error : err }
+      }
+    }
+
+    /**
+     * Deleting the teachers having the selected identifier
+     * @param {String} matriculeEns The teacher's identifier
+     * @returns {number} The number of deleted teachers
+     */
+    static async delete(matriculeEns) {
+      const query = `
+        DELETE FROM Enseignant WHERE matriculeEns = ?
+      `
+      try {
+      
+        const data = await connection.query(query, [matriculeEns]).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          console.log(error)
+        })
+
+        return data
+      } catch (err) {
+        console.log(err)
+
+        return { error : err }
       }
     }
 }
