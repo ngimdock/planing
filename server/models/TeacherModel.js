@@ -35,14 +35,14 @@ class TeacherModel {
         sexEns
       } = data
 
-      const value = [matriculeEns, nomEns, sexEns]
+      const values = [matriculeEns, nomEns, sexEns]
 
-      const query = "INSERT INTO Enseignant (matriculeEns, nomEns, sexEns) VALUES (?, ?, ?)"
+      const query = `INSERT INTO Enseignant (matriculeEns, nomEns, sexEns) VALUES (?, ?, ?)`
       
       try {
         console.log(value)
         // insert row in the Teacher table
-        const [rows] = await connection.execute(query, value)
+        const [rows] = await connection.execute(query, values)
          
         console.log({ rows })
         return { data }
@@ -52,6 +52,59 @@ class TeacherModel {
         return { error : err }
       }
     
+    }
+
+    /**
+     * 
+     * @param {Object} data The data recieved from the form
+     * @param {String} currentMatriculeEns The Teacher's current matricule
+     * @returns data | error
+     */
+    static async update (data, currentMatriculeEns) {
+
+      const {
+        matriculeEns, 
+        nomEns, 
+        sexEns
+      } = data
+
+      const values = [matriculeEns, nomEns, sexEns, currentMatriculeEns]
+
+      const sql1 = `
+          UPDATE Enseignant SET matriculeEns = ?, nomEns = ?, sexEns = ? WHERE matriculeEns = ?
+        `
+      try {
+
+        const queryResult = await connection.query(sql1, values).then(([result]) => {
+
+          console.log(result.affectedRows)
+
+          return result.affectedRows
+          // if(result.affectedRows > 0) {
+  
+          //     const sql2 = `SELECT * FROM Enseignant WHERE matriculeEns = ${matriculeEns}`
+          //     let queryResult2 = connection.query(sql2).then(([data]) => {
+                
+          //       return [data]
+                
+          //     }).catch(error => {
+          //       return {error}
+          //     })  
+  
+          //     return { data : queryResult2 }
+              
+          // }
+        }).catch(error => {
+          return {error}
+        })
+
+        return queryResult
+
+      } catch(err) {
+          console.log(err)
+
+          return { error : err }
+      }
     }
 }
 
