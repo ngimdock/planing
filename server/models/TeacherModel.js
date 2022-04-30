@@ -24,7 +24,32 @@ class TeacherModel {
     }
 
     /**
-     * 
+     * Querying all the teachers of the platform
+     * @param {null} 
+     * @returns {Object} data | error
+     */
+    static async get() {
+
+      const query = `
+        SELECT * FROM Enseignant
+      `
+
+      try {
+        const data = await connection.execute(query).then(([result]) => {          
+          return [...result]
+        })
+
+        return data
+
+      } catch(err) {
+        console.log(err)
+
+        return { error: err }
+      }
+    }
+
+    /**
+     * Querying the selected teacher infos
      * @param {String} matriculeEns 
      * @returns {Object} data | error
      */
@@ -35,10 +60,9 @@ class TeacherModel {
       `
       try {
         const result = await connection.query(sql, [matriculeEns]).then(([response]) => {
-          // console.log({response})
-
           return [...response]
-
+        }).catch(error => {
+          return { error }
         })
 
         return result
@@ -52,7 +76,7 @@ class TeacherModel {
     }
 
     /**
-     * 
+     * Creating a new teacher row in the platform
      * @param {Object} data The data recieved from the form
      * @returns {Object} data | error
      */
@@ -83,12 +107,12 @@ class TeacherModel {
     }
 
     /**
-     * 
+     * Updating the selected teacher infos in the platform
      * @param {Object} data The data recieved from the form
      * @param {String} currentMatriculeEns The Teacher's current matricule
      * @returns data | error
      */
-    static async update (data, currentMatriculeEns) {
+    static async update(data, currentMatriculeEns) {
 
       const {
         matriculeEns, 
@@ -104,9 +128,7 @@ class TeacherModel {
       try {
 
         const queryResult = await connection.query(sql1, values).then(([result]) => {
-
           return result.affectedRows
-          
         }).catch(error => {
           return {error}
         })
