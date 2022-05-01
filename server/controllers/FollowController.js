@@ -27,7 +27,7 @@ class FollowController {
                 const data = await FollowModel.create(req.body)
 
                 if(data) {
-                    res.status(200).json(data)
+                    res.status(201).json(data)
                 } else {
                     res.status(500).json({ error: " An error occured " })
                 }
@@ -35,8 +35,43 @@ class FollowController {
         } else {
             res.status(400).json({ error : " Provide all required infos "})
         }
+    }
 
+    /**
+     * Update a course follow of a group using their identifiers
+     * @param {number} idGroupe The reference to the Groupe table
+     * @param {String} codeCours The reference to the Groupe table
+     * @return {Object} response | error
+     */
+    static updateFollow = async (req, res) => {
+        const {
+            currentIdGroupe,
+            currentCodeCours
+        } = req.params
+        
+        const {
+            idGroupe,
+            codeCours
+        } = req.body
 
+        if((currentIdGroupe && currentCodeCours 
+            && Number.isInteger(parseInt(currentIdGroupe))
+            && typeof currentCodeCours === 'string'
+            && currentCodeCours != '')
+            &&(idGroupe && codeCours 
+                && Number.isInteger(parseInt(idGroupe))
+                && typeof codeCours === 'string'
+                && codeCours != '')) {
+                    const { response, newData } = await FollowModel.update(req.params, req.body)
+
+                    if(response > 0 && newData){
+                        res.status(200).json(newData)
+                    } else {
+                        res.status(500).json({ error : " An error occured "})
+                    }
+        } else {
+            res.status(400).json({ error: " Provide all required data " })
+        }
     }
 }
 
