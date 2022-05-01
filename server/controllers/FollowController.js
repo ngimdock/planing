@@ -73,6 +73,37 @@ class FollowController {
             res.status(400).json({ error: " Provide all required data " })
         }
     }
+
+    /**
+     * Deleting a groupe-course followance on the platform from their references
+     * @param {number} idGroupe The group reference
+     * @param {String} codeCours The course reference
+     * @returns {Object} response | error
+     */
+     static deleteFollow = async (req, res) => {
+        const {
+            idGroupe,
+            codeCours
+        } = req.params
+        
+        if(idGroupe && codeCours 
+            && Number.isInteger(parseInt(idGroupe))
+            && typeof codeCours === 'string'
+            && codeCours != '') {
+
+            const { response, data} = await FollowModel.delete(req.params)
+
+            if(response && response > 0 && data) {
+                res.status(200).json({ message: " The Follow has successfully been deleted " })
+            } else if(data == 0) {
+                res.status(404).json({ message: " The Follow doesn't exist " })
+            } else {
+                res.status(500).json({ error: " An error occured "})
+            }
+        } else {
+            res.status(400).json({ error: " Provide all required data " })
+        }
+    }
 }
 
 export default FollowController
