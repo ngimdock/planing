@@ -87,14 +87,12 @@ class SpecialityModel {
         nomSpecialite
       } = data
 
-      const value = [nomSpecialite]
-
       const query = "INSERT INTO Specialite(nomSpecialite) VALUES(?)"
 
       try {
         console.log(value)
         // inserting a row in the Speciality table
-        const [rows] = await connection.query(query, value)
+        const [rows] = await connection.query(query, [nomSpecialite])
 
         console.log({ rows })
 
