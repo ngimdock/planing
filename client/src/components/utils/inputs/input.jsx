@@ -5,13 +5,22 @@ const Input = ({
   onChange,
   value,
   fullWidth,
-  type
+  type,
+  className,
+  error,
+  helperText,
+  disabled,
+  pr, // Padding-right
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
+  const defaultError = error && true
 
   return (
     <TextField 
+      disabled={disabled}
+      error={defaultError}
+      helperText={defaultError && helperText}
       type={defaultType}
       label={placeholder} 
       variant="outlined" 
@@ -24,10 +33,14 @@ const Input = ({
           borderColor: "#ccc",
         },
         fontFamily: "Nunito-Regular",
-        marginBottom: 2
+        marginBottom: 2,
+        "&  input": {
+          pr: pr && pr
+        }
       }}  
       onChange={onChange}
       value={value}
+      className={className}
     />
   )
 }

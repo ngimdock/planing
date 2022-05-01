@@ -1,0 +1,76 @@
+.container {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px 10px 0 0;
+}
+.dashboardTitle {
+  width: calc(100% - 30px);
+  padding: 15px;
+  height: 20px;
+  border: 1px solid #e0dddd;
+  border-radius: 10px 10px 0 0;
+  color: #3b3e41;
+  font-family: "Nunito-Bold";
+  font-size: 18px;
+  background-color: #fff;
+}
+.dashboardContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: calc(100% - 30px);
+  height: auto;
+  border-bottom: 1px solid #e0dddd;
+  border-left: 1px solid #e0dddd;
+  border-right: 1px solid #e0dddd;
+  border-radius: 0 0 10px 10px;
+  background-color: #fff;
+  padding: 15px;
+}
+.dashboardItem {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #f8f8f8;
+  margin: 20px;
+  border-radius: 8px;
+  height: 70px;
+  width: 180px;
+  box-shadow: 0 1px 2px #ccc;
+  border: none;
+}
+.dahsIcon {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3e4bff;
+  border-radius: 5px;
+  padding: 5px;
+}
+.dashfaculties {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 7px;
+  margin-left: 10px;
+}
+.Description {
+  font-size: 15px;
+  color: #3b3e41;
+  font-weight: bold;
+}
+.number {
+  color: #3b3e41;
+  font-weight: bold;
+  font-size: 22px;
+  margin-top: 5px;
+}

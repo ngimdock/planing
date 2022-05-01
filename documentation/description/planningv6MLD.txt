@@ -1,30 +1,16 @@
-# Modèle créé le : Sun Apr 24 17:07:26 WAT 2022 
+# Modèle créé le : Wed Apr 27 09:18:13 WAT 2022 
 Filiere (idFil_Filiere, nomFil_Filiere) 
-
 Classe (codeClasse_Classe, nomClasse_Classe, capaciteClasse_Classe, #idFil_Filiere, #idNiv_Niveau) 
-
 Niveau (idNiv_Niveau, nomNiv_Niveau) 
-
 Groupe (idGroupe_Groupe, nomGroupe_Groupe, capaciteGroupe_Groupe, #codeClasse_Classe, #specialite_idspecialite_specialite) 
-
 Specialite (idSpecialite_Specialite, nomSpecialite_Specialite) 
-
 Salle (idSal_Salle, nomSal_Salle, capaciteSal_Salle) 
-
-Admin (idAdmin_Admin, nomAdmin_Admin, passwordAdmin_Admin, emailAdmin_Admin, numTelephone_Admin) 
-
+Admin (idAdmin_Admin, nomAdmin_Admin, passwordAdmin_Admin, emailAdmin_Admin, numTelephone_Admin, sexe_Admin) 
 Enseignant (matriculeEns_Enseignant, nomEns_Enseignant, sexEns_Enseignant) 
-
 Semestre (idSemestre_Semestre, valSemestre_Semestre, #idAnneeAca_AnneeAcademique) 
-
 AnneeAcademique (idAnneeAca_AnneeAcademique, valAnneeAca_AnneeAcademique) 
-
 Cours (codeCours_Cours, descriptionCours_Cours, #idSemestre_Semestre, #matriculeEns_Enseignant, #specialite_idspecialite_specialite) 
-
 Jour (idJour_Jour, nomJour_Jour) 
-
-classe_spec (codeClasse_Classe, idSpecialite_Specialite, capacite_classe_spec) 
-
+classe_spec (codeClasse_Classe, idSpecialite_Specialite, capacite_avoir1) 
 suivre (idGroupe_Groupe, codeCours_Cours) 
-
 programmer (idAdmin_Admin, codeCours_Cours, idJour_Jour, idSal_Salle, heureDebut_programmer, heureFin_programmer) 

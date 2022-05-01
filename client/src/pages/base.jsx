@@ -1,48 +1,111 @@
-import React, { useContext, useEffect } from "react"
-import { useLocation } from "react-router-dom"
+import { Alert, Snackbar } from "@mui/material"
+import React, { Fragment, useContext, useEffect, useState } from "react"
+import { Navigate, useLocation } from "react-router-dom"
+import AuthApi from "../api/auth"
 import Footer from "../components/footer/footer"
+import LoadingPage from "../components/loading/loadingPage"
 import Navbar from "../components/navbar/navbar"
 import NavigationBlock from "../components/navigation/navigation"
 import ModalCoreContainer from "../components/utils/modals/modalCore"
 import styles from '../css/base.module.css'
+import CurrentUserContext from "../datamanager/contexts/currentUserContext"
 import ModalContext from "../datamanager/contexts/modalContext"
 import NavigationContext from "../datamanager/contexts/navigationContext"
+import ToastContext from "../datamanager/contexts/toastContext"
 
 const BaseLayout = ({ children }) => {
   // Get information about the current page from URL
   const location = useLocation()
   const pathname = location.pathname
   const pagename = pathname.substring(1)
-
+  
   // Get global state
   const { navigateTo } = useContext(NavigationContext)
   const { isOpen, currentModalName, closeModal } = useContext(ModalContext)
+  const { currentUser, login } = useContext(CurrentUserContext)
+  const { open: isOpenToast, message, closeToast, type } = useContext(ToastContext)
+  
+  // Set local state
+  const [loading, setLoading] = useState(!currentUser ? true : false)
 
+  // Use effect section
   useEffect(() => {
     // Update the value of the current page inside the global state
     navigateTo(pagename)
   }, [pagename])
 
+  useEffect(() => {
+    if (!currentUser) {
+      getCurrentUser()
+    }
+  }, [currentUser])
+
+  // Some handlers
+  const getCurrentUser = async () => {
+    const { data } = await AuthApi.getCurrentUser()
+
+    if (data && data.data) {
+      // Initialize payload
+      const payload = {
+        id: data.data.idAdmin,
+        name: data.data.nomAdmin,
+        email: data.data.emailAdmin,
+        phone: data.data.numTelephone,
+        sexe: data.data.sexe
+      }
+
+      // Login the user
+      login(payload)
+    }
+      
+    setLoading(false)
+  }
+
   return (
-    <section className={styles.container}>
-      <NavigationBlock />
+    <Fragment>
+      {
+        loading ? (
+          <LoadingPage />
+        ) : (
+          currentUser ? (
+            <section className={styles.container}>
+              <NavigationBlock />
+  
+              <main className={styles.baseContentContainer}>
+                <Navbar />
+  
+                <section className={styles.baseContent}>
+                  { children }
 
-      <main className={styles.baseContentContainer}>
-        <Navbar />
+                  <Snackbar 
+                    open={isOpenToast} 
+                    autoHideDuration={6000} 
+                    onClose={closeToast}
+                    sx={{
+                      position: 'absolute'
+                    }}  
+                  >
+                    <Alert onClose={closeToast} severity={type} sx={{ width: '100%' }}>
+                      { message }
+                    </Alert>
+                  </Snackbar>
+                </section>
+  
+                <Footer />
+              </main>
+  
+              <ModalCoreContainer
+                title={currentModalName} 
+                open={isOpen} 
+                closeModal={closeModal} 
+              />
 
-        <section className={styles.baseContent}>
-          { children }
-        </section>
+            </section>
+          ):<Navigate to="/signin" />
+        )
+      }
 
-        <Footer />
-      </main>
-
-      <ModalCoreContainer
-        title={currentModalName} 
-        open={isOpen} 
-        closeModal={closeModal} 
-      />
-    </section>
+    </Fragment>
   )
 }
 

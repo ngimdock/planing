@@ -20,7 +20,7 @@ class ClassModel {
             ) 
         `
         try {
-            connection.query(query)
+            await connection.execute(query)
             console.log("Table Classe OK")
         } catch (error) {
             console.log(error)
