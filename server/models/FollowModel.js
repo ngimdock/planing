@@ -63,6 +63,46 @@ class FollowModel {
         }
     }
 
+    /**
+     * Updating the followal between a group and a course using their references
+     * @param currentData the current references of the follow row
+     * @param newData the new references of the follow row
+     * @return response of the request
+     */
+    static async update(currentData, newData) {
+
+        const {
+            currentIdGroupe,
+            currentCodeCours
+        } = currentData
+
+        const {
+            idGroupe,
+            codeCours
+        } = newData
+
+        const sql = `
+            UPDATE Suivre SET idGroupe = ?, codeCours = ? WHERE idGroupe = ? AND codeCours = ?
+        `
+
+        const values = [idGroupe, codeCours, currentIdGroupe, currentCodeCours]
+
+        try {
+            const response = await connection.query(sql, values).then(([result]) => {
+                return result.affectedRows
+            }).catch(error => {
+                console.log(error)
+
+                return { error }
+            })
+
+            return { response, newData }
+        } catch (err) {
+            console.log(err)
+
+            return { error : err }
+        }
+    }
 }
 
 export default FollowModel
