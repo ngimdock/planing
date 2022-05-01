@@ -153,6 +153,31 @@ class GroupModel {
         return { error : err }
       }
     }
+
+    /**
+     * Deleting the group having the selected identifier
+     * @param {number} idGroupe The teacher's identifier
+     * @returns {number} The number of deleted teachers
+     */
+     static async delete(idGroupe) {
+      const query = `
+        DELETE FROM Groupe WHERE idGroupe = ?
+      `
+      try {
+      
+        const data = await connection.query(query, [idGroupe]).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          console.log(error)
+        })
+
+        return data
+      } catch (err) {
+        console.log(err)
+
+        return { error : err }
+      }
+    }
 }
 
 export default GroupModel
