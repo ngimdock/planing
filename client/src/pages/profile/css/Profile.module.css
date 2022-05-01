@@ -1,30 +1,84 @@
-.Container{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    position: fixed;
-    border: 1px solid gray;
+.Container header {
+  height: 75px;
+  background-color: #03045e;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
 }
-header{
-    height: 60px;
-    background-color:#03045E;
-    border-radius:  10px 10px 0 0;
+.UserInfo {
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  flex-wrap: wrap;
+  width: auto;
+  height: auto;
+  padding-bottom: 20px;
+  border: 1px solid #ddd;
 }
-.UserInfo{
-    display: flex;
-    flex-direction: row;
-    width: auto;
-    height: auto;
+.contentProfil {
+  display: flex;
 }
-.ImageProfil{
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    position: relative;
-    top: -40px;
-    margin-left: 20px;
+.ImageContainer {
+  position: relative;
+  width: 130px;
+  height: 50px;
 }
-.Administrator{
-    display: flex;
-    flex-direction: column;
+.ImageProfil {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  position: relative;
+  top: -60px;
+  margin-left: 20px;
+  object-fit: cover;
+  z-index: 3;
+}
+.UserInfoTop {
+  position: relative;
+  width: calc(100% - 130px);
+}
+.PersonnalInfo {
+  font-size: 20px;
+  font-family: "Nunito-Bold";
+  color: #3b3e41;
+  margin-left: 20px;
+  margin-top: 40px;
+}
+.Administrator {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  margin-top: 10px;
+}
+.NameUser {
+  font-size: 25px;
+  color: #3b3e41;
+  font-family: "Nunito-Bold";
+}
+.UserRule {
+  font-size: 14px;
+  color: rgb(75, 71, 71);
+}
+.ButtonAdmin {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 40px;
+}
+.information_content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background-color: #fff;
+}
+.information_content span:last-child {
+  font-size: 16px;
+  margin-top: 10px;
+}
+.info {
+  color: gray;
 }

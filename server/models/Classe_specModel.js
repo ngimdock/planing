@@ -20,14 +20,38 @@ class Classe_specModel{
             ON UPDATE CASCADE
         ) 
         `
-    try {
-        await connection.execute(query)
-        // await connection.execute(query1)
-        console.log("Table Classe_spec OK")
-    } catch (error) {
-        console.log(error)
+        try {
+            await connection.execute(query)
+            // await connection.execute(query1)
+            console.log("Table Classe_spec OK")
+        } catch (error) {
+            console.log(error)
+        }
     }
-    }
+    static async create(data) {
+        const { 
+            codeClasse,
+            idSpec,
+            capacity
+        } = data
+            
+        const value = [codeClasse, idSpec, capacity]
+  
+        const query = "INSERT INTO Classe_spec (codeClass, idSpec, capacite) VALUES (?, ?, ?)"
+  
+        try {
+                console.log(value)
+          // insert row in Classe table 
+          const [rows] = await connection.execute(query, value)
+  
+          console.log({ rows })
+          return { data }
+        } catch(err){
+                console.error(err)
+  
+          return { error: err }
+        }
+        }
 }
 
 

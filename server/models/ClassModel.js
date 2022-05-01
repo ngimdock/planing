@@ -28,31 +28,31 @@ class ClassModel {
     }
 
     static async create(data) {
-		const { 
-            codeClasse,
-            nomClasse,
-            capaciteClasse,
-            idFil,
-            idNiv
-        } = data
-        
-        const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
+      const { 
+              codeClasse,
+              nomClasse,
+              capaciteClasse,
+              idFil,
+              idNiv
+          } = data
+          
+          const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
 
-		const query = "INSERT INTO Classe (codeClasse, nomClasse, capaciteClasse, idFil, idNiv) VALUES (?, ?, ?, ?, ?)"
+      const query = "INSERT INTO Classe (codeClasse, nomClasse, capaciteClasse, idFil, idNiv) VALUES (?, ?, ?, ?, ?)"
 
-		try {
-            console.log(value)
-			// insert row in Classe table 
-			const [rows] = await connection.execute(query, value)
+      try {
+              console.log(value)
+        // insert row in Classe table 
+        const [rows] = await connection.execute(query, value)
 
-			console.log({ rows })
-			return { data }
-		} catch(err){
-            console.error(err)
+        console.log({ rows })
+        return { data }
+      } catch(err){
+              console.error(err)
 
-			return { error: err }
-		}
-	}
+        return { error: err }
+      }
+	  }
 
 
   static async findAll () {

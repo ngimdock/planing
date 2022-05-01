@@ -1,4 +1,5 @@
 import ClassModel from "../models/ClassModel.js"
+import Classe_specModel from '../models/Classe_specModel.js';
 
 class ClassController {
 
@@ -9,20 +10,51 @@ class ClassController {
 			nomClasse,
 			capaciteClasse,
 			idFil,
-			idNiv
+			idNiv,
+			groups,
+			specialities
 		} = req.body
 
 		if(req.body.constructor === Object && Object.keys(req.body).length === 0){
 
            return res.status(400).json({message:"please complete all required field" })
         }else{
-			console.log(req.body)
 			const { data } = await ClassModel.create(req.body)
-			console.log(data)
-			if(data)
-				return res.status(201).json(data)
+			
+			if(data) {
+				// insert of specialities
+				let isOk = true
+
+				for (let speciality of specialities) {
+					const { id: idSpec, capacity } = speciality
+
+					const { data } = await Classe_specModel.create({ idSpec, capacity, codeClasse })
+
+					if (data) {
+						// create groups
+					} else {
+						isOk = false
+						break
+					}
+				}
+
+				if (isOk) {
+					return res.status(201).json({ data: "class created with specialities" })
+				}
+
+				return res.status(500).json({ error: "error occured while creating class spec" })
+			}
+
 			return res.status(500).json({ error: "an error occured" })
 		}	
+		// creation de groupe
+		groups.forEach(elem => {
+			
+		});
+
+		// create de Classe_spec
+		
+
 	}
 
 	static findAllClass = async (req, res)=>{

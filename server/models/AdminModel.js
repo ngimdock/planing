@@ -1,4 +1,5 @@
 import connection from "../utils/index.js";
+import bcrypt from 'bcrypt'
 
 class AdminModel {
   /**
@@ -12,14 +13,22 @@ class AdminModel {
         nomAdmin VARCHAR(255) NOT NULL,
         passwordAdmin VARCHAR(255) NOT NULL,
         emailAdmin VARCHAR(255) NOT NULL,
-        numTelephone INTEGER NOT NULL
+        numTelephone INTEGER NOT NULL,
+        sexe VARCHAR(20) NOT NULL
       )
     `
 
     try {
       await connection.query(query)
-
       console.log("Table Admin OK")
+
+      await AdminModel.createMainAdmin({
+        name: "Admin zero",
+        password: "admin",
+        email: "admin.zero@facsciences-uy1.cm",
+        phone: 650123456,
+        sexe: "masculin"
+      })
     } catch (err) {
       console.log(err)
     }
@@ -32,12 +41,12 @@ class AdminModel {
    */
   static async create (payload) {
     const query = `
-      INSERT INTO Admin (nomAdmin, passwordAdmin, emailAdmin, numTelephone)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO Admin (nomAdmin, passwordAdmin, emailAdmin, numTelephone, sexe)
+      VALUES (?, ?, ?, ?, ?)
     `
 
     try {
-      const [rows] = await connection.execute(query, [payload.name, payload.password, payload.email, payload.phone])
+      const [rows] = await connection.execute(query, [payload.name, payload.password, payload.email, payload.phone, payload.sexe])
 
       return { data: { ...rows, password: undefined } }
 
@@ -45,6 +54,31 @@ class AdminModel {
       console.log(err)
 
       return { error: "An error occured while creating an admin user" }
+    }
+  }
+
+  static async createMainAdmin (payload) {
+    const query = `
+      SELECT *
+      FROM Admin
+    `
+
+    try {
+      const [rows] = await connection.execute(query)
+
+      if (rows.length === 0) {
+        bcrypt.hash(payload.password.toLowerCase(), 10, async (err, hash) => {
+          if (err) return res.sendStatus(500);
+  
+          await AdminModel.create({...payload, password: hash})
+
+          console.log("Main Admin User created")
+        })
+      } else {
+        console.log("Main Admin User already exist")
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 
