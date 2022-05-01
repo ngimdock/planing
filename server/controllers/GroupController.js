@@ -3,6 +3,21 @@ import GroupModel from "../models/GroupModel.js"
 class GroupController {
 
     /**
+     * Fetching all the groups of the platform
+     * @param {null} null no parameters required for this 
+     * @returns {Object} data | error
+     */
+    static getGroups = async (req, res) => {
+        const data = await GroupModel.get()
+
+        if(data) {
+            res.status(200).json(data)
+        } else {
+            res.status(500).json({ error: " An error occured " })
+        }
+    }
+
+    /**
      * @param {String} nomGroupe The name of the group 
      * @param {number} capaciteGroupe The capacity of the group 
      * @param {String} codeClasse The reference to the Classe table primary Key 
