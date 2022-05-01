@@ -11,7 +11,7 @@ Specialite (idSpecialite_Specialite, nomSpecialite_Specialite)
 
 Salle (idSal_Salle, nomSal_Salle, capaciteSal_Salle) 
 
-Admin (idAdmin_Admin, nomAdmin_Admin, passwordAdmin_Admin, emailAdmin_Admin, numTelephone_Admin) 
+Admin (idAdmin_Admin, nomAdmin_Admin, passwordAdmin_Admin, emailAdmin_Admin, numTelephone_Admin, sexe_Admin) 
 
 Enseignant (matriculeEns_Enseignant, nomEns_Enseignant, sexEns_Enseignant) 
 

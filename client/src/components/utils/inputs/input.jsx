@@ -8,7 +8,8 @@ const Input = ({
   type,
   className,
   error,
-  helperText
+  helperText,
+  disabled
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
@@ -16,6 +17,7 @@ const Input = ({
 
   return (
     <TextField 
+      disabled={disabled}
       error={defaultError}
       helperText={defaultError && helperText}
       type={defaultType}

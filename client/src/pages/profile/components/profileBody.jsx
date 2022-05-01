@@ -4,12 +4,19 @@ import Button from "../../../components/utils/buttons/button"
 import { Box } from "@mui/material"
 import { BsFillPlusCircleFill } from 'react-icons/bs'
 import CurrentUserContext from "../../../datamanager/contexts/currentUserContext"
+import ModalContext from "../../../datamanager/contexts/modalContext"
 
 const imageProfil = require('../../../assets/images/default.png')
 
 const ProfileBody = () => {
   // Get global data
   const { currentUser } = useContext(CurrentUserContext)
+  const { openModal } = useContext(ModalContext)
+
+  // Some handlers
+  const handleOpenModal = () => {
+    openModal("Ajouter Administrateur", "ADD_ADMIN")
+  }
 
   return (
     <section className={styles.Container}>
@@ -43,6 +50,7 @@ const ProfileBody = () => {
             rounded
             bgColor="#FF8500"
             className={styles.ButtonAdmin}
+            onClick={handleOpenModal}
           >
             <BsFillPlusCircleFill 
               color="#FF8500"

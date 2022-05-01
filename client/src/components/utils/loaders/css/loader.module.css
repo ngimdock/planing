@@ -1,0 +1,57 @@
+.loadingContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-color: #b1e3ff;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+  animation: loadingBackground 2.05s infinite linear;
+}
+
+.loadingContent {
+  width: 300px;
+  height: 100%;
+  transform: translateX(-150px);
+  background-color: #3e4bff;
+  display: block;
+  animation: loading 1.7s infinite linear;
+}
+
+@keyframes loadingBackground {
+  0% {
+    background-color: #b1e3ff;
+  }
+
+  100% {
+    background-color: #fff2e4;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-130%);
+    width: 300px;
+    background-color: #3e4bff;
+  }
+
+  25% {
+    width: 200px;
+  }
+
+  50% {
+    width: 150px;
+    background-color: #3e4bff;
+  }
+
+  75% {
+    width: 200px;
+  }
+
+  100% {
+    transform: translateX(130%);
+    width: 300px;
+    background-color: #ff8500;
+  }
+}
