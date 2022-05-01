@@ -113,6 +113,29 @@ class GroupController {
 
     }
 
+    /**
+     * Deleting a group of the platform from his identifier
+     * @param {number} idGroupe The Group's identifier
+     * @returns {Object} response of the request
+     */
+     static deleteGroup = async (req, res) => {
+        const idGroupe = parseInt(req.params.idGroupe)
+
+        if(idGroupe && Number.isInteger(idGroupe)) {
+            const data = await GroupModel.delete(idGroupe)
+
+            if(data > 0) {
+                res.status(200).json({ message: " The Group has successfully been deleted " })
+            } else if(data == 0) {
+                res.status(404).json({ message: " The Group doesn't exist " })
+            } else {
+                res.status(500).json({ error: " An error occured "})
+            }
+        } else {
+            res.status(400).json({ error: " Provide all required data " })
+        }
+    }
+
 }
 
 export default GroupController
