@@ -65,8 +65,8 @@ class FollowModel {
 
     /**
      * Updating the followal between a group and a course using their references
-     * @param currentData the current references of the follow row
-     * @param newData the new references of the follow row
+     * @param {Object} currentData the current references of the follow row
+     * @param {Object} newData the new references of the follow row
      * @return response of the request
      */
     static async update(currentData, newData) {
@@ -103,6 +103,38 @@ class FollowModel {
             return { error : err }
         }
     }
+
+    /**
+     * Deleting a groupe-course followance in the BD from their references
+     * @param {Object} data The necessesary references for deletion
+     * @returns {Object} data | error
+     */
+     static async delete(data) {
+
+        const {
+            idGroupe,
+            codeCours
+        } = data
+
+        const query = `
+          DELETE FROM Suivre WHERE idGroupe = ? AND codeCours = ?
+        `
+
+        try {
+        
+          const response = await connection.query(query, [idGroupe, codeCours]).then(([result]) => {
+            return result.affectedRows
+          }).catch(error => {
+            console.log(error)
+          })
+  
+          return {response, data}
+        } catch (err) {
+          console.log(err)
+  
+          return { error : err }
+        }
+      }
 }
 
 export default FollowModel
