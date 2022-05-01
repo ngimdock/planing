@@ -122,6 +122,37 @@ class GroupModel {
         return { error : err }
       }
     }
+
+    /**
+     * Update a group infos using it's identifier
+     * @param {Object} data The group new infos
+     * @param {number} idGroupe The group identifier
+     * @returns {Object} data | error
+     */
+    static async update(data, idGroupe) {
+      
+      const {
+        nomGroupe,
+        capaciteGroupe,
+        codeClasse,
+        idSpecialite
+      } = data
+      
+      const sql = `
+        UPDATE Groupe SET nomGroupe = ?, capaciteGroupe = ?, codeClasse = ?, idSpecialite = ? WHERE idGroupe = ?
+      `
+
+      try {
+        const response = await connection.query(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe]).then(([result]) => {
+          return result.affectedRows
+        })
+
+        return response
+      } catch(err) {
+        console.log(err)
+        return { error : err }
+      }
+    }
 }
 
 export default GroupModel
