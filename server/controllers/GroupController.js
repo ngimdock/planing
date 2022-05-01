@@ -18,6 +18,27 @@ class GroupController {
     }
 
     /**
+     * Fetching a group with his identifier
+     * @param {number} idGroupe the identifier of the searched group
+     * @return {Object} data | error
+     */
+    static getGroup = async (req, res) => {
+        const idGroupe = parseInt(req.params.idGroupe)
+
+        if(idGroupe && Number.isInteger(idGroupe)) {
+            const data = await GroupModel.getById(idGroupe)
+
+            if(data) {
+                res.status(200).json(data)
+            } else {
+                res.status(500).json({ error : " An error occured "})
+            }
+        } else {
+            res.status(400).json({ error: " Provide all required data "})
+        }
+    }
+
+    /**
      * @param {String} nomGroupe The name of the group 
      * @param {number} capaciteGroupe The capacity of the group 
      * @param {String} codeClasse The reference to the Classe table primary Key 
