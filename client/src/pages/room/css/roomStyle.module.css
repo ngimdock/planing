@@ -1,51 +1,52 @@
-.container{
-    width: 755px;
-    height: auto;
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    border-radius:  10px 10px 0 0;
-    background-color: #fff;
+.container {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px 10px 0 0;
 }
-.roomTitle{
+.roomTitle {
   padding: 15px;
   height: 20px;
   border: 1px solid #e0dddd;
-  border-radius:  10px 10px 0 0;
+  border-radius: 10px 10px 0 0;
   color: #3b3e41;
   font-weight: bold;
   font-size: 18px;
+  width: calc(100% - 30px);
+  background-color: #fff;
 }
-.roomContent{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 95.75%;
-    height: auto;
-    border-bottom:1px solid #e0dddd;
-    border-left:1px solid  #e0dddd;
-    border-right:1px solid  #e0dddd;
-    border-radius: 0 0 10px 10px;
-    padding: 15px;
+.roomContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 95.75%;
+  height: auto;
+  border-bottom: 1px solid #e0dddd;
+  border-left: 1px solid #e0dddd;
+  border-right: 1px solid #e0dddd;
+  border-radius: 0 0 10px 10px;
+  padding: 15px;
+  width: calc(100% - 30px);
+  background-color: #fff;
 }
-.roomItem{
-    display: flex;
-    flex-direction: column;
-    margin: 20px;
-    border-radius: 15px;
-    align-items: center;
-    height: 80px;
-    width: 130px;
-    border: none ;
-    color: #fff;
-    padding: 10px;
-    font-weight:bold ;
+.roomItem {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  border-radius: 10px;
+  align-items: center;
+  height: 80px;
+  width: 130px;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
 }
-.Description{
-    font-size: 30px;
+.Description {
+  font-size: 30px;
 }
-.number{
-    font-size: 20px;
-    margin-top: 10px;
+.number {
+  font-size: 20px;
+  margin-top: 10px;
 }

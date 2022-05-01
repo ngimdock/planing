@@ -15,7 +15,7 @@ const DashboardBody = () => {
 
       <div className={styles.dashboardContent}>
         <DashboardItem
-          title="Filiere"
+          title="Filières"
           value={8}
           color="#3e4bff"
         >
@@ -25,7 +25,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Niveau"
+          title="Niveaux"
           value={6}
           color="orange"
         >
@@ -35,7 +35,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Classe"
+          title="Classes"
           value={8}
           color="#41d813"
         >
@@ -45,7 +45,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Specialite"
+          title="Spécialités"
           value={32}
           color="#f32f39"
         >
@@ -55,7 +55,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Sujet"
+          title="Cours"
           value={124}
           color="#2f97a5"
         >
@@ -65,7 +65,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Enseignant"
+          title="Enseignants"
           value={34}
           color="violet"
         >
@@ -75,7 +75,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Salle"
+          title="Salles"
           value={24}
           color="#92dffde8"
         >
@@ -85,7 +85,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Admin"
+          title="Admins"
           value={5}
           color="#05502d"
         >
