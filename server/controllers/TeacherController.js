@@ -28,14 +28,11 @@ class TeacherController {
         if(matriculeEns && typeof matriculeEns === 'string') {
             const data = await TeacherModel.getById(matriculeEns)
 
-            console.log(data.length)
-
             if(data.length > 0){
                 res.status(200).json(data)    
             } else {
                 res.status(404).json({ error: "No such teacher "})
             }
-
         } else {
             res.status(400).json({ error: " Provide all the required data "})
         }
@@ -49,7 +46,6 @@ class TeacherController {
      * @returns {Object} data | error
      */
     static createTeacher = async (req, res) => {
-        // Get data from the request body
         const {
             matriculeEns,
             nomEns,
@@ -57,14 +53,13 @@ class TeacherController {
         } = req.body
 
         if (matriculeEns && nomEns && sexEns) {
-            const { data } = await TeacherModel.create(req.body)
+            const { response, data } = await TeacherModel.create(req.body)
 
-            if(data) {
+            if(response && response > 0 && data) {
                 return res.status(201).json(data)
             } else {
                 return res.status(500).json({ error: "an error occured" })
             }
-
         } else {
             return res.status(400).json({ error: "Provide all the required data" })
         }
@@ -123,13 +118,12 @@ class TeacherController {
         if(matriculeEns && typeof matriculeEns === 'string' && matriculeEns != '') {
             const data = await TeacherModel.delete(matriculeEns)
 
-            if(data > 0) {
-                res.status(200).json({ message: " The teacher has successfully been deleted " })
+            if(data) {
+                res.status(200).json(data)
             } else if(data == 0) {
                 res.status(404).json({ message: " The teacher doesn't exist " })
             } else {
                 res.status(500).json({ error: " An error occured "})
-
             }
         } else {
             res.status(400).json({ error: " Provide all required data " })

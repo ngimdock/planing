@@ -3,7 +3,7 @@ import connection from "../utils/index.js";
 class FollowModel {
     
     /**
-     * 
+     * Initilisation of the Suivre Table in the DB
      */
     static async init () {
         const query = `
@@ -52,10 +52,7 @@ class FollowModel {
                 return error
             })
             
-            console.log(response)
-
-            return { data }
-
+            return { response, data }
         } catch(err) {
             console.log(err)
 

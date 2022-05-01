@@ -4,7 +4,7 @@ class GroupModel {
     
 
     /**
-     * 
+     * Initialisation of the Groupe Table in the DB
      */
     static async init () {
 
@@ -115,7 +115,7 @@ class GroupModel {
           return error
         })
 
-        return response
+        return { response, data }
       } catch(err) {
         console.log(err)
 

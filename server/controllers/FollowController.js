@@ -24,9 +24,9 @@ class FollowController {
         if(idGroupe && codeCours 
             && Number.isInteger(idGroupe) 
             && typeof codeCours === 'string' && codeCours != '') {
-                const data = await FollowModel.create(req.body)
+                const { response, data} = await FollowModel.create(req.body)
 
-                if(data) {
+                if(response && response > 0 && data) {
                     res.status(201).json(data)
                 } else {
                     res.status(500).json({ error: " An error occured " })
@@ -91,7 +91,7 @@ class FollowController {
             && typeof codeCours === 'string'
             && codeCours != '') {
 
-            const { response, data} = await FollowModel.delete(req.params)
+            const { response, data } = await FollowModel.delete(req.params)
 
             if(response && response > 0 && data) {
                 res.status(200).json({ message: " The Follow has successfully been deleted " })

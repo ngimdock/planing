@@ -58,14 +58,13 @@ class GroupController {
             && (nomGroupe != '' && codeClasse != '' && typeof nomGroupe === 'string' && typeof codeClasse === 'string')
             && (Number.isInteger(capaciteGroupe) && Number.isInteger(idSpecialite))) {
             
-            const data = await GroupModel.create(req.body)
+            const { response, data } = await GroupModel.create(req.body)
             
-            if(data > 0) {
-                res.status(201).json({ message: " The Groupe has successfully been created "})
+            if(response && response > 0 && data) {
+                res.status(201).json(data)
             } else {
                 res.status(500).json({ error: " An error occured "})
             }
-
         } else {
             res.status(400).json({ error : " Provide all the required data "})
         }
@@ -110,7 +109,6 @@ class GroupController {
         } else {
             res.status(400).json({ error : " Provide all required data " })
         }
-
     }
 
     /**
@@ -135,7 +133,6 @@ class GroupController {
             res.status(400).json({ error: " Provide all required data " })
         }
     }
-
 }
 
 export default GroupController
