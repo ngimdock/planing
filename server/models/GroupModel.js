@@ -33,6 +33,39 @@ class GroupModel {
         console.log(err)
       }
     }
+
+    /**
+     * 
+     * @param {Object} data The group infos for creation
+     * @return {Object} data | error
+     */
+    static async create(data) {
+
+      const {
+        nomGroupe,
+        capaciteGroupe,
+        codeClasse,
+        idSpecialite
+      } = data
+
+      const sql = `
+        INSERT INTO Groupe (nomGroupe, capaciteGroupe, codeClasse, idSpecialite) VALUES (?, ?, ?, ?)
+      `
+
+      try {
+        const response = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite]).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          return error
+        })
+
+        return response
+      } catch(err) {
+        console.log(err)
+
+        return { error : err }
+      }
+    }
 }
 
 export default GroupModel
