@@ -30,6 +30,39 @@ class FollowModel {
         }
     }
 
+    /**
+     * Creating a new association bewteen a group and a course
+     * @param {Object} data The association new infos
+     * @returns {Object} data | error
+     */
+    static async create(data) {
+        const { 
+            idGroupe,
+            codeCours
+        } = data
+
+        const sql = `
+            INSERT INTO Suivre (idGroupe, codeCours) VALUES (?, ?)
+        `
+        try {
+            const response = await connection.query(sql, [idGroupe, codeCours]).then(([result]) => {
+                return result.affectedRows
+            }).catch(error => {
+                console.log(error)
+                return error
+            })
+            
+            console.log(response)
+
+            return { data }
+
+        } catch(err) {
+            console.log(err)
+
+            return { error: err }
+        }
+    }
+
 }
 
 export default FollowModel
