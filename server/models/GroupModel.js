@@ -63,6 +63,34 @@ class GroupModel {
     }
 
     /**
+     * Querying a groupe using his identifier
+     * @param {number} idGroupe identifier of the searched group
+     * @returns data | error
+     */
+     static async getById(idGroupe) {
+      const sql = `
+        SELECT * FROM Groupe WHERE idGroupe = ?
+      `
+
+      try {
+
+        const response = await connection.execute(sql, [idGroupe]).then(([result]) => {
+          return [...result]
+        }).catch(error => {
+          console.log(error)
+
+          return error
+        })
+
+        return response
+      } catch(err) {
+        console.log(err) 
+
+        return { error : err }
+      }
+    }
+
+    /**
      * Creating a row in the Group table 
      * @param {Object} data The group infos for creation
      * @return {Object} data | error
