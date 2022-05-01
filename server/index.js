@@ -1,4 +1,5 @@
 import express from "express"
+import cors from 'cors'
 import { initializeDB } from "./models/init.js"
 
 //import router
@@ -14,9 +15,15 @@ import SpecialityRouter from "./routers/api/SpecialityRouter.js"
 
 const app = express()
 
+// Cors options
+const corsOptions = {
+	origin: "*"
+}
+
 // use middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors(corsOptions))
 
 // use some routes
 app.use("/faculty", FacultyRouter)

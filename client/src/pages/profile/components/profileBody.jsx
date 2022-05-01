@@ -1,23 +1,71 @@
-import React from "react"
+import React, { useContext } from "react"
 import styles from '../css/Profile.module.css'
-import AddButton from "../../../components/utils/buttons/addButton"
+import Button from "../../../components/utils/buttons/button"
+import { Box } from "@mui/material"
+import { BsFillPlusCircleFill } from 'react-icons/bs'
+import CurrentUserContext from "../../../datamanager/contexts/currentUserContext"
 
-const imageProfil = require('../../../assets/images/logo/image1.jpg')
+const imageProfil = require('../../../assets/images/default.png')
+
 const ProfileBody = () => {
+  // Get global data
+  const { currentUser } = useContext(CurrentUserContext)
+
   return (
-    <section className="Container">
-      <header></header>
-      <div className="UserInfo">
-        <img 
-           src={imageProfil} 
-           alt="image1" 
-           className={styles.ImageProfil}
-           />
-        <div className="Administrator">
-          <span className="NameUser"> BLONDELLE KANA</span>
-          <span className="UserRule"> Administrator</span>
+    <section className={styles.Container}>
+      <header />
+
+      <div className={styles.UserInfo}>
+        <div className={styles.ImageContainer}>
+          <img 
+            src={imageProfil} 
+            alt="image1" 
+            className={styles.ImageProfil}
+          />
         </div>
-        <AddButton> Add Admin </AddButton>
+
+        <Box 
+          sx={{
+            display: 'flex',
+            flexDirection: "row",
+            justifyContent: 'space-between'
+          }}
+          className={styles.UserInfoTop}
+        >
+          <div className={styles.Administrator}>
+            <span className={styles.NameUser}>{ currentUser.getName }</span>
+            <span className={styles.UserRule}> Administrator</span>
+          </div>
+
+          <Button 
+            text="Ajouter admin"
+            variant="outlined"
+            rounded
+            bgColor="#FF8500"
+            className={styles.ButtonAdmin}
+          >
+            <BsFillPlusCircleFill 
+              color="#FF8500"
+              size={15}
+            />
+          </Button>
+        </Box>
+
+        
+        <span className={styles.PersonnalInfo}> Personnal informations</span>
+      </div>
+
+      <div className={styles.information_content}>
+        <span className={styles.info}>Email</span>
+        <span>{ currentUser.getEmail }</span>
+      </div>
+      <div className={styles.information_content}>
+        <span className={styles.info}>Phone </span>
+        <span>{ currentUser.getPhone }</span>
+      </div>
+      <div className={styles.information_content} style={{ borderRadius: "0 0 10px 10px" }}>
+        <span className={styles.info}> Sexe</span>
+        <span>{ currentUser.getSexe }</span>
       </div>
     </section>
   )

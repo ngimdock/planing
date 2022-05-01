@@ -6,13 +6,18 @@ const Input = ({
   value,
   fullWidth,
   type,
-  className
+  className,
+  error,
+  helperText
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
+  const defaultError = error && true
 
   return (
     <TextField 
+      error={defaultError}
+      helperText={defaultError && helperText}
       type={defaultType}
       label={placeholder} 
       variant="outlined" 
