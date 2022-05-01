@@ -36,6 +36,34 @@ class GroupModel {
 
     /**
      * 
+     * @param {null} null no parameters necessary
+     * @returns 
+     */
+    static async get() {
+      const sql = `
+        SELECT * FROM Groupe
+      `
+
+      try {
+
+        const response = await connection.execute(sql).then(([result]) => {
+          return [...result]
+        }).catch(error => {
+          console.log(error)
+
+          return error
+        })
+
+        return response
+      } catch(err) {
+        console.log(err) 
+
+        return { error : err }
+      }
+    }
+
+    /**
+     * Creating a row in the Group table 
      * @param {Object} data The group infos for creation
      * @return {Object} data | error
      */
