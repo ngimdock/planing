@@ -87,7 +87,10 @@ class TeacherController {
 
         const currentMatriculeEns = req.params.currentMatriculeEns
 
-        if(currentMatriculeEns && (matriculeEns || nomEns || sexEns)) {
+        if(currentMatriculeEns && 
+            (matriculeEns && matriculeEns != '' 
+            || nomEns && nomEns != '' 
+            || sexEns && sexEns != '')) {
 
             const data = await TeacherModel.update(req.body, currentMatriculeEns)
 
@@ -117,7 +120,7 @@ class TeacherController {
     static deleteTeacher = async (req, res) => {
         const matriculeEns = req.params.matriculeEns
         
-        if(matriculeEns && typeof matriculeEns === 'string') {
+        if(matriculeEns && typeof matriculeEns === 'string' && matriculeEns != '') {
             const data = await TeacherModel.delete(matriculeEns)
 
             if(data > 0) {

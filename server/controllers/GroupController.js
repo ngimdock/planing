@@ -39,10 +39,12 @@ class GroupController {
     }
 
     /**
+     * Fetching the new created groupe
      * @param {String} nomGroupe The name of the group 
      * @param {number} capaciteGroupe The capacity of the group 
      * @param {String} codeClasse The reference to the Classe table primary Key 
      * @param {number} idSpecialite The reference to the Speciality table primary key
+     * @returns {Object} data | error
      */
     static createGroup = async (req, res) => {
         const {
@@ -66,6 +68,47 @@ class GroupController {
 
         } else {
             res.status(400).json({ error : " Provide all the required data "})
+        }
+    }
+
+    /**
+     * Fetchinh the new created group infos
+     * @param {number} idGroupe The identifier of the updated group
+     * @param {String} nomGroupe The name of the group 
+     * @param {number} capaciteGroupe The capacity of the group 
+     * @param {String} codeClasse The reference to the Classe table primary Key 
+     * @param {number} idSpecialite The reference to the Speciality table primary key
+     * @returns {Object} data | error
+     */
+    static updateGroup = async (req, res) => {
+        const {
+            nomGroupe,
+            capaciteGroupe,
+            codeClasse,
+            idSpecialite
+        } = req.body
+
+        const idGroupe = parseInt(req.params.idGroupe)
+
+        if(nomGroupe && capaciteGroupe && codeClasse && idSpecialite && idGroupe
+            && (nomGroupe != '' && codeClasse != '' && typeof nomGroupe === 'string' && typeof codeClasse === 'string')
+            && (Number.isInteger(capaciteGroupe) && Number.isInteger(idSpecialite) && Number.isInteger(idGroupe))) {
+            const data = await GroupModel.update(req.body, idGroupe)
+
+            if(data && data > 0) {
+
+                const response = await GroupModel.getById(idGroupe)
+
+                if(response.length > 0){
+                    res.status(200).json(response)    
+                } else {
+                    res.status(404).json({ error: "No such group "})
+                }  
+            } else {
+                res.status(500).json({ error: " An error occured "})
+            }
+        } else {
+            res.status(400).json({ error : " Provide all required data " })
         }
 
     }
