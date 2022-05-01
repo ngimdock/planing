@@ -1,5 +1,6 @@
 import { Box } from "@mui/material"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
+import { BsCheck, BsX } from "react-icons/bs"
 import AuthApi from "../../../../api/auth"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import ToastContext from "../../../../datamanager/contexts/toastContext"
@@ -8,6 +9,7 @@ import Button from "../../buttons/button"
 import Input from "../../inputs/input"
 import Select from "../../inputs/select"
 import LinearLoader from "../../loaders/linearLoader"
+import LoaderCircle from "../../loaders/loaderCircle"
 import styles from "../css/modalContent.module.css"
 
 const initialState = {
@@ -28,9 +30,34 @@ const AddAdminModalContent = () => {
   const [phoneError, setPhoneError] = useState(false)
   const [nameError, setNameError] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [emailExist, setEmailExist] = useState(false)
+  const [checkingEmail, setSheckingEmail] = useState(false)
+
+  // UseEffect section
+  useEffect(() => {
+    if (verifyEmail(adminData.email)) {
+      checkUnicityOfEmail(adminData.email)
+    }
+  }, [adminData.email])
 
   // Some handlers
-  const handleChange = (field, value) => {
+  const checkUnicityOfEmail = async (value) => {
+    // Start checking
+    setSheckingEmail(true)
+
+    const result = await AuthApi.verifyEmail(value)
+
+    // Stop ckecking
+    setSheckingEmail(false)
+
+    if (result.data !== undefined) {
+      setEmailExist(result.data)
+    } else {
+      setEmailExist(true)
+    }
+  }
+
+  const handleChange = async (field, value) => {
     if (!loading) {
       const adminDataClone = {...adminData}
 
@@ -46,6 +73,7 @@ const AddAdminModalContent = () => {
           adminDataClone.email = value
   
           setEmailError(value.length === 0 || !verifyEmail(value))
+
           break
         }
   
@@ -98,6 +126,7 @@ const AddAdminModalContent = () => {
     if (
       name.length >= 4 &&
       verifyEmail(email) &&
+      !emailExist &&
       verifyPhoneNumber(phone) &&
       sexe
     ) {
@@ -121,16 +150,42 @@ const AddAdminModalContent = () => {
           onChange={(e) => handleChange("name", e.target.value)}
         />
 
-        <Input 
-          disabled={loading}
-          error={emailError}
-          helperText={emailError && "Mauvais format"}
-          value={adminData.email}
-          placeholder="adresse mail"
-          type="text"
-          fullWidth
-          onChange={(e) => handleChange("email", e.target.value)}
-        />
+        <Box sx={{ position: 'relative' }}>
+          <Input 
+            disabled={loading}
+            error={emailError}
+            helperText={emailError && "Mauvais format"}
+            value={adminData.email}
+            placeholder="adresse mail"
+            type="text"
+            fullWidth
+            onChange={(e) => handleChange("email", e.target.value)}
+            className={styles.inputEmail}
+            pr={6}
+          />
+
+          {
+            checkingEmail ? <LoaderCircle /> : (
+              <Box className={styles.emailStatusIcons}>
+                {
+                  emailExist ? (
+                    <BsX 
+                      color="red"
+                      size={30}
+                    />
+                  ):(
+                    <BsCheck 
+                      color="green"
+                      size={30}
+                    />
+                  )
+                }
+              </Box>
+            )
+          }
+          
+
+        </Box>
 
         <Input 
           disabled={loading}

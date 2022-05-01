@@ -60,6 +60,24 @@ class AuthApi extends DefaultApiCall {
       return { error: "An error occured" }
     }
   }
+
+  static async verifyEmail (email) {
+    const instance = AuthApi.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.post("/admin/verify_email", { email })
+      
+      if (data) {
+        return data
+      }
+
+      return error
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
 }
 
 export default AuthApi

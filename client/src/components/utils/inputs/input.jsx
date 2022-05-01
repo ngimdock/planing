@@ -9,7 +9,8 @@ const Input = ({
   className,
   error,
   helperText,
-  disabled
+  disabled,
+  pr, // Padding-right
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
@@ -32,7 +33,10 @@ const Input = ({
           borderColor: "#ccc",
         },
         fontFamily: "Nunito-Regular",
-        marginBottom: 2
+        marginBottom: 2,
+        "&  input": {
+          pr: pr && pr
+        }
       }}  
       onChange={onChange}
       value={value}
