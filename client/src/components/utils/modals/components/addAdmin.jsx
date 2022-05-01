@@ -1,6 +1,8 @@
 import { Box } from "@mui/material"
-import { useContext, useState } from "react"
+import React, { useContext, useState } from "react"
+import AuthApi from "../../../../api/auth"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
+import ToastContext from "../../../../datamanager/contexts/toastContext"
 import { verifyEmail, verifyPhoneNumber } from "../../../../utils/regex"
 import Button from "../../buttons/button"
 import Input from "../../inputs/input"
@@ -8,17 +10,20 @@ import Select from "../../inputs/select"
 import LinearLoader from "../../loaders/linearLoader"
 import styles from "../css/modalContent.module.css"
 
+const initialState = {
+  name: "",
+  email: "",
+  phone: "",
+  sexe: ""
+}
+
 const AddAdminModalContent = () => {
   // Get data from global state
   const { closeModal } = useContext(ModalContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [adminData, setAdminData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    sexe: ""
-  })
+  const [adminData, setAdminData] = useState(initialState)
   const [emailError, setEmailError] = useState(false)
   const [phoneError, setPhoneError] = useState(false)
   const [nameError, setNameError] = useState(false)
@@ -63,11 +68,22 @@ const AddAdminModalContent = () => {
     }
   }
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
-      console.log("Super")
-
+      // Start loading
       setLoading(true)
+
+      // Send request to the server for creating admin
+      const { data, error } = await AuthApi.addAdmin({ ...adminData, password: "admin" })
+
+      // Stop loading
+      setLoading(false)
+
+      if (data) {
+        setAdminData(initialState)
+        showToast("Administrateur créé avec succès")
+        closeModal()
+      }
     }
   }
 

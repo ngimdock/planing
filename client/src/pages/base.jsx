@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from "@mui/material"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { Navigate, useLocation } from "react-router-dom"
 import AuthApi from "../api/auth"
@@ -10,6 +11,7 @@ import styles from '../css/base.module.css'
 import CurrentUserContext from "../datamanager/contexts/currentUserContext"
 import ModalContext from "../datamanager/contexts/modalContext"
 import NavigationContext from "../datamanager/contexts/navigationContext"
+import ToastContext from "../datamanager/contexts/toastContext"
 
 const BaseLayout = ({ children }) => {
   // Get information about the current page from URL
@@ -21,6 +23,7 @@ const BaseLayout = ({ children }) => {
   const { navigateTo } = useContext(NavigationContext)
   const { isOpen, currentModalName, closeModal } = useContext(ModalContext)
   const { currentUser, login } = useContext(CurrentUserContext)
+  const { open: isOpenToast, message, closeToast, type } = useContext(ToastContext)
   
   // Set local state
   const [loading, setLoading] = useState(!currentUser ? true : false)
@@ -73,6 +76,19 @@ const BaseLayout = ({ children }) => {
   
                 <section className={styles.baseContent}>
                   { children }
+
+                  <Snackbar 
+                    open={isOpenToast} 
+                    autoHideDuration={6000} 
+                    onClose={closeToast}
+                    sx={{
+                      position: 'absolute'
+                    }}  
+                  >
+                    <Alert onClose={closeToast} severity={type} sx={{ width: '100%' }}>
+                      { message }
+                    </Alert>
+                  </Snackbar>
                 </section>
   
                 <Footer />
@@ -83,6 +99,7 @@ const BaseLayout = ({ children }) => {
                 open={isOpen} 
                 closeModal={closeModal} 
               />
+
             </section>
           ):<Navigate to="/signin" />
         )

@@ -56,6 +56,7 @@
   text-decoration: none;
   margin-left: 15px;
   transition: all 0.5s;
+  cursor: pointer;
 }
 
 .navbarLinkText {

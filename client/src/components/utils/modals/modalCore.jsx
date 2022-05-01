@@ -77,7 +77,7 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={closeModal}
+        // onClose={closeModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{

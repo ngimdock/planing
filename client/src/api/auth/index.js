@@ -10,9 +10,8 @@ class AuthApi extends DefaultApiCall {
    */
   static async login (email, password) {
     try {
-      console.log({ email, password })
       const { data, error } = await axiosInstance.post('/admin/signin', { email, password })
-      console.log(data)
+      
       if (data) {
         return data
       } else {
@@ -25,8 +24,20 @@ class AuthApi extends DefaultApiCall {
     }
   }
 
-  static async addAdmin () {
+  static async addAdmin (credentials) {
     const instance = AuthApi.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.post("/admin/create", credentials)
+
+      if (data && data.data) {
+        return { data: data.data }
+      }
+
+      return { error }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   /**
