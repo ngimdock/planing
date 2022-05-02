@@ -14,3 +14,38 @@
 .containerListPrograms {
   transform: translateX(-200%);
 }
+
+/* Table content */
+
+.tableContainer {
+  width: 100%;
+  border: 1px solid #eee;
+  border-style: solid;
+}
+
+.tableHeader {
+  width: 100%;
+  background-color: #b1e3ff;
+}
+
+.tableHeader > th {
+  width: calc(1000px / 8);
+  height: auto;
+  padding: 10px;
+}
+
+.tableHeader > th:not(:last-child) {
+  /* border-right: 2px solid #ccc; */
+}
+
+.tableRow {
+  width: 100%;
+  border-top: 2px solid #ccc;
+}
+
+.tableCell {
+  width: calc(1000px / 8);
+  min-height: 200px;
+  height: auto;
+  border: 0;
+}

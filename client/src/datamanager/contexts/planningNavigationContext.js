@@ -2,7 +2,9 @@ import { createContext } from "react";
 
 const PlanningNavigationContext = createContext({
   currentPage: "",
-  navigateTo: (page) => {}
+  academicYear: 0,
+  currentClasse: 1,
+  navigateTo: (page, data = undefined) => {}
 })
 
 export default PlanningNavigationContext

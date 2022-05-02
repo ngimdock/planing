@@ -8,8 +8,11 @@ const ElementItem = ({ value, target }) => {
 
   // Some handlers
   const handleNavigateTo = () => {
-    console.log(target)
-    navigateTo(target)
+    if (target === "classes") {
+      navigateTo(target, { field: "ACADEMIC_YEAR", value: 1 })
+    } else {
+      navigateTo(target, { field: "CLASS", value: 1 })
+    }
   }
 
   return (

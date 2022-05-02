@@ -4,6 +4,7 @@ import SemesterList from "./semesterList"
 import styles from '../css/program.module.css'
 import ClasseList from "./classesList"
 import PlanningNavigationContext from '../../../datamanager/contexts/planningNavigationContext'
+import ProgramTable from "./programTable"
 
 const ProgramBody = () => {
   // Get data from global state
@@ -36,7 +37,7 @@ const ProgramBody = () => {
       >
         <SemesterList />
         <ClasseList />
-        <SemesterList />
+        <ProgramTable />
       </Box>
     </Box>
   )
