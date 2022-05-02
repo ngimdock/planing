@@ -29,6 +29,26 @@ class FollowController {
             res.status(400).json({ error: " Provide all the required data "})
         }
     }
+    /**
+     * Fetching the courses followed by their common group on the platform
+     * @param {String} idGroupe The reference of the group we will use for research 
+     * @returns data | error
+     */
+     static getCoursesByGroup = async (req, res) => {
+        const idGroupe = parseInt(req.params.idGroupe)
+
+        if(idGroupe && Number.isInteger(idGroupe)) {
+            const data = await FollowModel.getByGroup(idGroupe)
+
+            if(data.length > 0){
+                res.status(200).json(data)    
+            } else {
+                res.status(404).json({ error: " No such courses "})
+            }
+        } else {
+            res.status(400).json({ error: " Provide all the required data "})
+        }
+    }
 
     /**
      * Fetching the new assocation of a group and a course
