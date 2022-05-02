@@ -1,19 +1,44 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import styles from '../css/modalContent.module.css'
+import LinearLoader from "../../loaders/linearLoader"
 
 const AddSpecialityModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
 
+  // Set local state
+  const [name, setName] = useState("")
+  const [loading, setLoading] = useState("")
+
+  // Some handlers
+  const handleChangeName = (e) => setName(e.target.value)
+
+  const handleSubmitForm = () => {
+    if (!loading) {
+      setLoading(true)
+      console.log("You can send the request")
+    }
+  }
+
+  const verificationForm = () => {
+    if (name) {
+      return true
+    }
+
+    return false
+  }
+
   return (
     <section>
       <Input 
+        disabled={loading}
         placeholder="nom de la spécialité"
         fullWidth
+        onChange={handleChangeName}
       />
 
       <Box className={styles.controls}>
@@ -28,12 +53,18 @@ const AddSpecialityModalContent = () => {
         />
 
         <Button 
+          disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"
           fontSize={14}
           rounded
+          onClick={handleSubmitForm}
         />
       </Box>
+
+      {
+        loading && <LinearLoader />
+      }
     </section>
   )
 }

@@ -11,6 +11,7 @@ const Input = ({
   helperText,
   disabled,
   pr, // Padding-right
+  multiline, // Transform to textarea
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
@@ -26,6 +27,8 @@ const Input = ({
       variant="outlined" 
       size='small'
       fullWidth={fullWidth}
+      multiline={multiline && multiline}
+      maxRows={multiline && 3}
       sx={{
         borderRadius: 2,
         borderColor: "#ccc",

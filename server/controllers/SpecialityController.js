@@ -28,14 +28,11 @@ class SpecialityController {
         if(idSpecialite && Number.isInteger(idSpecialite)) {
             const data = await SpecialityModel.getById(idSpecialite)
 
-            console.log(data.length)
-
             if(data.length > 0){
                 res.status(200).json(data)    
             } else {
                 res.status(404).json({ error: " No such speciality "})
             }
-
         } else {
             res.status(400).json({ error: " Provide all the required data "})
         }
@@ -51,15 +48,15 @@ class SpecialityController {
             nomSpecialite
         } = req.body
 
+        if(nomSpecialite && typeof nomSpecialite === 'string' && nomSpecialite != '') {
 
-        if(nomSpecialite) {
+            const { response, data } = await SpecialityModel.create(req.body)
 
-            const { data } = await SpecialityModel.create(req.body)
-
-            if(data) 
+            if(response && response > 0 && data) {
                 return res.status(201).json(data)
-                
-            return res.status(500).json({ error: "An error occured" })
+            } else {
+                return res.status(500).json({ error: "An error occured" })
+            }                
         } else {
             return res.status(400).json({ error: "Provide all the required data" })
         }
@@ -77,7 +74,9 @@ class SpecialityController {
 
         const idSpecialite = parseInt(req.params.idSpecialite)
         
-        if(nomSpecialite && idSpecialite && nomSpecialite != '' && Number.isInteger(idSpecialite)) {
+        if(nomSpecialite && idSpecialite
+             && typeof nomSpecialite === 'string', nomSpecialite != '' 
+             && Number.isInteger(idSpecialite)) {
 
             const data = await SpecialityModel.update(idSpecialite, nomSpecialite)
             

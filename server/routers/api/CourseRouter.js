@@ -7,5 +7,6 @@ const CourseRouter = express.Router()
 //set some routes
 CourseRouter.get("/", CourseController.getCourses)
 CourseRouter.post("/create", CourseController.createCourse)
+CourseRouter.post("/verify_code", CourseController.checkCode)
 
 export default CourseRouter
