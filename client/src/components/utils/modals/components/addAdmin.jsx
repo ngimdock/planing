@@ -30,7 +30,7 @@ const AddAdminModalContent = () => {
   const [phoneError, setPhoneError] = useState(false)
   const [nameError, setNameError] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [emailExist, setEmailExist] = useState(false)
+  const [emailExist, setEmailExist] = useState(true)
   const [checkingEmail, setSheckingEmail] = useState(false)
 
   // UseEffect section
