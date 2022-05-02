@@ -98,7 +98,6 @@ class CourseModel {
 
     static getCourse = async (payload) => {
 
-        
         const query = `
             SELECT * 
             FROM Cours

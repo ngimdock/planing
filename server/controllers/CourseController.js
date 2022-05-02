@@ -65,6 +65,15 @@ class CourseController {
         return res.status(500).json({error})
     }
 
+    static getCourse = async (req, res) => {
+
+        const { codeCours } = req.params
+        const { data, error } = await CourseModel.getCourse(codeCours)
+
+        if(data) return res.status(201).json({ data })
+        return res.status(500).json({error})
+    }
+
 }
 
 export default CourseController
