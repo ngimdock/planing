@@ -12,6 +12,7 @@ import AddSpecialityModalContent from './components/addSpeciality';
 import AddSubjectModalContent from './components/addSubject';
 import AddTeacherModalContent from './components/addTeacher';
 import AddRoomModalContent from './components/addRoom';
+import AddAdminModalContent from './components/addAdmin'
 
 const style = {
   position: 'absolute',
@@ -62,6 +63,10 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
         return <AddRoomModalContent />
       }
 
+      case "ADD_ADMIN": {
+        return <AddAdminModalContent />
+      }
+
       default: return null
     }
   }
@@ -72,7 +77,7 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={closeModal}
+        // onClose={closeModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{

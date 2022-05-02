@@ -2,20 +2,20 @@ import connection from "../utils/index.js";
 
 class RoomModel {
 
-	static init = () => {
+	static init = async () => {
 		const query = `
-							CREATE TABLE IF NOT EXISTS Room 
-							(
-									idSalle INTEGER PRIMARY KEY NOT NULL auto_increment,
-									nomSal VARCHAR(255) NOT NULL,
-									capaciteSal INTEGER NOT NULL
-							)
-						`
-		try{
-			const result = connection.execute(query)
-			console.log(result);
+			CREATE TABLE IF NOT EXISTS Room 
+			(
+				idSalle INTEGER PRIMARY KEY NOT NULL auto_increment,
+				nomSal VARCHAR(255) NOT NULL,
+				capaciteSal INTEGER NOT NULL
+			)
+		`
 
-			console.log("Table classe OK")
+		try{
+			const result = await connection.execute(query)
+			
+			console.log("Table Salle OK")
 		}catch(err){
 			console.log(err)
 		}
@@ -24,10 +24,11 @@ class RoomModel {
 	static getRooms = async () => {
 
 		const query = `
-								SELECT *
-								FROM Room
-								WHERE 1
-							`
+			SELECT *
+			FROM Room
+			WHERE 1
+		`
+
 		try{
 			const [rows] = await connection.execute(query)
 			return { data: rows }
@@ -41,10 +42,11 @@ class RoomModel {
 	static getRoom = async (payload) => {
 
 		const query = `
-								SELECT *
-								FROM Room
-								WHERE idSalle = (?)
-							`
+			SELECT *
+			FROM Room
+			WHERE idSalle = (?)
+		`
+
 		try{
 			const [rows] = await connection.execute(query, [payload])
 			return { data: rows }
@@ -58,9 +60,10 @@ class RoomModel {
 	static create = async (payload) => {
 
 		const query = `
-							INSERT INTO Room (nomSal, capaciteSal)
-							VALUE (?, ?)
-						`
+			INSERT INTO Room (nomSal, capaciteSal)
+			VALUE (?, ?)
+		`
+
 		try{
 			const [rows] = await connection.execute(query, [payload.nomSal, payload.capaciteSal])
 
@@ -75,10 +78,11 @@ class RoomModel {
 	static update = async (payload) => {
 
 		const query = `
-							UPDATE Room
-							SET nomSal = (?), capaciteSal = (?)
-							WHERE idSalle = (?)
-						`
+			UPDATE Room
+			SET nomSal = (?), capaciteSal = (?)
+			WHERE idSalle = (?)
+		`
+
 		try{
 			const result = await connection.execute(query, [payload.nomSal, payload.capaciteSal, payload.id])
 			return { data: result }
@@ -91,10 +95,11 @@ class RoomModel {
 	static delete = async (payload) => {
 
 		const query = `
-							DELETE
-							FROM Room
-							WHERE idSalle = (?)
-						`
+			DELETE
+			FROM Room
+			WHERE idSalle = (?)
+		`
+		
 		try {
 			const [rows] = await connection.execute(query, [payload])
 			return { data: {...rows} }

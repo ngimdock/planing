@@ -7,10 +7,12 @@ import { HiHome } from "react-icons/hi"
 import { BiChevronRight } from 'react-icons/bi'
 import { MdOutlineLogout } from 'react-icons/md'
 import NavigationContext from '../../datamanager/contexts/navigationContext'
+import CurrentUserContext from '../../datamanager/contexts/currentUserContext'
 
 const Navbar = () => {
   // Get global state
   const { currentPage, toggleNavigation } = useContext(NavigationContext)
+  const { logout } = useContext(CurrentUserContext)
 
   // Some handlers
   const generatePagename = useMemo(() => {
@@ -59,6 +61,12 @@ const Navbar = () => {
     }
   }, [currentPage])
 
+  const handleLogout = () => {
+    localStorage.setItem("cpg-jwt", "")
+
+    logout()
+  }
+
   return (
     <header className={styles.container}>
       <div className={styles.navbarTop}>
@@ -98,7 +106,10 @@ const Navbar = () => {
             >Profil</span>
           </Link>
 
-          <Link to="#" className={styles.navbarLink}>
+          <div 
+            className={styles.navbarLink}
+            onClick={handleLogout}  
+          >
             <MdOutlineLogout 
               size={20}
               color="#828282"
@@ -109,7 +120,7 @@ const Navbar = () => {
                 ${styles.navbarLinkText} 
               `}
             >Deconnexion</span>
-          </Link>
+          </div>
         </div>
       </div>
 

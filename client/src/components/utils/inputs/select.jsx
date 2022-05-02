@@ -13,7 +13,8 @@ const Select = ({
   label, // Label of the select
   onGetValue, // change event handler
   fullWidth,
-  rounded
+  rounded,
+  disabled
 }) => {
   const [value, setValue] = React.useState('')
 
@@ -34,6 +35,7 @@ const Select = ({
     >
       <InputLabel id="demo-select-small">{ label }</InputLabel>
       <SelectCore
+        disabled={disabled}
         labelId="demo-select-small"
         id="demo-select-small"
         value={value}
