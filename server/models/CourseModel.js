@@ -26,5 +26,27 @@ class CourseModel {
             console.log(err);
         }
 	}
+
+    static checkCode = async (code) => {
+        const query = `
+            SELECT *
+            FROM Cours
+            WHERE codeCours = ?
+        `
+
+        try {
+            const [rows] = await connection.execute(query, [code])
+
+            if (rows.length > 0) {
+                return { data: true }
+            }
+
+            return { data: false }
+        } catch (err) {
+            console.log(err)
+
+            return { error: "An error occured while checking the unicity of subject" }
+        }
+    }
 }
 export default CourseModel
