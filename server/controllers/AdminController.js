@@ -13,7 +13,7 @@ const {
 
 class AdminController {
   static getCurrentUser (req, res) {
-    res.send("")
+    return res.status(200).json({ data: {...req.user, passwordAdmin: undefined} })
   }
 
   static async create (req, res) {
@@ -22,10 +22,11 @@ class AdminController {
       name,
       password,
       email,
-      phone
+      phone,
+      sexe
     } = req.body
 
-    if (name && password && email && phone) {
+    if (name && password && email && phone && sexe) {
       // Hash password
       const saltRounds = 10;
 
@@ -36,7 +37,8 @@ class AdminController {
           name,
           password: hash,
           email,
-          phone
+          phone,
+          sexe
         }
 
         const { data, error } = await AdminModel.create(payload)
@@ -59,13 +61,15 @@ class AdminController {
       password
     } = req.body
 
+    console.log(email)
+
     if (email && password) {
       const { data, error } = await AdminModel.getCurrentUser(email)
 
       if (data) {
-        console.log(data)
+        console.log({yo: data})
         const verification = bcrypt.compareSync(password.toLowerCase(), data.passwordAdmin)
-
+        console.log(verification)
         if (verification) {
           const token = jwt.sign({ email: data.emailAdmin }, SECRET_CODE_TOKEN, {
             expiresIn: `${EXPIRE_IN} min`,
@@ -79,6 +83,7 @@ class AdminController {
         res.status(404).json({ error })
       }
     } else {
+      console.log("mince")
       return res.status(400).json({ error: "Provide all the required data" })
     }
   }
