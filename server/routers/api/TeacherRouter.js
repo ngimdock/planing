@@ -3,6 +3,11 @@ import TeacherController from "../../controllers/TeacherController.js"
 
 const TeacherRouter = express.Router()
 
-// TeacherRouter.post('/create', TeacherController.createTeacher)
+TeacherRouter.get("/", TeacherController.getTeachers)
+TeacherRouter.get("/:matriculeEns", TeacherController.getTeacher)
+TeacherRouter.post('/create', TeacherController.createTeacher)
+TeacherRouter.post('/verify_matricule', TeacherController.checkMatricule)
+TeacherRouter.put('/update/:currentMatriculeEns', TeacherController.updateTeacher)
+TeacherRouter.delete('/delete/:matriculeEns', TeacherController.deleteTeacher)
 
 export default TeacherRouter

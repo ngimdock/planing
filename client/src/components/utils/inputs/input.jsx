@@ -8,7 +8,10 @@ const Input = ({
   type,
   className,
   error,
-  helperText
+  helperText,
+  disabled,
+  pr, // Padding-right
+  multiline, // Transform to textarea
 }) => {
   // Default values section
   const defaultType = type ? type : "text"
@@ -16,6 +19,7 @@ const Input = ({
 
   return (
     <TextField 
+      disabled={disabled}
       error={defaultError}
       helperText={defaultError && helperText}
       type={defaultType}
@@ -23,6 +27,8 @@ const Input = ({
       variant="outlined" 
       size='small'
       fullWidth={fullWidth}
+      multiline={multiline && multiline}
+      maxRows={multiline && 3}
       sx={{
         borderRadius: 2,
         borderColor: "#ccc",
@@ -30,7 +36,10 @@ const Input = ({
           borderColor: "#ccc",
         },
         fontFamily: "Nunito-Regular",
-        marginBottom: 2
+        marginBottom: 2,
+        "&  input": {
+          pr: pr && pr
+        }
       }}  
       onChange={onChange}
       value={value}

@@ -1,8 +1,4 @@
-import { useContext, useState } from "react"
-import AddButton from "../../../components/utils/buttons/addButton"
-import { BsBarChartFill, BsBookFill, BsDoorOpenFill, BsFillCalendarMinusFill, BsFillPersonFill, BsPeopleFill, BsX } from 'react-icons/bs'
-import { MdDashboard, MdSchool } from 'react-icons/md'
-import { HiUserGroup } from 'react-icons/hi'
+import { useContext } from "react"
 import ModalContext from "../../../datamanager/contexts/modalContext"
 import styles from "../css/dashboard.module.css"
 

@@ -10,6 +10,7 @@ import AcademicYearModel from "./AcademicYearModel.js";
 import SemesterModel from "./SemesterModel.js";
 import CourseModel from "./CourseModel.js";
 import FollowModel from "./FollowModel.js";
+import DayModel from './DayModel.js';
 
 export const initializeDB = async () => {
   try {
@@ -25,6 +26,7 @@ export const initializeDB = async () => {
     await SemesterModel.init()
     await CourseModel.init()
     await FollowModel.init()
+    await DayModel.init()
   } catch (err) {
     console.log(err)
   }

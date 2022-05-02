@@ -1,7 +1,6 @@
-import { useContext, useState } from "react"
-import AddButton from "../../../components/utils/buttons/addButton"
-import { BsBarChartFill, BsBookFill, BsDoorOpenFill, BsFillCalendarMinusFill, BsFillPersonFill, BsPeopleFill, BsX } from 'react-icons/bs'
-import { MdDashboard, MdSchool } from 'react-icons/md'
+import { useContext } from "react"
+import { BsBarChartFill, BsBookFill, BsDoorOpenFill, BsFillPersonFill, BsPeopleFill } from 'react-icons/bs'
+import { MdSchool } from 'react-icons/md'
 import { HiUserGroup } from 'react-icons/hi'
 import ModalContext from "../../../datamanager/contexts/modalContext"
 import styles from "../css/dashboard.module.css"
@@ -12,10 +11,11 @@ const DashboardBody = () => {
   
   return (
     <section className={styles.container}>
-      <div className={styles.dashboardTitle}> Statistiques General</div>
+      <div className={styles.dashboardTitle}> Statistiques Générales</div>
+
       <div className={styles.dashboardContent}>
-      <DashboardItem
-          title="Filiere"
+        <DashboardItem
+          title="Filières"
           value={8}
           color="#3e4bff"
         >
@@ -25,7 +25,7 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Niveau"
+          title="Niveaux"
           value={6}
           color="orange"
         >
@@ -35,64 +35,64 @@ const DashboardBody = () => {
           />
         </DashboardItem>
         <DashboardItem
-          title="Classe"
+          title="Classes"
           value={8}
           color="#41d813"
         >
-            <HiUserGroup 
-              size={20}
-              color={"#fff"}
-            />
+          <HiUserGroup 
+            size={20}
+            color={"#fff"}
+          />
         </DashboardItem>
         <DashboardItem
-          title="Specialite"
+          title="Spécialités"
           value={32}
           color="#f32f39"
         >
-            <HiUserGroup 
-              size={20}
-              color={"#fff"}
-            />
+          <HiUserGroup 
+            size={20}
+            color={"#fff"}
+          />
         </DashboardItem>
         <DashboardItem
-          title="Sujet"
+          title="Cours"
           value={124}
           color="#2f97a5"
         >
           <BsBookFill 
-              size={20}
-              color={"#fff"}
-            />
+            size={20}
+            color={"#fff"}
+          />
         </DashboardItem>
         <DashboardItem
-          title="Enseignant"
+          title="Enseignants"
           value={34}
           color="violet"
         >
           <BsPeopleFill 
             size={25}
             color={"#fff"}
-            />
+          />
         </DashboardItem>
         <DashboardItem
-          title="Salle"
+          title="Salles"
           value={24}
           color="#92dffde8"
         >
-           <BsDoorOpenFill 
-              size={20}
-              color={"#fff"}
-            />
+          <BsDoorOpenFill 
+            size={20}
+            color={"#fff"}
+          />
         </DashboardItem>
         <DashboardItem
-          title="Admin"
+          title="Admins"
           value={5}
           color="#05502d"
         >
-            <BsFillPersonFill 
-              size={20}
-              color={"#fff"}
-            />     
+          <BsFillPersonFill 
+            size={20}
+            color={"#fff"}
+          />     
         </DashboardItem>
       </div>
     </section>

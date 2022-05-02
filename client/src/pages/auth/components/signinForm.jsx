@@ -6,6 +6,7 @@ import AuthApi from "../../../api/auth"
 import { verifyEmail } from "../../../utils/regex"
 import CurrentUserContext from '../../../datamanager/contexts/currentUserContext'
 import { Navigate } from 'react-router-dom'
+import LinearLoader from "../../../components/utils/loaders/linearLoader"
 
 const SigninForm = () => {
   // Set local state
@@ -138,11 +139,7 @@ const SigninForm = () => {
       </div>
 
       {
-        loading && (
-          <div className={styles.loadingContainer}>
-            <span className={styles.loadingContent} />
-          </div>
-        )
+        loading && <LinearLoader />
       }
     </section>
   )

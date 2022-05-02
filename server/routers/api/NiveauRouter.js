@@ -3,8 +3,12 @@ import NiveauController from "../../controllers/NiveauController.js";
 
 const NiveauRouter = express.Router();
 
-NiveauRouter.get('/all', NiveauController.getNiveau);
-NiveauRouter.post('/create', NiveauController.createNiveau)
+
+NiveauRouter.post('/create', NiveauController.createNiveau);
+// NiveauRouter.get('/all', NiveauController.findAllNiveau);
+// NiveauRouter.get('/:id', NiveauController.getNiveauById);
+NiveauRouter.put('/:id', NiveauController.updateNiveau);
+NiveauRouter.delete('/:id', NiveauController.deleteNiveau);
 
 export default NiveauRouter;
 

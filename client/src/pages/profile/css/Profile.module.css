@@ -65,6 +65,7 @@
     background-color: #fff;
     border-radius: 20px;
 }
+<<<<<<< HEAD
 .information_content{
     display: flex;
     flex-direction: column;
@@ -75,10 +76,29 @@
     border-left:1px solid rgb(192, 187, 187);
     border-right:1px solid rgb(192, 187, 187);
     background-color: #fff;
+=======
+.ButtonAdmin {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 40px;
+}
+.information_content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background-color: #fff;
+>>>>>>> e4746c72cdd0ffba17b80f46af36a102ddca1bad
 }
 .info{
     color: gray;
 }
+<<<<<<< HEAD
 .information_cont{
     display: flex;
     flex-direction: column;
@@ -91,3 +111,8 @@
     border-radius: 0 0 10px 10px;
     background-color: #fff;
 }
+=======
+.info {
+  color: gray;
+}
+>>>>>>> e4746c72cdd0ffba17b80f46af36a102ddca1bad
