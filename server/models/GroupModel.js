@@ -35,7 +35,7 @@ class GroupModel {
     }
 
     /**
-     * 
+     * Querying all the groups of the platform
      * @param {null} null no parameters necessary
      * @returns 
      */
@@ -51,7 +51,7 @@ class GroupModel {
         }).catch(error => {
           console.log(error)
 
-          return error
+          return { error }
         })
 
         return response
@@ -79,7 +79,7 @@ class GroupModel {
         }).catch(error => {
           console.log(error)
 
-          return error
+          return { error }
         })
 
         return response
@@ -112,7 +112,7 @@ class GroupModel {
         const response = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite]).then(([result]) => {
           return result.affectedRows
         }).catch(error => {
-          return error
+          return { error }
         })
 
         return { response, data }
@@ -145,11 +145,15 @@ class GroupModel {
       try {
         const response = await connection.query(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe]).then(([result]) => {
           return result.affectedRows
+        }).catch(error => {
+          console.log(error)
+          return { error }
         })
 
         return response
       } catch(err) {
         console.log(err)
+        
         return { error : err }
       }
     }
@@ -169,6 +173,7 @@ class GroupModel {
           return result.affectedRows
         }).catch(error => {
           console.log(error)
+          return { error }
         })
 
         return data

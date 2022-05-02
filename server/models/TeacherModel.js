@@ -25,11 +25,10 @@ class TeacherModel {
 
     /**
      * Querying all the teachers of the platform
-     * @param {null} 
+     * @param {null} null no parameters necessary
      * @returns {Object} data | error
      */
     static async get() {
-
       const query = `
         SELECT * FROM Enseignant
       `
@@ -43,7 +42,6 @@ class TeacherModel {
         })
 
         return data
-
       } catch(err) {
         console.log(err)
 
