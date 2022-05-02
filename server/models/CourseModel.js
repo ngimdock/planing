@@ -1,7 +1,7 @@
 import connection from "../utils/index.js";
 
 class CourseModel {
-    static init = async (req, res) => {
+    static init = async () => {
 		const query = `CREATE TABLE IF NOT EXISTS Cours
             (
                 codeCours VARCHAR(10) PRIMARY KEY NOT NULL, 
@@ -26,5 +26,21 @@ class CourseModel {
             console.log(err);
         }
 	}
+
+    static getCourses = async (req, res) => {
+
+        const query = `SELECT * 
+                       FROM Cours
+                       `
+
+        try{
+            const result = connection.execute(query)
+
+            console.log(result);
+            return{ data: result }
+        }catch(err){
+            return { error: "An error occured when geting courses" }
+        }
+    }
 }
 export default CourseModel
