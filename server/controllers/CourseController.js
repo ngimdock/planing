@@ -11,7 +11,27 @@ class CourseController {
     }
 
     static createCourse = async (req, res) => {
-        res.send("create course")
+
+        // get data from request body
+        const {
+            codeCours,
+            descriptionCours,
+            idSemestre,
+            matriculeEns,
+            idSpecialite
+        } = req.body
+
+        if(codeCours && descriptionCours && idSemestre && matriculeEns  && idSpecialite){
+
+            // create course
+            const { data, error } = await CourseModel.createCourse(req.body)
+
+            if(data) return res.status(201).json({ data })
+            return res.status(500).json({ error })
+        }
+
+        return res.status(400).json({ error: "Provide all the required data" })
+        
     }
 
 }
