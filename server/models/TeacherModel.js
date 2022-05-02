@@ -94,7 +94,6 @@ class TeacherModel {
       const query = `INSERT INTO Enseignant (matriculeEns, nomEns, sexEns) VALUES (?, ?, ?)`
       
       try {
-        console.log(value)
         // insert row in the Teacher table
         const [rows] = await connection.execute(query, values)
          
