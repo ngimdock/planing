@@ -10,6 +10,27 @@ class FollowController {
     }
 
     /**
+     * Fetching the groups by their common course on the platform
+     * @param {String} codeCours The reference of the course we will use for research 
+     * @returns data | error
+     */
+     static getGroupsByCourse = async (req, res) => {
+        const codeCours = req.params.codeCours
+
+        if(codeCours && typeof codeCours === 'string' && codeCours != '') {
+            const data = await FollowModel.getByCourse(codeCours)
+
+            if(data.length > 0){
+                res.status(200).json(data)    
+            } else {
+                res.status(404).json({ error: " No such groups "})
+            }
+        } else {
+            res.status(400).json({ error: " Provide all the required data "})
+        }
+    }
+
+    /**
      * Fetching the new assocation of a group and a course
      * @param {number} idGroupe the reference of the Groupe table
      * @param {String} codeCours the reference of the Cours table
