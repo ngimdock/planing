@@ -1,9 +1,13 @@
 import { Typography, Box } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import AccordionItem from './AccordionItem'
 import { BsArrowLeft } from 'react-icons/bs'
+import PlanningNavigationContext from '../../../datamanager/contexts/planningNavigationContext';
 
 const ClasseList = () => {
+  // Get global state
+  const { navigateTo } = useContext(PlanningNavigationContext)
+
   // Data for tests
   const programs = [
     {
@@ -74,6 +78,7 @@ const ClasseList = () => {
               cursor: 'pointer'
             }
           }}
+          onClick={() => navigateTo("semesters")}
         >
           <BsArrowLeft 
             color="#555"
@@ -97,6 +102,7 @@ const ClasseList = () => {
                 key={index}
                 headerTitle={item.headerTitle}
                 data={item.classes}
+                target="programs"
               />
             )
           })

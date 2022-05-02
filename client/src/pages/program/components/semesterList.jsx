@@ -83,6 +83,7 @@ const SemesterList = () => {
                 key={index}
                 headerTitle={item.headerTitle}
                 data={item.semesters}
+                target="classes"
               />
             )
           })

@@ -1,6 +1,17 @@
 import { Box, Typography } from "@mui/material"
+import { useContext } from "react"
+import PlanningNavigationContext from "../../../datamanager/contexts/planningNavigationContext"
 
-const ElementItem = ({ value }) => {
+const ElementItem = ({ value, target }) => {
+  // Get global state
+  const { navigateTo } = useContext(PlanningNavigationContext)
+
+  // Some handlers
+  const handleNavigateTo = () => {
+    console.log(target)
+    navigateTo(target)
+  }
+
   return (
     <Box 
       sx={{
@@ -18,6 +29,7 @@ const ElementItem = ({ value }) => {
           borderBottom: "1px solid #ccc"
         }
       }}
+      onClick={handleNavigateTo}
     >
       <Typography
         as="span"

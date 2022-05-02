@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { BiChevronUp } from 'react-icons/bi'
 import ElementItem from './elementItem';
 
-const AccordionItem = ({ headerTitle, data }) => {
+const AccordionItem = ({ headerTitle, data, target }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = (event) => {
@@ -40,6 +40,7 @@ const AccordionItem = ({ headerTitle, data }) => {
               <ElementItem 
                 key={item.id}
                 value={item.value}
+                target={target}
               />
             )
           })

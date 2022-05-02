@@ -1,20 +1,21 @@
-import { useMemo, useState } from "react"
+import { useContext, useMemo, useState } from "react"
 import { Box } from "@mui/material"
 import SemesterList from "./semesterList"
 import styles from '../css/program.module.css'
 import ClasseList from "./classesList"
+import PlanningNavigationContext from '../../../datamanager/contexts/planningNavigationContext'
 
 const ProgramBody = () => {
-  // Set local state
-  const [page, setPage] = useState("semesters")
+  // Get data from global state
+  const { currentPage } = useContext(PlanningNavigationContext)
 
   // Some handlers
   const generateClassNameBaseOnPage = useMemo(() => {
-    if (page === "classes") return styles.containerListClasses
-    else if (page === "programs") return styles.containerListPrograms
+    if (currentPage === "classes") return styles.containerListClasses
+    else if (currentPage === "programs") return styles.containerListPrograms
 
     return ""
-  }, [page])
+  }, [currentPage])
 
   return (
     <Box 
@@ -24,9 +25,6 @@ const ProgramBody = () => {
         pb: 1
       }}  
     >
-      <button onClick={() => setPage("programs")}>programs</button>
-      <button onClick={() => setPage("semesters")}>semesters</button>
-      <button onClick={() => setPage("classes")}>classes</button>
       <Box
         sx={{
           width: "auto",
