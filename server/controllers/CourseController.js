@@ -34,6 +34,20 @@ class CourseController {
         
     }
 
+    static deleteCourse = async (req, res) => {
+
+        //get the course id from the request body
+        const { codeCours } = req.body
+ 
+        if(!codeCours) return res.status(400).json({ error: "Provide the code of the course to delete!!" })
+
+        // delete course
+        const { data, error } = await CourseModel.deleteCourse(codeCours)
+
+        if(data) return res.status(201).json({ data })
+        return res.status(500).json({error})
+    }
+
 }
 
 export default CourseController

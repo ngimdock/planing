@@ -71,5 +71,46 @@ class CourseModel {
         }
     }
 
+    static deleteCourse = async (payload) => {
+
+        const query = `
+            DELETE 
+            FROM Cours
+            WHERE Cours.codeCours = (?)
+        `
+
+        try {
+
+            // check if the course exist
+            const { data } = await this.getCourse(payload)
+
+            if(!data.length) return { error: "No course found with the given id" }
+
+            const [rows] = await connection.execute(query, [payload])
+
+            console.log(rows);
+            return { data: "Course deleted on sucessfully" }
+        }catch(err){
+            console.log(err.message)
+            return { error: "An error occured while deleting course" }
+        }
+    }
+
+    static getCourse = async (payload) => {
+
+        
+        const query = `
+            SELECT * 
+            FROM Cours
+            WHERE Cours.codeCours = (?)
+            `
+        try{
+            const [rows] = await connection.execute(query, [payload])
+            
+            return { data: rows }
+        }catch(err){
+            return { error: "An error occured while geting the course" }
+        }
+    }
 }
 export default CourseModel
