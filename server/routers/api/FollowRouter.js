@@ -4,6 +4,7 @@ import FollowController from "../../controllers/FollowController.js"
 const FollowRouter = express.Router()
 
 FollowRouter.get('/groups/:codeCours', FollowController.getGroupsByCourse)
+FollowRouter.get('/courses/:idGroupe', FollowController.getCoursesByGroup)
 FollowRouter.post('/create', FollowController.createFollow)
 FollowRouter.put('/update/:currentIdGroupe&:currentCodeCours', FollowController.updateFollow)
 FollowRouter.delete('/delete/:idGroupe&:codeCours', FollowController.deleteFollow)
