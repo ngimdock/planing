@@ -57,6 +57,32 @@ class FollowModel {
     }
 
     /**
+     * Querying the courses followed by thesame groups
+     * @param {number} idGroupe The reference to the desired courses 
+     * @returns response | error
+     */
+     static async getByGroup(idGroupe) {
+        const sql = `
+         SELECT codeCours FROM Suivre WHERE idGroupe = ?
+        `
+
+        try {
+            const response = await connection.execute(sql, [idGroupe]).then(([result]) => {
+                return [...result]
+            }).catch(error => {
+                console.log(error)
+                return { error }
+            })
+
+            return response
+        } catch(err) {
+            console.log(err)
+
+            return { error : err }
+        }
+    }
+
+    /**
      * Creating a new association bewteen a group and a course
      * @param {Object} data The association new infos
      * @returns {Object} data | error
