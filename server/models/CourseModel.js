@@ -5,7 +5,7 @@ class CourseModel {
 		const query = `CREATE TABLE IF NOT EXISTS Cours
             (
                 codeCours VARCHAR(10) PRIMARY KEY NOT NULL, 
-                descriptionCours VARCHAR(30) UNIQUE NOT NULL,
+                descriptionCours VARCHAR(200) UNIQUE NOT NULL,
                 idSemestre INTEGER NOT NULL,
                 matriculeEns VARCHAR(10) NOT NULL, 
                 idSpecialite INTEGER NOT NULL,
@@ -110,6 +110,38 @@ class CourseModel {
             return { data: rows }
         }catch(err){
             return { error: "An error occured while geting the course" }
+        }
+    }
+
+    static updateCourse = async (payload) => {
+
+        const {
+            codeCours,
+            newDescriptionCours
+        } = payload
+
+        const query = `
+            UPDATE Cours
+            SET descriptionCours = (?)
+            WHERE Cours.codeCours = (?)
+        `
+
+        try {
+
+            //check if course exist on database
+            const { data } = await this.getCourse(codeCours)
+
+            if(!data.length) return { data: "The course with the given code is no found" }
+
+            //update course
+            const [rows] = await connection.execute(query, [newDescriptionCours, codeCours])
+
+            console.log(rows);
+
+            return { data: "Course updated on sucessfully" }
+        }catch(err){
+            console.log(err.message);
+            return { error: "An error occured while updating the course" }
         }
     }
 }

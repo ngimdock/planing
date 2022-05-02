@@ -7,6 +7,7 @@ const CourseRouter = express.Router()
 //set some routes
 CourseRouter.get("/", CourseController.getCourses)
 CourseRouter.post("/create", CourseController.createCourse)
-CourseRouter.delete("/delete", CourseController.deleteCourse)
+CourseRouter.delete("/delete/:codeCours", CourseController.deleteCourse)
+CourseRouter.patch("/update/:codeCours", CourseController.updateCourse)
 
 export default CourseRouter
