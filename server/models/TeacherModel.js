@@ -168,6 +168,28 @@ class TeacherModel {
         return { error : err }
       }
     }
+
+    static async checkMatricule(matricule) {
+      const query = `
+        SELECT *
+        FROM Enseignant
+        WHERE matriculeEns = ?
+      `
+
+      try {
+        const [rows] = await connection.execute(query, [matricule])
+
+        if (rows.length > 0) {
+          return { data: true }
+        }
+
+        return { data: false }
+      } catch (err) {
+        console.log(err)
+
+        return { error: "An error occured" }
+      }
+    }
 }
 
 export default TeacherModel

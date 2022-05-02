@@ -132,6 +132,26 @@ class TeacherController {
             res.status(400).json({ error: " Provide all required data " })
         }
     }
+
+    /**
+     * Verify the unicity of a matricule
+     * @returns Response
+     */
+    static checkMatricule = async (req, res) => {
+        const { matricule } = req.body
+
+        if (matricule) {
+            const { data } = await TeacherModel.checkMatricule(matricule)
+
+            if (data !== undefined) {
+                return res.status(200).json({ data })
+            }
+
+            return res.status(500).json({ error })
+        } else {
+            res.status(400).json({ error: "Provide all the required data" })
+        }
+    }
 }
 
 export default TeacherController

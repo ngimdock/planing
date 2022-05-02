@@ -6,7 +6,7 @@ import ModalContext from "../../../../datamanager/contexts/modalContext"
 import styles from '../css/modalContent.module.css'
 import Select from "../../inputs/select"
 import LinearLoader from '../../loaders/linearLoader'
-import SubjectApi from "../../../../api/subject"
+import SubjectAPI from "../../../../api/subject"
 import { BsCheck, BsX } from "react-icons/bs"
 import LoaderCircle from "../../loaders/loaderCircle"
 
@@ -42,7 +42,7 @@ const AddSubjectModalContent = () => {
     setCheckingCode(true)
 
     // Send request
-    const { data, error } = await SubjectApi.checkCode(code)
+    const { data, error } = await SubjectAPI.checkCode(code)
     
     // Stop checking code
     setCheckingCode(false)
