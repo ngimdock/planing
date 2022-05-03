@@ -15,7 +15,7 @@ class GroupModel {
           nomGroupe VARCHAR(255) NOT NULL,
           capaciteGroupe INTEGER NOT NULL,
           codeClasse VARCHAR(255) NOT NULL,
-          idSpecialite INTEGER NOT NULL,
+          idSpecialite INTEGER NULL,
           CONSTRAINT FK_ClasseGroupe 
           FOREIGN KEY(codeClasse) REFERENCES Classe (codeClasse),
           CONSTRAINT FK_SpecialiteGroupe

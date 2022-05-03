@@ -26,6 +26,7 @@ class ClassController {
 				// insert of specialities
 				let isOk = true
 				let  groups_spec =false
+				let  groups_classe =false
 
 				for (let speciality of specialities) {
 					const { id: idSpec, capacity, groups } = speciality
@@ -33,7 +34,7 @@ class ClassController {
 					const { data } = await Classe_specModel.create({ idSpec, capacity, codeClasse })
 
 					if (data) {
-						// create groups
+						// creation de groupe de specialite
 						for (const group of groups) {
 							const { 
 								nomGroupe,
@@ -52,10 +53,31 @@ class ClassController {
 						break
 					}
 				}
+				//creation de groupe de classe
+				for (const group of groups) {
+					const { 
+						nomGroupe,
+						capaciteGroupe	
+					} = group
+					
+					const { data } = await GroupModel.create({nomGroupe, capaciteGroupe, codeClasse, idSpec: null })
+
+					if (data){
+						
+						groups_classe = true
+					}
+				}
 
 				if (isOk) {
-					if (groups_spec){
-						return res.status(201).json({ data: "class created with specialities and groups of those specialities" })
+					if (groups_spec && groups_classe){
+						return res.status(201).json({ data: "class created with groups, specialities and groups of those specialities" })
+					} else {
+						if (groups_spec) {
+							return res.status(201).json({ data: "class created with specialities and groups of those specialities" })	
+						}
+						if (groups_classe) {
+							return res.status(201).json({ data: "class created with groups" })	
+						}
 					}
 					return res.status(201).json({ data: "class created with specialities" })
 				}
