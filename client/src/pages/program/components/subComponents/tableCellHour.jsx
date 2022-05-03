@@ -5,15 +5,15 @@ const TableCellHour = () => {
     <Box
       sx={{
         minHeight: 100,
+        height: "auto",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f8f8f8"
       }}
     >
       <Typography
         sx={{
-          fontSize: 14,
+          fontSize: 12,
           fontFamily: "Nunito-Bold"
         }}
       >

@@ -92,6 +92,19 @@ const ClasseList = () => {
         <Typography sx={{ fontFamily: "Nunito-Bold", fontSize: "18px" }}>
           Listes des programmes
         </Typography>
+
+        <Typography
+          sx={{
+            fontSize: 12,
+            color: "#aaa",
+            fontFamily: "Nunito-Regular",
+            display: "flex",
+            alignSelf: "center",
+            marginLeft: "auto"
+          }}
+        >
+          Semestre 1 | 2021 - 2022
+        </Typography>
       </Box>
 
       <Box>

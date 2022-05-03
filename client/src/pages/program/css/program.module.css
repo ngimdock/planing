@@ -19,8 +19,8 @@
 
 .tableContainer {
   width: 100%;
-  border: 1px solid #eee;
-  border-style: solid;
+  /* border: 1px solid #eee; */
+  background-color: #eee;
 }
 
 .tableHeader {
@@ -29,13 +29,9 @@
 }
 
 .tableHeader > th {
-  width: calc(1000px / 8);
+  width: calc(1400px / 8);
   height: auto;
   padding: 10px;
-}
-
-.tableHeader > th:not(:last-child) {
-  /* border-right: 2px solid #ccc; */
 }
 
 .tableRow {
@@ -44,7 +40,7 @@
 }
 
 .tableCell {
-  width: calc(1000px / 8);
+  width: calc(1400px / 8);
   min-height: 200px;
   height: auto;
   border: 0;
