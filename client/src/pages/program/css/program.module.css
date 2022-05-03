@@ -45,3 +45,7 @@
   height: auto;
   border: 0;
 }
+
+.tableCell:hover {
+  background-color: #fff2e4 !important;
+}

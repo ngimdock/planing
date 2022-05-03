@@ -3,15 +3,21 @@ import { Box, Typography } from "@mui/material"
 import { BsFillPlusCircleFill } from "react-icons/bs"
 import Button from '../../../../components/utils/buttons/button'
 import ProgramItem from './programItem'
+import ProgramForm from './programForm'
 
 const TableCellContent = () => {
   // Set local state
   const [addBtnShown, setAddBtnShown] = useState(false)
+  const [formOpened, setFormOpened] = useState(false)
 
   // Some handlers
   const handleShowBtn = (val) => {
     setAddBtnShown(val)
   } 
+
+  const handleOpenForm = () => {
+    setFormOpened(prev => !prev)
+  }
 
   const generateAddBtn = useMemo(() => {
     if (addBtnShown) {
@@ -33,6 +39,7 @@ const TableCellContent = () => {
             rounded
             fontSize={10}
             size="auto"
+            onClick={handleOpenForm}
           >
             <BsFillPlusCircleFill 
               size={15}
@@ -50,15 +57,12 @@ const TableCellContent = () => {
     <Box
       sx={{
         position: "relative",
-        minHeight: 100,
+        minHeight: formOpened ? 200 : 100,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "center",
         transition: "all .4s",
-        "&:hover": {
-          backgroundColor: "#fff2e4"
-        }
       }}
       onMouseEnter={() => handleShowBtn(true)}
       onMouseLeave={() => handleShowBtn(false)}
@@ -77,6 +81,11 @@ const TableCellContent = () => {
       {
         generateAddBtn
       }
+
+      {
+        formOpened && <ProgramForm onClose={handleOpenForm} />
+      }
+      
     </Box>
   ) 
 }
