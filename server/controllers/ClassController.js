@@ -181,6 +181,21 @@ class ClassController {
 		}
 	}
 
+	static deleteGroup = async (req,res) => {
+		const { id } = req.params
+		if (id) {
+			const {data} = await GroupModel.getById(id)
+
+			if (data) {
+				const {data: new_data, error} = await GroupModel.delete(id)
+				if(error){
+					return res.status(500).json({error: error})
+				}
+				return res.status(201).json({message: "sucessful delete"})
+			}
+		}
+	}
+
 	static deleteClasse = async (req, res) =>{
 
 		const { codeClasse } = req.body

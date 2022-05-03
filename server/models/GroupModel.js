@@ -155,21 +155,6 @@ class GroupModel {
         console.log(error)
         return {error: error}
       } 
-
-      // try {
-      //   const response = await connection.query(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe]).then(([result]) => {
-      //     return result.affectedRows
-      //   }).catch(error => {
-      //     console.log(error)
-      //     return { error }
-      //   })
-
-      //   return response
-      // } catch(err) {
-      //   console.log(err)
-        
-      //   return { error : err }
-      // }
     }
 
     /**
