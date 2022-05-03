@@ -25,11 +25,10 @@ class TeacherModel {
 
     /**
      * Querying all the teachers of the platform
-     * @param {null} 
+     * @param {null} null no parameters necessary
      * @returns {Object} data | error
      */
     static async get() {
-
       const query = `
         SELECT * FROM Enseignant
       `
@@ -38,11 +37,11 @@ class TeacherModel {
         const data = await connection.execute(query).then(([result]) => {          
           return [...result]
         }).catch(error => {
+          console.log(error)
           return { error }
         })
 
         return data
-
       } catch(err) {
         console.log(err)
 
@@ -64,6 +63,7 @@ class TeacherModel {
         const result = await connection.query(sql, [matriculeEns]).then(([response]) => {
           return [...response]
         }).catch(error => {
+          console.log(error)
           return { error }
         })
 
@@ -94,11 +94,14 @@ class TeacherModel {
       const query = `INSERT INTO Enseignant (matriculeEns, nomEns, sexEns) VALUES (?, ?, ?)`
       
       try {
-        // insert row in the Teacher table
-        const [rows] = await connection.execute(query, values)
+        const response = await connection.execute(query, values).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          console.log(error)
+          return { error }
+        })
          
-        console.log({ rows })
-        return { data }
+        return { response, data }
       } catch (err) {
         console.log(err)
 
@@ -128,13 +131,14 @@ class TeacherModel {
         `
       try {
 
-        const queryResult = await connection.query(sql1, values).then(([result]) => {
+        const response = await connection.query(sql1, values).then(([result]) => {
           return result.affectedRows
         }).catch(error => {
+          console.log(error)
           return {error}
         })
 
-        return queryResult
+        return response
 
       } catch(err) {
           console.log(err)
@@ -165,6 +169,28 @@ class TeacherModel {
         console.log(err)
 
         return { error : err }
+      }
+    }
+
+    static async checkMatricule(matricule) {
+      const query = `
+        SELECT *
+        FROM Enseignant
+        WHERE matriculeEns = ?
+      `
+
+      try {
+        const [rows] = await connection.execute(query, [matricule])
+
+        if (rows.length > 0) {
+          return { data: true }
+        }
+
+        return { data: false }
+      } catch (err) {
+        console.log(err)
+
+        return { error: "An error occured" }
       }
     }
 }

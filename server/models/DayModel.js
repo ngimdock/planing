@@ -3,12 +3,12 @@ import connection from "../utils/index.js";
 class DayModel{
     static init = async () => {
 		const query = `
-							CREATE TABLE IF NOT EXISTS Jour 
-							(
-									idSalle INTEGER PRIMARY KEY NOT NULL auto_increment,
-									nomJour VARCHAR(255) NOT NULL
-							)
-						`
+			CREATE TABLE IF NOT EXISTS Jour 
+			(
+				idSalle INTEGER PRIMARY KEY NOT NULL auto_increment,
+				nomJour VARCHAR(255) NOT NULL
+			)
+		`
 		try{
 			//create table
 			await connection.execute(query)
@@ -17,9 +17,9 @@ class DayModel{
 			const { data, error } = await this.getDays()
 
 			// insert data on day table
-			if(!data.length) this.create()
+			if(data?.length === 0) await this.create()
 
-			console.log("Table jour OK 2")
+			console.log("Table jour OK")
 		}catch(err){
 			console.log(err)
 		}
@@ -28,11 +28,14 @@ class DayModel{
 	static getDays = async () => {
 
 		const query = `
-								SELECT *
-								FROM Jour
-							`
+			SELECT *
+			FROM Jour
+		`
+
 		try{
 			const [rows] = await connection.execute(query)
+
+			console.log("Adding Days inside the Jours table OK")
 			return { data: rows }
 		}catch(err){
 			console.log(err)
@@ -44,18 +47,19 @@ class DayModel{
     static create = async () => {
 
 		const query = `
-							INSERT INTO Jour (nomJour)
-							VALUE ('Lundi'),
-                                  ('Mardi'),
-                                  ('Mercredi'),
-								  ('Jeudi'),
-								  ('Vendredi'),
-								  ('Samedi'),
-								  ('Dimanche')
-						`
-		try{
+			INSERT INTO Jour (nomJour)
+			VALUES ('Lundi'),
+						('Mardi'),
+						('Mercredi'),
+						('Jeudi'),
+						('Vendredi'),
+						('Samedi'),
+						('Dimanche')
+		`
 
-            const [rows] = await connection.execute(query)
+		try {
+
+      const [rows] = await connection.execute(query)
 
 			return{ data: {...rows} }
 		}catch(err){

@@ -37,11 +37,11 @@ class SpecialityModel {
         const data = await connection.execute(query).then(([result]) => {          
           return [...result]
         }).catch(error => {
+          console.log(error)
           return { error }
         })
 
         return data
-
       } catch(err) {
         console.log(err)
 
@@ -61,16 +61,14 @@ class SpecialityModel {
       `
       try {
         const result = await connection.query(sql, [idSpecialite]).then(([response]) => {
-          
           return [...response]
         }).catch(error => {
+          console.log(error)
           return { error }
         })
 
         return result
-
       } catch(err) {
-
         console.log(err)
 
         return { error : err }
@@ -87,18 +85,17 @@ class SpecialityModel {
         nomSpecialite
       } = data
 
-      const value = [nomSpecialite]
-
       const query = "INSERT INTO Specialite(nomSpecialite) VALUES(?)"
 
       try {
-        console.log(value)
-        // inserting a row in the Speciality table
-        const [rows] = await connection.query(query, value)
+        const response = await connection.query(query, [nomSpecialite]).then(([result]) => {
+          return result.affectedRows
+        }).catch(error => {
+          console.log(error)
+          return { error }
+        })
 
-        console.log({ rows })
-
-        return { data }
+        return { response, data }
       } catch(err) {
         console.log(error)
 

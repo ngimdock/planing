@@ -6,6 +6,7 @@ const TeacherRouter = express.Router()
 TeacherRouter.get("/", TeacherController.getTeachers)
 TeacherRouter.get("/:matriculeEns", TeacherController.getTeacher)
 TeacherRouter.post('/create', TeacherController.createTeacher)
+TeacherRouter.post('/verify_matricule', TeacherController.checkMatricule)
 TeacherRouter.put('/update/:currentMatriculeEns', TeacherController.updateTeacher)
 TeacherRouter.delete('/delete/:matriculeEns', TeacherController.deleteTeacher)
 
