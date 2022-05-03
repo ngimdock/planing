@@ -73,7 +73,6 @@ const ProgramForm = ({ onClose }) => {
       subject,
       teacher,
       room,
-      speciality,
       group,
       time
     } = program

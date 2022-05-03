@@ -1,10 +1,19 @@
 import { Typography, Box } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import AccordionItem from './AccordionItem'
 import Button from '../../../components/utils/buttons/button'
 import { BsFillPlusCircleFill } from 'react-icons/bs';
+import ModalContext from '../../../datamanager/contexts/modalContext';
 
 const SemesterList = () => {
+  // Get data from global state
+  const { openModal } = useContext(ModalContext)
+
+  // Some handlers
+  const handleOpenModal = () => {
+    openModal("Ajouter Annee Academique", "ADD_ACADEMIC_YEAR")
+  }
+
   // Data for tests
   const semesters = [
     {
@@ -67,6 +76,7 @@ const SemesterList = () => {
           fontSize={12}
           bgColor="#ff8500"
           variant="outlined"
+          onClick={handleOpenModal}
         >
           <BsFillPlusCircleFill 
             size={15}

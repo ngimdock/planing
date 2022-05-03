@@ -1,10 +1,6 @@
-import { useContext } from "react"
-import ModalContext from "../../../datamanager/contexts/modalContext"
 import styles from "../css/dashboard.module.css"
 
 const DashboardItem = ({ title, value, color, children }) => {
-    const { openModal } = useContext(ModalContext)
-    
     return (
         <div className={styles.dashboardItem}>
           <div className={styles.dahsIcon}

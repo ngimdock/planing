@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react"
+import { useContext, useMemo } from "react"
 import { Box } from "@mui/material"
 import SemesterList from "./semesterList"
 import styles from '../css/program.module.css'

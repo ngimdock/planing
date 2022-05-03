@@ -22,7 +22,6 @@ const ProgramTable = () => {
       <Box
         sx={{
           p: 2,
-          backgroundColor: "#fff",
           overflow: "hidden",
           borderRadius: "5px 5px 0 0",
           display: "flex",

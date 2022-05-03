@@ -1,14 +1,11 @@
-import { useContext } from "react"
+import React from "react"
 import { BsBarChartFill, BsBookFill, BsDoorOpenFill, BsFillPersonFill, BsPeopleFill } from 'react-icons/bs'
 import { MdSchool } from 'react-icons/md'
 import { HiUserGroup } from 'react-icons/hi'
-import ModalContext from "../../../datamanager/contexts/modalContext"
 import styles from "../css/dashboard.module.css"
 import DashboardItem from "./dashboardItem"
 
 const DashboardBody = () => {
-  const { openModal } = useContext(ModalContext)
-  
   return (
     <section className={styles.container}>
       <div className={styles.dashboardTitle}> Statistiques Générales</div>

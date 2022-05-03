@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Box, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 import { BsFillPlusCircleFill } from "react-icons/bs"
 import Button from '../../../../components/utils/buttons/button'
 import ProgramItem from './programItem'

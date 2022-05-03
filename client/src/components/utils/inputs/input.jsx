@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material'
 
 const Input = ({
+  ref,
   placeholder,
   onChange,
   value,
@@ -19,6 +20,7 @@ const Input = ({
 
   return (
     <TextField 
+      ref={ref && ref}
       disabled={disabled}
       error={defaultError}
       helperText={defaultError && helperText}
