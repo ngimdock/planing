@@ -1,48 +1,68 @@
 import { Typography, Box } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AccordionItem from './AccordionItem'
 import Button from '../../../components/utils/buttons/button'
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import ModalContext from '../../../datamanager/contexts/modalContext';
+import ToastContext from '../../../datamanager/contexts/toastContext';
+import AcademicYearAPI from '../../../api/academicYear';
 
 const SemesterList = () => {
   // Get data from global state
   const { openModal } = useContext(ModalContext)
+  const { showToast } = useContext(ToastContext)
+
+  // Set local state
+  const [semestersList, setSemestersList] = useState([])
+
+  // UseEffect section
+  useEffect(() => {
+    handleGetAcademicYears()
+  }, [])
 
   // Some handlers
+  const handleGetAcademicYears = async () => {
+    const { data, error } = await AcademicYearAPI.getAll()
+
+    if (data) {
+      console.log(data)
+
+      const academicYears = []
+
+      data.forEach(acaY => {
+        // Initialization of an academic year data
+        const academicYear = {
+          id: acaY.idAnneeAca,
+          headerTitle: "Annee academique " + acaY.valAnneeAca,
+          semesters: []
+        }
+
+        const semesters = []
+
+        acaY.semestres.forEach((semester) => {
+          // Initialization of a semester data
+          const semesterValue = {
+            id: semester.idSemestre,
+            value: "Semestre " + semester.valSemestre
+          }
+
+          semesters.push(semesterValue)
+        })
+
+        academicYear.semesters = semesters
+
+        academicYears.push(academicYear)
+      })
+
+      setSemestersList(academicYears)
+    } else {
+      showToast("Probleme de chargement de la liste des annees", "error")
+    }
+  }
+
   const handleOpenModal = () => {
     openModal("Ajouter Annee Academique", "ADD_ACADEMIC_YEAR")
   }
-
-  // Data for tests
-  const semesters = [
-    {
-      headerTitle: "Annee academique 2021-2022",
-      semesters: [
-        {
-          id: 1,
-          value: "Semestre 1"
-        },
-        {
-          id: 2,
-          value: "Semestre 2"
-        }
-      ]
-    },
-    {
-      headerTitle: "Annee academique 2022-2023",
-      semesters: [
-        {
-          id: 3,
-          value: "Semestre 1"
-        },
-        {
-          id: 4,
-          value: "Semestre 2"
-        }
-      ]
-    }
-  ]
 
   return (
     <Box
@@ -87,7 +107,7 @@ const SemesterList = () => {
 
       <Box>
         {
-          semesters.map((item, index) => {
+          semestersList.map((item, index) => {
             return (
               <AccordionItem 
                 key={index}
