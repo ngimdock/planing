@@ -68,26 +68,21 @@ class GroupModel {
      * @returns data | error
      */
      static async getById(idGroupe) {
+      
       const sql = `
         SELECT * FROM Groupe WHERE idGroupe = ?
       `
-
       try {
-
-        const response = await connection.execute(sql, [idGroupe]).then(([result]) => {
-          return [...result]
-        }).catch(error => {
-          console.log(error)
-
-          return { error }
-        })
-
-        return response
-      } catch(err) {
-        console.log(err) 
-
-        return { error : err }
+        const [rows] = await connection.execute(sql, [idGroupe])
+  
+        console.log(rows)
+        return {data : rows}
+      } catch (err) {
+        console.error(err)
+  
+        return { error: "An error occured while getting  Class" }
       }
+   
     }
 
     /**
@@ -154,19 +149,27 @@ class GroupModel {
       `
 
       try {
-        const response = await connection.query(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe]).then(([result]) => {
-          return result.affectedRows
-        }).catch(error => {
-          console.log(error)
-          return { error }
-        })
+        const [rows] = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe])
+        return {data : rows}
+      } catch (error) {
+        console.log(error)
+        return {error: error}
+      } 
 
-        return response
-      } catch(err) {
-        console.log(err)
+      // try {
+      //   const response = await connection.query(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe]).then(([result]) => {
+      //     return result.affectedRows
+      //   }).catch(error => {
+      //     console.log(error)
+      //     return { error }
+      //   })
+
+      //   return response
+      // } catch(err) {
+      //   console.log(err)
         
-        return { error : err }
-      }
+      //   return { error : err }
+      // }
     }
 
     /**

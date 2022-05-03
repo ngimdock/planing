@@ -103,11 +103,11 @@ class ClassModel {
       } = data
 
     try {
-        const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
-        return {data : rows}
+      const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
+      return {data : rows}
     } catch (error) {
-        console.log(error)
-        return {error: error}
+      console.log(error)
+      return {error: error}
     }   
   }
 

@@ -118,7 +118,7 @@ class ClassController {
 	}
 
 	static updateClass = async (req, res) =>{
-
+		
 		const { codeClasse, specialities } = req.body
 		if ( codeClasse ){
 
@@ -156,6 +156,29 @@ class ClassController {
 			return res.status(500).json({ error: "an error occured with updated Class" })
 		}
 		return res.status(400).json({error: "not found Class"})
+	}
+
+	static updateGroup = async (req, res) =>{
+		const { id } = req.params
+		const {
+			nomGroupe,
+			capaciteGroupe,
+			codeClasse,
+			idSpecialite
+		} = req.body
+
+		if ( id ) {
+			const data = await GroupModel.getById(id)
+
+			if(data){
+				const { data: new_data, error} = GroupModel.update({nomGroupe, capaciteGroupe, codeClasse, idSpecialite:null}, id)
+				
+				if (error) {
+					return res.status(500).json({error: error})
+				}
+				return res.status(201).json({message: "sucessful update a Group"})
+			}
+		}
 	}
 
 	static deleteClasse = async (req, res) =>{
