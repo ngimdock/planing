@@ -1,4 +1,6 @@
-import React from "react"
+import { Alert, Snackbar } from "@mui/material"
+import React, { useContext } from "react"
+import ToastContext from "../../../datamanager/contexts/toastContext"
 import styles from '../css/auth.module.css'
 import SigninForm from "./signinForm"
 
@@ -7,6 +9,9 @@ const logo = require('../../../assets/images/logo/logo1.png')
 const svg = require('../../../assets/images/svg/signin.png')
 
 const SigninBody = () => {
+  // Get data from global state
+  const { open: isOpenToast, closeToast, type, message } = useContext(ToastContext)
+
   return (
     <section className={styles.container}>
       <div className={styles.FirstSigninPage}>
@@ -29,6 +34,19 @@ const SigninBody = () => {
         />
         <SigninForm/>
       </div>
+
+      <Snackbar 
+        open={isOpenToast} 
+        autoHideDuration={6000} 
+        onClose={closeToast}
+        sx={{
+          position: 'fixed'
+        }}  
+      >
+        <Alert onClose={closeToast} severity={type} sx={{ width: '100%' }}>
+          { message }
+        </Alert>
+      </Snackbar>
     </section>
   )
 }

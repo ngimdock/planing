@@ -1,3 +1,4 @@
+import AcademicYearModel from "../models/AcademicYearModel.js"
 import SemesterModel from "../models/SemesterModel.js"
 
 class SemesterController {
@@ -39,21 +40,39 @@ class SemesterController {
   static async create (req, res) {
     // Get data from request body
     const {
-      semester,
-      idAcademicYear
+      academicYear
     } = req.body
 
-    if (semester && idAcademicYear) {
-      // Create semester
-      const { data, error } = await SemesterModel.create(req.body)
+    if (academicYear) {
+      // Create academic year first
+      const { data: acaY, error: acaYErr } = await AcademicYearModel.create(academicYear)
 
-      if (data) {
-        return res.status(201).json({ data })
+      if (acaY) {
+        // Create semester 
+        let isOk = true
+
+        for (let semester = 1; semester <= 2; semester++) {
+          const { error } = await SemesterModel.create({ 
+            semester,
+            idAcademicYear: acaY.id
+          })
+
+          if (error) {
+            isOk = false
+            break
+          }
+        }
+  
+        if (isOk) {
+          return res.status(201).json({ data: "Academic year created" })
+        }
+  
+        return res.status(500).json({ error })
+      } else {
+        return res.status(500).json({ error: acaYErr })
       }
-
-      return res.status(500).json({ error })
     } else {
-      res.status(400).json({ error: "Provide all the required data" })
+      res.status(400).json({ error: "Provide an academic year" })
     }
   }
 

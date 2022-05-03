@@ -15,10 +15,10 @@ class AcademicYearModel {
 
     try {
       await connection.execute(query)
-      const result = await AcademicYearModel.isEmpty()
+      // const result = await AcademicYearModel.isEmpty()
 
-      if (result)
-        await AcademicYearModel.create()
+      // if (result)
+        // await AcademicYearModel.create()
 
       console.log("Table AnneeAcademique OK")
     } catch (err) {
@@ -26,18 +26,22 @@ class AcademicYearModel {
     }
   }
 
-  static async create () {
+  static async create (academicYear) {
     const query = `
       INSERT INTO AnneeAcademique (valAnneeAca)
-      VALUES ('2021-2022'), ('2022-2023'), ('2023-2024')
+      VALUES (?)
     `
 
     try { 
-      const [rows] = await connection.execute(query)
+      const [rows] = await connection.execute(query, [academicYear])
 
       console.log(rows)
+
+      return { data: {id: rows.insertId} }
     } catch (err) {
       console.error(err)
+
+      return { error: "An error occured" }
     }
   }
 
