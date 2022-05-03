@@ -5,7 +5,7 @@ class CourseModel {
 		const query = `CREATE TABLE IF NOT EXISTS Cours
             (
                 codeCours VARCHAR(10) PRIMARY KEY NOT NULL, 
-                descriptionCours VARCHAR(200) UNIQUE NOT NULL,
+                descriptionCours VARCHAR(200) NOT NULL,
                 idSemestre INTEGER NOT NULL,
                 matriculeEns VARCHAR(10) NOT NULL, 
                 idSpecialite INTEGER NOT NULL,
