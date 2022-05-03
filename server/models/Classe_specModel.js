@@ -51,7 +51,22 @@ class Classe_specModel{
   
           return { error: err }
         }
-        }
+    }
+    static async update ( codeClasse, data ){
+        const query = "UPDATE Classe_spec SET idSpec = ?, capacite = ? WHERE codeClass = ? "
+        const {
+          idSpec,
+          capacity
+        } = data
+    
+        try {
+            const [rows] = await connection.execute(query, [ idSpec, capacity, codeClasse])
+            return {data : rows}
+        } catch (error) {
+            console.log(error)
+            return {error: error}
+        }   
+      }
 }
 
 

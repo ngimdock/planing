@@ -84,7 +84,7 @@ class ClassController {
 
 	static updateClass = async (req, res) =>{
 
-		const { codeClasse } = req.body
+		const { codeClasse, specialities } = req.body
 		if ( codeClasse ){
 
 			const { data } = await ClassModel.findOne(codeClasse)
@@ -94,8 +94,28 @@ class ClassController {
 			else {
 
 				const {data: newData, error} = await ClassModel.update(codeClasse, req.body)
-				if ( newData )
-					return res.status(201).json({message: "sucessful update a Class "})
+				if ( newData ){
+
+					let isSet = true
+
+					for (let speciality of specialities) {
+						const { idSpec, capacity } = speciality
+	
+						const { data } = await Classe_specModel.update(codeClasse, { idSpec, capacity})
+	
+						if (data) {
+							// update groups
+						} else {
+							isSet = false
+							break
+						}
+					}
+
+					if (isSet){
+						return res.status(201).json({message: "sucessful update a Classe_spec "})
+					}
+				}
+					
 				return res.status(400).json({error: error})
 			}
 			return res.status(500).json({ error: "an error occured with updated Class" })

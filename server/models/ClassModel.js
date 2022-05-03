@@ -96,10 +96,11 @@ class ClassModel {
   static async update ( codeClasse, data ){
     const query = "UPDATE Classe SET nomClasse = ?, capaciteClasse = ?, idFil = ?, idNiv = ?  WHERE codeClasse=? "
     const {
-        nomClasse, 
-        capaciteClasse, 
-        idFil, 
-        idNiv } = data
+      nomClasse, 
+      capaciteClasse, 
+      idFil, 
+      idNiv
+      } = data
 
     try {
         const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
