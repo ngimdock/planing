@@ -1,6 +1,12 @@
 import { Box, Typography } from "@mui/material"
+import { useMemo } from "react"
 
-const TableCellHour = () => {
+const TableCellHour = ({ time }) => {
+  // Some handlers
+  const generateHoursString = useMemo(() => {
+    return `${time.start}h - ${time.end}h`
+  }, [time])
+
   return (
     <Box
       sx={{
@@ -13,11 +19,13 @@ const TableCellHour = () => {
     >
       <Typography
         sx={{
-          fontSize: 12,
+          fontSize: 14,
           fontFamily: "Nunito-Bold"
         }}
       >
-        07h - 10h
+        {
+          generateHoursString
+        }
       </Typography>
     </Box>
   )

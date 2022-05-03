@@ -28,6 +28,12 @@ const ProgramItem = () => {
         alignItems: "center",
         "&:hover": {
           cursor: "pointer"
+        },
+        "& span": {
+          transition: "all .4s"
+        },
+        "&:hover span": {
+          color: "#3e4bff"
         }
       }}
       onClick={(e) => !showPopover && handlePopover(e.currentTarget, true)}
@@ -42,12 +48,14 @@ const ProgramItem = () => {
         }}
       >
         <Typography
+          as="span"
           sx={{
             fontSize: 14,
             fontFamily: "Nunito-Bold"
           }}
         >MATH 112</Typography>
         <Typography
+          as="span"
           sx={{
             fontSize: 12,
             fontFamily: "Nunito-Bold",
@@ -57,6 +65,7 @@ const ProgramItem = () => {
       </Box>
 
       <Typography
+        as="span"
         sx={{
           fontSize: 13,
           fontFamily: "Nunito-Bold",

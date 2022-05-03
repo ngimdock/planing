@@ -3,6 +3,30 @@ import styles from '../../css/program.module.css'
 import TableHeader from "./tableHeader"
 import TableRow from "./tableRow"
 
+// Constant values
+const TIMES = [
+  {
+    id: 1,
+    start: 7,
+    end: 10
+  },
+  {
+    id: 2,
+    start: 10,
+    end: 13
+  },
+  {
+    id: 3,
+    start: 13,
+    end: 16
+  },
+  {
+    id: 4,
+    start: 16,
+    end: 18
+  }
+]
+
 const Table = () => {
   return (
     <Box
@@ -19,10 +43,9 @@ const Table = () => {
         <TableHeader />
 
         <tbody>
-          <TableRow />
-          <TableRow color="#f8f8f8" />
-          <TableRow />
-          <TableRow color="#f8f8f8" />
+          {
+            TIMES.map(item => <TableRow time={item} color={item.id % 2 === 0 && "#f8f8f8"} />)
+          }
         </tbody>
       </table>
     </Box>

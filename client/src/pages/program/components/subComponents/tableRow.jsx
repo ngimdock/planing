@@ -3,14 +3,14 @@ import styles from '../../css/program.module.css'
 import TableCellHour from "./tableCellHour"
 import TableCellContent from './tableCell'
 
-const TableRow = ({ color }) => {
+const TableRow = ({ color, time }) => {
   // Defaults values
   const defaultColor = color ? color:"#fff"
   return (
     <Fragment>
       <tr className={styles.tableRow}>
         <td className={styles.tableCell} style={{ backgroundColor: defaultColor }}>
-          <TableCellHour />
+          <TableCellHour time={time} />
         </td>
         {
           Array(7).fill(0).map(() => {

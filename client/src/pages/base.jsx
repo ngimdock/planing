@@ -82,7 +82,7 @@ const BaseLayout = ({ children }) => {
                     autoHideDuration={6000} 
                     onClose={closeToast}
                     sx={{
-                      position: 'absolute'
+                      position: 'fixed'
                     }}  
                   >
                     <Alert onClose={closeToast} severity={type} sx={{ width: '100%' }}>

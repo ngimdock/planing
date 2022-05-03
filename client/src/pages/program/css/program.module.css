@@ -46,6 +46,6 @@
   border: 0;
 }
 
-.tableCell:hover {
+.tableCell:not(:first-child):hover {
   background-color: #fff2e4 !important;
 }
