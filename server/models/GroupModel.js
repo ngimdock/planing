@@ -101,26 +101,37 @@ class GroupModel {
         nomGroupe,
         capaciteGroupe,
         codeClasse,
-        idSpecialite
+        idSpec
       } = data
-
+      console.log(data);
       const sql = `
         INSERT INTO Groupe (nomGroupe, capaciteGroupe, codeClasse, idSpecialite) VALUES (?, ?, ?, ?)
       `
-
       try {
-        const response = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite]).then(([result]) => {
-          return result.affectedRows
-        }).catch(error => {
-          return { error }
-        })
+        
+        // insert row in Group
+        const [rows] = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpec] )
 
-        return { response, data }
-      } catch(err) {
-        console.log(err)
+        console.log({ rows })
+        return { data }
+      } catch(err){
 
-        return { error : err }
+        console.error(err)
+        return { error: err }
       }
+      // try {
+      //   const response = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpec]).then(([result]) => {
+      //     return result.affectedRows
+      //   }).catch(error => {
+      //     return { error }
+      //   })
+
+      //   return { response, data }
+      // } catch(err) {
+      //   console.log(err)
+
+      //   return { error : err }
+      // }
     }
 
     /**

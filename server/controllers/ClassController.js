@@ -1,5 +1,6 @@
 import ClassModel from "../models/ClassModel.js"
 import Classe_specModel from '../models/Classe_specModel.js';
+import GroupModel from "../models/GroupModel.js";
 
 class ClassController {
 
@@ -24,14 +25,28 @@ class ClassController {
 			if(data) {
 				// insert of specialities
 				let isOk = true
+				let  groups_spec =false
 
 				for (let speciality of specialities) {
-					const { id: idSpec, capacity } = speciality
+					const { id: idSpec, capacity, groups } = speciality
 
 					const { data } = await Classe_specModel.create({ idSpec, capacity, codeClasse })
 
 					if (data) {
 						// create groups
+						for (const group of groups) {
+							const { 
+								nomGroupe,
+								capaciteGroupe	
+							} = group
+							
+							const { data } = await GroupModel.create({nomGroupe, capaciteGroupe, codeClasse, idSpec })
+
+							if (data){
+								console.log(idSpec)
+								groups_spec = true
+							}
+						}
 					} else {
 						isOk = false
 						break
@@ -39,6 +54,9 @@ class ClassController {
 				}
 
 				if (isOk) {
+					if (groups_spec){
+						return res.status(201).json({ data: "class created with specialities and groups of those specialities" })
+					}
 					return res.status(201).json({ data: "class created with specialities" })
 				}
 
@@ -47,12 +65,7 @@ class ClassController {
 
 			return res.status(500).json({ error: "an error occured" })
 		}	
-		// creation de groupe
-		groups.forEach(elem => {
-			
-		});
-
-		// create de Classe_spec
+		
 		
 
 	}
