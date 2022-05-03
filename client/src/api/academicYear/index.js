@@ -16,6 +16,27 @@ class AcademicYearAPI extends DefaultAPICall {
       return { error }
     } catch (err) {
       console.log(err)
+
+      return { error: "An error Occured" }
+    }
+  }
+
+  static async create (academicYear) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.post("/semester/create", { academicYear })
+
+      if (data) {
+        console.log(data)
+        return { data: true }
+      }
+
+      return { error }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error Occured" }
     }
   }
 }

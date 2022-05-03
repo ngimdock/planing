@@ -9,10 +9,13 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LinearLoader from '../../loaders/linearLoader';
+import AcademicYearAPI from '../../../../api/academicYear';
+import ToastContext from '../../../../datamanager/contexts/toastContext';
 
 const AddAcademicYearModalContent = () => {
   // Get data from global state
   const { closeModal } = useContext(ModalContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [startYear, setStartYear] = useState(new Date(Date.now()))
@@ -23,10 +26,24 @@ const AddAcademicYearModalContent = () => {
     setStartYear(value)
   }
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
+      // Start loading
       setLoading(true)
-      console.log("You can send request here")
+
+      // Send request
+      const { data, error } = await AcademicYearAPI.create(generateAcademicYearString(startYear))
+
+      // Stop loading
+      setLoading(false)
+
+      if (data) {
+        console.log(data)
+        closeModal()
+      } else {
+        showToast("Probleme lie a la creation d'une annee academique")
+      }
+      
     }
   }
 
@@ -34,6 +51,12 @@ const AddAcademicYearModalContent = () => {
     if (startYear) return true
 
     return false
+  }
+
+  const generateAcademicYearString = (date) => {
+    let year = +date.getFullYear()
+
+    return `${year}-${year+1}`
   }
 
   return (
