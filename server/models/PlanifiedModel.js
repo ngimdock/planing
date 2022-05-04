@@ -122,6 +122,10 @@ class planifiedModel {
 
         try {
 
+            const { data, error } = await this.getProgram(payload)
+
+            if(!data.length) return { error: "The course is not found on database" }
+
             const [rows] = await connection.execute(query, values)
 
             console.log(rows);
@@ -164,9 +168,15 @@ class planifiedModel {
 
         try {
 
-            const [rows] = await connection.execute(query, values)
+            //check if the given program is in database
+            const { data, error } = await this.getProgram(payload.key)
 
-            console.log(rows);
+            console.log(data);
+
+            if(!data.length) return { error: "The course is not found on database" }
+
+            //update program
+            const [rows] = await connection.execute(query, values)
 
             return { data: "Program updated on succesfully" }
         }catch(err){
@@ -181,33 +191,34 @@ class planifiedModel {
      * @param {Object} payload id(containing multiple values)
      * @returns {Object}
      */
-    // static getProgram = async (payload) => {
+    static getProgram = async (payload) => {
 
-    //     const { 
-    //         idAdmin, 
-    //         codeCours, 
-    //         idSalle, 
-    //         idJour, 
-    //         heureDebut
-    //     } = payload
+        const { 
+            idAdmin, 
+            codeCours, 
+            idSalle, 
+            idJour, 
+            heureDebut
+        } = payload
 
-    //     const query = `
-    //         SELECT * 
-    //         FROM Cours
-    //         WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
-    //         `
-    //     const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
+        const query = `
+            SELECT * 
+            FROM Programmer
+            WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
+            `
+        const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
 
-    //     try{
-    //         const [rows] = await connection.execute(query, [values])
+        try{
+            const [rows] = await connection.execute(query, values)
 
-    //         console.log(rows);
-            
-    //         return { data: rows }
-    //     }catch(err){
-    //         return { error: "An error occured while geting the program" }
-    //     }
-    // }
+            console.log(rows);
+
+            return { data: rows }
+        }catch(err){
+            console.log(err.message)
+            return { error: "An error occured while geting the program" }
+        }
+    }
 
 }
 

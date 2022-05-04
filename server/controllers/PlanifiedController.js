@@ -102,16 +102,9 @@ class PlanifiedController {
             idSalle, 
             idJour, 
             heureDebut
-        } = req.body.key
+        } = req.body
 
-        const {
-            newHeureDebut,
-            newHeureFin
-        } = req.body.data
-
-        console.log(newHeureDebut);
-
-        const checkData = (idAdmin && codeCours && idSalle && idJour && heureDebut && newHeureDebut && newHeureFin ) ? true : false
+        const checkData = (idAdmin && codeCours && idSalle && idJour && heureDebut ) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all the required data to delete this program" })
 
