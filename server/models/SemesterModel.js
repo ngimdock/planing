@@ -32,6 +32,7 @@ class SemesterModel {
       SELECT * 
       FROM Semestre S, AnneeAcademique A
       WHERE S.idAnneeAca = A.idAnneeAca
+      ORDER BY A.valAnneeAca ASC
     `
 
     try {

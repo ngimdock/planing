@@ -102,7 +102,7 @@ const AddAdminModalContent = () => {
       setLoading(true)
 
       // Send request to the server for creating admin
-      const { data, error } = await AuthApi.addAdmin({ ...adminData, password: "admin" })
+      const { data } = await AuthApi.addAdmin({ ...adminData, password: "admin" })
 
       // Stop loading
       setLoading(false)

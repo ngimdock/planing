@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useReducer, useTransition } from "react"
+import React, { useContext, useReducer } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
@@ -6,7 +6,7 @@ import styles from '../css/modalContent.module.css'
 import classStyles from '../css/classModalContent.module.css'
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import Select from "../../inputs/select"
-import { BsFillPlusCircleFill, BsX } from 'react-icons/bs'
+import { BsFillPlusCircleFill } from 'react-icons/bs'
 import reducer, { initialState } from '../reducers/classReducer'
 import GroupItem from "./subComponents/groupItem"
 import SpecialityItem from './subComponents/specialityItem'
