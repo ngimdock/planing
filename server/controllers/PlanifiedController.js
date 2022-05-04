@@ -74,25 +74,25 @@ class PlanifiedController {
         return res.status(500).json({ error })
     }
 
-    static getProgram = async (req, res) => {
-        const { 
-            idAdmin, 
-            codeCours, 
-            idSalle, 
-            idJour, 
-            heureDebut
-        } = req.body
+    // static getProgram = async (req, res) => {
+    //     const { 
+    //         idAdmin, 
+    //         codeCours, 
+    //         idSalle, 
+    //         idJour, 
+    //         heureDebut
+    //     } = req.body
 
-        const checkData = (idAdmin && codeCours, idSalle && idJour, heureDebut) ? true : false
+    //     const checkData = (idAdmin && codeCours, idSalle && idJour, heureDebut) ? true : false
 
-        if(!checkData) return res.status(400).json({ error: "Provide all the required data to get this program" })
+    //     if(!checkData) return res.status(400).json({ error: "Provide all the required data to get this program" })
 
-        //delete program
-        const { data, error } = await PlanifiedModel.getProgram(req.body)
+    //     //delete program
+    //     const { data, error } = await PlanifiedModel.getProgram(req.body)
 
-        if(data) return res.status(200).json({ data })
-        return res.status(404).json({ error })
-    }
+    //     if(data) return res.status(200).json({ data })
+    //     return res.status(404).json({ error })
+    // }
 
     static deleteProgram = async (req, res) => {
 

@@ -181,33 +181,33 @@ class planifiedModel {
      * @param {Object} payload id(containing multiple values)
      * @returns {Object}
      */
-    static getProgram = async (payload) => {
+    // static getProgram = async (payload) => {
 
-        const { 
-            idAdmin, 
-            codeCours, 
-            idSalle, 
-            idJour, 
-            heureDebut
-        } = payload
+    //     const { 
+    //         idAdmin, 
+    //         codeCours, 
+    //         idSalle, 
+    //         idJour, 
+    //         heureDebut
+    //     } = payload
 
-        const query = `
-            SELECT * 
-            FROM Cours
-            WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
-            `
-        const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
+    //     const query = `
+    //         SELECT * 
+    //         FROM Cours
+    //         WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
+    //         `
+    //     const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
 
-        try{
-            const [rows] = await connection.execute(query, [values])
+    //     try{
+    //         const [rows] = await connection.execute(query, [values])
 
-            console.log(rows);
+    //         console.log(rows);
             
-            return { data: rows }
-        }catch(err){
-            return { error: "An error occured while geting the program" }
-        }
-    }
+    //         return { data: rows }
+    //     }catch(err){
+    //         return { error: "An error occured while geting the program" }
+    //     }
+    // }
 
 }
 
