@@ -120,7 +120,7 @@ class ClassModel {
         console.log(error)
         return {error: error}
     }   
-}
+  }
 
 }
 

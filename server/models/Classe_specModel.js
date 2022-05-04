@@ -28,6 +28,26 @@ class Classe_specModel{
             console.log(error)
         }
     }
+
+    static async findOne (codeClasse, idSpec) {
+      
+        const query = `
+          SELECT * 
+          FROM Classe_spec
+          WHERE codeClass = ? AND idSpec = ? 
+        ` 
+        try {
+          const [rows] = await connection.execute(query, [codeClasse, idSpec])
+    
+          console.log(rows)
+          return {data : rows}
+        } catch (err) {
+          console.error(err)
+    
+          return { error: "An error occured while getting  Class" }
+        }
+    }
+    
     static async create(data) {
         const { 
             codeClasse,
@@ -53,11 +73,12 @@ class Classe_specModel{
         }
     }
     static async update ( codeClasse, data ){
-        const query = "UPDATE Classe_spec SET idSpec = ?, capacite = ? WHERE codeClass = ? "
         const {
           idSpec,
           capacity
         } = data
+
+        const query = "UPDATE Classe_spec SET idSpec = ?, capacite = ? WHERE codeClass = ? "
     
         try {
             const [rows] = await connection.execute(query, [ idSpec, capacity, codeClasse])
@@ -66,7 +87,19 @@ class Classe_specModel{
             console.log(error)
             return {error: error}
         }   
+    }
+    static async delete ( codeClasse, idSpec ){
+        console.log("les data de ddelete", codeClasse, idSpec)
+        const query = "DELETE FROM Classe_spec WHERE codeClass = ? AND idSpec = ?"
+        try {
+            const [rows] = await connection.execute(query, [codeClasse, idSpec])
+            return {data : `sucessfully delete classe_spec ${codeClasse} and ${idSpec}` }
+        } catch (error) {
+            console.log(error)
+            return {error: error}
+        }   
       }
+    
 }
 
 
