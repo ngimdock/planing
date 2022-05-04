@@ -8,5 +8,6 @@ const planifiedRouter = express.Router()
 planifiedRouter.get("/", PlanifiedController.getPrograms)
 planifiedRouter.post("/create", PlanifiedController.createProgram)
 planifiedRouter.delete("/delete/", PlanifiedController.deleteProgram)
+planifiedRouter.patch("/update/", PlanifiedController.updateProgram)
 
 export default planifiedRouter

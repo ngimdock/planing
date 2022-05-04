@@ -135,6 +135,48 @@ class planifiedModel {
     }
 
     /**
+     * This method update a program on database
+     * @param {Object} payload contain the beginig and the end hour to update
+     * @returns {Object} message or error
+     */
+    static updateProgram = async (payload) => {
+
+        const { 
+            idAdmin, 
+            codeCours, 
+            idSalle, 
+            idJour, 
+            heureDebut
+        } = payload.key
+
+        const {
+            newHeureDebut,
+            newHeureFin
+        } = payload.data
+        
+        const query = `
+            UPDATE Programmer
+            SET heureDebut = (?), heureFin = (?)
+            WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
+            `
+            
+        const values = [newHeureDebut, newHeureFin, idAdmin, codeCours, idSalle, idJour, heureDebut]
+
+        try {
+
+            const [rows] = await connection.execute(query, values)
+
+            console.log(rows);
+
+            return { data: "Program updated on succesfully" }
+        }catch(err){
+            console.log(err.message)
+
+            return { error: "An error occured while updating the program" }
+        }
+    }
+
+    /**
      * This method get a specific program on database
      * @param {Object} payload id(containing multiple values)
      * @returns {Object}
