@@ -8,9 +8,9 @@ class TeacherController {
      * @returns Object data | error
      */
     static getTeachers = async (req, res) => {
-        const data = await TeacherModel.get()
+        const { data } = await TeacherModel.get()
 
-        if(data.length > 0) {
+        if(data !== undefined) {
             res.status(200).json(data)
         } else {
             res.status(500).json({ error : " An error occured " })
@@ -53,9 +53,9 @@ class TeacherController {
         } = req.body
 
         if (matriculeEns && nomEns && sexEns) {
-            const { response, data } = await TeacherModel.create(req.body)
+            const { data } = await TeacherModel.create(req.body)
 
-            if(response && response > 0 && data) {
+            if(data) {
                 return res.status(201).json(data)
             } else {
                 return res.status(500).json({ error: "an error occured" })

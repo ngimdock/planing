@@ -9,6 +9,7 @@ import PlanningNavigationProvider from './datamanager/providers/planningNavigati
 import FacultyProvider from './datamanager/providers/facultyProvider';
 import LevelProvider from './datamanager/providers/levelProvider';
 import SpecialityProvider from './datamanager/providers/specialityProvider';
+import TeacherProvider from './datamanager/providers/teacherProvider';
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
                 <FacultyProvider>
                   <LevelProvider>
                     <SpecialityProvider>
-                      <Navigation />
+                      <TeacherProvider>
+                        <Navigation />
+                      </TeacherProvider>
                     </SpecialityProvider>
                   </LevelProvider>
                 </FacultyProvider>

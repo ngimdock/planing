@@ -15,6 +15,7 @@ import ToastContext from "../datamanager/contexts/toastContext"
 import useGetFaculties from "../hooks/useGetFaculties"
 import useGetLevels from "../hooks/useGetLevels"
 import useGetSpecialities from "../hooks/useGetSpecialities"
+import useGetTeachers from "../hooks/useGetTeachers"
 
 const BaseLayout = ({ children }) => {
   // Get information about the current page from URL
@@ -47,6 +48,7 @@ const BaseLayout = ({ children }) => {
   useGetFaculties()
   useGetLevels()
   useGetSpecialities()
+  useGetTeachers()
 
   // Some handlers
   const getCurrentUser = async () => {
