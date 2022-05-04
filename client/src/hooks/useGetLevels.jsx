@@ -15,7 +15,7 @@ const useGetLevels = () => {
     const { data } = await LevelAPI.getAll()
 
     if (data) {
-      // Store faculties inside the global state
+      // Store levels inside the global state
       addLevels(data)
     }
   }

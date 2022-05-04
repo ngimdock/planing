@@ -8,6 +8,7 @@ import ToastProvider from './datamanager/providers/toastProvider';
 import PlanningNavigationProvider from './datamanager/providers/planningNavigationProvider';
 import FacultyProvider from './datamanager/providers/facultyProvider';
 import LevelProvider from './datamanager/providers/levelProvider';
+import SpecialityProvider from './datamanager/providers/specialityProvider';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
               <ToastProvider>
                 <FacultyProvider>
                   <LevelProvider>
-                    <Navigation />
+                    <SpecialityProvider>
+                      <Navigation />
+                    </SpecialityProvider>
                   </LevelProvider>
                 </FacultyProvider>
               </ToastProvider>

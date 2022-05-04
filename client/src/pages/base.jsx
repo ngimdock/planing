@@ -14,6 +14,7 @@ import NavigationContext from "../datamanager/contexts/navigationContext"
 import ToastContext from "../datamanager/contexts/toastContext"
 import useGetFaculties from "../hooks/useGetFaculties"
 import useGetLevels from "../hooks/useGetLevels"
+import useGetSpecialities from "../hooks/useGetSpecialities"
 
 const BaseLayout = ({ children }) => {
   // Get information about the current page from URL
@@ -45,6 +46,7 @@ const BaseLayout = ({ children }) => {
   // Fetch Data section
   useGetFaculties()
   useGetLevels()
+  useGetSpecialities()
 
   // Some handlers
   const getCurrentUser = async () => {
