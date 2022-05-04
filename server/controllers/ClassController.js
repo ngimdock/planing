@@ -29,7 +29,7 @@ class ClassController {
 				let  groups_classe =false
 
 				for (let speciality of specialities) {
-					const { id: idSpec, capacity, groups } = speciality
+					const {  idSpec, capacity, groups } = speciality
 
 					const { data } = await Classe_specModel.create({ idSpec, capacity, codeClasse })
 
@@ -195,14 +195,33 @@ class ClassController {
 			}
 		}
 	}
-
+	//delete classe with classe_spec
 	static deleteClasse = async (req, res) =>{
 
 		const { codeClasse } = req.body
 		if(codeClasse){
 			const { data } = await ClassModel.findOne(codeClasse)
 		
-			if(data){
+			if(data){ 
+				const { data: dataSpec } = await Classe_specModel.findAllSpec(codeClasse)
+				if (dataSpec) {
+					// let classe_spec = true
+
+					for(let classe_spec of dataSpec){
+						const {codeClasse, idSpec} = classe_spec
+
+						if (codeClasse && idSpec ) {
+							const { data:dataFound } = await Classe_specModel.findOne(codeClasse, idSpec)
+
+							if (dataFound){
+								const {data:dataDel, error} = await Classe_specModel.delete(codeClasse, idSpec)
+								if (error){
+									return res.status(500).json({error: error})
+								}
+							}
+						}
+					}
+				} 
 				const {data: newData, error} = await ClassModel.delete(codeClasse)
 				if(newData)
 					return res.status(200).json(newData)

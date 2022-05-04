@@ -47,6 +47,26 @@ class Classe_specModel{
           return { error: "An error occured while getting  Class" }
         }
     }
+
+    //rechercher toutes les specialites d'une classe
+    static async findAllSpec (codeClasse) {
+      
+        const query = `
+          SELECT * 
+          FROM Classe_spec
+          WHERE codeClass = ? 
+        ` 
+        try {
+          const [rows] = await connection.execute(query, [codeClasse])
+    
+          console.log(rows)
+          return {data : rows}
+        } catch (err) {
+          console.error(err)
+    
+          return { error: "An error occured while getting  Classe_spec" }
+        }
+    }
     
     static async create(data) {
         const { 
