@@ -62,6 +62,11 @@ class planifiedModel {
         }
     }
 
+    /**
+     * Create Program from database
+     * @param {Object} payload 
+     * @returns {Object}
+     */
     static createProgram = async (payload) => {
 
         const {
@@ -88,6 +93,77 @@ class planifiedModel {
             console.log(err.message)
 
             return{ error: "An error occured while creating the program" }
+        }
+    }
+
+    /**
+     * Delete a program from database
+     * @param {String} payload id for Program
+     * @returns {Object} 
+     */
+    static deleteProgram = async (payload) => {
+
+        const { 
+            idAdmin, 
+            codeCours, 
+            idSalle, 
+            idJour, 
+            heureDebut
+        } = payload
+
+        
+        const query = `
+            DELETE
+            FROM Programmer
+            WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
+            `
+            
+        const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
+
+        try {
+
+            const [rows] = await connection.execute(query, values)
+
+            console.log(rows);
+
+            return { data: "Program deleted on succesfully" }
+        }catch(err){
+            console.log(err.message)
+
+            return { error: "An error occured while deleting the program" }
+        }
+    }
+
+    /**
+     * This method get a specific program on database
+     * @param {Object} payload id(containing multiple values)
+     * @returns {Object}
+     */
+    static getProgram = async (payload) => {
+
+        const { 
+            idAdmin, 
+            codeCours, 
+            idSalle, 
+            idJour, 
+            heureDebut
+        } = payload
+
+        const query = `
+            SELECT * 
+            FROM Cours
+            WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
+            `
+        const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
+
+        try{
+            const [rows] = await connection.execute(query, [values])
+
+            console.log(rows);
+            
+            return { data: rows }
+        }catch(err){
+            return { error: "An error occured while geting the program" }
         }
     }
 

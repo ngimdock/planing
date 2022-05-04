@@ -12,8 +12,6 @@ class PlanifiedController {
 
         const { data, error } = await PlanifiedModel.getPrograms()
 
-        console.log(data);
-
         const programByDay =  {
             "Lundi" : this.getProgramByDay(data, "lundi"),
             "Mardi" : this.getProgramByDay(data, "mardi"),
@@ -23,9 +21,7 @@ class PlanifiedController {
             "Samedi" : this.getProgramByDay(data, "samedi"),
             "Dimanche" : this.getProgramByDay(data, "dimanche")
         }
-
-        console.log(this.getProgramByDay(data, "lundi"));
-
+        
         if(data) return res.status(201).json({ data: programByDay })
 
         return res.status(500).json({ error })
@@ -50,6 +46,12 @@ class PlanifiedController {
         return programByDay
     }
 
+    /**
+     * Create program 
+     * @param {Object} req request
+     * @param {Object} res response
+     * @returns {Object} message or error
+     */
     static createProgram = async (req, res) => {
 
         //extract data from request body
@@ -69,6 +71,27 @@ class PlanifiedController {
         const { data, error } = await PlanifiedModel.createProgram(req.body)
 
         if(data) return res.status(201).json({ data })
+        return res.status(500).json({ error })
+    }
+
+    static deleteProgram = async (req, res) => {
+
+        const { 
+            idAdmin, 
+            codeCours, 
+            idSalle, 
+            idJour, 
+            heureDebut
+        } = req.body
+
+        const checkData = (idAdmin && codeCours, idSalle && idJour, heureDebut) ? true : false
+
+        if(!checkData) return res.status(400).json({ error: "Provide all the required data to delete this program" })
+
+        //delete program
+        const { data, error } = await PlanifiedModel.deleteProgram(req.body)
+
+        if(data) return res.status(200).json({ data })
         return res.status(500).json({ error })
     }
 }
