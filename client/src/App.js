@@ -6,6 +6,7 @@ import ModalProvider from './datamanager/providers/modalProvider';
 import CurrentUserProvider from './datamanager/providers/currentUserProvider';
 import ToastProvider from './datamanager/providers/toastProvider';
 import PlanningNavigationProvider from './datamanager/providers/planningNavigationProvider';
+import FacultyProvider from './datamanager/providers/facultyProvider';
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
           <ModalProvider>
             <PlanningNavigationProvider>
               <ToastProvider>
-                <Navigation />
+                <FacultyProvider>
+                  <Navigation />
+                </FacultyProvider>
               </ToastProvider>
             </PlanningNavigationProvider>
           </ModalProvider>
