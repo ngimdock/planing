@@ -1,0 +1,63 @@
+/* Style for Class page */
+
+.classTitle {
+    padding: 15px;
+    height: 20px;
+    border: 1px solid #e0dddd;
+    border-radius: 10px 10px 0 0;
+    color: #3b3e41;
+    font-weight: bold;
+    font-size: 18px;
+    width: calc(100% - 30px);
+    background-color: #fff;
+}
+
+.classBody {
+    padding: 15px;
+    height: auto;
+    border: 1px solid #e0dddd;
+    border-radius: 0 0 10px 10px;
+    width: calc(100% - 30px);
+    background-color: #fff;
+}
+
+/* Table content */
+  
+.tableContainer {
+    width: 100%;
+    /* border: 1px solid #eee; */
+    background-color: #eee;
+}
+  
+.tableHeader {
+    width: 100%;
+    background-color: #fff;
+}
+  
+.tableHeader > th {
+    width: calc(1400px / 8);
+    height: auto;
+    padding: 10px;
+}
+  
+.tableRow {
+    width: 100%;
+    border-top: 2px solid #ccc;
+}
+  
+.tableCell {
+    width: calc(1400px / 8);
+    min-height: 200px;
+    height: auto;
+    border: 0;
+}
+  
+  /* Inner cell text style */
+
+.cellText {   
+    padding-left: 1em;
+    color: #3b3e41;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #fff;
+}
