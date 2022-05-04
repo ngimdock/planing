@@ -38,29 +38,21 @@ class planifiedModel {
      */
     static getPrograms = async () => {
 
-        const query = `SELECT P.codeCours, C.descriptionCours, nomSal, matriculeEns, CxE.nomEns, nomJour, heureDebut, heureFin
-                       FROM Programmer P, Cours C,  Salle S, Jour J, (
-                            SELECT nomEns
-                            FROM Cours C, Enseignant E
-                            WHERE C.matriculeEns = E.matriculeEns
-                       ) CxE
+        const query = `SELECT P.codeCours, C.descriptionCours, nomSal, matriculeEns, nomJour, heureDebut, heureFin
+                       FROM Programmer P, Cours C,  Salle S, Jour J
                        WHERE (P.idSalle = S.idSalle) AND (P.codeCours = C.codeCours) AND (P.idJour = J.idJour)
                        ORDER BY J.nomJour ASC
                        `
-
+        
         const query2 = `
             SELECT nomEns
             FROM Cours C, Enseignant E
             WHERE C.matriculeEns = E.matriculeEns
         `
-
+                       
         try{
             const [rows] = await connection.execute(query)
-            const result = await connection.execute(query2)
 
-            console.log(result[0]);
-
-            console.log(`hello "BOY" `);
 
             return{ data: rows }
         }catch(err){
