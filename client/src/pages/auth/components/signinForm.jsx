@@ -7,6 +7,7 @@ import { verifyEmail } from "../../../utils/regex"
 import CurrentUserContext from '../../../datamanager/contexts/currentUserContext'
 import { Navigate } from 'react-router-dom'
 import LinearLoader from "../../../components/utils/loaders/linearLoader"
+import ToastContext from "../../../datamanager/contexts/toastContext"
 
 const SigninForm = () => {
   // Set local state
@@ -17,6 +18,7 @@ const SigninForm = () => {
 
   // Get global data
   const { login } = useContext(CurrentUserContext)
+  const { showToast } = useContext(ToastContext)
 
   const passwordError = useMemo(() => {
     const isNotOk = password.length > 0 && password.length <= 4
@@ -77,9 +79,14 @@ const SigninForm = () => {
         // Login the user
         login(payload)
 
+        // Show toast
+        showToast(`Bienvenu ${payload.name}`)
+
         setRedirectToDashboard(true)
       } else {
         console.log(error)
+
+        showToast("Soit votre adresse email soit votre mot de passe est incorrect", "error")
       }
     }
   }

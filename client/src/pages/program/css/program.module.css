@@ -1,0 +1,51 @@
+/* Style for Program page */
+
+/* Animation section */
+
+.containerList {
+  transform: translateX(0);
+  transition: transform 0.4s ease-in-out;
+}
+
+.containerListClasses {
+  transform: translateX(-100%);
+}
+
+.containerListPrograms {
+  transform: translateX(-200%);
+}
+
+/* Table content */
+
+.tableContainer {
+  width: 100%;
+  /* border: 1px solid #eee; */
+  background-color: #eee;
+}
+
+.tableHeader {
+  width: 100%;
+  background-color: #b1e3ff;
+}
+
+.tableHeader > th {
+  width: calc(1400px / 8);
+  height: auto;
+  padding: 10px;
+}
+
+.tableRow {
+  width: 100%;
+  border-top: 2px solid #ccc;
+}
+
+.tableCell {
+  width: calc(1400px / 8);
+  min-height: 200px;
+  height: auto;
+  border: 0;
+}
+
+.tableCell:not(:first-child):hover {
+  background-color: #fff2e4 !important;
+}

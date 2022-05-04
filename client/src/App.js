@@ -5,6 +5,7 @@ import NavigationProvider from './datamanager/providers/navigationProvider';
 import ModalProvider from './datamanager/providers/modalProvider';
 import CurrentUserProvider from './datamanager/providers/currentUserProvider';
 import ToastProvider from './datamanager/providers/toastProvider';
+import PlanningNavigationProvider from './datamanager/providers/planningNavigationProvider';
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
       <CurrentUserProvider>
         <NavigationProvider>
           <ModalProvider>
-            <ToastProvider>
-              <Navigation />
-            </ToastProvider>
+            <PlanningNavigationProvider>
+              <ToastProvider>
+                <Navigation />
+              </ToastProvider>
+            </PlanningNavigationProvider>
           </ModalProvider>
         </NavigationProvider>
       </CurrentUserProvider>
