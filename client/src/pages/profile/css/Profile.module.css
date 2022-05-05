@@ -1,84 +1,93 @@
-.Container header {
-  height: 75px;
-  background-color: #03045e;
-  border-radius: 10px 10px 0 0;
-  width: 100%;
+.Container{
+    width: 755px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
 }
-.UserInfo {
-  display: flex;
-  flex-direction: row;
-  background-color: #fff;
-  flex-wrap: wrap;
-  width: auto;
-  height: auto;
-  padding-bottom: 20px;
-  border: 1px solid #ddd;
+.Container header{
+    height: 75px;
+    background-color:#03045E;
+    border-radius:  10px 10px 0 0;
+    width: calc(100%-100px);
 }
-.contentProfil {
-  display: flex;
+.UserInfo{
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    flex-wrap: wrap;
+    width: auto;
+    height: 160px;
+    border: 1px solid rgb(192, 187, 187);
 }
-.ImageContainer {
-  position: relative;
-  width: 130px;
-  height: 50px;
+.contentProfil{
+    display: flex;
 }
-.ImageProfil {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  position: relative;
-  top: -60px;
-  margin-left: 20px;
-  object-fit: cover;
-  z-index: 3;
+.ImageProfil{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    position: relative;
+    top: -60px;
+    margin-left: 20px;
+    object-fit: cover;
 }
-.UserInfoTop {
-  position: relative;
-  width: calc(100% - 130px);
+.PersonnalInfo{
+    font-size: 20px;
+    font-weight: bold;
+    color: #3b3e41;
+    margin-left: 20px;
 }
-.PersonnalInfo {
-  font-size: 20px;
-  font-family: "Nunito-Bold";
-  color: #3b3e41;
-  margin-left: 20px;
-  margin-top: 40px;
+.Administrator{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    margin-top: 10px;
 }
-.Administrator {
-  display: flex;
-  flex-direction: column;
-  margin-left: 30px;
-  margin-top: 10px;
+.NameUser{
+    font-size: 25px;
+    font-weight: bold;
+    color: #3b3e41;
 }
-.NameUser {
-  font-size: 25px;
-  color: #3b3e41;
-  font-family: "Nunito-Bold";
+.UserRule{
+    font-size: 14px;
+    color: rgb(75, 71, 71);
 }
-.UserRule {
-  font-size: 14px;
-  color: rgb(75, 71, 71);
+.ButtonAdmin{
+    height: 30px;
+    width: 110px;
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 280px;
+    border: 2px solid #FF8500;
+    color:#FF8500;
+    font-weight: bold;
+    background-color: #fff;
+    border-radius: 20px;
 }
-.ButtonAdmin {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  height: 40px;
+.information_content{
+    display: flex;
+    flex-direction: column;
+    padding-left:20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom:1px solid rgb(192, 187, 187);
+    border-left:1px solid rgb(192, 187, 187);
+    border-right:1px solid rgb(192, 187, 187);
+    background-color: #fff;
 }
-.information_content {
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  border-bottom: 1px solid #ddd;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  background-color: #fff;
+.info{
+    color: gray;
 }
-.information_content span:last-child {
-  font-size: 16px;
-  margin-top: 10px;
-}
-.info {
-  color: gray;
+.information_cont{
+    display: flex;
+    flex-direction: column;
+    padding-left:20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom:1px solid rgb(192, 187, 187);
+    border-left:1px solid rgb(192, 187, 187);
+    border-right:1px solid rgb(192, 187, 187);
+    border-radius: 0 0 10px 10px;
+    background-color: #fff;
 }
