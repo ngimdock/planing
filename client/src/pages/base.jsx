@@ -12,6 +12,10 @@ import CurrentUserContext from "../datamanager/contexts/currentUserContext"
 import ModalContext from "../datamanager/contexts/modalContext"
 import NavigationContext from "../datamanager/contexts/navigationContext"
 import ToastContext from "../datamanager/contexts/toastContext"
+import useGetFaculties from "../hooks/useGetFaculties"
+import useGetLevels from "../hooks/useGetLevels"
+import useGetSpecialities from "../hooks/useGetSpecialities"
+import useGetTeachers from "../hooks/useGetTeachers"
 
 const BaseLayout = ({ children }) => {
   // Get information about the current page from URL
@@ -39,6 +43,12 @@ const BaseLayout = ({ children }) => {
       getCurrentUser()
     }
   }, [currentUser])
+
+  // Fetch Data section
+  useGetFaculties()
+  useGetLevels()
+  useGetSpecialities()
+  useGetTeachers()
 
   // Some handlers
   const getCurrentUser = async () => {

@@ -8,9 +8,9 @@ class SpecialityController {
      * @returns Object data | error
      */
     static getSpecialities = async (req, res) => {
-        const data = await SpecialityModel.get()
+        const { data } = await SpecialityModel.get()
 
-        if(data.length > 0) {
+        if (data !== undefined) {
             res.status(200).json(data)
         } else {
             res.status(500).json({ error : " An error occured " })
@@ -50,9 +50,9 @@ class SpecialityController {
 
         if(nomSpecialite && typeof nomSpecialite === 'string' && nomSpecialite != '') {
 
-            const { response, data } = await SpecialityModel.create(req.body)
+            const { data } = await SpecialityModel.create(req.body)
 
-            if(response && response > 0 && data) {
+            if(data) {
                 return res.status(201).json(data)
             } else {
                 return res.status(500).json({ error: "An error occured" })

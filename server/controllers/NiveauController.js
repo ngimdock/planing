@@ -1,6 +1,13 @@
 import NiveauModel from "../models/NiveauModel.js"
 
 class NiveauController {
+	static findAllNiveau = async (req, res) => {
+		const { data, error } = await NiveauModel.findAll()
+
+		if (data) return res.json({ data })
+
+		return res.status(500).json({ error })
+	}
 	
 	static createNiveau = async (req, res) => {
 		// Get data from request body

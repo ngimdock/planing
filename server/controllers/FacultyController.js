@@ -3,9 +3,12 @@ import FacultyModel from "../models/FacultyModel.js"
 class FacultyController {
 
 	static getFaculties = async (req, res) => {
-		res.send("This is all faculty")
-	}
+		const { data, error } = await FacultyModel.findAll()
 
+		if (data) return res.json({ data })
+
+		return res.status(500).json({ error })
+	}
 	
 	static createFaculty = async (req, res) => {
 

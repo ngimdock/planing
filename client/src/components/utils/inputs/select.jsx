@@ -50,7 +50,7 @@ const Select = ({
         sx={{
           borderRadius: rounded ? 50:1,
           fontSize: fontSize && fontSize,
-          fontFamily: "Nunito-Bold",
+          fontFamily: "Nunito-Regular",
           paddingBlock: "auto"
         }}
       >
@@ -58,14 +58,14 @@ const Select = ({
           value=""
           sx={{
             fontSize: fontSize && fontSize,
-            fontFamily: "Nunito-Bold"
+            fontFamily: "Nunito-Regular"
           }}  
         >
           <em>Vide</em>
         </MenuItem>
 
         {
-          options && options.map((option) => <MenuItem value={option.value} sx={{ fontSize: fontSize && fontSize - 2, fontFamily: "Nunito-Bold" }}>{ option.label }</MenuItem>)
+          options && options.map((option) => <MenuItem value={option.value} sx={{ fontSize: fontSize && fontSize - 2, fontFamily: "Nunito-Regular" }}>{ option.label }</MenuItem>)
         }
       </SelectCore>
     </FormControl>

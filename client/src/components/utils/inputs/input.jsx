@@ -37,10 +37,10 @@ const Input = ({
         "&:hover": {
           borderColor: "#ccc",
         },
-        fontFamily: "Nunito-Regular",
         marginBottom: 2,
         "&  input": {
-          pr: pr && pr
+          pr: pr && pr,
+          fontFamily: "Nunito-Regular",
         }
       }}  
       onChange={onChange}

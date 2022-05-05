@@ -34,6 +34,23 @@ class FacultyModel {
 			return { error: err }
 		}
 	}
+
+	static async findAll () {
+		const query = `
+			SELECT *
+			FROM Filiere
+			ORDER BY nomFil ASC
+		`
+
+		try {
+			const [rows] = await connection.execute(query)
+
+			return { data: rows }
+		} catch (err) {
+			console.log(err)
+			return { error: "An error occured" }
+		}
+	}
 }
 
 export default FacultyModel

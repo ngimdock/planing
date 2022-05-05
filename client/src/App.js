@@ -6,6 +6,10 @@ import ModalProvider from './datamanager/providers/modalProvider';
 import CurrentUserProvider from './datamanager/providers/currentUserProvider';
 import ToastProvider from './datamanager/providers/toastProvider';
 import PlanningNavigationProvider from './datamanager/providers/planningNavigationProvider';
+import FacultyProvider from './datamanager/providers/facultyProvider';
+import LevelProvider from './datamanager/providers/levelProvider';
+import SpecialityProvider from './datamanager/providers/specialityProvider';
+import TeacherProvider from './datamanager/providers/teacherProvider';
 
 function App() {
   return (
@@ -15,7 +19,15 @@ function App() {
           <ModalProvider>
             <PlanningNavigationProvider>
               <ToastProvider>
-                <Navigation />
+                <FacultyProvider>
+                  <LevelProvider>
+                    <SpecialityProvider>
+                      <TeacherProvider>
+                        <Navigation />
+                      </TeacherProvider>
+                    </SpecialityProvider>
+                  </LevelProvider>
+                </FacultyProvider>
               </ToastProvider>
             </PlanningNavigationProvider>
           </ModalProvider>
