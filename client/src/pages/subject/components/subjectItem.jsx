@@ -1,17 +1,18 @@
 import React from 'react'
 import { FiEdit2} from 'react-icons/fi'
 import {RiDeleteBin6Line} from 'react-icons/ri'
-import styles from "../css/levelStyle.module.css"
+import styles from "../css/subjetStyle.module.css"
 
-const LevelItem = ({ name ,color}) => {
+const SubjectItem = ({ title, value, color }) => {
    
     return (
-        <div className={styles.levelItem}
+        <div className={styles.subjectItem}
             style={{
             backgroundColor: color
           }}  >
-              <span> { name }  </span>
-              <div className={styles.levelIcon}>
+            <span className={styles.Description}> { title } </span>
+            <span className={styles.number}> { value } </span>
+            <div className={styles.levelIcon}>
                 <FiEdit2
                   size="18"
                   color="#3b3e41"
@@ -26,4 +27,4 @@ const LevelItem = ({ name ,color}) => {
   )
 }
 
-export default LevelItem;
+export default SubjectItem;
