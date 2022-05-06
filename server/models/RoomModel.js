@@ -67,7 +67,7 @@ class RoomModel {
 		try{
 			const [rows] = await connection.execute(query, [payload.nomSal, payload.capaciteSal])
 
-			return{ data: {...rows} }
+			return{ data: {id: rows.insertId, ...payload} }
 		}catch(err){
 			console.log(err)
 

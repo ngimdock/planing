@@ -7,7 +7,7 @@ class RoomController {
         const { data, error } = await RoomModel.getRooms()
 
         if(data) return res.status(200).json({ data })
-        return res.status(400).json({ error })
+        return res.status(500).json({ error })
     }
 
     static getRoom = async (req, res) => {
@@ -34,7 +34,7 @@ class RoomController {
             //create on db
             const { data, error } = await RoomModel.create(req.body)
 
-            if(data) return res.status(201).json("Room was created on successfully")
+            if(data) return res.status(201).json(data)
 
             return res.status(500).json({ error })
         }

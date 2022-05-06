@@ -14,6 +14,7 @@ import NavigationContext from "../datamanager/contexts/navigationContext"
 import ToastContext from "../datamanager/contexts/toastContext"
 import useGetFaculties from "../hooks/useGetFaculties"
 import useGetLevels from "../hooks/useGetLevels"
+import useGetRooms from "../hooks/useGetRooms"
 import useGetSpecialities from "../hooks/useGetSpecialities"
 import useGetTeachers from "../hooks/useGetTeachers"
 
@@ -49,6 +50,7 @@ const BaseLayout = ({ children }) => {
   useGetLevels()
   useGetSpecialities()
   useGetTeachers()
+  useGetRooms()
 
   // Some handlers
   const getCurrentUser = async () => {
