@@ -29,15 +29,16 @@ class ClassModel {
 
     static async create(data) {
 		const { 
-            codeClasse,
-            nomClasse,
-            capaciteClasse,
-            idFil,
-            idNiv
-        } = data
+      codeClasse,
+      nomClasse,
+      capaciteClasse,
+      idFil,
+      idNiv
+    } = data
         
-        const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
-        console.log(value)
+    const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
+    console.log(value)
+
 		const query = `
       INSERT INTO Classe
       (codeClasse, 
@@ -49,14 +50,14 @@ class ClassModel {
     `
 
 		try {
-            console.log(value)
+      console.log(value)
 			// insert row in Classe table 
             
-			const [rows] = await connection.execute(query, [codeClasse, nomClasse, capaciteClasse, idFil, idNiv])
+			const [rows] = await connection.execute(query, value)
 			console.log("rows",{ rows })
 			return { data: {...data } }
 		} catch(err){
-            console.error(err)
+      console.error(err)
 
 			return { error: err }
 		}
@@ -106,17 +107,18 @@ class ClassModel {
   static async update ( codeClasse, data ){
     const query = "UPDATE Classe SET nomClasse = ?, capaciteClasse = ?, idFil = ?, idNiv = ?  WHERE codeClasse=? "
     const {
-        nomClasse, 
-        capaciteClasse, 
-        idFil, 
-        idNiv } = data
+      nomClasse, 
+      capaciteClasse, 
+      idFil, 
+      idNiv
+      } = data
 
     try {
-        const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
-        return {data : rows}
+      const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
+      return {data : rows}
     } catch (error) {
-        console.log(error)
-        return {error: error}
+      console.log(error)
+      return {error: error}
     }   
   }
 
@@ -129,7 +131,7 @@ class ClassModel {
         console.log(error)
         return {error: error}
     }   
-}
+  }
 
 }
 

@@ -2,6 +2,7 @@ import AdminModel from "./AdminModel.js"
 import FacultyModel from "./FacultyModel.js"
 import NiveauModel from "./NiveauModel.js"
 import ClassModel from './ClassModel.js';
+import Classe_specModel from './Classe_specModel.js'
 import RoomModel from './RoomModel.js';
 import TeacherModel from "./TeacherModel.js";
 import SpecialityModel from "./SpecialityModel.js";
@@ -18,6 +19,7 @@ export const initializeDB = async () => {
     await FacultyModel.init()
     await NiveauModel.init()
     await ClassModel.init()
+    await Classe_specModel.init()
     await RoomModel.init()
     await TeacherModel.init()
     await SpecialityModel.init()
