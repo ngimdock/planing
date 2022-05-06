@@ -119,7 +119,7 @@ class ClassController {
 
 	static updateClass = async (req, res) =>{
 		
-		const { codeClasse, specialities } = req.body
+		const { codeClasse, nomClasse, capaciteClasse, idFil, idNiv, specialities, groups } = req.body
 		if ( codeClasse ){
 
 			const { data } = await ClassModel.findOne(codeClasse)
@@ -127,31 +127,51 @@ class ClassController {
 				res.status(400).json({message:"not found objet" })
 			}
 			else {
-
-				const {data: newData, error} = await ClassModel.update(codeClasse, req.body)
-				if ( newData ){
-
-					let isSet = true
+				let isSet = true
+				if (specialities) {
+					const { data: dataSpec } = await Classe_specModel.findAllSpec(codeClasse)
+					if (dataSpec) {
+						console.log("dataFound", dataSpec)
+	
+						for(let classe_spec of dataSpec){
+							const {codeClass, idSpec} = classe_spec
+	
+							if (codeClass && idSpec ) {
+								
+								const { data:dataDel, error} = await Classe_specModel.delete(codeClasse, idSpec)
+								console.log(dataDel)
+								if (error){
+									return res.status(500).json({error: error})
+								}
+							}
+						}
+					} 
 
 					for (let speciality of specialities) {
-						const { idSpec, capacity } = speciality
-	
-						const { data } = await Classe_specModel.update(codeClasse, { idSpec, capacity})
-	
-						if (data) {
-							// update groups
-						} else {
-							isSet = false
-							break
-						}
-					}
 
-					if (isSet){
-						return res.status(201).json({message: "sucessful update a Classe_spec "})
+						const { idSpec, capacity} = speciality
+						const  {data:dataUpdated, error }  = await Classe_specModel.create({codeClasse, idSpec, capacity})
+						console.log("spec", dataUpdated)
+						
+						if (error) {
+							return res.status(500).json({error:error})
+						}
+					
 					}
 				}
+
+				if (nomClasse && capaciteClasse && idFil && idNiv) {
+					const {data: newData} = await ClassModel.update(codeClasse, {nomClasse, capaciteClasse, idFil, idNiv})
+					if (!newData) {
+						isSet = false
+					}
+				}
+
+				if (isSet){
+					return res.status(201).json({message: "sucessful update a Classe_spec "})
+				}
 					
-				return res.status(400).json({error: error})
+				return res.status(400).json({error: "an error occured with update classe_spec or groups"})
 			}
 			return res.status(500).json({ error: "an error occured with updated Class" })
 		}

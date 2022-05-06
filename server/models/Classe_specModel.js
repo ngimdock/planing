@@ -39,7 +39,7 @@ class Classe_specModel{
         try {
           const [rows] = await connection.execute(query, [codeClasse, idSpec])
     
-          console.log(rows)
+          console.log("rows", rows)
           return {data : rows}
         } catch (err) {
           console.error(err)
@@ -101,8 +101,10 @@ class Classe_specModel{
         const query = "UPDATE Classe_spec SET idSpec = ?, capacite = ? WHERE codeClass = ? "
     
         try {
-            const [rows] = await connection.execute(query, [ idSpec, capacity, codeClasse])
-            return {data : rows}
+          console.log([ idSpec, capacity, codeClasse])
+          const [rows] = await connection.execute(query, [ idSpec, capacity, codeClasse])
+          console.log(rows)
+          return {data : rows}
         } catch (error) {
             console.log(error)
             return {error: error}
