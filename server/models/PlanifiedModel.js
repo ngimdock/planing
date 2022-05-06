@@ -75,90 +75,135 @@ class planifiedModel {
 
             // Format data section
 
-            // Initial data
-            const programsByFaculties = []
-
-            // Some handlers
-
-            /**
-             * Get the position of the program that match the faculty arg
-             * @param {string} faculty 
-             */
-            const getFacultyAndClassIndex = (faculty, classCode) => {
-                // Get index of faculty
-                const facIndex = programsByFaculties.findIndex(prog => prog.facultyName === faculty)
-
-                if (facIndex > -1) {
-                    // Get index of class
-                    const classIndex = programsByFaculties[facIndex].classes.findIndex(myClass => myClass.code === classCode)
-                
-                    if (classIndex > -1) return { facIndex, classIndex }
-
-                    return { facIndex }
-                }
-
-                return {}
-            }
-
-            // Loop through the rows and organize the program
-            for (let prog of rows) {
-                // Initial data of program
-                const program = {
-                    subjectCode: prog.codeCours,
-                    subjectDescription: prog.descriptionCours,
-                    roomName: prog.nomSal,
-                    teacherName: prog.nomEns,
-                    day: prog.nomJour,
-                    group: prog.nomGroupe,
-                    startHour: prog.heureDebut,
-                    endHour: prog.heureFin
-                }
-
-                // Get indexes of faculty and class
-                const { facIndex, classIndex } = getFacultyAndClassIndex(prog.nomFil, prog.codeClasse)
-
-                // If these tow indexes exist
-                if (facIndex !== undefined && classIndex !== undefined) {
-                    // Put facProgram inside the list of faculties programs
-                    programsByFaculties[facIndex].classes[classIndex].programs[program.day].push(program)
-                } else {
-                    // Initial data for class program
-                    const myClass = {
-                        code: prog.codeClasse,
-                        programs: {
-                            "Lundi": [],
-                            "Mardi": [],
-                            "Mercredi": [],
-                            "Jeudi": [],
-                            "Vendredi": [],
-                            "Samedi": [],
-                            "Dimanche": []
-                        }
-                    }
-
-                    // Put program inside class program
-                    myClass.programs[program.day].push(program)
-
-                    if (facIndex !== undefined) {
-                        programsByFaculties[facIndex].classes.push(myClass)
-                    } else {
-                        // Initial data of faculty program
-                        const facProgram = {
-                            facultyName: prog.nomFil,
-                            classes: [myClass]
-                        }
-    
-                        // Put facProgram inside the list of faculties programs
-                        programsByFaculties.push(facProgram)
-                    }
-                }
-            }
+            const programsByFaculties = this.FormatProgram(rows)
 
             return{ data: programsByFaculties }
         }catch(err){
 
             console.log(err.message);
             return { error: "An error occured while geting Programs" }
+        }
+    }
+
+    static FormatProgram = (data, type = "all") => {
+        // Some handlers
+
+        /**
+         * Get the position of the program that match the faculty arg
+         * @param {string} faculty 
+         */
+         const getFacultyAndClassIndex = (faculty, classCode) => {
+            // Get index of faculty
+            const facIndex = programsByFaculties.findIndex(prog => prog.facultyName === faculty)
+
+            if (facIndex > -1) {
+                // Get index of class
+                const classIndex = programsByFaculties[facIndex].classes.findIndex(myClass => myClass.code === classCode)
+            
+                if (classIndex > -1) return { facIndex, classIndex }
+
+                return { facIndex }
+            }
+
+            return {}
+        }
+
+        // Initial data
+        const programsByFaculties = []
+
+        // Loop through the rows and organize the program
+        for (let prog of data) {
+            // Initial data of program
+            const program = {
+                subjectCode: prog.codeCours,
+                subjectDescription: prog.descriptionCours,
+                roomName: prog.nomSal,
+                teacherName: prog.nomEns,
+                day: prog.nomJour,
+                group: prog.nomGroupe,
+                startHour: prog.heureDebut,
+                endHour: prog.heureFin
+            }
+
+            // Get indexes of faculty and class
+            const { facIndex, classIndex } = getFacultyAndClassIndex(prog.nomFil, prog.codeClasse)
+
+            // If these tow indexes exist
+            if (facIndex !== undefined && classIndex !== undefined) {
+                // Put facProgram inside the list of faculties programs
+                programsByFaculties[facIndex].classes[classIndex].programs[program.day].push(program)
+            } else {
+                // Initial data for class program
+                const myClass = {
+                    code: prog.codeClasse,
+                    programs: {
+                        "Lundi": [],
+                        "Mardi": [],
+                        "Mercredi": [],
+                        "Jeudi": [],
+                        "Vendredi": [],
+                        "Samedi": [],
+                        "Dimanche": []
+                    }
+                }
+
+                // Put program inside class program
+                myClass.programs[program.day].push(program)
+
+                if (facIndex !== undefined) {
+                    programsByFaculties[facIndex].classes.push(myClass)
+                } else {
+                    // Initial data of faculty program
+                    const facProgram = {
+                        facultyName: prog.nomFil,
+                        classes: [myClass]
+                    }
+
+                    // Put facProgram inside the list of faculties programs
+                    programsByFaculties.push(facProgram)
+                }
+            }
+        }
+
+        return type === "faculty" ? programsByFaculties[0] : programsByFaculties
+    }
+
+    static getProgramsByFaculty = async (payload) => {
+        const { 
+            idAnneeAca, 
+            idSemestre,
+            idFiliere
+        } = payload
+
+        const query = `
+            SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
+            FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
+            WHERE (C.idSemestre = (?))
+            AND (Se.idAnneeAca = (?))
+            AND (C.idSemestre = Se.idSemestre)
+            AND (E.matriculeEns = C.matriculeEns)
+            AND (P.idSalle = S.idSalle) 
+            AND (P.codeCours = C.codeCours) 
+            AND (P.idJour = J.idJour) 
+            AND (C.codeCours = Sui.codeCours)
+            AND (Sui.idGroupe = G.idGroupe)
+            AND (Cla.CodeClasse = G.codeClasse)
+            AND (Cla.idFil = ?)
+            AND (Cla.idFil = F.idFil)
+            ORDER BY J.nomJour ASC
+        `
+
+        try{
+            const [rows] = await connection.execute(query, [idSemestre, idAnneeAca, idFiliere])
+
+            // Format program
+            const programsByFaculty = this.FormatProgram(rows, "faculty")
+
+            return { data: { data: programsByFaculty } }
+        } catch (err) {
+            console.log(err)
+
+            return { error: "An error occured" }
         }
     }
 
