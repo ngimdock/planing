@@ -7,11 +7,11 @@ const useGetSpecialities = () => {
   const { addSpecialities } = useContext(SpecialityContext)
 
   useEffect(() => {
-    handleGetLevels()
+    handleGetSpecialities()
   }, [])
 
   // Some handlers
-  const handleGetLevels = async () => {
+  const handleGetSpecialities = async () => {
     const { data } = await SpecialityAPI.getAll()
 
     if (data) {

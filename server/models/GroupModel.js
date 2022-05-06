@@ -15,7 +15,7 @@ class GroupModel {
           nomGroupe VARCHAR(255) NOT NULL,
           capaciteGroupe INTEGER NOT NULL,
           codeClasse VARCHAR(255) NOT NULL,
-          idSpecialite INTEGER NOT NULL,
+          idSpecialite INTEGER,
           CONSTRAINT FK_ClasseGroupe 
           FOREIGN KEY(codeClasse) REFERENCES Classe (codeClasse),
           CONSTRAINT FK_SpecialiteGroupe
@@ -68,26 +68,21 @@ class GroupModel {
      * @returns data | error
      */
      static async getById(idGroupe) {
+      
       const sql = `
         SELECT * FROM Groupe WHERE idGroupe = ?
       `
-
       try {
-
-        const response = await connection.execute(sql, [idGroupe]).then(([result]) => {
-          return [...result]
-        }).catch(error => {
-          console.log(error)
-
-          return { error }
-        })
-
-        return response
-      } catch(err) {
-        console.log(err) 
-
-        return { error : err }
+        const [rows] = await connection.execute(sql, [idGroupe])
+  
+        console.log(rows)
+        return {data : rows}
+      } catch (err) {
+        console.error(err)
+  
+        return { error: "An error occured while getting  Class" }
       }
+   
     }
 
     /**
@@ -101,26 +96,37 @@ class GroupModel {
         nomGroupe,
         capaciteGroupe,
         codeClasse,
-        idSpecialite
+        idSpec
       } = data
-
+      console.log(data);
       const sql = `
         INSERT INTO Groupe (nomGroupe, capaciteGroupe, codeClasse, idSpecialite) VALUES (?, ?, ?, ?)
       `
-
       try {
-        const response = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite]).then(([result]) => {
-          return result.affectedRows
-        }).catch(error => {
-          return { error }
-        })
+        
+        // insert row in Group
+        const [rows] = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpec] )
 
-        return { response, data }
-      } catch(err) {
-        console.log(err)
+        console.log({ rows })
+        return { data }
+      } catch(err){
 
-        return { error : err }
+        console.error(err)
+        return { error: err }
       }
+      // try {
+      //   const response = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpec]).then(([result]) => {
+      //     return result.affectedRows
+      //   }).catch(error => {
+      //     return { error }
+      //   })
+
+      //   return { response, data }
+      // } catch(err) {
+      //   console.log(err)
+
+      //   return { error : err }
+      // }
     }
 
     /**
@@ -143,19 +149,12 @@ class GroupModel {
       `
 
       try {
-        const response = await connection.query(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe]).then(([result]) => {
-          return result.affectedRows
-        }).catch(error => {
-          console.log(error)
-          return { error }
-        })
-
-        return response
-      } catch(err) {
-        console.log(err)
-        
-        return { error : err }
-      }
+        const [rows] = await connection.execute(sql, [nomGroupe, capaciteGroupe, codeClasse, idSpecialite, idGroupe])
+        return {data : rows}
+      } catch (error) {
+        console.log(error)
+        return {error: error}
+      } 
     }
 
     /**

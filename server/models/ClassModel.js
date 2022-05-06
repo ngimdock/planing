@@ -29,33 +29,35 @@ class ClassModel {
 
     static async create(data) {
 		const { 
-            codeClasse,
-            nomClasse,
-            capaciteClasse,
-            idFil,
-            idNiv
-        } = data
+      codeClasse,
+      nomClasse,
+      capaciteClasse,
+      idFil,
+      idNiv
+    } = data
         
-        const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
-        console.log(value)
+    const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
+    console.log(value)
+
 		const query = `
-            INSERT INTO Classe
-            (codeClasse, 
-             nomClasse, 
-             capaciteClasse, 
-             idFil, 
-             idNiv
-            ) VALUES (?,?,?,?,?)`
+      INSERT INTO Classe
+      (codeClasse, 
+        nomClasse, 
+        capaciteClasse, 
+        idFil, 
+        idNiv
+      ) VALUES (?,?,?,?,?)
+    `
 
 		try {
-            console.log(value)
+      console.log(value)
 			// insert row in Classe table 
             
-			const [rows] = await connection.execute(query, [codeClasse, nomClasse, capaciteClasse, idFil, idNiv])
+			const [rows] = await connection.execute(query, value)
 			console.log("rows",{ rows })
-			return { data: true }
+			return { data: {...data } }
 		} catch(err){
-            console.error(err)
+      console.error(err)
 
 			return { error: err }
 		}
@@ -67,17 +69,57 @@ class ClassModel {
     const query = `
       SELECT * 
       FROM Classe C, Niveau N, Filiere F
-      WHERE C.idNiv =  N.idNiv AND C.idFil = F.idFil 
+      WHERE C.idNiv =  N.idNiv 
+      AND C.idFil = F.idFil
     ` 
+  
     try {
       const [rows] = await connection.execute(query)
 
-      console.log(rows)
-      return {data : rows}
+      if (rows.length > 0) {
+        const classes = []
+
+        for (let myClass of rows) {
+          const { data, error } = await this.getSpecialities(myClass.codeClasse)
+          let specialities
+
+          if (error) specialities = []
+          else specialities = data
+
+          classes.push({
+            ...myClass,
+            specialities,
+            groups: []
+          })
+        }
+
+        return { data: classes }
+      }
+
+      return { data: rows }
     } catch (err) {
       console.error(err)
 
       return { error: "An error occured while getting all Classes" }
+    }
+  }
+
+  static async getSpecialities (idClass) {
+    const query = `
+      SELECT idSpecialite, nomSpecialite, C.capacite
+      FROM Classe_spec C, Specialite S
+      WHERE C.codeClass = ?
+      AND C.idSpec = S.idSpecialite
+    `
+
+    try {
+      const [rows] = await connection.execute(query, [idClass])
+
+      return { data: rows }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
     }
   }
 
@@ -103,17 +145,18 @@ class ClassModel {
   static async update ( codeClasse, data ){
     const query = "UPDATE Classe SET nomClasse = ?, capaciteClasse = ?, idFil = ?, idNiv = ?  WHERE codeClasse=? "
     const {
-        nomClasse, 
-        capaciteClasse, 
-        idFil, 
-        idNiv } = data
+      nomClasse, 
+      capaciteClasse, 
+      idFil, 
+      idNiv
+      } = data
 
     try {
-        const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
-        return {data : rows}
+      const [rows] = await connection.execute(query, [nomClasse, capaciteClasse, idFil, idNiv, codeClasse])
+      return {data : rows}
     } catch (error) {
-        console.log(error)
-        return {error: error}
+      console.log(error)
+      return {error: error}
     }   
   }
 
@@ -126,7 +169,7 @@ class ClassModel {
         console.log(error)
         return {error: error}
     }   
-}
+  }
 
 }
 

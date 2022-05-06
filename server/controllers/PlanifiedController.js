@@ -17,45 +17,30 @@ class PlanifiedController {
         const { data, error } = await PlanifiedModel.getAllPrograms({ idAnneeAca: Number(idAnneeAca), idSemestre: Number(idSemestre) })
 
         if(data){
-            const programByDay =  {
-                "Lundi" : this.getProgramByDay(data, "lundi"),
-                "Mardi" : this.getProgramByDay(data, "mardi"),
-                "Mercredi" : this.getProgramByDay(data, "mercredi"),
-                "Jeudi" : this.getProgramByDay(data, "jeudi"),
-                "Vendredi" : this.getProgramByDay(data, "vendredi"),
-                "Samedi" : this.getProgramByDay(data, "samedi"),
-                "Dimanche" : this.getProgramByDay(data, "dimanche")
-            }
-
-            return res.status(201).json({ data: programByDay })
+            return res.status(201).json({ data })
         }
 
         return res.status(500).json({ error })
     }
 
-    static getClassProgram = async (req, res) => {
+    static getProgramsByFaculty = async (req, res) => {
+        const {
+            idAnneeAca,
+            idSemestre,
+            idFiliere
+        } = req.params
 
-        const { idAnneeAca, idSemestre, codeClasse } = req.params
+        if (idAnneeAca && idSemestre && idFiliere) {
+            const { data, error } = await PlanifiedModel.getProgramsByFaculty(req.params)
 
-        if(!idAnneeAca || !idSemestre || !codeClasse) return res.status(400).json({ error: "Provide all required data" })
-
-        const { data, error } = await PlanifiedModel.getAllPrograms({ idAnneeAca: Number(idAnneeAca), idSemestre: Number(idSemestre), codeClasse })
-
-        if(data){
-            const programByDay =  {
-                "Lundi" : this.getProgramByDay(data, "lundi"),
-                "Mardi" : this.getProgramByDay(data, "mardi"),
-                "Mercredi" : this.getProgramByDay(data, "mercredi"),
-                "Jeudi" : this.getProgramByDay(data, "jeudi"),
-                "Vendredi" : this.getProgramByDay(data, "vendredi"),
-                "Samedi" : this.getProgramByDay(data, "samedi"),
-                "Dimanche" : this.getProgramByDay(data, "dimanche")
+            if (data) {
+                return res.json({ data })
             }
 
-            return res.status(201).json({ data: programByDay })
+            return res.status(500).json({ error })
+        } else {
+            return res.status(400).json({ error: "Provide all the required data" })
         }
-
-        return res.status(500).json({ error })
     }
 
     /**

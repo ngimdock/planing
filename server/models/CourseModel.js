@@ -8,7 +8,7 @@ class CourseModel {
                 descriptionCours VARCHAR(200) NOT NULL,
                 idSemestre INTEGER NOT NULL,
                 matriculeEns VARCHAR(10) NOT NULL, 
-                idSpecialite INTEGER NOT NULL,
+                idSpecialite INTEGER,
                 CONSTRAINT FK_CoursEnseignant 
                 FOREIGN KEY(matriculeEns) REFERENCES Enseignant (matriculeEns),
                 CONSTRAINT FK_CoursSemestre 
