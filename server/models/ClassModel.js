@@ -68,7 +68,9 @@ class ClassModel {
     const query = `
       SELECT * 
       FROM Classe C, Niveau N, Filiere F
-      WHERE C.idNiv =  N.idNiv AND C.idFil = F.idFil 
+      WHERE C.idNiv =  N.idNiv 
+      AND C.idFil = F.idFil 
+      AND 
     ` 
     try {
       const [rows] = await connection.execute(query)
