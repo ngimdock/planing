@@ -11,6 +11,7 @@ import LevelProvider from './datamanager/providers/levelProvider';
 import SpecialityProvider from './datamanager/providers/specialityProvider';
 import TeacherProvider from './datamanager/providers/teacherProvider';
 import RoomProvider from './datamanager/providers/roomProvider';
+import ClassProvider from './datamanager/providers/classProvider';
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
                     <SpecialityProvider>
                       <TeacherProvider>
                         <RoomProvider>
-                          <Navigation />
+                          <ClassProvider>
+                            <Navigation />
+                          </ClassProvider>
                         </RoomProvider>
                       </TeacherProvider>
                     </SpecialityProvider>

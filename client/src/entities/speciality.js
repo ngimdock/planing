@@ -3,6 +3,7 @@
 class Speciality {
   id
   name
+  capacity
 
   constructor (data) {
     this.initialization(data)
@@ -11,12 +12,14 @@ class Speciality {
   initialization (data) {
     const {
       id,
-      name
+      name,
+      capacity
     } = data
 
     if (id && name) {
       this.id = id
       this.name = name
+      this.capacity = capacity ? capacity : null
     }
   }
 

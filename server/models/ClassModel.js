@@ -88,7 +88,8 @@ class ClassModel {
 
           classes.push({
             ...myClass,
-            specialities
+            specialities,
+            groups: []
           })
         }
 

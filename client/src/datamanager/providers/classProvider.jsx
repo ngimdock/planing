@@ -20,11 +20,33 @@ const ClassProvider = ({ children }) => {
    * @param {Array} data 
    */
   const handleAddClasses = (data) => {
-    const classes = data.map(room => {
-      return new Class({ id: room.idSalle, name: room.nomSal, capacity: room.capaciteSal })
+    const classes = data.map(myClass => {
+      // Format specialities
+      const specialities = myClass.specialities.map(spec => ({
+        id: spec.idSpecialite,
+        name: spec.nomSpecialite,
+        capacity: spec.capacite
+      }))
+
+      const classPayload = {
+        code: myClass.codeClasse,
+        name: myClass.nomClasse,
+        capacity: myClass.capaciteClasse,
+        faculty: {
+          id: myClass.idFil,
+          name: myClass.nomFil
+        },
+        level: {
+          id: myClass.idNiv,
+          name: myClass.nomFil
+        },
+        specialities,
+        groups: []
+      }
+      return new Class(classPayload)
     })
 
-    setRooms(classes)
+    setClasses(classes)
   }
 
   /**
@@ -53,7 +75,7 @@ const ClassProvider = ({ children }) => {
 
       classesPrevState.push(myClass)
 
-      setRooms(classesPrevState)
+      setClasses(classesPrevState)
     }
   }
 
@@ -81,3 +103,5 @@ const ClassProvider = ({ children }) => {
     </ClassContext.Provider>
   )
 }
+
+export default ClassProvider
