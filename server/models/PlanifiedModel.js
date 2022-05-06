@@ -68,6 +68,43 @@ class planifiedModel {
     }
 
     /**
+     * fetch the programs base on the year, semester and classes of the planing on database
+     * @returns {object}
+     */
+     static getClassPrograms = async (payload) => {
+
+        const { idAnneeAca, idSemestre, codeClasse } = payload
+
+        const query = `SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
+                        FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
+                        WHERE (C.idSemestre = (?))
+                        AND (Se.idAnneeAca = (?))
+                        AND (Cla.codeClass = (?))
+                        AND (C.idSemestre = Se.idSemestre)
+                        AND (E.matriculeEns = C.matriculeEns)
+                        AND (P.idSalle = S.idSalle) 
+                        AND (P.codeCours = C.codeCours) 
+                        AND (P.idJour = J.idJour) 
+                        AND (C.codeCours = Sui.codeCours)
+                        AND (Sui.idGroupe = G.idGroupe)
+                        AND (Cla.CodeClasse = G.codeClasse)
+                        AND (Cla.idFil = F.idFil)
+                       ORDER BY J.nomJour ASC
+                       `
+                  
+        try{
+            const [rows] = await connection.execute(query, [idSemestre, idAnneeAca, codeClasse])
+
+            return{ data: rows }
+        }catch(err){
+
+            console.log(err.message);
+            return { error: "An error occured while geting classe Programs" }
+        }
+    }
+
+
+    /**
      * Create Program from database
      * @param {Object} payload 
      * @returns {Object}
