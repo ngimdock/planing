@@ -199,7 +199,7 @@ class planifiedModel {
             // Format program
             const programsByFaculty = this.FormatProgram(rows, "faculty")
 
-            return { data: { data: programsByFaculty } }
+            return { data: programsByFaculty ? programsByFaculty : {} }
         } catch (err) {
             console.log(err)
 
