@@ -40,7 +40,7 @@ class planifiedModel {
 
         const { idAnneeAca, idSemestre } = payload
 
-        const query = `SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil
+        const query = `SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
                         FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
                         WHERE (C.idSemestre = (?))
                         AND (Se.idAnneeAca = (?))
@@ -58,8 +58,6 @@ class planifiedModel {
                   
         try{
             const [rows] = await connection.execute(query, [idSemestre, idAnneeAca])
-
-            console.log(rows);
 
             return{ data: rows }
         }catch(err){

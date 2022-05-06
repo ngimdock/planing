@@ -14,7 +14,7 @@ class PlanifiedController {
 
         if(!idAnneeAca || !idSemestre) return res.status(400).json({ error: "Provide all required data" })
 
-        const { data, error } = await PlanifiedModel.getAllPrograms(req.params)
+        const { data, error } = await PlanifiedModel.getAllPrograms({ idAnneeAca: Number(idAnneeAca), idSemestre: Number(idSemestre) })
 
         if(data){
             const programByDay =  {
@@ -145,11 +145,13 @@ class PlanifiedController {
         const programByDay = []
 
         for(let program of allPrograms){
-            if(program.nomJour.toLowerCase() === day) programByDay.push(program)
+            if(program.nomJour.toLowerCase() === day.toLocaleLowerCase()) programByDay.push(program)
         }
 
         return programByDay
     }
+
+    
     
 }
 
