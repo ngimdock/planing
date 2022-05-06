@@ -70,18 +70,57 @@ class ClassModel {
       SELECT * 
       FROM Classe C, Niveau N, Filiere F
       WHERE C.idNiv =  N.idNiv 
-      AND C.idFil = F.idFil 
-      AND 
+      AND C.idFil = F.idFil
     ` 
+  
     try {
       const [rows] = await connection.execute(query)
 
-      console.log(rows)
-      return {data : rows}
+      if (rows.length > 0) {
+        const classes = []
+
+        for (let myClass of rows) {
+          const { data, error } = await this.getSpecialities(myClass.codeClasse)
+          let specialities
+
+          if (error) specialities = []
+          else specialities = data
+
+          classes.push({
+            ...myClass,
+            specialities
+          })
+        }
+
+        return { data: classes }
+      }
+
+      return { data: rows }
     } catch (err) {
       console.error(err)
 
       return { error: "An error occured while getting all Classes" }
+    }
+  }
+
+  static async getSpecialities (idClass) {
+    const query = `
+      SELECT idSpecialite, nomSpecialite, C.capacite
+      FROM Classe_spec C, Specialite S
+      WHERE C.codeClass = ?
+      AND C.idSpec = S.idSpecialite
+    `
+
+    try {
+      const [rows] = await connection.execute(query, [idClass])
+
+      console.log(rows)
+
+      return { data: rows }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
     }
   }
 

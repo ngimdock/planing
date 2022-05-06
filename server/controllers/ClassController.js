@@ -28,13 +28,13 @@ class ClassController {
 				let  groups_classe =false
 
 				for (let speciality of specialities) {
-					const {  idSpec, capacity, groups } = speciality
+					const {  idSpec, capacity, specGroups } = speciality
 
 					const { data } = await Classe_specModel.create({ idSpec, capacity, codeClasse })
 
 					if (data) {
 						// creation de groupe de specialite
-						for (const group of groups) {
+						for (const group of specGroups) {
 							const { 
 								nomGroupe,
 								capaciteGroupe	
