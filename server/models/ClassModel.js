@@ -39,13 +39,14 @@ class ClassModel {
         const value = [codeClasse, nomClasse, capaciteClasse, idFil, idNiv]
         console.log(value)
 		const query = `
-            INSERT INTO Classe
-            (codeClasse, 
-             nomClasse, 
-             capaciteClasse, 
-             idFil, 
-             idNiv
-            ) VALUES (?,?,?,?,?)`
+      INSERT INTO Classe
+      (codeClasse, 
+        nomClasse, 
+        capaciteClasse, 
+        idFil, 
+        idNiv
+      ) VALUES (?,?,?,?,?)
+    `
 
 		try {
             console.log(value)
@@ -53,7 +54,7 @@ class ClassModel {
             
 			const [rows] = await connection.execute(query, [codeClasse, nomClasse, capaciteClasse, idFil, idNiv])
 			console.log("rows",{ rows })
-			return { data: true }
+			return { data: {...data } }
 		} catch(err){
             console.error(err)
 

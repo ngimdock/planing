@@ -12,6 +12,7 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
           width: "200px",
           display: "flex",
           marginLeft: "5px",
+          marginBottom: "20px",
           flexDirection: "column",
           borderRadius: "10px 10px 0 0"
         }}
@@ -78,7 +79,7 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
                         onClick={() => openModal('Modifier Enseignant', 'ADD_TEACHER')}
                     >
                         <BsPencilFill 
-                            size={22}
+                            size={20}
                             color="#fff"
                         />
                     </Box>
@@ -91,7 +92,7 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
                         }}
                     >
                         <BsFillTrashFill 
-                            size={22}
+                            size={20}
                             color="#fff"
                         />
                     </Box>

@@ -7,21 +7,21 @@ const LevelItem = ({ name ,color}) => {
    
     return (
         <div className={styles.specialityItem}
-            style={{
+          style={{
             backgroundColor: color
-          }}  >
-              <span> { name }  </span>
-              <div className={styles.levelIcon}>
-                <FiEdit2
-                  size="18"
-                  color="#3b3e41"
-                />
-                < RiDeleteBin6Line
-                  size="18"
-                  color="#ff0000"
-                
-                />
-              </div>
+          }}
+        >
+          <span> { name }  </span>
+          <div className={styles.levelIcon}>
+            <FiEdit2
+              size="18"
+              color="#3b3e41"
+            />
+            <RiDeleteBin6Line
+              size="18"
+              color="#ff0000"
+            />
+          </div>
         </div>
   )
 }
