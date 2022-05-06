@@ -36,26 +36,30 @@ class planifiedModel {
      * fetch all the programs of the planing on database
      * @returns {object}
      */
-    static getPrograms = async () => {
+    static getAllPrograms = async (payload) => {
 
-        const query = `SELECT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin
-                       FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E
-                       WHERE (P.idSalle = S.idSalle) AND (P.codeCours = C.codeCours) AND (P.idJour = J.idJour) AND (E.matriculeEns = C.matriculeEns)
+        const { idAnneeAca, idSemestre } = payload
+
+        const query = `SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil
+                        FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
+                        WHERE (C.idSemestre = (?))
+                        AND (Se.idAnneeAca = (?))
+                        AND (C.idSemestre = Se.idSemestre)
+                        AND (E.matriculeEns = C.matriculeEns)
+                        AND (P.idSalle = S.idSalle) 
+                        AND (P.codeCours = C.codeCours) 
+                        AND (P.idJour = J.idJour) 
+                        AND (C.codeCours = Sui.codeCours)
+                        AND (Sui.idGroupe = G.idGroupe)
+                        AND (Cla.CodeClasse = G.codeClasse)
+                        AND (Cla.idFil = F.idFil)
                        ORDER BY J.nomJour ASC
                        `
-        
-        const query2 = `
-            SELECT nomEns
-            FROM Cours C, Enseignant E
-            WHERE C.matriculeEns = E.matriculeEns
-        `
-                       
+                  
         try{
-            const [rows] = await connection.execute(query)
-            const result = await connection.execute(query2)
+            const [rows] = await connection.execute(query, [idSemestre, idAnneeAca])
 
-            console.log(result[0]);
-
+            console.log(rows);
 
             return{ data: rows }
         }catch(err){

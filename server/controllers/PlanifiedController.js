@@ -8,42 +8,29 @@ class PlanifiedController {
      * @param {Object} res 
      * @returns {object} data or error
      */
-    static getPrograms = async (req, res) => {
+    static getAllPrograms = async (req, res) => {
 
-        const { data, error } = await PlanifiedModel.getPrograms()
+        const { idAnneeAca, idSemestre } = req.params
 
-        const programByDay =  {
-            "Lundi" : this.getProgramByDay(data, "lundi"),
-            "Mardi" : this.getProgramByDay(data, "mardi"),
-            "Mercredi" : this.getProgramByDay(data, "mercredi"),
-            "Jeudi" : this.getProgramByDay(data, "jeudi"),
-            "Vendredi" : this.getProgramByDay(data, "vendredi"),
-            "Samedi" : this.getProgramByDay(data, "samedi"),
-            "Dimanche" : this.getProgramByDay(data, "dimanche")
+        if(!idAnneeAca || !idSemestre) return res.status(400).json({ error: "Provide all required data" })
+
+        const { data, error } = await PlanifiedModel.getAllPrograms(req.params)
+
+        if(data){
+            const programByDay =  {
+                "Lundi" : this.getProgramByDay(data, "lundi"),
+                "Mardi" : this.getProgramByDay(data, "mardi"),
+                "Mercredi" : this.getProgramByDay(data, "mercredi"),
+                "Jeudi" : this.getProgramByDay(data, "jeudi"),
+                "Vendredi" : this.getProgramByDay(data, "vendredi"),
+                "Samedi" : this.getProgramByDay(data, "samedi"),
+                "Dimanche" : this.getProgramByDay(data, "dimanche")
+            }
+
+            return res.status(201).json({ data: programByDay })
         }
-        
-        if(data) return res.status(201).json({ data: programByDay })
 
         return res.status(500).json({ error })
-    }
-
-    /**
-     * Take all programs and a specifik day and return array of programs that match with the given day
-     * @param {Object} allPrograms all program data 
-     * @param {String} day specifik day
-     * @returns {Array} array of programs which have the specifik day
-     */
-    static getProgramByDay = (allPrograms, day) => {
-
-        const programByDay = []
-
-        for(let program of allPrograms){
-            if(program.nomJour.toLowerCase() === day) programByDay.push(program)
-        }
-
-        console.log(programByDay);
-
-        return programByDay
     }
 
     /**
@@ -146,6 +133,24 @@ class PlanifiedController {
         return res.status(500).json({ error })
 
     }
+
+    /**
+     * Take all programs and a specifik day and return array of programs that match with the given day
+     * @param {Object} allPrograms all program data 
+     * @param {String} day specifik day
+     * @returns {Array} array of programs which have the specifik day
+     */
+     static getProgramByDay = (allPrograms, day) => {
+
+        const programByDay = []
+
+        for(let program of allPrograms){
+            if(program.nomJour.toLowerCase() === day) programByDay.push(program)
+        }
+
+        return programByDay
+    }
+    
 }
 
 export default PlanifiedController
