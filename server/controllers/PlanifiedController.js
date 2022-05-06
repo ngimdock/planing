@@ -17,17 +17,17 @@ class PlanifiedController {
         const { data, error } = await PlanifiedModel.getAllPrograms({ idAnneeAca: Number(idAnneeAca), idSemestre: Number(idSemestre) })
 
         if(data){
-            const programByDay =  {
-                "Lundi" : this.getProgramByDay(data, "lundi"),
-                "Mardi" : this.getProgramByDay(data, "mardi"),
-                "Mercredi" : this.getProgramByDay(data, "mercredi"),
-                "Jeudi" : this.getProgramByDay(data, "jeudi"),
-                "Vendredi" : this.getProgramByDay(data, "vendredi"),
-                "Samedi" : this.getProgramByDay(data, "samedi"),
-                "Dimanche" : this.getProgramByDay(data, "dimanche")
-            }
+            // const programByDay =  {
+            //     "Lundi" : this.getProgramByDay(data, "lundi"),
+            //     "Mardi" : this.getProgramByDay(data, "mardi"),
+            //     "Mercredi" : this.getProgramByDay(data, "mercredi"),
+            //     "Jeudi" : this.getProgramByDay(data, "jeudi"),
+            //     "Vendredi" : this.getProgramByDay(data, "vendredi"),
+            //     "Samedi" : this.getProgramByDay(data, "samedi"),
+            //     "Dimanche" : this.getProgramByDay(data, "dimanche")
+            // }
 
-            return res.status(201).json({ data: programByDay })
+            return res.status(201).json({ data })
         }
 
         return res.status(500).json({ error })

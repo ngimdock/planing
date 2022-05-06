@@ -115,8 +115,6 @@ class ClassModel {
     try {
       const [rows] = await connection.execute(query, [idClass])
 
-      console.log(rows)
-
       return { data: rows }
     } catch (err) {
       console.log(err)
