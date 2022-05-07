@@ -1,10 +1,11 @@
 import { useContext, useEffect } from "react"
 import SubjectAPI from "../api/subject"
 import ClassContext from "../datamanager/contexts/classContext"
+import SubjectContext from "../datamanager/contexts/subjectContext"
 
 const useGetSubjects = () => {
   // Get global state
-  // const { addClasses } = useContext(ClassContext)
+  const { addSubjects } = useContext(SubjectContext)
 
   useEffect(() => {
     handleGetSubjects()
@@ -16,9 +17,7 @@ const useGetSubjects = () => {
 
     if (data) {
       // Store classes inside the global state
-      // addClasses(data)
-
-      console.log(data)
+      addSubjects(data)
     }
   }
 }

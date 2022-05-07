@@ -50,7 +50,7 @@ class CourseModel {
 
     static addTeacheToCourses = async (data) => {
         const query = `
-            SELECT DISTINCT E.matriculeEns, nomEns
+            SELECT DISTINCT E.matriculeEns, nomEns, sexEns
             FROM Cours C, Enseignant E
             WHERE C.matriculeEns = ?
             AND C.matriculeEns = E.matriculeEns
@@ -63,7 +63,8 @@ class CourseModel {
 
             const newSubject = {
                 ...subject,
-                nomEns: rows[0].nomEns
+                nomEns: rows[0].nomEns,
+                sexEns: rows[0].sexEns
             }
 
             subjects.push(newSubject)

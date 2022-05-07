@@ -29,6 +29,7 @@ class Subject {
       this.semester = new Semester(semester)
 
       if (speciality) this.speciality = new Speciality(speciality)
+      else this.speciality = null
     }
   }
 

@@ -3,7 +3,7 @@ import AcademicYear from "./academicYear"
 class Semester {
   id
   value
-  year
+  // year
 
   constructor (data) {
     this.initialization(data)
@@ -13,13 +13,13 @@ class Semester {
     const {
       id,
       value,
-      year
+      // year
     } = data
 
-    if (id && value && year) {
+    if (id && value) {
       this.id = id
       this.value = value
-      this.year = new AcademicYear(year)
+      // this.year = new AcademicYear(year)
     }
   }
 
@@ -32,9 +32,9 @@ class Semester {
     return this.value
   }
 
-  get getYear () {
-    return this.year
-  }
+  // get getYear () {
+  //   return this.year
+  // }
 }
 
 export default Semester
