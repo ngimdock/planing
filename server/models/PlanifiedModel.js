@@ -190,7 +190,7 @@ class planifiedModel {
             AND (Cla.CodeClasse = G.codeClasse)
             AND (Cla.idFil = ?)
             AND (Cla.idFil = F.idFil)
-            ORDER BY J.nomJour ASC
+            ORDER BY heureDebut ASC
         `
 
         try{

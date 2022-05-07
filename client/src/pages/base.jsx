@@ -17,6 +17,7 @@ import useGetFaculties from "../hooks/useGetFaculties"
 import useGetLevels from "../hooks/useGetLevels"
 import useGetRooms from "../hooks/useGetRooms"
 import useGetSpecialities from "../hooks/useGetSpecialities"
+import useGetSubjects from "../hooks/useGetSubjects"
 import useGetTeachers from "../hooks/useGetTeachers"
 
 const BaseLayout = ({ children }) => {
@@ -53,6 +54,7 @@ const BaseLayout = ({ children }) => {
   useGetTeachers()
   useGetRooms()
   useGetClasses()
+  useGetSubjects()
 
   // Some handlers
   const getCurrentUser = async () => {
