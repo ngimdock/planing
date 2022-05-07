@@ -3,31 +3,29 @@ import AddButton from "../../../components/utils/buttons/addButton"
 import ModalContext from "../../../datamanager/contexts/modalContext"
 import FacultyItem from "./facultyItem"
 import styles from "../css/facultyStyle.module.css"
+import FacultyContext from "../../../datamanager/contexts/facultyContext"
+import generateColor from "../../../utils/generateColor"
 
 const FacultyBody = () => {
+  // Get data from global state
   const { openModal } = useContext(ModalContext)
+  const { faculties } = useContext(FacultyContext)
 
   return (
     <section className={styles.container}>
       <div className={styles.facultyTitle}> Liste des differentes filieres </div>
       <div className={styles.facultyContent}>
-         <FacultyItem
-            name="Informatique"
-            color="#3e4bff"
-         />
-          <FacultyItem
-            name="Mathematique"
-            color="#FF8500"
-         />
-          <FacultyItem
-            name="Physique"
-            color="red"
-         />
-         <FacultyItem
-            name="Chimie"
-            color="#d40cb3"
-         />
-        
+        {
+          faculties.map(fac => {
+            return (
+              <FacultyItem 
+                key={fac.getId}
+                name={fac.getName}
+                color={generateColor()}
+              />
+            )
+          })
+        }
       </div>
       
       <AddButton 

@@ -5,7 +5,7 @@ import { FaPen } from 'react-icons/fa'
 import { BsTrashFill } from 'react-icons/bs'
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 
-const TableRow = ({ color, number }) => {
+const TableRow = ({ color, number, data }) => {
     // Defaults values
     const defaultColor = color ? color:"#fff"
 
@@ -16,44 +16,41 @@ const TableRow = ({ color, number }) => {
         <Fragment>
         <tr className={styles.tableRow}>
             <td className={styles.tableCell} style={{ backgroundColor: defaultColor }}>
-            <Box
-                sx={{
-                    minHeight: 50,
-                    height: "auto",
-                    display: "flex",
-                    placeContent: "center",
-                    placeItems: "center"
-                }}>
-
-                    <Typography
+                <Box
                     sx={{
-                        fontSize: 18,
-                        fontFamily: "Nunito-Bold"
-                        }}
-                        >
-                        {
-                        number.id
-                        }
-                    </Typography>
+                        minHeight: 50,
+                        height: "auto",
+                        display: "flex",
+                        placeContent: "center",
+                        placeItems: "center"
+                    }}>
 
-            </Box>
-            
+                        <Typography
+                            sx={{
+                                fontSize: 18,
+                                fontFamily: "Nunito-Bold"
+                            }}
+                        >
+                            { number }
+                        </Typography>
+
+                </Box>
             </td>
             
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
-                {"INFO L1"}
+                {data.getCode}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
-                {"Informatique"}
+                {data.getFaculty.getName}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
-                {"Licence 1"}
+                {data.getLevel.getName}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
-                {"450"}
+                {data.getCapacity}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
-                {"0"}
+                {data.getSpecialities ? data.getSpecialities.length : 0}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
                 {"1"}

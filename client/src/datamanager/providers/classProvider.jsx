@@ -38,7 +38,7 @@ const ClassProvider = ({ children }) => {
         },
         level: {
           id: myClass.idNiv,
-          name: myClass.nomFil
+          name: myClass.nomNiv
         },
         specialities,
         groups: []

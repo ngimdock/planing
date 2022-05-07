@@ -1,51 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import TeacherContext from '../../../datamanager/contexts/teacherContext'
+import { formatName } from '../../../utils/format'
+import generateColor from '../../../utils/generateColor'
 import TeacherItem from './TeacherItem'
 
 const TeacherContent = () => {
+    // Global state
+    const { teachers } = useContext(TeacherContext)
 
-    const teachersList = [
-        {
-            matricule: "A14MJU",
-            sexe: "Masculin",
-            name: "Dan Ngimdock",
-            color: "#3E4BFF"
-        },
-        {
-            matricule: "A18M8E",
-            sexe: "Feminin",
-            name: "Blondelle Kana",
-            color: "#F24E1E"
-        },
-        {
-            matricule: "A12M9I",
-            sexe: "Masculin",
-            name: "Omer Fotso",
-            color: "#FF8500"
-        },
-        {
-            matricule: "A18M8E",
-            sexe: "Feminin",
-            name: "Blondelle Kana",
-            color: "#F24E1E"
-        },{
-            matricule: "A14MJU",
-            sexe: "Masculin",
-            name: "Dan Ngimdock",
-            color: "#3E4BFF"
-        },
-        {
-            matricule: "A12M9I",
-            sexe: "Masculin",
-            name: "Omer Fotso",
-            color: "#FF8500"
-        }
-    ]
-
-  return (
-    teachersList.map(item => (
-        <TeacherItem name={item.name} sexe={item.sexe} matricule={item.matricule} color={item.color} />
-    ))
-  )
+    return (
+        teachers.map(teacher => (
+            <TeacherItem 
+                key={teacher.getMatricule}
+                name={formatName(teacher.getName)} 
+                sexe={formatName(teacher.getSex)} 
+                matricule={teacher.getMatricule} 
+                color={generateColor()} 
+            />
+        ))
+    )
 }
 
 export default TeacherContent

@@ -22,8 +22,6 @@ const DashboardBody = () => {
   const { teachers } = useContext(TeacherContext)
   const { subjects } = useContext(SubjectContext)
 
-  console.log({ faculties })
-
   return (
     <section className={styles.container}>
       <div className={styles.dashboardTitle}> Statistiques Générales</div>
