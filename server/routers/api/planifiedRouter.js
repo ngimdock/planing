@@ -4,10 +4,10 @@ import PlanifiedController from "../../controllers/PlanifiedController.js"
 
 const planifiedRouter = express.Router()
 
-//set some routes
+//set some routes/filier
 planifiedRouter.get("/:idAnneeAca/:idSemestre", PlanifiedController.getAllPrograms)
-planifiedRouter.get("/:idAnneeAca/:idSemestre/:idFiliere", PlanifiedController.getProgramsByFaculty)
-planifiedRouter.get("/:idAnneeAca/:idSemestre/:idClasse", PlanifiedController.getClassProgram)
+planifiedRouter.get("/filiere/:idAnneeAca/:idSemestre/:idFiliere", PlanifiedController.getProgramsByFaculty)
+planifiedRouter.get("/:idAnneeAca/:idSemestre/:codeClasse", PlanifiedController.getProgramByClass)
 planifiedRouter.post("/create", PlanifiedController.createProgram)
 planifiedRouter.delete("/delete/", PlanifiedController.deleteProgram)
 planifiedRouter.patch("/update/", PlanifiedController.updateProgram)

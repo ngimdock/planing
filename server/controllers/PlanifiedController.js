@@ -43,6 +43,24 @@ class PlanifiedController {
         }
     }
 
+    static getProgramByClass = async (req, res) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            codeClasse
+        } = req.params
+
+        if(!idAnneeAca || !idSemestre || !codeClasse) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByclass(req.params)
+
+        if(data) return res.status(201).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
     /**
      * Create program 
      * @param {Object} req request
