@@ -85,6 +85,46 @@ class planifiedModel {
         }
     }
 
+    static SimpleFormatProgram = (data, type) => {
+
+        const property = type === "teacher" ? "NameTeacher" : "CodeRoom"
+        const value = type === "teacher" ? data[0].nomEns : data[0].nomSal
+        
+        // data formated
+        const programsFormated = {
+            [property] : value,
+            programs: {
+                "Lundi": [],
+                "Mardi": [],
+                "Mercredi": [],
+                "Jeudi": [],
+                "Vendredi": [],
+                "Samedi": [],
+                "Dimanche": []
+            }
+        }
+
+        // remove teacher's name from all data
+        const formatData = data.map(program => {
+            return({
+                subjectCode: program.codeCours,
+                subjectDescription: program.descriptionCours,
+                roomName: program.nomSal,
+                teacherName: program.nomEns,
+                day: program.nomJour,
+                group: program.nomGroupe,
+                startHour: program.heureDebut,
+                endHour: program.heureFin
+            })
+        })
+
+        for(let program of formatData){
+            programsFormated.programs[program.day].push(program)
+        }
+
+        return programsFormated
+    }
+
     static FormatProgram = (data, type = "all") => {
         // Some handlers
 
@@ -165,7 +205,7 @@ class planifiedModel {
             }
         }
 
-        return type === "faculty" ? programsByFaculties[0] : programsByFaculties
+        return type === "all" ? programsByFaculties : programsByFaculties[0]
     }
 
     static getProgramsByFaculty = async (payload) => {
@@ -214,9 +254,6 @@ class planifiedModel {
             codeClasse
         } = payload
 
-        console.log(payload);
-        console.log("hello");
-
         const query = `
             SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
@@ -241,12 +278,86 @@ class planifiedModel {
 
             console.log("hello");
 
-            const formatedData = this.FormatProgram(rows)
+            const formatedData = this.FormatProgram(rows, "class")
 
             return{ data: formatedData }
         }catch(err){
             console.log(err.message);
             return { error: "An error occured while getting programs by class" }
+        }
+    }
+
+    static getProgramByTeacher = async (payload) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            matriculeEns
+        } = payload
+
+        const query = `
+            SELECT DISTINCT Cou.codeCours, Cou.descriptionCours, Sal.nomSal, Ens.nomEns, Jou.nomJour, Gro.nomGroupe, Pro.heureDebut, Pro.heureFin
+            FROM Programmer Pro, Cours Cou, Salle Sal, Enseignant Ens, Jour Jou, Groupe Gro, Suivre Sui, Semestre Sem, AnneeAcademique Ann
+            WHERE (Ann.idAnneeAca = (?))
+            AND (Sem.idSemestre = (?))
+            AND (Ens.matriculeEns = (?))
+            AND (Pro.codeCours = Cou.codeCours)
+            AND (Pro.idSalle = Sal.idSalle)
+            AND (Pro.idJour = Jou.idJour)
+            AND (Cou.codeCours = Sui.codeCours)
+            AND (Sui.idGroupe = Gro.idGroupe)
+            AND (Cou.matriculeEns = Ens.matriculeEns)
+            AND (Cou.idSemestre = Sem.idSemestre)
+            AND (Sem.idAnneeAca = Ann.idAnneeAca)
+        `
+
+        try{
+            const [rows] = await connection.execute(query, [idAnneeAca, idSemestre, matriculeEns])
+
+            const programFormated = this.SimpleFormatProgram(rows, "teacher")
+
+            return { data: programFormated }
+        }catch(err){
+            console.log(err.message)
+
+            return{ error: "An error occured while geting programs by teachers" }
+        }
+    }
+
+    static getProgramByRoom = async (payload) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            idSalle
+        } = payload
+
+        const query = `
+            SELECT DISTINCT Cou.codeCours, Cou.descriptionCours, Sal.nomSal, Ens.nomEns, Jou.nomJour, Gro.nomGroupe, Pro.heureDebut, Pro.heureFin
+            FROM Programmer Pro, Cours Cou, Salle Sal, Enseignant Ens, Jour Jou, Groupe Gro, Suivre Sui, Semestre Sem, AnneeAcademique Ann
+            WHERE (Ann.idAnneeAca = (?))
+            AND (Sem.idSemestre = (?))
+            AND (Sal.idSalle = (?))
+            AND (Pro.codeCours = Cou.codeCours)
+            AND (Pro.idSalle = Sal.idSalle)
+            AND (Pro.idJour = Jou.idJour)
+            AND (Cou.codeCours = Sui.codeCours)
+            AND (Sui.idGroupe = Gro.idGroupe)
+            AND (Cou.matriculeEns = Ens.matriculeEns)
+            AND (Cou.idSemestre = Sem.idSemestre)
+            AND (Sem.idAnneeAca = Ann.idAnneeAca)
+        `
+
+        try{
+            const [rows] = await connection.execute(query, [idAnneeAca, idSemestre, Number(idSalle)])
+
+            const formatedData = this.SimpleFormatProgram(rows, "room")
+
+            return { data: formatedData }
+        }catch(err){
+            console.log(err.message)
+
+            return{ error: "An error occured while geting programs by room" }
         }
     }
 
