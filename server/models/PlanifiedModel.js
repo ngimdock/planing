@@ -71,7 +71,7 @@ class planifiedModel {
         `
 
         try{
-            const [rows] = await connection.execute(query2, [idSemestre, idAnneeAca])
+            const [rows] = await connection.execute(query, [idSemestre, idAnneeAca])
 
             // Format data section
 
