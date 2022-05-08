@@ -69,11 +69,13 @@ class planifiedModel {
             AND (Cla.idFil = F.idFil)
             ORDER BY J.nomJour ASC
         `
-                  
+
         try{
-            const [rows] = await connection.execute(query, [idSemestre, idAnneeAca])
+            const [rows] = await connection.execute(query2, [idSemestre, idAnneeAca])
 
             // Format data section
+
+            console.log(rows);
 
             const programsByFaculties = this.FormatProgram(rows)
 
