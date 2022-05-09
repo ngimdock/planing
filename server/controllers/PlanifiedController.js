@@ -56,7 +56,7 @@ class PlanifiedController {
         
         const { data, error } = await PlanifiedModel.getProgramByclass(req.params)
 
-        if(data) return res.status(201).json({ data })
+        if(data !== undefined) return res.status(200).json({ data })
 
         return res.status(500).json({ error })
     }
@@ -98,6 +98,8 @@ class PlanifiedController {
             idSemestre,
             idSalle
         } = req.params
+
+        console.log({ idAnneeAca, idSalle, idSemestre })
 
 
         if(!idAnneeAca || !idSemestre || !idSalle) 
