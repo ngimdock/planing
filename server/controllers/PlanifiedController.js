@@ -17,7 +17,7 @@ class PlanifiedController {
         const { data, error } = await PlanifiedModel.getAllPrograms({ idAnneeAca: Number(idAnneeAca), idSemestre: Number(idSemestre) })
 
         if(data){
-            return res.status(201).json({ data })
+            return res.status(200).json({ data })
         }
 
         return res.status(500).json({ error })
@@ -57,11 +57,13 @@ class PlanifiedController {
             codeCours,
             idSalle,
             idJour,
-            idEnseignant,
+            matriculeEns,
             idSemestre,
             heureDebut,
             heureFin
         } = req.body
+
+        console.log(req.body)
 
         const checkData = (
             idAdmin && 
@@ -70,7 +72,7 @@ class PlanifiedController {
             idJour &&  
             heureDebut && 
             heureFin &&
-            idEnseignant &&
+            matriculeEns &&
             idSemestre    
         ) ? true : false
 

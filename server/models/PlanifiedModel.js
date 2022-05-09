@@ -66,13 +66,13 @@ class planifiedModel {
         const query = `
             SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
-            WHERE (C.idSemestre = (?))
+            WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
-            AND (C.idSemestre = Se.idSemestre)
-            AND (E.matriculeEns = C.matriculeEns)
             AND (P.idSalle = S.idSalle) 
             AND (P.codeCours = C.codeCours) 
             AND (P.idJour = J.idJour) 
+            AND (P.matriculeEns = E.matriculeEns)
+            AND (P.idSemestre = Se.idSemestre)
             AND (C.codeCours = Sui.codeCours)
             AND (Sui.idGroupe = G.idGroupe)
             AND (Cla.CodeClasse = G.codeClasse)
@@ -188,13 +188,13 @@ class planifiedModel {
         const query = `
             SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
-            WHERE (C.idSemestre = (?))
+            WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
-            AND (C.idSemestre = Se.idSemestre)
-            AND (E.matriculeEns = C.matriculeEns)
             AND (P.idSalle = S.idSalle) 
             AND (P.codeCours = C.codeCours) 
             AND (P.idJour = J.idJour) 
+            AND (P.matriculeEns = E.matriculeEns)
+            AND (P.idSemestre = Se.idSemestre)
             AND (C.codeCours = Sui.codeCours)
             AND (Sui.idGroupe = G.idGroupe)
             AND (Cla.CodeClasse = G.codeClasse)
@@ -229,23 +229,26 @@ class planifiedModel {
             codeCours,
             idSalle,
             idJour,
+            matriculeEns,
+            idSemestre,
             heureDebut,
             heureFin
         } = payload
 
         const query = `
-            INSERT INTO Programmer(idAdmin, codeCours, idSalle, idJour, heureDebut, heureFin)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO Programmer(idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut, heureFin)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `
 
-        const values = [idAdmin, codeCours, idSalle, idJour, heureDebut, heureFin]
+        const values = [idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut, heureFin]
+        console.log({ values })
 
         try{
             const [rows] = await connection.execute(query, values)
             console.log(rows)
-            return { data: "Program has created on successfully!!" }
+            return { data: "Program has been created successfully!!" }
         }catch(err){
-            console.log(err.message)
+            console.log(err)
 
             return{ error: "An error occured while creating the program" }
         }
