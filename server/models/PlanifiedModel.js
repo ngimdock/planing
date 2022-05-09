@@ -266,6 +266,8 @@ class planifiedModel {
             codeCours, 
             idSalle, 
             idJour, 
+            matriculeEns, 
+            idSemestre,
             heureDebut
         } = payload
 
@@ -273,10 +275,10 @@ class planifiedModel {
         const query = `
             DELETE
             FROM Programmer
-            WHERE (idAdmin, codeCours, idSalle, idJour, heureDebut) = (?, ?, ?, ?, ?)
+            WHERE (idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut) = (?, ?, ?, ?, ?, ?, ?)
             `
             
-        const values = [idAdmin, codeCours, idSalle, idJour, heureDebut]
+        const values = [idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut]
 
         try {
 

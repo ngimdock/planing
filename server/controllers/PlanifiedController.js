@@ -91,10 +91,12 @@ class PlanifiedController {
             codeCours, 
             idSalle, 
             idJour, 
+            matriculeEns, 
+            idSemestre,
             heureDebut
         } = req.body
 
-        const checkData = (idAdmin && codeCours && idSalle && idJour && heureDebut ) ? true : false
+        const checkData = (idAdmin && codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut ) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all the required data to delete this program" })
 
@@ -111,6 +113,8 @@ class PlanifiedController {
             codeCours, 
             idSalle, 
             idJour, 
+            matriculeEns, 
+            idSemestre,
             heureDebut
         } = req.body.key
 
@@ -125,7 +129,7 @@ class PlanifiedController {
 
         // console.log(newData.keys())
 
-        const checkData = (idAdmin && codeCours && idSalle && idJour && heureDebut && req.body.data) ? true : false
+        const checkData = (idAdmin && codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut && req.body.data) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all the required data to update this program" })
 
