@@ -10,8 +10,9 @@ import SubjectAPI from "../../../../api/subject"
 import { BsCheck, BsX } from "react-icons/bs"
 import LoaderCircle from "../../loaders/loaderCircle"
 
-import SubjectAPI from "../../../../api/subject"
 import SubjectContext from "../../../../datamanager/contexts/subjectContext"
+import TeachersContext from "../../../../datamanager/contexts/teacherContext"
+import SpecialityContext from '../../../../datamanager/contexts/specialityContext';
 
 
 // Initial state
@@ -19,7 +20,7 @@ const initialState = {
   code: "",
   description: "",
   teacher: 0,
-  speciality: 0, 
+  speciality: 0,
   semester: 0
 }
 
@@ -27,18 +28,21 @@ const AddSubjectModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
   const { addSubject } = useContext(SubjectContext)
+  const { teachers } = useContext(TeachersContext)
+  const { specialities } = useContext(SpecialityContext)
 
   // Set local state
   const [subject, setSubject] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [codeAlreadyExist, setCodeAlreadyExist] = useState(true)
   const [checkingCode, setCheckingCode] = useState(false)
+  const [error, setError] = useState(null)
 
   // UseEffect section
   useEffect(() => {
     if (!checkingCode && subject.code.length >= 4) {
       handleCheckingCode(subject.code)
-    } 
+    }
   }, [subject.code])
 
   // Some handlers
@@ -48,7 +52,7 @@ const AddSubjectModalContent = () => {
 
     // Send request
     const { data, error } = await SubjectAPI.checkCode(code)
-    
+
     // Stop checking code
     setCheckingCode(false)
 
@@ -60,8 +64,8 @@ const AddSubjectModalContent = () => {
   }
 
   const handleChange = (field, value) => {
-    const subjectPrev = {...subject}
-    
+    const subjectPrev = { ...subject }
+
     switch (field) {
       case "code": {
         subjectPrev.code = value
@@ -94,16 +98,33 @@ const AddSubjectModalContent = () => {
     setSubject(subjectPrev)
   }
 
-  const handleSubmitForm = async () => {
+  const handleSubmitForm = async (event) => {
+    event.preventDefault()
+
+    console.log(subject);
     if (!loading) {
       setLoading(true)
-      
-      const { data, error } = await SubjectAPI.createSubject(subject)
+
+      const payload = {
+        codeCours: subject.code,
+        descriptionCours: subject.description,
+        idSemestre: subject.semester,
+        matriculeEns: subject.teacher,
+        idSpecialite: subject.speciality
+      }
+
+      const { data, error } = await SubjectAPI.createSubject(payload)
+
       setLoading(false)
 
-      if(data) {
-
+      if (data) {
+        addSubject(data)
+        console.log(data);
+        closeModal()
       }
+
+      console.log(error)
+      setError(error)
     }
   }
 
@@ -120,7 +141,7 @@ const AddSubjectModalContent = () => {
       !codeAlreadyExist &&
       description &&
       teacher &&
-      semester 
+      semester
     ) {
       return true
     }
@@ -131,35 +152,35 @@ const AddSubjectModalContent = () => {
   return (
     <section>
       <Box sx={{ position: 'relative' }}>
-        <Input 
+        <Input
           disabled={loading}
           placeholder="code"
           fullWidth
           onChange={(e) => handleChange("code", e.target.value)}
         />
 
-          {
-            checkingCode ? <LoaderCircle /> : (
-              <Box className={styles.emailStatusIcons}>
-                {
-                  codeAlreadyExist ? (
-                    <BsX 
-                      color="red"
-                      size={30}
-                    />
-                  ):(
-                    <BsCheck 
-                      color="green"
-                      size={30}
-                    />
-                  )
-                }
-              </Box>
-            )
-          }
+        {
+          checkingCode ? <LoaderCircle /> : (
+            <Box className={styles.emailStatusIcons}>
+              {
+                codeAlreadyExist ? (
+                  <BsX
+                    color="red"
+                    size={30}
+                  />
+                ) : (
+                  <BsCheck
+                    color="green"
+                    size={30}
+                  />
+                )
+              }
+            </Box>
+          )
+        }
 
       </Box>
-      <Input 
+      <Input
         disabled={loading}
         placeholder="description"
         multiline
@@ -167,27 +188,31 @@ const AddSubjectModalContent = () => {
         type="number"
         onChange={(e) => handleChange("description", e.target.value)}
       />
-      <Select 
+      <Select
         disabled={loading}
-        options={[
-          { value: 1, label: "Mbiakop" },
-          { value: 2, label: "Jiomekong" }
-        ]}
+        options={teachers && teachers.map(teacher => {
+          return ({
+            value: teacher.getMatricule,
+            label: teacher.getName
+          })
+        })}
         label="Enseignant"
         fullWidth
         onGetValue={(value) => handleChange("teacher", value)}
       />
-      <Select 
+      <Select
         disabled={loading}
-        options={[
-          { value: 1, label: "Reseau" },
-          { value: 2, label: "Geni Logiciel" }
-        ]}
+        options={specialities && specialities.map(spec => {
+          return ({
+            value: spec.getId,
+            label: spec.getName
+          })
+        })}
         label="Specialité"
         fullWidth
         onGetValue={(value) => handleChange("speciality", value)}
       />
-      <Select 
+      <Select
         disabled={loading}
         options={[
           { value: 1, label: "Semestre 1 2021-2022" },
@@ -199,7 +224,7 @@ const AddSubjectModalContent = () => {
       />
 
       <Box className={styles.controls}>
-        <Button 
+        <Button
           text="Annuler"
           variant="outlined"
           bgColor="#ff8500"
@@ -209,7 +234,7 @@ const AddSubjectModalContent = () => {
           onClick={closeModal}
         />
 
-        <Button 
+        <Button
           disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"

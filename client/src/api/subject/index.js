@@ -39,7 +39,7 @@ class SubjectAPI extends DefaultApiCall {
     }
   }
 
-  static async createSubject(data) {
+  static async createSubject(payload) {
 
     // insert token in axios headers
     const instance = this.insertToken(axiosInstance)
@@ -47,7 +47,7 @@ class SubjectAPI extends DefaultApiCall {
     try{
 
       // get course
-      const { data, error } = await instance.post("/course/create", data)
+      const { data, error } = await instance.post("/course/create", payload)
 
       if(data) return data
       return error
