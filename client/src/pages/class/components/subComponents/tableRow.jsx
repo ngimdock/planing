@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material"
 import { FaPen } from 'react-icons/fa'
 import { BsTrashFill } from 'react-icons/bs'
 import ModalContext from "../../../../datamanager/contexts/modalContext"
+import ClassAPI from '../../../../api/class';
 
 const TableRow = ({ color, number, data }) => {
     // Defaults values
@@ -11,6 +12,15 @@ const TableRow = ({ color, number, data }) => {
 
     // Get global state
     const { openModal } = useContext(ModalContext)
+
+    //suppression de classe
+    const handleDeleteClass = async ()=>{
+        const {data:datadel, error} = await ClassAPI.delete(data.getCode)
+        
+        if(error){
+            console.log(error)
+        }
+    }
 
     return (
         <Fragment>
@@ -90,6 +100,7 @@ const TableRow = ({ color, number, data }) => {
                         <BsTrashFill 
                             color="red"
                             size={20}
+                            onClick={ handleDeleteClass}
                         />
                     </Box>
                 </Box>   

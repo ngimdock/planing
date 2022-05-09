@@ -18,7 +18,7 @@ class ClassAPI extends DefaultApiCall {
       return { error: "An error occured" }
     }
   }
-// to create classe
+  // to create classe
   static async create (payload) {
     const instance = this.insertToken(axiosInstance)
     // const class = new Class();
@@ -35,6 +35,50 @@ class ClassAPI extends DefaultApiCall {
     } catch (err) {
       console.log(err)
 
+      return { error: "An error occured" }
+    }
+  }
+
+    // to update a classe laisser
+    static async update (payload) {
+      const instance = this.insertToken(axiosInstance)
+      // const class = new Class();
+  
+      try {
+        const { data, error } = await instance.put("/class/update", payload)
+  
+        console.log(data)
+  
+        if (data){
+          return { data }
+        }
+        return error
+      } catch (err) {
+        console.log(err)
+  
+        return { error: "An error occured" }
+      }
+    }
+
+    //to delete a classe
+  static async delete (id) {
+      const instance = this.insertToken(axiosInstance)
+      // const class = new Class();
+
+      console.log(id)
+  
+    try {
+      const { data, error } = await instance.delete("/class/delete/"+id)
+  
+      console.log(data)
+  
+      if (data){
+        return { data }
+      }
+      return error
+    } catch (err) {
+      console.log(err)
+  
       return { error: "An error occured" }
     }
   }

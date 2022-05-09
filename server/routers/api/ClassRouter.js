@@ -7,7 +7,7 @@ const ClassRouter = express.Router()
 ClassRouter.get('/all', ClassController.findAllClass)
 ClassRouter.get('/one', ClassController.findById)
 ClassRouter.put('/update', ClassController.updateClass)
-ClassRouter.delete('/delete', ClassController.deleteClasse)
+ClassRouter.delete('/delete/:codeClasse', ClassController.deleteClasse)
 ClassRouter.post('/create', ClassController.createClass)
 
 //routes des Groupes

@@ -79,12 +79,39 @@ const ClassProvider = ({ children }) => {
     }
   }
 
-  const handleUpdateClass = (id, data) => {
-    // nothing
+  const handleUpdateClass = (data) => {
+    const {
+      code,
+      name,
+      capacity,
+      faculty,
+      level
+    } = data
+
+    if (
+      code &&
+      name &&
+      capacity &&
+      faculty &&
+      level
+    ) {
+      const myClass = new Class(data)
+
+      const classesPrevState = [...classes]
+
+      classesPrevState.push(myClass)
+
+      setClasses(classesPrevState)
+    }
+
   }
 
-  const handleRemoveClass = (id) => {
-    // nothing
+  const handleRemoveClass = (idObject) => {
+    const {code} = idObject
+    if(code){
+      
+    }
+
   }
 
   // Context value
