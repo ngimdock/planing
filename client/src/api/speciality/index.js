@@ -22,7 +22,6 @@ class SpecialityAPI extends DefaultApiCall {
     const instance = this.insertToken(axiosInstance)
 
     try {
-      console.log("Paased here")
       const { data } = await instance.post("/speciality/create", { nomSpecialite: name })
 
       console.log(data)
@@ -36,21 +35,21 @@ class SpecialityAPI extends DefaultApiCall {
     }
   }
 
-  // static async deleteSpeciality(id) {
-  //   const instance = this.insertToken(axiosInstance)
+  static async deleteSpeciality(id) {
+    const instance = this.insertToken(axiosInstance)
 
-  //   try {
-  //     const { data } = await instance.delete(`/speciality/delete/${id}`)
+    try {
+      const { data } = await instance.delete(`/speciality/delete/${id}`)
 
-  //     console.log(data)
+      console.log(data)
 
-  //     return { data }
-  //   } catch (err) {
-  //     console.log(err)
+      return { data }
+    } catch (err) {
+      console.log(err)
 
-  //     return { error: "An error occured "}
-  //   }
-  // }
+      return { error: "An error occured "}
+    }
+  }
 }
 
 export default SpecialityAPI
