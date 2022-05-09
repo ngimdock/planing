@@ -6,20 +6,14 @@ class CourseModel {
             (
                 codeCours VARCHAR(10) PRIMARY KEY NOT NULL, 
                 descriptionCours VARCHAR(200) NOT NULL,
-                idSemestre INTEGER NOT NULL,
-                matriculeEns VARCHAR(10) NOT NULL, 
                 idSpecialite INTEGER,
-                CONSTRAINT FK_CoursEnseignant 
-                FOREIGN KEY(matriculeEns) REFERENCES Enseignant (matriculeEns),
-                CONSTRAINT FK_CoursSemestre 
-                FOREIGN KEY(idSemestre) REFERENCES Semestre (idSemestre),
                 CONSTRAINT FK_CoursSpecialite 
                 FOREIGN KEY(idSpecialite) REFERENCES Specialite (idSpecialite)
             )
         `
 
         try{
-            const result = await connection.execute(query)
+            await connection.execute(query)
 
             console.log("Table Cours OK")
         }catch(err){
@@ -28,7 +22,6 @@ class CourseModel {
 	}
 
     static getCourses = async () => {
-
         const query = `
             SELECT * 
             FROM Cours
@@ -37,66 +30,12 @@ class CourseModel {
         try{
             const [rows] = await connection.execute(query)
 
-            const subjectWithTeachers = await this.addTeacheToCourses(rows)
-            const subjectsWithSemesters = await this.addSemesterToCourses(subjectWithTeachers)
-            const subjectsWithSpeciality = await this.addSpecialityToCourses(subjectsWithSemesters)
+            const subjects = await this.addSpecialityToCourses(rows)
 
-            console.log(rows);
-            return{ data: subjectsWithSpeciality }
+            return{ data: subjects }
         }catch(err){
             return { error: "An error occured while geting courses" }
         }
-    }
-
-    static addTeacheToCourses = async (data) => {
-        const query = `
-            SELECT DISTINCT E.matriculeEns, nomEns, sexEns
-            FROM Cours C, Enseignant E
-            WHERE C.matriculeEns = ?
-            AND C.matriculeEns = E.matriculeEns
-        `
-
-        const subjects = []
-
-        for (let subject of data) {
-            const [rows] = await connection.execute(query, [subject.matriculeEns])
-
-            const newSubject = {
-                ...subject,
-                nomEns: rows[0].nomEns,
-                sexEns: rows[0].sexEns
-            }
-
-            subjects.push(newSubject)
-        }
-
-        return subjects
-    }
-
-    static addSemesterToCourses = async (data) => {
-        const query = `
-            SELECT DISTINCT S.idSemestre, S.valSemestre
-            FROM Semestre S, Cours C
-            WHERE C.idSemestre = ?
-            AND C.idSemestre = S.idSemestre
-        `
-
-        const subjects = []
-
-        for (let subject of data) {
-            const [rows] = await connection.execute(query, [subject.idSemestre])
-
-            console.log(rows)
-
-            const newSubject = {
-                ...subject,
-                valSemestre: rows[0].valSemestre
-            }
-
-            subjects.push(newSubject)
-        }
-
-        return subjects
     }
 
     static addSpecialityToCourses = async (data) => {
@@ -132,17 +71,15 @@ class CourseModel {
         const {
             codeCours,
             descriptionCours,
-            idSemestre,
-            matriculeEns,
             idSpecialite
         } = payload
         
         const query = `
-            INSERT INTO Cours (codeCours, descriptionCours, idSemestre, matriculeEns, idSpecialite)
-            VALUES(?, ?, ?, ?, ?)
+            INSERT INTO Cours (codeCours, descriptionCours, idSpecialite)
+            VALUES(?, ?, ?)
         `
 
-        const values = [codeCours, descriptionCours, idSemestre, matriculeEns, idSpecialite]
+        const values = [codeCours, descriptionCours, idSpecialite && idSpecialite]
 
         try{
             const [rows] = await connection.execute(query, values)
@@ -150,7 +87,7 @@ class CourseModel {
             console.log(rows);
             return { data: "Course was added on sucessfully" }
         }catch(err){
-            console.log(err.message);
+            console.log(err);
             return { error: "An error occur while creating the course" }
         }
     }

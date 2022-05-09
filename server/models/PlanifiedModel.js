@@ -11,10 +11,12 @@ class planifiedModel {
                 codeCours VARCHAR(10),
                 idSalle INTEGER,
                 idJour INTEGER,
+                idSemestre INTEGER,
+                matriculeEns VARCHAR(10),
                 heureDebut TIME,
                 heureFin TIME NOT NULL,
                 CONSTRAINT PK_Programmer 
-                PRIMARY KEY(idAdmin, codeCours, idSalle, idJour, heureDebut),
+                PRIMARY KEY(idAdmin, codeCours, idSalle, idJour, idSemestre, matriculeEns, heureDebut),
                 CONSTRAINT FK_ProgrammerAdmin 
                 FOREIGN KEY(idAdmin) REFERENCES Admin(idAdmin)
                 ON DELETE CASCADE
@@ -29,6 +31,14 @@ class planifiedModel {
                 ON UPDATE CASCADE,
                 CONSTRAINT FK_ProgrammerJour 
                 FOREIGN KEY(idJour) REFERENCES Jour(idJour)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+                CONSTRAINT FK_ProgrammerSemestre
+                FOREIGN KEY(idSemestre) REFERENCES Semestre(idSemestre)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+                CONSTRAINT FK_ProgrammerEnseignant
+                FOREIGN KEY(matriculeEns) REFERENCES Enseignant(matriculeEns)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
             )
