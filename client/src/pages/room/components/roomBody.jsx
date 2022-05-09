@@ -3,34 +3,30 @@ import AddButton from "../../../components/utils/buttons/addButton"
 import ModalContext from "../../../datamanager/contexts/modalContext"
 import RoomItem from "./roomItem"
 import styles from "../css/roomStyle.module.css"
+import RoomContext from "../../../datamanager/contexts/roomContext"
+import generateColor from "../../../utils/generateColor"
 
 const RoomBody = () => {
+  // Gel data from global state
   const { openModal } = useContext(ModalContext)
+  const { rooms } = useContext(RoomContext)
 
   return (
     <section className={styles.container}>
       <div className={styles.roomTitle}> List of room(04) </div>
       <div className={styles.roomContent}>
-         <RoomItem
-            title="A502"
-            value="502 Places"
-            color="#09325a"
-         />
-         <RoomItem
-            title="A1001"
-            value="1001 Places"
-            color="#FF8500"
-         />
-          <RoomItem
-            title="A250"
-            value="250 Places"
-            color="#d40cb3"
-         />
-          <RoomItem
-            title="A3"
-            value="200 Places"
-            color="#ca7de9e3"
-         />
+        {
+          rooms.map(room => {
+            return (
+              <RoomItem 
+                key={room.getId}
+                title={room.getName}
+                value={`${room.getCapacity} Places`}
+                color={generateColor()}
+              />
+            )
+          })
+        }
       </div>
 
       <AddButton 

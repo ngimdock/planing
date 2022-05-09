@@ -67,7 +67,7 @@ class ClassModel {
   static async findAll () {
 
     const query = `
-      SELECT * 
+      SELECT *
       FROM Classe C, Niveau N, Filiere F
       WHERE C.idNiv =  N.idNiv 
       AND C.idFil = F.idFil
@@ -76,6 +76,7 @@ class ClassModel {
     try {
       const [rows] = await connection.execute(query)
 
+      // Get specialities
       if (rows.length > 0) {
         const classes = []
 
@@ -92,6 +93,19 @@ class ClassModel {
             groups: []
           })
         }
+
+        // Get groups
+        // for (let myClass of classes) {
+        //   const { data, error } = await this.getNumberGroup(myClass.codeClasse)
+
+        //   if (data) {
+        //     classes.push({
+        //       ...myClass,
+        //       specialities,
+        //       groups: []
+        //     })
+        //   }
+        // }
 
         return { data: classes }
       }
@@ -115,6 +129,25 @@ class ClassModel {
     try {
       const [rows] = await connection.execute(query, [idClass])
 
+      return { data: rows }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
+
+  static async getNumberGroup (idClass) {
+    const query = `
+      SELECT Count(codeClasse) as groupNumber
+      FROM Groupe G, Classe C
+      WHERE G.codeClasse = ?
+      AND G.codeClasse = C.codeClasse
+    `
+
+    try {
+      const [rows] = await connection.execute(query, [idClass])
+      console.log(rows)
       return { data: rows }
     } catch (err) {
       console.log(err)

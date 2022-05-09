@@ -1,9 +1,13 @@
+import Semester from './semester'
+import Speciality from './speciality'
 import Teacher from './teacher'
 
 class Subject {
   code
   description
   teacher
+  semester
+  speciality
 
   constructor (data) {
     this.initialization(data)
@@ -13,13 +17,19 @@ class Subject {
     const {
       code,
       description,
-      teacher
+      teacher,
+      semester,
+      speciality
     } = data
 
-    if (code && description && teacher) {
+    if (code && description && teacher && semester) {
       this.code = code
       this.description = description
       this.teacher = new Teacher(teacher)
+      this.semester = new Semester(semester)
+
+      if (speciality) this.speciality = new Speciality(speciality)
+      else this.speciality = null
     }
   }
 

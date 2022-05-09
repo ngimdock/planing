@@ -3,34 +3,30 @@ import AddButton from "../../../components/utils/buttons/addButton"
 import ModalContext from "../../../datamanager/contexts/modalContext"
 import SubjectItem from "./subjectItem"
 import styles from "../css/subjetStyle.module.css"
+import SubjectContext from "../../../datamanager/contexts/subjectContext"
+import generateColor from "../../../utils/generateColor"
 
 const SubjectBody = () => {
+  // Global state
   const { openModal } = useContext(ModalContext)
+  const { subjects } = useContext(SubjectContext)
 
   return (
     <section className={styles.container}>
       <div className={styles.subjectTitle}> Liste des Unites d'enseignements (04)</div>
       <div className={styles.subjectContent}>
-         <SubjectItem
-            title="INF3086"
-            value="Business Intelligence"
-            color="#09325a"
-         />
-         <SubjectItem
-            title="INF3036"
-            value="Base de Donnees"
-            color="#FF8500"
-         />
-          <SubjectItem
-            title="Math112"
-            value="Algebre"
-            color="#d40cb3"
-         />
-          <SubjectItem
-            title="CHM2034"
-            value="Chimie Organique"
-            color="#ca7de9e3"
-         />
+        {
+          subjects.map(subject => {
+            return (
+              <SubjectItem
+                key={subject.getCode}
+                title={subject.getCode}
+                value={subject.getDescription}
+                color={generateColor()}
+              />
+            )
+          })
+        }
       </div>
 
       <AddButton 

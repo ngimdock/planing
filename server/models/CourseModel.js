@@ -29,18 +29,102 @@ class CourseModel {
 
     static getCourses = async () => {
 
-        const query = `SELECT * 
-                       FROM Cours
-                       `
+        const query = `
+            SELECT * 
+            FROM Cours
+        `
 
         try{
             const [rows] = await connection.execute(query)
 
+            const subjectWithTeachers = await this.addTeacheToCourses(rows)
+            const subjectsWithSemesters = await this.addSemesterToCourses(subjectWithTeachers)
+            const subjectsWithSpeciality = await this.addSpecialityToCourses(subjectsWithSemesters)
+
             console.log(rows);
-            return{ data: rows }
+            return{ data: subjectsWithSpeciality }
         }catch(err){
             return { error: "An error occured while geting courses" }
         }
+    }
+
+    static addTeacheToCourses = async (data) => {
+        const query = `
+            SELECT DISTINCT E.matriculeEns, nomEns, sexEns
+            FROM Cours C, Enseignant E
+            WHERE C.matriculeEns = ?
+            AND C.matriculeEns = E.matriculeEns
+        `
+
+        const subjects = []
+
+        for (let subject of data) {
+            const [rows] = await connection.execute(query, [subject.matriculeEns])
+
+            const newSubject = {
+                ...subject,
+                nomEns: rows[0].nomEns,
+                sexEns: rows[0].sexEns
+            }
+
+            subjects.push(newSubject)
+        }
+
+        return subjects
+    }
+
+    static addSemesterToCourses = async (data) => {
+        const query = `
+            SELECT DISTINCT S.idSemestre, S.valSemestre
+            FROM Semestre S, Cours C
+            WHERE C.idSemestre = ?
+            AND C.idSemestre = S.idSemestre
+        `
+
+        const subjects = []
+
+        for (let subject of data) {
+            const [rows] = await connection.execute(query, [subject.idSemestre])
+
+            console.log(rows)
+
+            const newSubject = {
+                ...subject,
+                valSemestre: rows[0].valSemestre
+            }
+
+            subjects.push(newSubject)
+        }
+
+        return subjects
+    }
+
+    static addSpecialityToCourses = async (data) => {
+        const query =  `
+            SELECT DISTINCT S.nomSpecialite, S.idSpecialite
+            FROM Specialite S, Cours C
+            WHERE C.idSpecialite = ?
+            AND S.idSpecialite = C.idSpecialite
+        `
+
+        const subjects = []
+
+        for (let subject of data) {
+            if (!subject.idSpecialite) {
+                subjects.push(subject)
+            } else {
+                const [rows] = await connection.execute(query, [subject.idSpecialite])
+    
+                const newSubject = {
+                    ...subject,
+                    nomSpecialite: rows[0].nomSpecialite
+                }
+
+                subjects.push(newSubject)
+            }
+        }
+
+        return subjects
     }
 
     static createCourse = async (payload) => {

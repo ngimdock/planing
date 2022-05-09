@@ -1,33 +1,13 @@
+import { useContext } from 'react'
 import { Box } from "@mui/material"
 import styles from '../../css/classStyle.module.css'
 import TableHeader from "./tableHeader"
 import TableRow from "./tableRow"
-// Constant values
-const No = [
-  {
-    id: 1
-  },
-  {
-    id: 2
-  },
-  {
-    id: 3
-  },
-  {
-    id: 4
-  },
-  {
-    id: 5
-  },
-  {
-    id: 6
-  },
-  {
-    id: 7
-  }
-]
+import ClassContext from '../../../../datamanager/contexts/classContext'
 
 const Table = () => {
+  // Global state
+  const { classes } = useContext(ClassContext)
   return (
     <Box
       sx={{
@@ -44,7 +24,16 @@ const Table = () => {
 
         <tbody>
           {
-            No.map(item => <TableRow number={item} color={item.id % 2 === 0 && "#f8f8f8"} />)
+            classes.map((myClass, index) => {
+              return (
+                <TableRow 
+                  key={myClass.getCode}
+                  number={index + 1} 
+                  data={myClass}
+                  color={(index + 1) % 2 === 0 && "#f8f8f8"} 
+                />
+              )
+            })
           }
         </tbody>
       </table>

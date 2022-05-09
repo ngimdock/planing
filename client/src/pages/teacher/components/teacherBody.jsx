@@ -5,6 +5,7 @@ import style from "../css/teacher.module.css"
 import TeacherContent from "./TeacherContent"
 
 const TeacherBody = () => {
+  // Get global state
   const { openModal } = useContext(ModalContext)
 
   return (

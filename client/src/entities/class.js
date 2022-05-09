@@ -65,6 +65,10 @@ class Class {
   get getLevel () {
     return this.level
   }
+
+  get getSpecialities () {
+    return this.specialities
+  }
 }
 
 export default Class
