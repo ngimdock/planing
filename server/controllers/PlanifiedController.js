@@ -43,6 +43,73 @@ class PlanifiedController {
         }
     }
 
+    static getProgramByClass = async (req, res) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            codeClasse
+        } = req.params
+
+        if(!idAnneeAca || !idSemestre || !codeClasse) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByclass(req.params)
+
+        if(data) return res.status(201).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
+    /**
+     * The controler witch get the specifik teacher's program
+     * @param {Object} req 
+     * @param {Object} res 
+     * @returns data | error
+     */
+    static getProgramByTeacher = async (req, res) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            matriculeEns
+        } = req.params
+
+
+        if(!idAnneeAca || !idSemestre || !matriculeEns) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByTeacher(req.params)
+
+        if(data) return res.status(201).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
+    /**
+     * The controler witch get the specifik classe's program
+     * @param {Object} req 
+     * @param {Object} res 
+     * @returns data of programs | error
+     */
+    static getProgramByRoom = async (req, res) => {
+        const {
+            idAnneeAca,
+            idSemestre,
+            idSalle
+        } = req.params
+
+
+        if(!idAnneeAca || !idSemestre || !idSalle) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByRoom(req.params)
+
+        if(data) return res.status(201).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
     /**
      * Create program 
      * @param {Object} req request
