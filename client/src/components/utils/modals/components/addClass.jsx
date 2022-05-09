@@ -1,19 +1,29 @@
-import React, { useContext, useReducer } from "react"
+import React, { useContext, useReducer,useState } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
 import styles from '../css/modalContent.module.css'
 import classStyles from '../css/classModalContent.module.css'
 import ModalContext from "../../../../datamanager/contexts/modalContext"
+import LevelContext from "../../../../datamanager/contexts/levelContext"
+import FacultyContext from "../../../../datamanager/contexts/facultyContext"
 import Select from "../../inputs/select"
 import { BsFillPlusCircleFill } from 'react-icons/bs'
 import reducer, { initialState } from '../reducers/classReducer'
 import GroupItem from "./subComponents/groupItem"
 import SpecialityItem from './subComponents/specialityItem'
+import ClassAPI from '../../../../api/class/index';
+import LinearLoader from "../../loaders/linearLoader"
+import ClassContext from "../../../../datamanager/contexts/classContext"
 
 const AddClassModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const { faculties } = useContext(FacultyContext)
+  const { levels } = useContext(LevelContext)
+  const {addClass} = useContext(ClassContext)
+  const [loading, setLoading] = useState(false)
+  // const [name, setName] = useState("")
 
   // Set local state
   const [classes, dispatch] = useReducer(reducer, initialState)
@@ -28,6 +38,40 @@ const AddClassModalContent = () => {
       }
     })
   }
+  const handleSubmitForm = async () => {
+    if (!loading) {
+      setLoading(true)
+      console.log(classes)
+
+      const payload = {
+        codeClasse: classes.name,
+        nomClasse: classes.name,
+        capaciteClasse: classes.capacity,
+        idFil: classes.faculty,
+        idNiv: classes.level,
+        groups: classes.groups,
+        specialities: classes.specialities
+      }
+
+      const { data, error } = await ClassAPI.create(payload)
+      setLoading(false)
+      addClass(data)
+      console.log(data)
+      if(error)
+        console.log(error)
+    }
+  }
+
+  const verificationForm = () => {
+    const { name, faculty, capacity, level, groups } = classes
+
+    if (name && faculty && capacity && level) {
+      return true
+    }
+
+    return false
+  }
+
 
   const handleAddGroup = () => dispatch({ type: "ADD_GROUP" })
 
@@ -65,6 +109,8 @@ const AddClassModalContent = () => {
     })
   }
 
+
+
   return (
     <section>
       <Box 
@@ -85,9 +131,7 @@ const AddClassModalContent = () => {
         <Select 
           label="Filiere"
           options={[
-            { value: "informatique", label: "Informatique" },
-            { value: "mathematique", label: "Mathematique" },
-            { value: "physique", label: "Physique" }
+            ...faculties.map(fac => ({ value: fac.getId, label: fac.getName }))
           ]}
           value={classes.faculty}
           fullWidth
@@ -97,9 +141,7 @@ const AddClassModalContent = () => {
         <Select 
           label="Niveau"
           options={[
-            { value: "licence 1", label: "Licence 1" },
-            { value: "licence 2", label: "Licence 2" },
-            { value: "licence 3", label: "Licence 3" }
+            ...levels.map(lev => ({ value: lev.getId, label: lev.getName }))
           ]}
           value={classes.level}
           fullWidth
@@ -195,12 +237,17 @@ const AddClassModalContent = () => {
         />
 
         <Button 
+          disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"
           fontSize={14}
           rounded
+          onClick={handleSubmitForm}
         />
       </Box>
+      {
+        loading && <LinearLoader />
+      }
     </section>
   )
 }
