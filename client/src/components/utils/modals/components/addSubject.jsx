@@ -10,6 +10,10 @@ import SubjectAPI from "../../../../api/subject"
 import { BsCheck, BsX } from "react-icons/bs"
 import LoaderCircle from "../../loaders/loaderCircle"
 
+import SubjectAPI from "../../../../api/subject"
+import SubjectContext from "../../../../datamanager/contexts/subjectContext"
+
+
 // Initial state
 const initialState = {
   code: "",
@@ -22,6 +26,7 @@ const initialState = {
 const AddSubjectModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const { addSubject } = useContext(SubjectContext)
 
   // Set local state
   const [subject, setSubject] = useState(initialState)
@@ -89,10 +94,16 @@ const AddSubjectModalContent = () => {
     setSubject(subjectPrev)
   }
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
       setLoading(true)
-      console.log("you can send request here")
+      
+      const { data, error } = await SubjectAPI.createSubject(subject)
+      setLoading(false)
+
+      if(data) {
+
+      }
     }
   }
 
