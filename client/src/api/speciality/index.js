@@ -23,20 +23,34 @@ class SpecialityAPI extends DefaultApiCall {
 
     try {
       console.log("Paased here")
-      const { data } = await instance.post("/speciality/create", { nomSpecialite: name }).then((response) => {
-        return response
-      }).catch(error => console.log(error))
+      const { data } = await instance.post("/speciality/create", { nomSpecialite: name })
 
       console.log(data)
 
       return { data }
 
     } catch (err) {
-      console.lgg(err)
+      console.log(err)
 
       return { error: "An error occured "}
     }
   }
+
+  // static async deleteSpeciality(id) {
+  //   const instance = this.insertToken(axiosInstance)
+
+  //   try {
+  //     const { data } = await instance.delete(`/speciality/delete/${id}`)
+
+  //     console.log(data)
+
+  //     return { data }
+  //   } catch (err) {
+  //     console.log(err)
+
+  //     return { error: "An error occured "}
+  //   }
+  // }
 }
 
 export default SpecialityAPI

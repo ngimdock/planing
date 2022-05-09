@@ -8,6 +8,6 @@ SpecialityRouter.get('/all', /*authenticationMiddleware,*/ SpecialityController.
 SpecialityRouter.get('/:idSpecialite', SpecialityController.getSpeciality)
 SpecialityRouter.post('/create', SpecialityController.createSpeciality)
 SpecialityRouter.put('/update/:idSpecialite', SpecialityController.updateSpeciality)
-SpecialityRouter.put('/delete/:idSpecialite', SpecialityController.deleteSpeciality)
+SpecialityRouter.delete('/delete/:idSpecialite', SpecialityController.deleteSpeciality)
 
 export default SpecialityRouter
