@@ -109,7 +109,7 @@ class SpecialityController {
             const data = await SpecialityModel.delete(idSpecialite)
 
             if(data > 0) {
-                res.status(200).json({ message: " The Speciality has successfully been deleted " })
+                res.status(200).json({ data: idSpecialite })
             } else if(data == 0) {
                 res.status(404).json({ message: " The Speciality doesn't exist " })
             } else {
