@@ -23,11 +23,11 @@ const LevelItem = ({ name, id ,color}) => {
       const { data, error: err } = await SpecialityAPI.deleteSpeciality(id)
       if(data) {
         removeSpeciality(data.data)
-        showToast("Speciality deleted", "success")
+        showToast("Spécialité supprimé", "success")
       } else {
         setError(err)
-        console.log(err)
-        showToast("Could not delete the speciality", "error")
+        console.log(error)
+        showToast("Spécialité non supprimé", "error")
       }
     }
 
