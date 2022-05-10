@@ -13,6 +13,7 @@ import TeacherProvider from './datamanager/providers/teacherProvider';
 import RoomProvider from './datamanager/providers/roomProvider';
 import ClassProvider from './datamanager/providers/classProvider';
 import SubjectProvider from './datamanager/providers/subjectProvider';
+import PlanningProvider from './datamanager/providers/planningProvider';
 
 function App() {
   return (
@@ -29,7 +30,9 @@ function App() {
                         <RoomProvider>
                           <ClassProvider>
                             <SubjectProvider>
-                              <Navigation />
+                              <PlanningProvider>
+                                <Navigation />
+                              </PlanningProvider>
                             </SubjectProvider>
                           </ClassProvider>
                         </RoomProvider>
