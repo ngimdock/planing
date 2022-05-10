@@ -17,6 +17,22 @@ class FacultyAPI extends DefaultApiCall {
       return { error: "An error occured" }
     }
   }
+
+  static async create(data){
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data: facData, error } = await instance.post("/faculty/create", data)
+
+      console.log(facData)
+
+      return { data: facData }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
 }
 
 export default FacultyAPI

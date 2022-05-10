@@ -49,37 +49,37 @@ const planningReducer = (state = [], action) => {
       return prevState
     }
 
-    case "ADD_FACULTY": {
-      const {
-        idAcademicYear,
-        idSemester,
-        idFaculty,
-        value
-      } = action.payload
+    // case "ADD_FACULTY": {
+    //   const {
+    //     idAcademicYear,
+    //     idSemester,
+    //     idFaculty,
+    //     value
+    //   } = action.payload
 
-      if (idAcademicYear && idSemester && idFaculty && value) {
-        // Get the index of the academic year
-        const acaYIndex = prevState.findIndex(acaY => Number(acaY.id) === Number(idAcademicYear))
+    //   if (idAcademicYear && idSemester && idFaculty && value) {
+    //     // Get the index of the academic year
+    //     const acaYIndex = prevState.findIndex(acaY => Number(acaY.id) === Number(idAcademicYear))
 
-        if (acaYIndex > -1) {
-          // Get the index of the semester
-          const semesterIndex = prevState[acaYIndex].semesters.findIndex(semester => Number(semester.id) === Number(idSemester))
+    //     if (acaYIndex > -1) {
+    //       // Get the index of the semester
+    //       const semesterIndex = prevState[acaYIndex].semesters.findIndex(semester => Number(semester.id) === Number(idSemester))
 
-          if (semesterIndex > -1) {
-            // New faculty
-            const faculty = {
-              id: idFaculty,
-              value,
-              classes
-            }
+    //       if (semesterIndex > -1) {
+    //         // New faculty
+    //         const faculty = {
+    //           id: idFaculty,
+    //           value,
+    //           classes
+    //         }
 
-            prevState[acaYIndex].semesters[semesterIndex].faculties.push(faculty)
-          }
-        }
-      }
+    //         prevState[acaYIndex].semesters[semesterIndex].faculties.push(faculty)
+    //       }
+    //     }
+    //   }
 
-      return prevState
-    }
+    //   return prevState
+    // }
 
     case "ADD_CLASS": {
 
