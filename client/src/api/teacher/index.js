@@ -52,6 +52,22 @@ class TeacherAPI extends DefaultApiCall {
       return { error: "An error occured "}
     }
   }
+
+  static async deleteTeacher(matricule) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data } = await instance.delete(`/teacher/delete/${matricule}`)
+
+      console.log(data)
+
+      return { data }
+    } catch (err) {
+      console.log(err)
+
+      return { error : "An error occured" }
+    }
+  }
 }
 
 export default TeacherAPI
