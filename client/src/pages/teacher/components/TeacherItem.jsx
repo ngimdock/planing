@@ -10,7 +10,7 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
   //  get global state
   const { openModal } = useContext(ModalContext)
   const { showToast } = useContext(ToastContext)
-  const { removeTeacher } = useContext(TeacherContext)
+  const { removeTeacher, setTeacher } = useContext(TeacherContext)
 
   // set local state
   const [error, setError] = useState("")
@@ -25,6 +25,11 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
         console.log(error)
         showToast("Enseignant non Supprimé", "error")
     }
+  }
+
+  const handleUpdateTeacher = async (data) => {
+    setTeacher({matricule : data.matricule, name: data.name, sexe: data.sexe})
+    openModal('Modifier Enseignant', 'UPDATE_TEACHER')
   }
     
   return (
@@ -98,7 +103,7 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
                                 cursor: "pointer"
                             }
                         }}
-                        onClick={() => openModal('Modifier Enseignant', 'ADD_TEACHER')}
+                        onClick={() => handleUpdateTeacher({ matricule, name, sexe })}
                     >
                         <BsPencilFill 
                             size={20}
