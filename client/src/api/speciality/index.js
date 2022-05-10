@@ -35,6 +35,23 @@ class SpecialityAPI extends DefaultApiCall {
     }
   }
 
+  static async modifySpeciality(id, name) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+
+      const { data } = await instance.put(`/speciality/update/${id}`, { nomSpecialite: name })
+
+      console.log(data)
+
+      return { data }
+    } catch(err) {
+      console.log(err)
+
+      return { error: "An error occured " }
+    }
+  }
+
   static async deleteSpeciality(id) {
     const instance = this.insertToken(axiosInstance)
 
