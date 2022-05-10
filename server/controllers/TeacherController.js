@@ -94,7 +94,7 @@ class TeacherController {
                 const response = await TeacherModel.getById(matriculeEns)
 
                 if(response.length > 0){
-                    res.status(200).json(response)    
+                    res.status(200).json(...response)    
                 } else {
                     res.status(404).json({ error: "No such teacher "})
                 }  
