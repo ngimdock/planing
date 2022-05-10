@@ -29,7 +29,7 @@ class FacultyModel {
 			// create on database
 			const [rows] = await connection.execute(query, [nomFil])
 
-			return { data: { id: rows.insertId } }
+			return { data: { id: rows.insertId, nomFil } }
 		} catch(err){
 			return { error: err }
 		}
@@ -49,6 +49,27 @@ class FacultyModel {
 		} catch (err) {
 			console.log(err)
 			return { error: "An error occured" }
+		}
+	}
+
+	static async update ({ nomFil, idFil }) {
+		const query = `
+			UPDATE Filiere
+			SET nomFil = ?
+			WHERE idFil = ?
+		`
+
+		try {
+			const [rows] = await connection.execute(query, [nomFil, idFil])
+			console.log(rows)
+			// if (rows.length > 0)
+				return { data: { idFil, nomFil } }
+
+			// return 
+		} catch (err) {
+			console.log(err)
+
+			return { error: "An error occured while updating a faculty" }
 		}
 	}
 }
