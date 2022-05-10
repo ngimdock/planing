@@ -6,13 +6,15 @@ import { Box } from '@mui/material'
 import SpecialityAPI from '../../../api/speciality'
 import SpecialityContext from '../../../datamanager/contexts/specialityContext'
 import ToastContext from '../../../datamanager/contexts/toastContext'
+import ModalContext from '../../../datamanager/contexts/modalContext'
 
 
 const LevelItem = ({ name, id ,color}) => {
 
   // Get global state
-  const { removeSpeciality } = useContext(SpecialityContext)
+  const { removeSpeciality, setSpeciality } = useContext(SpecialityContext)
   const { showToast } = useContext(ToastContext)
+  const { openModal } = useContext(ModalContext)
 
   // Set local state
   const [error, setError] = useState("")
@@ -24,10 +26,15 @@ const LevelItem = ({ name, id ,color}) => {
         showToast("Speciality deleted", "success")
       } else {
         setError(err)
-        console.log(error)
+        console.log(err)
         showToast("Could not delete the speciality", "error")
       }
     }
+
+  const handleUpdateSpeciality = async (id, name) => {
+    setSpeciality({id, name})
+    openModal('Modifier Specialité', 'UPDATE_SPECIALITY')
+  }  
    
     return (
         <div className={styles.specialityItem}
@@ -38,7 +45,7 @@ const LevelItem = ({ name, id ,color}) => {
           <span> { name }  </span>
           <div className={styles.levelIcon}>
             <Box
-              onClick={()=>alert("update")}
+              onClick={()=>handleUpdateSpeciality(id, name)}
             >
               <FiEdit2
                 size="18"
