@@ -83,7 +83,6 @@ const UpdateTeacherModalContent = () => {
   }
 
   const handleSubmitForm = async () => {
-
     if (!loading) {
       setLoading(true)
       const { data, error: err } = await TeacherAPI.updateTeacher(
