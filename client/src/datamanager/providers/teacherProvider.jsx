@@ -66,7 +66,18 @@ const TeacherProvider = ({ children }) => {
   }
 
   const handleRemoveTeacher = (id) => {
-    // nothing
+    if(id) {
+      const teacherPrevState = [...teachers]
+
+      const teacherIndex = teacherPrevState.findIndex(checkTeacherPosition)
+
+      function checkTeacherPosition(teacher) {
+        return teacher.matricule === id
+      }
+
+      teacherPrevState.splice(teacherIndex, 1)
+      setTeachers(teacherPrevState)
+    }
   }
 
   // Context value
