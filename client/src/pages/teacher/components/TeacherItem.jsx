@@ -1,10 +1,32 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import { BsPencilFill, BsFillTrashFill } from 'react-icons/bs'
 import ModalContext from "../../../datamanager/contexts/modalContext"
+import TeacherAPI from '../../../api/teacher'
+import ToastContext from '../../../datamanager/contexts/toastContext'
+import TeacherContext from '../../../datamanager/contexts/teacherContext'
 
 const TeacherItem = ({ matricule, sexe, name, color }) => {
+  //  get global state
   const { openModal } = useContext(ModalContext)
+  const { showToast } = useContext(ToastContext)
+  const { removeTeacher } = useContext(TeacherContext)
+
+  // set local state
+  const [error, setError] = useState("")
+
+  const handleDeleteTeacher = async (matricule) => {
+    const { data, error: err } = await TeacherAPI.deleteTeacher(matricule)
+    if(data) {
+        removeTeacher(data)
+        showToast("Enseignant supprimé","success")
+    } else {
+        setError(err)
+        console.log(error)
+        showToast("Enseignant non Supprimé", "error")
+    }
+  }
+    
   return (
 
     <Box
@@ -90,6 +112,7 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
                                 cursor: "pointer"
                             }
                         }}
+                        onClick={() => handleDeleteTeacher(matricule)}
                     >
                         <BsFillTrashFill 
                             size={20}
