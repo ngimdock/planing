@@ -20,6 +20,7 @@ const SpecialityBody = () => {
                return (
                   <SpecialityItem
                      key={spec.getId}
+                     id={spec.getId}
                      name={spec.getName}
                      color={generateColor()}
                   />

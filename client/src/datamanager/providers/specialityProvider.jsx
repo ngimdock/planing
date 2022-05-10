@@ -5,6 +5,7 @@ import { useState } from 'react'
 const SpecialityProvider = ({ children }) => {
   // Set local state
   const [specialities, setSpecialities] = useState([])
+  const [selectedSpeciality, setSelectedSpeciality] = useState({})
 
   // Some handlers
   const handleGetSpeciality = (id) => {
@@ -41,16 +42,41 @@ const SpecialityProvider = ({ children }) => {
   }
 
   const handleUpdateSpeciality = (id, name) => {
-    // nothing
+
+    if(id && name) {
+      specialities.forEach(speciality => {
+        if(speciality.id == id) {
+          speciality.name = name
+        }
+      })
+      setSpecialities(specialities)
+    }
   }
 
   const handleRemoveSpeciality = (id) => {
-    // nothing
+
+    const specialitiesNewState = []
+
+    if(id) {
+      console.log(id)
+      const specialitiesPrevState = [...specialities]
+
+      specialitiesPrevState.forEach(checkSpeciality)
+
+      function checkSpeciality(speciality) {
+        if(speciality.id !== id) {
+          specialitiesNewState.push(speciality)
+        } 
+      }
+      setSpecialities(specialitiesNewState)
+    }
   }
 
   // Context value
   const contextValue = {
     specialities,
+    selectedSpeciality,
+    setSpeciality: setSelectedSpeciality,
     getSpeciality: handleGetSpeciality,
     addSpecialities: handleAddSpecialities,
     addSpeciality: handleAddSpeciality,
