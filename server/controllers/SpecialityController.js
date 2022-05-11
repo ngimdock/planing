@@ -8,9 +8,9 @@ class SpecialityController {
      * @returns Object data | error
      */
     static getSpecialities = async (req, res) => {
-        const data = await SpecialityModel.get()
+        const { data } = await SpecialityModel.get()
 
-        if(data.length > 0) {
+        if (data !== undefined) {
             res.status(200).json(data)
         } else {
             res.status(500).json({ error : " An error occured " })
@@ -50,9 +50,9 @@ class SpecialityController {
 
         if(nomSpecialite && typeof nomSpecialite === 'string' && nomSpecialite != '') {
 
-            const { response, data } = await SpecialityModel.create(req.body)
+            const { data } = await SpecialityModel.create(req.body)
 
-            if(response && response > 0 && data) {
+            if(data) {
                 return res.status(201).json(data)
             } else {
                 return res.status(500).json({ error: "An error occured" })
@@ -85,7 +85,7 @@ class SpecialityController {
                 const response = await SpecialityModel.getById(idSpecialite)
 
                 if(response.length > 0){
-                    res.status(200).json(response)    
+                    res.status(200).json(...response)    
                 } else {
                     res.status(404).json({ error: "No such Speciality "})
                 }  
@@ -109,7 +109,7 @@ class SpecialityController {
             const data = await SpecialityModel.delete(idSpecialite)
 
             if(data > 0) {
-                res.status(200).json({ message: " The Speciality has successfully been deleted " })
+                res.status(200).json({ data: idSpecialite })
             } else if(data == 0) {
                 res.status(404).json({ message: " The Speciality doesn't exist " })
             } else {

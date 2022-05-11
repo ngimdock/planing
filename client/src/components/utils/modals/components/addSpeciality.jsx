@@ -5,22 +5,40 @@ import Button from "../../buttons/button"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import styles from '../css/modalContent.module.css'
 import LinearLoader from "../../loaders/linearLoader"
+import SpecialityAPI from "../../../../api/speciality"
+import SpecialityContext from "../../../../datamanager/contexts/specialityContext"
+import ToastContext from "../../../../datamanager/contexts/toastContext"
 
 const AddSpecialityModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const { addSpeciality } = useContext(SpecialityContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [name, setName] = useState("")
+  const [error, setError] = useState("")
   const [loading, setLoading] = useState("")
 
   // Some handlers
   const handleChangeName = (e) => setName(e.target.value)
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
       setLoading(true)
-      console.log("You can send the request")
+      const { data, error: err } = await SpecialityAPI.createSpeciality(name)
+      setLoading(false)
+      if(data.id) {
+        const payload = { id: data.id, name: data.nomSpecialite } 
+        addSpeciality(payload)
+        closeModal()
+        showToast("New Speciality created", "success")
+      } else {
+        setError(err)
+        console.log(error)
+        closeModal()
+        showToast("Could not create the speciality", "error")
+      }
     }
   }
 

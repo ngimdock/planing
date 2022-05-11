@@ -35,7 +35,7 @@ class TeacherModel {
 
       try {
         const data = await connection.execute(query).then(([result]) => {          
-          return [...result]
+          return { data: [...result] }
         }).catch(error => {
           console.log(error)
           return { error }
@@ -94,14 +94,9 @@ class TeacherModel {
       const query = `INSERT INTO Enseignant (matriculeEns, nomEns, sexEns) VALUES (?, ?, ?)`
       
       try {
-        const response = await connection.execute(query, values).then(([result]) => {
-          return result.affectedRows
-        }).catch(error => {
-          console.log(error)
-          return { error }
-        })
-         
-        return { response, data }
+        const [rows] = await connection.execute(query, values)
+        
+        return { data }
       } catch (err) {
         console.log(err)
 

@@ -1,0 +1,70 @@
+.container{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px 10px 0 0;
+  }
+  .specialityItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 20px;
+    border-radius: 10px;
+    height: 60px;
+    width: 150px;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    font-size: 22px;
+    font-weight: bold;
+  }
+  .levelIcon{
+    display: none;
+  }
+  .specialityItem:hover .levelIcon{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    position:absolute;
+    top:-5px;
+    right: -20px;
+    height: 20px;
+    width: 50px;
+    padding: 5px;
+    box-shadow: 0px 3px 5px rgb(136, 134, 134);
+    background-color: #fff;
+    border: none;
+    border-radius:50px;
+    cursor: pointer;
+  }
+  .specialityTitle{
+    padding: 15px;
+    height: 20px;
+    border: 1px solid #e0dddd;
+    border-radius: 10px 10px 0 0;
+    color:#3b3e41;
+    font-weight: bold;
+    font-size: 18px;
+    width: calc(100% - 30px);
+    background-color: #fff;
+  }
+  .specialityContent{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 95.75%;
+    height: auto;
+    border-bottom: 1px solid #e0dddd;
+    border-left: 1px solid #e0dddd;
+    border-right: 1px solid #e0dddd;
+    border-radius: 0 0 10px 10px;
+    padding: 15px;
+    width: calc(100% - 30px);
+    background-color: #fff;
+  }
+  .specialityItem span{
+    margin:35px 
+  }

@@ -1,0 +1,27 @@
+/* Styles for the teacher page */
+
+.teacherTitle {
+    padding: 15px;
+    height: 20px;
+    border: 1px solid #e0dddd;
+    border-radius: 10px 10px 0 0;
+    color: #3b3e41;
+    font-weight: bold;
+    font-size: 18px;
+    width: calc(100% - 30px);
+    background-color: #fff;
+}
+
+.teacherBody {
+    padding: 15px;
+    height: auto;
+    display: grid;
+    grid-row-gap: 10px;
+    grid-column-gap: 50px;
+    grid-template-columns: auto auto auto;
+    border: 1px solid #e0dddd;
+    border-radius: 0 0 10px 10px;
+    width: calc(100% - 30px);
+    background-color: #fff;
+    overflow-x: auto;
+}

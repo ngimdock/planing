@@ -35,7 +35,7 @@ class SpecialityModel {
 
       try {
         const data = await connection.execute(query).then(([result]) => {          
-          return [...result]
+          return { data: [...result] }
         }).catch(error => {
           console.log(error)
           return { error }
@@ -88,14 +88,9 @@ class SpecialityModel {
       const query = "INSERT INTO Specialite(nomSpecialite) VALUES(?)"
 
       try {
-        const response = await connection.query(query, [nomSpecialite]).then(([result]) => {
-          return result.affectedRows
-        }).catch(error => {
-          console.log(error)
-          return { error }
-        })
+        const [rows] = await connection.execute(query, [nomSpecialite])
 
-        return { response, data }
+        return { data: { id: rows.insertId, ...data } }
       } catch(err) {
         console.log(error)
 

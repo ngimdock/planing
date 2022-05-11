@@ -14,6 +14,7 @@ import TeacherRouter from "./routers/api/TeacherRouter.js"
 import SpecialityRouter from "./routers/api/SpecialityRouter.js"
 import GroupRouter from "./routers/api/GroupRouter.js"
 import FollowRouter from "./routers/api/FollowRouter.js"
+import planifiedRouter from "./routers/api/planifiedRouter.js"
 
 const app = express()
 
@@ -39,6 +40,7 @@ app.use("/teacher", TeacherRouter)
 app.use("/speciality", SpecialityRouter)
 app.use("/group", GroupRouter)
 app.use("/follow", FollowRouter)
+app.use("/planified", planifiedRouter)
 
 app.get("/", (req, res) =>  {
 	res.send([{
