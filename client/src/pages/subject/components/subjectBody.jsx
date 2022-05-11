@@ -20,6 +20,7 @@ const SubjectBody = () => {
             return (
               <SubjectItem
                 key={subject.getCode}
+                id={subject.getCode}
                 title={subject.getCode}
                 value={subject.getDescription}
                 color={generateColor()}
