@@ -3,6 +3,10 @@ const planningReducer = (state = [], action) => {
   const prevState = [...state]
 
   switch (action.type) {
+    case "ADD_ACADEMIC_YEARS": {
+      return action.payload
+    }
+
     case "ADD_ACADEMIC_YEAR": {
       const {
         id,
@@ -13,7 +17,7 @@ const planningReducer = (state = [], action) => {
         // New academic year
         const academicYear = {
           id,
-          value,
+          headerTitle: value,
           semesters: []
         }
 
@@ -49,6 +53,23 @@ const planningReducer = (state = [], action) => {
       return prevState
     }
 
+    case "ADD_FACULTIES": {
+      const {
+        faculties
+      } = action.payload
+
+      // Loop throught academics years
+      for (let acaYIndex in prevState) {
+
+        // Loop throught semester
+        for (let semesterIndex in prevState[acaYIndex].semesters) {
+          prevState[acaYIndex].semesters[semesterIndex].faculties = faculties
+        }
+      } 
+
+      return prevState
+    }
+
     case "ADD_FACULTY": {
       const {
         idAcademicYear,
@@ -70,7 +91,7 @@ const planningReducer = (state = [], action) => {
             const faculty = {
               id: idFaculty,
               value,
-              classes
+              classes: []
             }
 
             prevState[acaYIndex].semesters[semesterIndex].faculties.push(faculty)

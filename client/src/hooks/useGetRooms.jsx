@@ -14,8 +14,6 @@ const useGetRooms = () => {
   const handleGetRooms = async () => {
     const { data } = await RoomAPI.getAll()
 
-    console.log(data)
-
     if (data) {
       // Store rooms inside the global state
       addRooms(data)

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { BiChevronUp } from 'react-icons/bi'
 import ElementItem from './elementItem';
 
-const AccordionItem = ({ headerTitle, data, target }) => {
+const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = (event) => {
@@ -33,13 +33,18 @@ const AccordionItem = ({ headerTitle, data, target }) => {
           { headerTitle }
         </Typography>
       </AccordionSummary>
-      <AccordionDetails sx={{p: 0}}>
+      <AccordionDetails sx={{ p: 0 }}>
         {
           data?.map(item => {
             return (
               <ElementItem 
                 key={item.id}
-                value={item.value}
+                value={type === "semester" ? item.value : item.getCode}
+                idSemester={type === "semester" && item.id}
+                year={{
+                  id: idYear,
+                  value: headerTitle
+                }}
                 target={target}
               />
             )
