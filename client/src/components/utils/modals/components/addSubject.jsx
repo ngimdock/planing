@@ -20,7 +20,7 @@ const initialState = {
   code: "",
   description: "",
   teacher: 0,
-  speciality: 0,
+  speciality: null,
   semester: 0
 }
 

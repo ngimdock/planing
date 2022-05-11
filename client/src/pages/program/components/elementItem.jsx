@@ -4,11 +4,12 @@ import PlanningNavigationContext from "../../../datamanager/contexts/planningNav
 import ToastContext from "../../../datamanager/contexts/toastContext"
 import PlanningContext from "../../../datamanager/contexts/planningContext"
 import ProgramAPI from "../../../api/program"
+import PlanningAction from "../../../datamanager/actions/planning"
 
 const ElementItem = ({ value, target, year, idSemester }) => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
-  const { selectSemester, currentSemester } = useContext(PlanningContext)
+  const { selectSemester, currentSemester, dispatch } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
 
   // Some handlers
@@ -26,6 +27,7 @@ const ElementItem = ({ value, target, year, idSemester }) => {
     }
   }
 
+  // Get programs filtered by class based on the code class
   const handleGetProgramsByClass = async () => {
     const { data, error } = await ProgramAPI.getByClass({
       idYear: currentSemester.idYear,
@@ -33,8 +35,12 @@ const ElementItem = ({ value, target, year, idSemester }) => {
       codeClass: value
     })
 
-    if (data) {
-      console.log("correct")
+    console.log(data)
+    if (data !== undefined) {
+      // When all is OK
+      if (data) {
+        dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
+      }
     } else {
       showToast(`Le programme de ${value} n'a pas pu etre chargee correctement`, "error")
     }

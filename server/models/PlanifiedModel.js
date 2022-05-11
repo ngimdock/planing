@@ -64,7 +64,7 @@ class planifiedModel {
         const { idAnneeAca, idSemestre } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -169,9 +169,12 @@ class planifiedModel {
             const program = {
                 subjectCode: prog.codeCours,
                 subjectDescription: prog.descriptionCours,
+                roomId: prog.idSalle,
                 roomName: prog.nomSal,
+                teacherMatricule: prog.matriculeEns,
                 teacherName: prog.nomEns,
                 day: prog.nomJour,
+                groupId: prog.idGroupe,
                 group: prog.nomGroupe,
                 startHour: prog.heureDebut,
                 endHour: prog.heureFin
@@ -208,6 +211,7 @@ class planifiedModel {
                     // Initial data of faculty program
                     const facProgram = {
                         facultyName: prog.nomFil,
+                        id: prog.idFil,
                         classes: [myClass]
                     }
 
@@ -228,7 +232,7 @@ class planifiedModel {
         } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -267,7 +271,7 @@ class planifiedModel {
         } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -284,16 +288,14 @@ class planifiedModel {
             ORDER BY J.nomJour ASC
         `
 
-        console.log(payload)
-
         try{
             const [rows] = await connection.execute(query, [Number(idSemestre), Number(idAnneeAca), codeClasse])
 
             const formatedData = this.FormatProgram(rows, "class")
 
-            console.log({ rows, formatedData })
+            console.log(rows)
 
-            return{ data: formatedData }
+            return { data: formatedData ? formatedData : false }
         }catch(err){
             console.log(err);
             return { error: "An error occured while getting programs by class" }

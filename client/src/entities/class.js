@@ -11,6 +11,7 @@ class Class {
   faculty
   level
   specialities
+  programs
 
   constructor (data) {
     this.initialization(data)
@@ -38,6 +39,7 @@ class Class {
       this.capacity = capacity
       this.faculty = new Faculty(faculty)
       this.level = new Level(level)
+      this.programs = {}
 
       if (specialities.length > 0) {
         this.specialities = specialities.map(spec => new Speciality(spec))

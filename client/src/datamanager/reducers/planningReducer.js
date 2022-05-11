@@ -103,7 +103,40 @@ const planningReducer = (state = [], action) => {
     }
 
     case "ADD_CLASS": {
+      const {
+        idAcademicYear,
+        idSemester,
+        data: { 
+          id: idFaculty
+        },
+        data
+      } = action.payload
 
+      // Get the index of the academic year
+      const acaYIndex = prevState.findIndex(acaY => Number(acaY.id) === Number(idAcademicYear))
+ 
+      if (acaYIndex > -1) {
+        // Get the index of the semester
+        const semesterIndex = prevState[acaYIndex].semesters.findIndex(semester => Number(semester.id) === Number(idSemester))
+     
+        if (semesterIndex > -1) {
+          // Get the index of the faculty
+          const facIndex = prevState[acaYIndex].semesters[semesterIndex].faculties.findIndex(fac => Number(fac.id) === Number(idFaculty))
+       
+          if (facIndex > -1) {
+            // Get the index of the class
+            const classIndex = prevState[acaYIndex].semesters[semesterIndex].faculties[facIndex].classes.findIndex(c => c.code === data.classes[0].code)
+            
+            console.log({classIndex, code: data.classes[0].code})
+            if (classIndex > -1) {
+
+              prevState[acaYIndex].semesters[semesterIndex].faculties[facIndex].classes[classIndex].programs = data.classes[0].programs
+            }
+          }
+        }
+      }
+
+      return prevState
     }
 
     case "ADD_PROGRAM": {

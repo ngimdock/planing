@@ -75,6 +75,31 @@ class PlanningAction {
         payload: data
       })
     }
+
+    return ({
+      type: "NOTHING"
+    })
+  }
+
+  static addClass = (idAcademicYear, idSemester, data) => {
+    const { id: idFaculty } = data
+
+    console.log(idFaculty)
+
+    if (idAcademicYear && idSemester && idFaculty) {
+      return ({
+        type: "ADD_CLASS",
+        payload: {
+          idAcademicYear,
+          idSemester,
+          data
+        }
+      })
+    } 
+
+    return ({
+      type: "NOTHING"
+    })
   }
 }
 
