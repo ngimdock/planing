@@ -11,12 +11,30 @@ class FacultyController {
 	}
 	
 	static createFaculty = async (req, res) => {
+		console.log(req.body)
 
 		const { data } = await FacultyModel.create(req.body)
 		
 		if(data)
-			return res.status(201).json(data)
+			return res.status(201).json({data})
 		return res.status(500).json({ error: "an error occured" })
+	}
+
+	static updateFaculty = async (req, res) => {
+		const { nomFil } = req.body
+		const { idFil } = req.params
+
+		if (nomFil && idFil) {
+			const { data, error } = await FacultyModel.update({ nomFil, idFil })
+
+			if (data) {
+				return res.json({ data })
+			}
+
+			return res.status(500).json({ error })
+		}
+
+		return res.status(400).json({ error: "Provide all the required data" })
 	}
 }
 

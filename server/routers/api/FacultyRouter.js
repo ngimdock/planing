@@ -7,5 +7,6 @@ const FacultyRouter = express.Router()
 // set some routes
 FacultyRouter.get("/all", authenticationMiddleware, FacultyController.getFaculties)
 FacultyRouter.post("/create", authenticationMiddleware, FacultyController.createFaculty)
+FacultyRouter.put("/update/:idFil", authenticationMiddleware, FacultyController.updateFaculty)
 
 export default FacultyRouter
