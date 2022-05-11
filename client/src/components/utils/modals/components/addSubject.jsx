@@ -104,11 +104,11 @@ const AddSubjectModalContent = () => {
       if (data) {
         addSubject(data)
         console.log(data);
-        closeModal()
+      }else{
+        setError(error)
       }
 
-      console.log(error)
-      setError(error)
+      closeModal()
     }
   }
 
