@@ -16,7 +16,7 @@ const TableRow = ({ color, number, data }) => {
     //suppression de classe
     const handleDeleteClass = async ()=>{
         const {data:datadel, error} = await ClassAPI.delete(data.getCode)
-        
+        console.log(datadel)
         if(error){
             console.log(error)
         }

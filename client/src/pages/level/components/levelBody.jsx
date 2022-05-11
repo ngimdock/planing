@@ -20,6 +20,7 @@ const LevelBody = () => {
                return (
                   <LevelItem
                      key={level.getId}
+                     id={level.getId}
                      name={level.getName}
                      color={generateColor()}
                   />
