@@ -11,7 +11,6 @@ import { BsCheck, BsX } from "react-icons/bs"
 import LoaderCircle from "../../loaders/loaderCircle"
 
 import SubjectContext from "../../../../datamanager/contexts/subjectContext"
-import TeachersContext from "../../../../datamanager/contexts/teacherContext"
 import SpecialityContext from '../../../../datamanager/contexts/specialityContext';
 
 
@@ -19,16 +18,13 @@ import SpecialityContext from '../../../../datamanager/contexts/specialityContex
 const initialState = {
   code: "",
   description: "",
-  teacher: 0,
-  speciality: 0,
-  semester: 0
+  speciality: 0
 }
 
 const AddSubjectModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
   const { addSubject } = useContext(SubjectContext)
-  const { teachers } = useContext(TeachersContext)
   const { specialities } = useContext(SpecialityContext)
 
   // Set local state
@@ -77,18 +73,8 @@ const AddSubjectModalContent = () => {
         break
       }
 
-      case "teacher": {
-        subjectPrev.teacher = value
-        break
-      }
-
       case "speciality": {
         subjectPrev.speciality = value
-        break
-      }
-
-      case "semester": {
-        subjectPrev.semester = value
         break
       }
 
@@ -108,8 +94,6 @@ const AddSubjectModalContent = () => {
       const payload = {
         codeCours: subject.code,
         descriptionCours: subject.description,
-        idSemestre: subject.semester,
-        matriculeEns: subject.teacher,
         idSpecialite: subject.speciality
       }
 
@@ -131,17 +115,13 @@ const AddSubjectModalContent = () => {
   const verificationForm = () => {
     const {
       code,
-      description,
-      teacher,
-      semester
+      description
     } = subject
 
     if (
       code &&
       !codeAlreadyExist &&
-      description &&
-      teacher &&
-      semester
+      description
     ) {
       return true
     }
@@ -190,18 +170,6 @@ const AddSubjectModalContent = () => {
       />
       <Select
         disabled={loading}
-        options={teachers && teachers.map(teacher => {
-          return ({
-            value: teacher.getMatricule,
-            label: teacher.getName
-          })
-        })}
-        label="Enseignant"
-        fullWidth
-        onGetValue={(value) => handleChange("teacher", value)}
-      />
-      <Select
-        disabled={loading}
         options={specialities && specialities.map(spec => {
           return ({
             value: spec.getId,
@@ -211,16 +179,6 @@ const AddSubjectModalContent = () => {
         label="Specialité"
         fullWidth
         onGetValue={(value) => handleChange("speciality", value)}
-      />
-      <Select
-        disabled={loading}
-        options={[
-          { value: 1, label: "Semestre 1 2021-2022" },
-          { value: 2, label: "Semestre 2 2021-2022" }
-        ]}
-        label="Semestre"
-        fullWidth
-        onGetValue={(value) => handleChange("semester", value)}
       />
 
       <Box className={styles.controls}>

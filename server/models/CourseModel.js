@@ -6,7 +6,7 @@ class CourseModel {
             (
                 codeCours VARCHAR(10) PRIMARY KEY NOT NULL, 
                 descriptionCours VARCHAR(200) NOT NULL,
-                idSpecialite INTEGER,
+                idSpecialite INTEGER NULL,
                 CONSTRAINT FK_CoursSpecialite 
                 FOREIGN KEY(idSpecialite) REFERENCES Specialite (idSpecialite)
             )
@@ -24,8 +24,7 @@ class CourseModel {
     static getCourses = async () => {
         const query = `
             SELECT * 
-            FROM Cours
-        `
+            FROM Cours `
 
         try{
             const [rows] = await connection.execute(query)
@@ -73,13 +72,16 @@ class CourseModel {
             descriptionCours,
             idSpecialite
         } = payload
+
+        const idSpec =  idSpecialite ? idSpecialite : null
         
         const query = `
             INSERT INTO Cours (codeCours, descriptionCours, idSpecialite)
             VALUES(?, ?, ?)
         `
 
-        const values = [codeCours, descriptionCours, idSpecialite && idSpecialite]
+        const values = [codeCours, descriptionCours, idSpec]
+        console.log(values)
 
         try{
             const [rows] = await connection.execute(query, values)
