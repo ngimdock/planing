@@ -51,6 +51,8 @@ class PlanifiedController {
             codeClasse
         } = req.params
 
+        console.log(req.params)
+
         if(!idAnneeAca || !idSemestre || !codeClasse) 
             return res.status(400).json({ error: "Provide all the required data" })
         

@@ -284,10 +284,14 @@ class planifiedModel {
             ORDER BY J.nomJour ASC
         `
 
+        console.log(payload)
+
         try{
-            const [rows] = await connection.execute(query, [idSemestre, idAnneeAca, codeClasse])
+            const [rows] = await connection.execute(query, [Number(idSemestre), Number(idAnneeAca), codeClasse])
 
             const formatedData = this.FormatProgram(rows, "class")
+
+            console.log({ rows, formatedData })
 
             return{ data: formatedData }
         }catch(err){

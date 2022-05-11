@@ -1,12 +1,15 @@
 import { Box, Typography } from "@mui/material"
 import { useContext } from "react"
 import PlanningNavigationContext from "../../../datamanager/contexts/planningNavigationContext"
+import ToastContext from "../../../datamanager/contexts/toastContext"
 import PlanningContext from "../../../datamanager/contexts/planningContext"
+import ProgramAPI from "../../../api/program"
 
 const ElementItem = ({ value, target, year, idSemester }) => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
-  const { selectSemester } = useContext(PlanningContext)
+  const { selectSemester, currentSemester } = useContext(PlanningContext)
+  const { showToast } = useContext(ToastContext)
 
   // Some handlers
   const handleNavigateTo = () => {
@@ -18,7 +21,22 @@ const ElementItem = ({ value, target, year, idSemester }) => {
       })
       navigateTo(target, { field: "ACADEMIC_YEAR", value: 1 })
     } else {
+      handleGetProgramsByClass()
       navigateTo(target, { field: "CLASS", value: 1 })
+    }
+  }
+
+  const handleGetProgramsByClass = async () => {
+    const { data, error } = await ProgramAPI.getByClass({
+      idYear: currentSemester.idYear,
+      idSemester: currentSemester.idSemester,
+      codeClass: value
+    })
+
+    if (data) {
+      console.log("correct")
+    } else {
+      showToast(`Le programme de ${value} n'a pas pu etre chargee correctement`, "error")
     }
   }
 
