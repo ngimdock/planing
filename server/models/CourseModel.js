@@ -144,7 +144,7 @@ class CourseModel {
 
         const query = `
             UPDATE Cours
-            SET descriptionCours = (?)
+            SET descriptionCours = (?), idSpecialite = (?)
             WHERE Cours.codeCours = (?)
         `
 

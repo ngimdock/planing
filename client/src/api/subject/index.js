@@ -90,7 +90,7 @@ class SubjectAPI extends DefaultApiCall {
     }catch(error){
       console.log(error);
 
-      return {error}
+      return {error: "Error occured while updating the course"}
     }
   } 
 
