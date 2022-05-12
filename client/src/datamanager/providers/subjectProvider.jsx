@@ -67,8 +67,11 @@ const SubjectProvider = ({ children }) => {
     // nothing
   }
 
-  const handleRemoveSubject = (id) => {
-    // nothing
+  const handleRemoveSubject = (codeSubject) => {
+    
+    const newSubjects = subjects.filter(subject => subject.code !== codeSubject)
+
+    setSubjects(newSubjects)
   }
 
   // Context value
