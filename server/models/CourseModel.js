@@ -31,6 +31,8 @@ class CourseModel {
 
             const subjects = await this.addSpecialityToCourses(rows)
 
+            console.log(subjects)
+
             return{ data: subjects }
         }catch(err){
             return { error: "An error occured while geting courses" }

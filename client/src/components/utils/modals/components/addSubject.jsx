@@ -89,20 +89,23 @@ const AddSubjectModalContent = () => {
 
     console.log(subject);
     if (!loading) {
-      setLoading(true)
-
+      
       const payload = {
         codeCours: subject.code,
         descriptionCours: subject.description,
         idSpecialite: subject.speciality
       }
+      
+      setLoading(true)
 
       const { data, error } = await SubjectAPI.createSubject(payload)
 
       setLoading(false)
 
       if (data) {
-        addSubject(data)
+
+        console.log(subject)
+        addSubject(subject)
         console.log(data);
       }else{
         setError(error)

@@ -19,25 +19,31 @@ const SubjectItem = ({ id, title, value, color }) => {
   const [loading, setLoading] = useState(false)
 
   // some handle
-  const handleDeleteSubject = async (idSubject) => {
+  const handleDeleteSubject = async (codeSubject) => {
 
-    if(!idSubject) return;
+    console.log(codeSubject);
+
+    if(!codeSubject) return;
 
     if(loading) return;
 
     setLoading(true)
 
     //delete the subject
-    const { data, error } = await SubjectAPI.deleteSubject(idSubject)
+    const { data, error } = await SubjectAPI.deleteSubject(codeSubject)
     setLoading(false)
 
+    console.log(data)
+
     if(data){
-      console.log(data);
+      console.log(codeSubject);
+      console.log( typeof codeSubject);
+      removeSubject(codeSubject) // remove subject in globale state
       showToast(data)
-      return removeSubject(idSubject) // remove subject in globale state
+    }else{
+       showToast("Could not delete the Course", "error")
     }
 
-    return showToast("An error occur")
   }
 
   return (
