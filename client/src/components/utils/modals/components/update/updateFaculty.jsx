@@ -1,22 +1,22 @@
 import React, { useContext, useState } from "react"
-import styles from '../css/modalContent.module.css'
-import Input from '../../inputs/input'
+import styles from '../../css/modalContent.module.css'
+import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
-import Button from "../../buttons/button"
-import ModalContext from "../../../../datamanager/contexts/modalContext"
-import LinearLoader from "../../loaders/linearLoader"
-import FacultyAPI from "../../../../api/faculty"
-import FacultyContext from "../../../../datamanager/contexts/facultyContext"
-import ToastContext from '../../../../datamanager/contexts/toastContext'
+import Button from "../../../buttons/button"
+import ModalContext from "../../../../../datamanager/contexts/modalContext"
+import LinearLoader from "../../../loaders/linearLoader"
+import FacultyAPI from "../../../../../api/faculty"
+import FacultyContext from "../../../../../datamanager/contexts/facultyContext"
+import ToastContext from '../../../../../datamanager/contexts/toastContext'
 
-const AddFacultyModalContent = () => {
+const UpdateFacultyModelContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const {addFaculty} = useContext(FacultyContext)
+  const { updateFaculty, selectedFaculty } = useContext(FacultyContext)
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [name, setName] = useState("")
+  const [name, setName] = useState(selectedFaculty.name)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState("")
 
@@ -27,20 +27,25 @@ const AddFacultyModalContent = () => {
     if (!loading) {
       setLoading(true)
 
-      const { data, error: err } = await FacultyAPI.create({nomFil:name}) 
+      const { data, error: err } = await FacultyAPI.modifyFaculty(selectedFaculty.id, name) 
       setLoading(false);
 
-      if(data.id){
+      const {
+          idFil,
+          nomFil
+      } = data
+
+      if(idFil){
         setName("");
-        addFaculty({ id: data.id, name: data.nomFil });
+        updateFaculty(idFil, nomFil);
         closeModal();
-        showToast("Nouvelle filière ajouté", "success")
+        showToast("Filière modifié", "success")
       }
       else{
         setError(error)
         console.log(err)
         closeModal();
-        showToast("Filière non ajouté", "error")
+        showToast("Filière non modifié", "error")
       }
     }
   }
@@ -91,4 +96,4 @@ const AddFacultyModalContent = () => {
   )
 }
 
-export default AddFacultyModalContent
+export default UpdateFacultyModelContent

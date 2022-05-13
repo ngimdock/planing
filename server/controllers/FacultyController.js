@@ -43,7 +43,7 @@ class FacultyController {
      * @returns Object data | error
      */
 	  static getFaculties = async (req, res) => {
-        const { data } = await FacultyModel.get()
+        const { data } = await FacultyModel.findAll()
 
         if (data !== undefined) {
             res.status(200).json(data)
@@ -117,10 +117,10 @@ class FacultyController {
             
             if(data && data > 0) {
 
-                const response = await FacultyModel.getById(idFil)
+                const {data} = await FacultyModel.getById(idFil)
 
-                if(response.length > 0){
-                    res.status(200).json(...response)    
+                if(data.length > 0){
+                    res.status(200).json(...data)    
                 } else {
                     res.status(404).json({ error: "No such Faculty "})
                 }  
@@ -133,20 +133,20 @@ class FacultyController {
     }
 
     /**
-     * Deleting a Speciality of the platform using his identifier
-     * @param {number} idSpecialite The Speciality's identifier
+     * Deleting a Faculty of the platform using his identifier
+     * @param {number} idFil The Faculty's identifier
      * @returns {Object} response of the request
      */
-     static deleteSpeciality = async (req, res) => {
-        const idSpecialite = parseInt(req.params.idSpecialite)
+     static deleteFaculty = async (req, res) => {
+        const idFil = parseInt(req.params.idFil)
         
-        if(idSpecialite && Number.isInteger(idSpecialite)) {
-            const data = await SpecialityModel.delete(idSpecialite)
+        if(idFil && Number.isInteger(idFil)) {
+            const data = await FacultyModel.delete(idFil)
 
             if(data > 0) {
-                res.status(200).json({ data: idSpecialite })
+                res.status(200).json(idFil)
             } else if(data == 0) {
-                res.status(404).json({ message: " The Speciality doesn't exist " })
+                res.status(404).json({ message: " The Faculty doesn't exist " })
             } else {
                 res.status(500).json({ error: " An error occured "})
 

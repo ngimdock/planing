@@ -11,13 +11,27 @@ class FacultyModel {
 			)
 		`
 
-	try {
-      await connection.query(query)
+		try {
+		await connection.query(query)
 
-      console.log("Table Filiere OK")
-    } catch (err) {
-      console.log(err)
-    }
+		console.log("Table Filiere OK")
+		} catch (err) {
+		console.log(err)
+		}
+	}
+
+	static async getById(idFil) {
+		const query = "SELECT * FROM Filiere WHERE idFil = ?"
+
+		try {
+			const [rows] = await connection.execute(query, [idFil])
+			
+			return { data : rows }
+		} catch (err) {
+			console.log(err)
+
+			return { error: err }
+		}
 	}
 
 	static async create(data) {
@@ -81,7 +95,7 @@ class FacultyModel {
      */
      static async update(idFil,nomFil) {
 
-		const values = [idFil,nomFil]
+		const values = [nomFil,idFil]
   
 		const sql1 = `
 			UPDATE Filiere SET nomFil = ? WHERE idFil = ?
@@ -108,7 +122,7 @@ class FacultyModel {
 	   * @param {String} idFil The faculty identifier
 	   * @returns {number} The number of deleted speciality
 	   */
-	   /*
+	   
 	  static async delete(idFil) {
 		const query = `
 		  DELETE FROM Filiere WHERE idFil = ?
@@ -128,7 +142,7 @@ class FacultyModel {
 		  return { error : err }
 		}
 	  }
-	*/
+	
   }
 
 

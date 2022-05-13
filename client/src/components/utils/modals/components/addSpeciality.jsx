@@ -32,12 +32,12 @@ const AddSpecialityModalContent = () => {
         const payload = { id: data.id, name: data.nomSpecialite } 
         addSpeciality(payload)
         closeModal()
-        showToast("New Speciality created", "success")
+        showToast("Nouvelle spécialité ajouté", "success")
       } else {
         setError(err)
         console.log(error)
         closeModal()
-        showToast("Could not create the speciality", "error")
+        showToast("Erreur d'ajout de la spécialité", "error")
       }
     }
   }

@@ -20,6 +20,7 @@ const FacultyBody = () => {
             return (
               <FacultyItem 
                 key={fac.getId}
+                id={fac.getId}
                 name={fac.getName}
                 color={generateColor()}
               />

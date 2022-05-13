@@ -5,6 +5,7 @@ import FacultyContext from "../contexts/facultyContext"
 const FacultyProvider = ({ children }) => {
   // Set local state
   const [faculties, setFaculties] = useState([])
+  const [selectedFaculty, setSelectedFaculty] = useState({})
 
   // Some handlers
 
@@ -56,17 +57,13 @@ const FacultyProvider = ({ children }) => {
     }
   }
 
-  const handleUpdateFaculty = (data) => {
-    const {
-      id,
-      name
-    } = data
+  const handleUpdateFaculty = (id, data) => {
     
-    if(id && name) {
+    if(id && data) {
 
       faculties.forEach(faculty => {
         if(faculty.id === id) {
-          faculty.name = name 
+          faculty.name = data 
         }
       })
       setFaculties(faculties)
@@ -78,20 +75,25 @@ const FacultyProvider = ({ children }) => {
    * @param {number} id 
    */
   const handleRemoveFaculty = (id) => {
-    const facultiesPrevState = [...faculties]
+    if(id) {
+      const facultiesPrevState = [...faculties]
 
-    const index = facultiesPrevState.findIndex(fac => Number(fac.getId) === Number(id))
+      const facultyIndex = facultiesPrevState.findIndex(checkFacultyPosition)
 
-    if (index > -1) {
-      facultiesPrevState.splice(index, 1)
+      function checkFacultyPosition(faculty) {
+        return faculty.idFil === Number(id)
+      }
 
-      setFaculties(facultiesPrevState)
+      facultiesPrevState.splice(facultyIndex, 1)
+      setFaculties(facultiesPrevState)  
     }
   }
 
   // Context value
   const contextValue = {
     faculties,
+    selectedFaculty,
+    setFaculty: setSelectedFaculty, 
     getFaculty: handleGetFaculty,
     addFaculties: handleAddFaculties,
     addFaculty: handleAddFaculty,
