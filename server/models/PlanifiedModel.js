@@ -1,4 +1,5 @@
 import connection from "../utils/index.js";
+import FollowModel from "./FollowModel.js";
 
 class planifiedModel {
 
@@ -233,7 +234,7 @@ class planifiedModel {
         } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, capaciteSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, capaciteSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, Sui.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -272,7 +273,7 @@ class planifiedModel {
         } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, capaciteSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
+            SELECT DISTINCT C.codeCours, C.descriptionCours, S.idSalle, nomSal, capaciteSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, Sui.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -281,10 +282,10 @@ class planifiedModel {
             AND (P.idJour = J.idJour) 
             AND (P.matriculeEns = E.matriculeEns)
             AND (P.idSemestre = Se.idSemestre)
-            AND (C.codeCours = Sui.codeCours)
-            AND (Sui.idGroupe = G.idGroupe)
             AND (Cla.codeClasse = (?))
             AND (Cla.CodeClasse = G.codeClasse)
+            AND (C.codeCours = Sui.codeCours)
+            AND (Sui.idGroupe = G.idGroupe)
             AND (Cla.idFil = F.idFil)
             ORDER BY J.nomJour ASC
         `
@@ -424,6 +425,7 @@ class planifiedModel {
             idAdmin,
             codeCours,
             idSalle,
+            idGroupe,
             idJour,
             matriculeEns,
             idSemestre,
@@ -437,12 +439,19 @@ class planifiedModel {
         `
 
         const values = [idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut, heureFin]
-        console.log({ values })
 
         try{
             const [rows] = await connection.execute(query, values)
-            console.log(rows)
-            return { data: "Program has been created successfully!!" }
+
+            if (rows) {
+                const { response, data} = await FollowModel.create({ codeCours, idGroupe })
+                console.log({response, data})
+                if(response >= 0 && data) {
+                    return { data: "Program has been created successfully!!" }
+                }
+            }
+
+            return { error: "An error Occured" }
         }catch(err){
             console.log(err)
 

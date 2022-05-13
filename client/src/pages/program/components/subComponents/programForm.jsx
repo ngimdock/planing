@@ -3,22 +3,24 @@ import { Fragment, useContext, useEffect, useState } from "react"
 import Button from '../../../../components/utils/buttons/button'
 import Select from '../../../../components/utils/inputs/select'
 import LinearLoader from '../../../../components/utils/loaders/linearLoader'
-import RoomContext from "../../../../datamanager/contexts/roomContext"
-import TeacherContext from "../../../../datamanager/contexts/teacherContext"
 import SubjectContext from "../../../../datamanager/contexts/subjectContext"
-import { formatName } from "../../../../utils/format"
+import { formatName, formatTimeToString } from "../../../../utils/format"
 import PlanningContext from "../../../../datamanager/contexts/planningContext"
+import CurrentUserContext from "../../../../datamanager/contexts/currentUserContext"
+import ToastContext from "../../../../datamanager/contexts/toastContext"
 import TeacherAPI from "../../../../api/teacher"
 import RoomAPI from '../../../../api/room'
+import ProgramAPI from "../../../../api/program"
 import Teacher from "../../../../entities/teacher"
 import Room from "../../../../entities/room"
+import PlanningAction from "../../../../datamanager/actions/planning"
 
 // Initial state
 const initialState = {
   subject: 0,
   teacher: 0,
   room: 0,
-  class: "",
+  myClass: "",
   speciality: null,
   group: 1,
   start: 7 * 3600, // 7H en secondes
@@ -43,7 +45,9 @@ const StartTime = [
 const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Global state
   const { subjects } = useContext(SubjectContext)
-  const { currentClass, currentSemester } = useContext(PlanningContext)
+  const { currentClass, currentSemester, dispatch, selectClass } = useContext(PlanningContext)
+  const { currentUser } = useContext(CurrentUserContext)
+  const { showToast } = useContext(ToastContext)
 
   // Use Effect section
 
@@ -56,7 +60,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
   }, [])
 
   // Set local state
-  const [program, setProgram] = useState({ ...initialState, class: currentClass.getCode, start })
+  const [program, setProgram] = useState({ ...initialState, myClass: currentClass.getCode, start })
   const [groups, setGroups] = useState(currentClass.getGroups)
   const [availableTeachers, setAvailableTeachers] = useState([])
   const [availableRooms, setAvailableRooms] = useState([])
@@ -120,8 +124,43 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
 
   const handleSubmitForm = () => {
     if (!loading) {
+      // Get the course duration
+      const duration = program.duration === 2 ? 2*3600 : (3*60 - 5)*60
+      
+      // Payload
+      const payload = {
+        idAdmin: currentUser.getId,
+        codeCours: program.subject,
+        idSalle: program.room,
+        idJour: idDay,
+        matriculeEns: program.teacher,
+        heureDebut: formatTimeToString(program.start),
+        heureFin: formatTimeToString(program.start + duration),
+        idSemestre: currentSemester.idSemester,
+        idGroupe: program.group
+      }
+
+      console.log(payload)
+
       setLoading(true)
-      console.log("You can send request here")
+
+      ProgramAPI.create(payload)
+      .then(data => {
+        handleGetProgramsByClass()
+
+        // Close form
+        onClose()
+
+        showToast(`Le cours de ${program.subject} a été cree avec succès`)
+      })
+      .catch(err => {
+        console.log(err)
+
+        showToast(`Le cours de ${program.subject} n'a pas pu etre programmé, veillez reessayer`, "error")
+      })
+      .finally(() => {
+        setLoading(false)
+      })
     }
   }
 
@@ -130,16 +169,23 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
       subject,
       teacher,
       room,
+      myClass,
       group,
-      time
+      start,
+      duration
     } = program
+
+    console.log(program)
 
     if (
       subject &&
       teacher &&
       room &&
       group &&
-      time
+      start &&
+      duration &&
+      myClass && 
+      currentSemester.idSemester
     ) {
       return true
     }
@@ -181,6 +227,9 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
     }
   }
 
+  /**
+   * Get all the available rooms
+   */
   const handleGetRoomsAvailable = async () => {
     if (currentSemester.idSemester && idDay && start && end) {
       const { data, error } = await RoomAPI.getAvailableRooms({ 
@@ -200,6 +249,24 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
         setAvailableRooms(rooms)
       }
 
+    }
+  }
+
+  // Get programs filtered by class based on the code class
+  const handleGetProgramsByClass = async () => {
+    const { data } = await ProgramAPI.getByClass({
+      idYear: currentSemester.idYear,
+      idSemester: currentSemester.idSemester,
+      codeClass: program.myClass
+    })
+
+    if (data !== undefined) {
+      // When all is OK we update the program of the current class
+      if (data) {
+        dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
+      }
+    } else {
+      showToast(`Le programme de ${program.myClass} n'a pas pu etre chargee correctement`, "error")
     }
   }
 
