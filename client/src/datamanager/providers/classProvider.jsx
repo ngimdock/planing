@@ -25,8 +25,24 @@ const ClassProvider = ({ children }) => {
       const specialities = myClass.specialities.map(spec => ({
         id: spec.idSpecialite,
         name: spec.nomSpecialite,
-        capacity: spec.capacite
+        capacity: spec.capacite,
+        groups: spec.groups.map(group => ({
+          id: group.idGroupe,
+          name: group.nomGroupe,
+          capacity: group.capaciteGroupe,
+          speciality: group.idSpecialite
+        }))
       }))
+
+      // Format groups
+      const groups = myClass.groups.map(group => {
+        return ({
+          id: group.idGroupe,
+          name: group.nomGroupe,
+          capacity: group.capaciteGroupe,
+          speciality: group.idSpecialite
+        })
+      })
 
       const classPayload = {
         code: myClass.codeClasse,
@@ -41,7 +57,7 @@ const ClassProvider = ({ children }) => {
           name: myClass.nomNiv
         },
         specialities,
-        groups: []
+        groups
       }
       return new Class(classPayload)
     })

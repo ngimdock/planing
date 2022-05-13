@@ -94,17 +94,13 @@ class ClassModel {
         }
 
         // Get groups
-        // for (let myClass of classes) {
-        //   const { data, error } = await this.getNumberGroup(myClass.codeClasse)
+        for (let classIndex in classes) {
+          const { data, error } = await this.getGroups(classes[classIndex].codeClasse)
 
-        //   if (data) {
-        //     classes.push({
-        //       ...myClass,
-        //       specialities,
-        //       groups: []
-        //     })
-        //   }
-        // }
+          if (data) {
+            classes[classIndex].groups = data
+          }
+        }
 
         return { data: classes }
       }
@@ -128,6 +124,33 @@ class ClassModel {
     try {
       const [rows] = await connection.execute(query, [idClass])
 
+      const specialities = []
+
+      for (let spec of rows) {
+        const { data } = await this.getSpecialityGroups(spec.idSpecialite)
+
+        if (data) specialities.push({ ...spec, groups: data })
+      }
+
+      return { data: specialities }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
+
+  static async getGroups (idClass) {
+    const query = `
+      SELECT G.nomGroupe, G.idGroupe, G.capaciteGroupe, G.idSpecialite
+      FROM Groupe G, Classe C
+      WHERE G.codeClasse = ?
+      AND G.codeClasse = C.codeClasse
+    `
+
+    try {
+      const [rows] = await connection.execute(query, [idClass])
+      
       return { data: rows }
     } catch (err) {
       console.log(err)
@@ -136,17 +159,17 @@ class ClassModel {
     }
   }
 
-  static async getNumberGroup (idClass) {
+  static async getSpecialityGroups (idSpeciality) {
     const query = `
-      SELECT Count(codeClasse) as groupNumber
-      FROM Groupe G, Classe C
-      WHERE G.codeClasse = ?
-      AND G.codeClasse = C.codeClasse
+      SELECT G.nomGroupe, G.idGroupe, G.capaciteGroupe, G.idSpecialite
+      FROM Groupe G, Specialite S
+      WHERE G.idSpecialite = ?
+      AND G.idSpecialite = S.idSpecialite
     `
 
     try {
-      const [rows] = await connection.execute(query, [idClass])
-      console.log(rows)
+      const [rows] = await connection.execute(query, [idSpeciality])
+
       return { data: rows }
     } catch (err) {
       console.log(err)

@@ -1,9 +1,12 @@
 // Class Speciality
 
+import Group from "./group"
+
 class Speciality {
   id
   name
   capacity
+  groups
 
   constructor (data) {
     this.initialization(data)
@@ -13,13 +16,20 @@ class Speciality {
     const {
       id,
       name,
-      capacity
+      capacity,
+      groups
     } = data
 
     if (id && name) {
       this.id = id
       this.name = name
       this.capacity = capacity ? capacity : null
+
+      if (groups.length > 0) {
+        this.groups = groups.map(group => new Group(group))
+      } else {
+        this.groups = []
+      }
     }
   }
 

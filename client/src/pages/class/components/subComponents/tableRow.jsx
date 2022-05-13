@@ -22,6 +22,9 @@ const TableRow = ({ color, number, data }) => {
         }
     }
 
+    // Filter groups
+    const filterGroups = (groups) => groups.filter(group => !group.getSpeciality)
+
     return (
         <Fragment>
         <tr className={styles.tableRow}>
@@ -63,7 +66,7 @@ const TableRow = ({ color, number, data }) => {
                 {data.getSpecialities ? data.getSpecialities.length : 0}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
-                {"1"}
+                {data.getGroups ? filterGroups(data.getGroups).length : 0}
             </td>  
             <td className={styles.cellText} style={{ backgroundColor: defaultColor }}>
                 <Box
