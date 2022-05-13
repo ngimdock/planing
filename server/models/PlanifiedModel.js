@@ -64,7 +64,7 @@ class planifiedModel {
         const { idAnneeAca, idSemestre } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, capaciteSal, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -171,6 +171,7 @@ class planifiedModel {
                 subjectDescription: prog.descriptionCours,
                 roomId: prog.idSalle,
                 roomName: prog.nomSal,
+                roomCapacity: prog.capaciteSal,
                 teacherMatricule: prog.matriculeEns,
                 teacherName: prog.nomEns,
                 day: prog.nomJour,
@@ -232,7 +233,7 @@ class planifiedModel {
         } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, capaciteSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))
@@ -271,7 +272,7 @@ class planifiedModel {
         } = payload
 
         const query = `
-            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
+            SELECT DISTINCT P.codeCours, C.descriptionCours, S.idSalle, nomSal, capaciteSal, E.matriculeEns, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.idFil, F.nomFil, G.nomGroupe, G.idGroupe
             FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
             WHERE (Se.idSemestre = ?)
             AND (Se.idAnneeAca = (?))

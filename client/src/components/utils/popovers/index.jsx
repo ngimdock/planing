@@ -1,4 +1,5 @@
 import { Box, Popover, Typography } from "@mui/material"
+import { useCallback } from "react"
 import { BsFillTrashFill, BsPencilFill } from 'react-icons/bs'
 
 const PopOverContent = ({ title, value, description }) => {
@@ -36,7 +37,59 @@ const PopOverContent = ({ title, value, description }) => {
   )
 }
 
-const PopOver = ({ open, onClose, anchorEl }) => {
+const PopOver = ({ open, data, onClose, anchorEl }) => {
+  // Some handlers
+
+  const reformatTime = useCallback(() => {
+    let {
+      startHour: start,
+      endHour: end
+    } = data
+
+    start /= 60
+    end /= 60
+
+    let startHour = 0
+    let startMinutes = 0
+    let endHour = 0
+    let endMinutes = 0
+
+    // Work on start hour
+    while (start >= 60) {
+      startHour += 1
+      start -= 60
+    }
+
+    startMinutes = start
+
+    // Work on end hour
+    while (end >= 60) {
+      endHour += 1
+      end -= 60
+    }
+
+    endMinutes = end
+
+    return `${startHour}H${startMinutes ? ":" + startMinutes : ""} - ${endHour}H:${endMinutes}`
+  }, [data])
+
+  const getDuration = useCallback(() => {
+    let {
+      startHour: start,
+      endHour: end
+    } = data
+
+    start /= 3600
+    end /= 3600
+
+    const diffTime = end - start
+
+    if (diffTime <= 1) return 1
+    else if (diffTime <= 2) return 2
+
+    return 3
+  }, [data])
+
   return (
     <Popover
       open={open}
@@ -54,7 +107,7 @@ const PopOver = ({ open, onClose, anchorEl }) => {
     >
       <Box
         sx={{
-          width: "200px",
+          width: "250px",
           p: 1,
           backgroundColor: "#3e4bff",
           display: "flex",
@@ -75,7 +128,7 @@ const PopOver = ({ open, onClose, anchorEl }) => {
               fontFamily: "Nunito-Bold",
               color: "#fff"
             }}
-          >MATH 112</Typography>
+          >{ data.subjectCode.toUpperCase() }</Typography>
 
           <Box
             sx={{
@@ -104,7 +157,7 @@ const PopOver = ({ open, onClose, anchorEl }) => {
             color: "#f8f8f8"
           }}
         >
-          ( DILANE3 )
+          ( { data.teacherName.toUpperCase() } )
         </Typography>
       </Box>
 
@@ -116,13 +169,13 @@ const PopOver = ({ open, onClose, anchorEl }) => {
       >
         <PopOverContent
           title="Salle"
-          value="A502"
-          description="502 Places"
+          value={data.roomName.toUpperCase()}
+          description={`${data.roomCapacity} Places`}
         />
         <PopOverContent
           title="Horaire"
-          value="07h - 9h55"
-          description="3H"
+          value={reformatTime()}
+          description={`${getDuration()}H`}
         />
       </Box>
     </Popover>

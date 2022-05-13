@@ -2,12 +2,14 @@ import { Typography, Box } from '@mui/material';
 import React, { useContext } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { MdOutlineFileUpload } from 'react-icons/md'
+import PlanningContext from '../../../datamanager/contexts/planningContext';
 import PlanningNavigationContext from '../../../datamanager/contexts/planningNavigationContext';
 import Table from './subComponents/table';
 
 const ProgramTable = () => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
+  const { currentClass: myClass } = useContext(PlanningContext)
 
   return (
     <Box
@@ -67,7 +69,7 @@ const ProgramTable = () => {
             color: "#fff" 
           }}
         >
-          Info Licence 1
+          { myClass && myClass.getName }
         </Typography>
 
         <Box 

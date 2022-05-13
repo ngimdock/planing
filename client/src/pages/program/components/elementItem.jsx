@@ -9,7 +9,14 @@ import PlanningAction from "../../../datamanager/actions/planning"
 const ElementItem = ({ value, target, year, idSemester }) => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
-  const { selectSemester, currentSemester, dispatch } = useContext(PlanningContext)
+  const { 
+    selectSemester, 
+    selectClass, 
+    getClass,
+    currentClass, 
+    currentSemester, 
+    dispatch 
+  } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
 
   // Some handlers
@@ -35,15 +42,29 @@ const ElementItem = ({ value, target, year, idSemester }) => {
       codeClass: value
     })
 
-    console.log(data)
     if (data !== undefined) {
       // When all is OK
       if (data) {
         dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
+
+        // Get class from the whole list of classes
+        const myClass = getClass({ 
+          idAcademicYear: currentSemester.idYear, 
+          idSemester: currentSemester.idSemester,
+          idFaculty: data.id,
+          codeClass: value 
+        })
+
+        // Save the current class programs in the global state
+        handleSelectClass(myClass)
       }
     } else {
       showToast(`Le programme de ${value} n'a pas pu etre chargee correctement`, "error")
     }
+  }
+
+  const handleSelectClass = (myClass) => {
+    selectClass(myClass)
   }
 
   return (

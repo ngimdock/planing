@@ -7,6 +7,7 @@ const PlanningContext = createContext({
   loaded: false,
   selectSemester: (value) => {},
   selectClass: (value) => {},
+  getClass: (payload) => {},
   setLoaded: () => {},
   dispatch: (action) => {}
 })

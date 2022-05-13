@@ -4,7 +4,7 @@ import { useMemo } from "react"
 const TableCellHour = ({ time }) => {
   // Some handlers
   const generateHoursString = useMemo(() => {
-    return `${time.start}h - ${time.end}h`
+    return `${time.start / 3600}h - ${time.end / 3600}h`
   }, [time])
 
   return (
