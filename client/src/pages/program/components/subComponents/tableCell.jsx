@@ -5,7 +5,7 @@ import Button from '../../../../components/utils/buttons/button'
 import ProgramItem from './programItem'
 import ProgramForm from './programForm'
 
-const TableCellContent = ({ program: Initialprogram, time }) => {
+const TableCellContent = ({ program: Initialprogram, time, idDay }) => {
   // Set local state
   const [addBtnShown, setAddBtnShown] = useState(false)
   const [formOpened, setFormOpened] = useState(false)
@@ -140,7 +140,7 @@ const TableCellContent = ({ program: Initialprogram, time }) => {
       }
 
       {
-        formOpened && <ProgramForm onClose={handleOpenForm} start={time.start} />
+        formOpened && <ProgramForm onClose={handleOpenForm} start={time.start} end={time.end} idDay={idDay} />
       }
       
     </Box>

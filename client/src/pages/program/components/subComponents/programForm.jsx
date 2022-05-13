@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import { Fragment, useContext, useState } from "react"
+import { Fragment, useContext, useEffect, useState } from "react"
 import Button from '../../../../components/utils/buttons/button'
 import Select from '../../../../components/utils/inputs/select'
 import LinearLoader from '../../../../components/utils/loaders/linearLoader'
@@ -8,6 +8,8 @@ import TeacherContext from "../../../../datamanager/contexts/teacherContext"
 import SubjectContext from "../../../../datamanager/contexts/subjectContext"
 import { formatName } from "../../../../utils/format"
 import PlanningContext from "../../../../datamanager/contexts/planningContext"
+import TeacherAPI from "../../../../api/teacher"
+import Teacher from "../../../../entities/teacher"
 
 // Initial state
 const initialState = {
@@ -36,16 +38,24 @@ const StartTime = [
   { id: 13, value: 18 * 3600, label: "18H" }
 ]
 
-const ProgramForm = ({ onClose, start }) => {
+const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Global state
   const { rooms } = useContext(RoomContext)
   const { teachers } = useContext(TeacherContext)
   const { subjects } = useContext(SubjectContext)
-  const { currentClass } = useContext(PlanningContext)
+  const { currentClass, currentSemester } = useContext(PlanningContext)
+
+  // Use Effect section
+
+  useEffect(() => {
+    // Get available teachers
+    handleGetTeachersAvailable()
+  }, [])
 
   // Set local state
   const [program, setProgram] = useState({ ...initialState, class: currentClass.getCode, start })
   const [groups, setGroups] = useState(currentClass.getGroups)
+  const [availableTeachers, setAvailableTeachers] = useState([])
   const [loading, setLoading] = useState(false)
 
   // Some handlers
@@ -89,6 +99,9 @@ const ProgramForm = ({ onClose, start }) => {
 
       case "startHour": {
         programPrevState.start = value
+
+        // Get available teachers
+        handleGetTeachersAvailable()
       }
 
       default: // nothing
@@ -138,6 +151,29 @@ const ProgramForm = ({ onClose, start }) => {
     return rooms.filter(room => +room.getCapacity >= +acceptableCapacity)
   }
 
+  // Api section
+  const handleGetTeachersAvailable = async () => {
+    if (currentSemester.idSemester && idDay && start && end) {
+      const { data, error } = await TeacherAPI.getAvailableTeachers({ 
+        idSemester: currentSemester.idSemester,
+        idDay,
+        start: `${start / 3600}:00:00`,
+        end: `${end / 3600}:00:00`
+      })
+
+      if (data) {
+        const teachers = data.data.map(tea => new Teacher({
+          matricule: tea.matriculeEns,
+          name: tea.nomEns,
+          sex: tea.sexEns
+        }))
+
+        setAvailableTeachers(teachers)
+      }
+
+    }
+  }
+
   return (
     <Fragment>
       <Box
@@ -179,7 +215,7 @@ const ProgramForm = ({ onClose, start }) => {
             rounded
             fontSize={14}
             options={[
-              ...teachers.map(tea => ({ value: tea.getMatricule, label: formatName(tea.getName) }))
+              ...availableTeachers.map(tea => ({ value: tea.getMatricule, label: formatName(tea.getName) }))
             ]}
             onGetValue={value => handleChange("teacher", value)}
             value={program.teacher}
