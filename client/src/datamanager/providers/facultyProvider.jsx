@@ -56,8 +56,21 @@ const FacultyProvider = ({ children }) => {
     }
   }
 
-  const handleUpdateFaculty = (id, data) => {
-    // Nothing
+  const handleUpdateFaculty = (data) => {
+    const {
+      id,
+      name
+    } = data
+    
+    if(id && name) {
+
+      faculties.forEach(faculty => {
+        if(faculty.id === id) {
+          faculty.name = name 
+        }
+      })
+      setFaculties(faculties)
+    }
   }
 
   /**
