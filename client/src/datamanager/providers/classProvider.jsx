@@ -8,7 +8,7 @@ const ClassProvider = ({ children }) => {
 
   // Some handlers
   const handleGetClass = (id) => {
-    const myClass = classes.find(lev => Number(lev.getId) === Number(id))
+    const myClass = classes.find(cl => cl.getCode === id)
 
     if (myClass) return myClass
 

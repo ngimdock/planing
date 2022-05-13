@@ -69,7 +69,7 @@ const ProgramTable = () => {
             color: "#fff" 
           }}
         >
-          { myClass && myClass.getName }
+          { myClass && `${myClass.getName} (${myClass.getCapacity} Etudiants)` }
         </Typography>
 
         <Box 

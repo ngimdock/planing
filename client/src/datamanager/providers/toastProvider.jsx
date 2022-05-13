@@ -5,7 +5,7 @@ const ToastProvider = ({ children }) => {
   // Set local state
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState("")
-  const [type, setType] = useState("")
+  const [type, setType] = useState("success")
 
   // Some handlers
   const handleShowToast = (message, type = "success") => {

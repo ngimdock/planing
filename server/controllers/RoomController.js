@@ -10,6 +10,27 @@ class RoomController {
         return res.status(500).json({ error })
     }
 
+    static getAvailableRooms = async (req, res) => {
+        const {
+            idSemester,
+            idDay,
+            startHour,
+            endHour
+        } = req.query
+
+        console.log(req.query)
+
+        if (idSemester && idDay && startHour && endHour) {
+            const { data, error } = await RoomModel.getAvailableRooms(req.query)
+
+            if (data) return res.json({ data })
+
+            return res.status(500).json({ error })
+        }
+
+        return res.status(400).json({ error: "Provide all the required data" })
+    }
+
     static getRoom = async (req, res) => {
 
         const id = Number(req.params.id)

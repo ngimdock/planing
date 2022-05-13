@@ -21,7 +21,7 @@ const TableRow = ({ color, time }) => {
           myClass && Object.values(myClass.programs).map((program, index) => {
             return ( 
               <td className={styles.tableCell} style={{ backgroundColor: defaultColor }}>
-                <TableCellContent key={index} data={{ program, time }} />
+                <TableCellContent key={index} program={program} time={time} idDay={index + 1} />
               </td>
             )
           })

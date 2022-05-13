@@ -17,6 +17,22 @@ class RoomAPI extends DefaultApiCall {
       return { error: "An error occured" }
     }
   }
+
+  static async getAvailableRooms ({ idSemester, idDay, start, end }) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.get(`/room/available/?idSemester=${idSemester}&idDay=${idDay}&startHour=${start}&endHour=${end}`)
+    
+      console.log(data)
+
+      return { data }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
 }
 
 export default RoomAPI

@@ -5,34 +5,36 @@ import Button from '../../../../components/utils/buttons/button'
 import ProgramItem from './programItem'
 import ProgramForm from './programForm'
 
-const TableCellContent = ({ data }) => {
+const TableCellContent = ({ program: Initialprogram, time, idDay }) => {
   // Set local state
   const [addBtnShown, setAddBtnShown] = useState(false)
   const [formOpened, setFormOpened] = useState(false)
-  const [programs, setPrograms] = useState(data ? data.program : null)
-  const [loaded, setLoaded] = useState(false)
+  const [programs, setPrograms] = useState([])
 
   // Use effect section
   useEffect(() => {
-    programs.forEach((prog, index) => {
-      handleFormatTime({ 
-        start: prog.startHour,
-        end: prog.endHour,
-        index
-      })
-    })
-  }, [data])
+    if (Initialprogram.length > 0) {
+      for (let progIndex in Initialprogram) {
+        handleFormatTime({ 
+          start: Initialprogram[progIndex].startHour,
+          end: Initialprogram[progIndex].endHour,
+          index: progIndex,
+          prevPrograms: [...Initialprogram]
+        })
+      }
+    } else {
+      setPrograms([])
+    }
+  }, [Initialprogram])
 
   // Use callback section
   const generatePrograms = useCallback(() => {
     return programs.map((prog, index) => {
-      console.log(prog)
-      if (prog.startHour >= data.time.start && prog.endHour <= data.time.end) {
-        console.log("k")
+      if (prog.startHour >= time.start && prog.endHour <= time.end) {
         return <ProgramItem key={index} program={prog} />
       }
     })
-  }, [programs])
+  }, [Initialprogram, programs])
 
 
   // Some handlers
@@ -48,13 +50,12 @@ const TableCellContent = ({ data }) => {
     const {
       start,
       end,
-      index
+      index,
+      prevPrograms
     } = payload
 
-    const prevPrograms = [...programs]
-
     // Work with start hour here
-    if (typeof start === "string") {
+    if (typeof start === "string" && prevPrograms.length > 0) {
       const startTimeSplitted = start.split(":")
       const startHour = +startTimeSplitted[0] * 3600 // convert hour to second
       const startMinute = +startTimeSplitted[1] * 60 // convert minute to second
@@ -139,7 +140,7 @@ const TableCellContent = ({ data }) => {
       }
 
       {
-        formOpened && <ProgramForm onClose={handleOpenForm} />
+        formOpened && <ProgramForm onClose={handleOpenForm} start={time.start} end={time.end} idDay={idDay} />
       }
       
     </Box>

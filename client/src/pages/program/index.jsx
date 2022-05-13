@@ -1,11 +1,11 @@
-import { Fragment } from "react"
+import { Fragment, StrictMode } from "react"
 import Seo from "../../components/utils/seo"
 import BaseLayout from "../base"
 import ProgramBody from './components/programBody'
 
 const ProgramLayout = () => {
   return (
-    <Fragment>
+    <StrictMode>
       <Seo 
         title="Plannification | CoursePrograms"
         description="Section de plannification"
@@ -14,7 +14,7 @@ const ProgramLayout = () => {
       <BaseLayout>
         <ProgramBody />
       </BaseLayout>
-    </Fragment>
+    </StrictMode>
   )
 }
 
