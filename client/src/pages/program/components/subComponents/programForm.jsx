@@ -9,7 +9,9 @@ import SubjectContext from "../../../../datamanager/contexts/subjectContext"
 import { formatName } from "../../../../utils/format"
 import PlanningContext from "../../../../datamanager/contexts/planningContext"
 import TeacherAPI from "../../../../api/teacher"
+import RoomAPI from '../../../../api/room'
 import Teacher from "../../../../entities/teacher"
+import Room from "../../../../entities/room"
 
 // Initial state
 const initialState = {
@@ -40,8 +42,6 @@ const StartTime = [
 
 const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Global state
-  const { rooms } = useContext(RoomContext)
-  const { teachers } = useContext(TeacherContext)
   const { subjects } = useContext(SubjectContext)
   const { currentClass, currentSemester } = useContext(PlanningContext)
 
@@ -50,12 +50,16 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
   useEffect(() => {
     // Get available teachers
     handleGetTeachersAvailable()
+
+    // Get available rooms
+    handleGetRoomsAvailable()
   }, [])
 
   // Set local state
   const [program, setProgram] = useState({ ...initialState, class: currentClass.getCode, start })
   const [groups, setGroups] = useState(currentClass.getGroups)
   const [availableTeachers, setAvailableTeachers] = useState([])
+  const [availableRooms, setAvailableRooms] = useState([])
   const [loading, setLoading] = useState(false)
 
   // Some handlers
@@ -102,6 +106,9 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
 
         // Get available teachers
         handleGetTeachersAvailable()
+
+        // Get available rooms
+        handleGetRoomsAvailable()
       }
 
       default: // nothing
@@ -169,6 +176,28 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
         }))
 
         setAvailableTeachers(teachers)
+      }
+
+    }
+  }
+
+  const handleGetRoomsAvailable = async () => {
+    if (currentSemester.idSemester && idDay && start && end) {
+      const { data, error } = await RoomAPI.getAvailableRooms({ 
+        idSemester: currentSemester.idSemester,
+        idDay,
+        start: `${start / 3600}:00:00`,
+        end: `${end / 3600}:00:00`
+      })
+
+      if (data) {
+        const rooms = data.data.map(room => new Room({
+          id: room.idSalle,
+          name: room.nomSal,
+          capacity: room.capaciteSal
+        }))
+
+        setAvailableRooms(rooms)
       }
 
     }
@@ -249,7 +278,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             rounded
             fontSize={14}
             options={[
-              ...filterRoomByCapacity(rooms).map(room => ({ value: room.getId, label: `${room.getName} (${room.getCapacity} places)` }))
+              ...filterRoomByCapacity(availableRooms).map(room => ({ value: room.getId, label: `${room.getName} (${room.getCapacity} places)` }))
             ]}
             onGetValue={value => handleChange("room", value)}
             value={program.room}

@@ -6,6 +6,7 @@ const RoomRouter = express.Router()
 
 //set some routes
  RoomRouter.get("/all", authenticationMiddleware, RoomController.getRooms)
+ RoomRouter.get("/available/", authenticationMiddleware, RoomController.getAvailableRooms)
  RoomRouter.get("/:id", authenticationMiddleware, RoomController.getRoom)
  RoomRouter.post("/create", authenticationMiddleware, RoomController.createRoom)
  RoomRouter.patch("/update/:id", authenticationMiddleware, RoomController.updateRoom)
