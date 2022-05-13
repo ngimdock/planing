@@ -45,7 +45,7 @@ const SpecialityProvider = ({ children }) => {
 
     if(id && name) {
       specialities.forEach(speciality => {
-        if(speciality.id == id) {
+        if(speciality.id === id) {
           speciality.name = name
         }
       })

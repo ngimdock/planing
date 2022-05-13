@@ -36,6 +36,62 @@ class TeacherAPI extends DefaultApiCall {
       return { error: "An error occured" }
     }
   }
+
+  static async createTeacher(matricule, name, sexe) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data } = await instance.post("/teacher/create", { matriculeEns: matricule, nomEns: name, sexEns: sexe })
+
+      console.log(data)
+
+      return { data }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured "}
+    }
+  }
+
+  static async deleteTeacher(matricule) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data } = await instance.delete(`/teacher/delete/${matricule}`)
+
+      console.log(data)
+
+      return { data }
+    } catch (err) {
+      console.log(err)
+
+      return { error : "An error occured" }
+    }
+  }
+
+  static async updateTeacher(id, data) {
+    const instance = this.insertToken(axiosInstance)
+
+    const {
+      matricule,
+      name,
+      sexe
+    } = data
+
+    try {
+
+      const { data } = await instance.put(`/teacher/update/${id}`, { matriculeEns: matricule, nomEns: name, sexEns: sexe })
+
+      console.log(data)
+
+      return { data }
+    } catch(err) {
+      console.log(err)
+
+      return { error: "An error occured "}
+    }
+
+  }
 }
 
 export default TeacherAPI

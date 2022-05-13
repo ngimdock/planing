@@ -65,7 +65,6 @@ class ClassModel {
 
 
   static async findAll () {
-
     const query = `
       SELECT *
       FROM Classe C, Niveau N, Filiere F

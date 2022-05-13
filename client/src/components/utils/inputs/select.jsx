@@ -15,9 +15,10 @@ const Select = ({
   fullWidth,
   rounded,
   disabled,
-  fontSize
+  fontSize,
+  value
 }) => {
-  const [value, setValue] = React.useState('')
+  const [val, setValue] = React.useState(value ? value : '')
 
   const handleChange = (event) => {
     setValue(event.target.value)
@@ -44,7 +45,7 @@ const Select = ({
         disabled={disabled}
         labelId="demo-select-small"
         id="demo-select-small"
-        value={value}
+        value={val}
         label={label}
         onChange={handleChange}
         sx={{

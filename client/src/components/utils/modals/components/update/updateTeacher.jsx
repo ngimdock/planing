@@ -1,32 +1,26 @@
 import React, { useContext, useEffect, useState } from "react"
-import Input from '../../inputs/input'
-import Select from '../../inputs/select'
+import Input from '../../../inputs/input'
+import Select from '../../../inputs/select'
 import { Box } from "@mui/material"
-import Button from "../../buttons/button"
-import ModalContext from "../../../../datamanager/contexts/modalContext"
-import styles from '../css/modalContent.module.css'
-import TeacherAPI from "../../../../api/teacher"
+import Button from "../../../buttons/button"
+import ModalContext from "../../../../../datamanager/contexts/modalContext"
+import styles from '../../css/modalContent.module.css'
+import TeacherAPI from "../../../../../api/teacher"
 import { BsCheck, BsX } from "react-icons/bs"
-import LoaderCircle from "../../loaders/loaderCircle"
-import LinearLoader from '../../loaders/linearLoader'
-import TeacherContext from "../../../../datamanager/contexts/teacherContext"
-import ToastContext from "../../../../datamanager/contexts/toastContext"
+import LoaderCircle from "../../../loaders/loaderCircle"
+import LinearLoader from '../../../loaders/linearLoader'
+import TeacherContext from "../../../../../datamanager/contexts/teacherContext"
+import ToastContext from "../../../../../datamanager/contexts/toastContext"
 
-// Initial state
-const initialState = {
-  matricule: "",
-  name: "",
-  sexe: ""
-}
 
-const AddTeacherModalContent = () => {
+const UpdateTeacherModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { addTeacher } = useContext(TeacherContext)
+  const { updateTeacher, selectedTeacher } = useContext(TeacherContext)
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [teacher, setTeacher] = useState(initialState)
+  const [teacher, setTeacher] = useState(selectedTeacher)
   const [loading, setLoading] = useState(false)
   const [matriculeAlreadyExist, setMatriculeAlreadyExist] = useState(true)
   const [checkingMatricule, setCheckingMatricule] = useState(false)
@@ -34,9 +28,15 @@ const AddTeacherModalContent = () => {
 
   // UseEffect section
   useEffect(() => {
-    if (!checkingMatricule && teacher.matricule.length >= 4) {
-      handleCheckingMatricule(teacher.matricule)
-    } 
+    if (teacher.matricule === selectedTeacher.matricule) {
+      setMatriculeAlreadyExist(false)
+    } else {
+      if (!checkingMatricule && teacher.matricule.length >= 4) {
+        handleCheckingMatricule(teacher.matricule)
+      } else {
+        setMatriculeAlreadyExist(true)
+      }
+    }
   }, [teacher.matricule])
 
   // Some handlers
@@ -83,21 +83,24 @@ const AddTeacherModalContent = () => {
   }
 
   const handleSubmitForm = async () => {
-
     if (!loading) {
       setLoading(true)
-      const { data, error: err } = await TeacherAPI.createTeacher(teacher.matricule, teacher.name, teacher.sexe)
+      const { data, error: err } = await TeacherAPI.updateTeacher(
+        selectedTeacher.matricule, 
+        { matricule: teacher.matricule, 
+          name: teacher.name, 
+          sexe: teacher.sexe})
       setLoading(false)
       if(data.matriculeEns) {
         const payload = { matricule: data.matriculeEns, name: data.nomEns, sex: data.sexEns  } 
-        addTeacher(payload)
+        updateTeacher(selectedTeacher.matricule, payload)
         closeModal()
-        showToast("Nouvelle Enseignant créé", "success")
+        showToast("Enseignant modifié", "success")
       } else {
         setError(err)
         console.log(error)
         closeModal()
-        showToast("Enseignant non créé", "error")
+        showToast("Enseignant non modifié", "error")
       }
     }
   }
@@ -168,7 +171,7 @@ const AddTeacherModalContent = () => {
         ]}
         label="Sexe"
         onGetValue={value => handleChange("sexe", value)}
-        value={teacher.sexe}
+        value={(teacher.sexe).toLowerCase()}
         fullWidth
       />
 
@@ -200,4 +203,4 @@ const AddTeacherModalContent = () => {
   )
 }
 
-export default AddTeacherModalContent
+export default UpdateTeacherModalContent

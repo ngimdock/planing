@@ -2,6 +2,8 @@ import { createContext } from "react";
 
 const TeacherContext = createContext({
   teachers: [],
+  selectedTeacher: {},
+  setTeacher: (data) => {},
   getTeacher: (id) => {},
   addTeachers: (data) => {},
   addTeacher: (data) => {},

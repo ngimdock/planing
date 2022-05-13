@@ -94,7 +94,7 @@ class TeacherController {
                 const response = await TeacherModel.getById(matriculeEns)
 
                 if(response.length > 0){
-                    res.status(200).json(response)    
+                    res.status(200).json(...response)    
                 } else {
                     res.status(404).json({ error: "No such teacher "})
                 }  
@@ -119,7 +119,7 @@ class TeacherController {
             const data = await TeacherModel.delete(matriculeEns)
 
             if(data) {
-                res.status(200).json(data)
+                res.status(200).json(matriculeEns)
             } else if(data == 0) {
                 res.status(404).json({ message: " The teacher doesn't exist " })
             } else {
