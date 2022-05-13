@@ -10,7 +10,7 @@ class TeacherModel {
         (
           matriculeEns VARCHAR(10) NOT NULL PRIMARY KEY,
           nomEns VARCHAR(255) NOT NULL,
-          sexEns VARCHAR(20) NOT NULL
+          sexEns ENUM("M", "F") NOT NULL
         )
       `
 
