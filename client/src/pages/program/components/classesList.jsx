@@ -61,7 +61,6 @@ const ClasseList = () => {
    * @returns Array
    */
   const getFaculties = (idAcademicYear, idSemester) => {
-    console.log({ idAcademicYear, idSemester })
     if (idAcademicYear && idSemester) {
       // Get index of academic year
       const acaYIndex = programs.findIndex(acaY => Number(acaY.id) === Number(idAcademicYear))

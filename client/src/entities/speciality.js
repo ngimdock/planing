@@ -25,7 +25,7 @@ class Speciality {
       this.name = name
       this.capacity = capacity ? capacity : null
 
-      if (groups.length > 0) {
+      if (groups && groups.length > 0) {
         this.groups = groups.map(group => new Group(group))
       } else {
         this.groups = []
