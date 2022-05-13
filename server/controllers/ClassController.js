@@ -217,7 +217,8 @@ class ClassController {
 	//delete classe with classe_spec
 	static deleteClasse = async (req, res) =>{
 
-		const { codeClasse } = req.body
+		const { codeClasse } = req.params
+		console.log(codeClasse)
 		if(codeClasse){
 			const { data } = await ClassModel.findOne(codeClasse)
 		
@@ -244,7 +245,7 @@ class ClassController {
 				const {data: newData, error} = await ClassModel.delete(codeClasse)
 				if(newData)
 					return res.status(200).json(newData)
-				return res.status(400).json({ error })
+				return res.status(500).json({ error })
 			}
 			return res.status(500).json({ error: "an error occured with  Class" })
 		}

@@ -5,10 +5,14 @@ import Button from "../../buttons/button"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import styles from "../css/modalContent.module.css"
 import LinearLoader from "../../loaders/linearLoader"
+import reducer, { initialState } from '../reducers/classReducer'
+import LevelAPI from '../../../../api/level/index';
+import LevelContext from '../../../../datamanager/contexts/levelContext';
 
 const AddLevelModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const { addLevel } = useContext(LevelContext)
 
   // Set local state
   const [name, setName] = useState("")
@@ -20,7 +24,18 @@ const AddLevelModalContent = () => {
   const handleSubmitForm = () => {
     if (!loading) {
       setLoading(true)
-      console.log("You can send a request here")
+
+      const payload = {
+        nomNiv: name
+      }
+      const {data, error } = LevelAPI.create(payload)
+      setLoading(false)
+      addLevel(data)
+      console.log(data)
+      
+      if (error) {
+        console.log(error)
+      }
     }
   }
 
