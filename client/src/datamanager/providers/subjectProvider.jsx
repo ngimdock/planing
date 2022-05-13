@@ -26,15 +26,6 @@ const SubjectProvider = ({ children }) => {
       const subjectPayload = {
         code: subject.codeCours,
         description: subject.descriptionCours,
-        teacher: {
-          matricule: subject.matriculeEns,
-          name: subject.nomEns,
-          sex: subject.sexEns
-        },
-        semester: {
-          id: subject.idSemestre,
-          value: subject.valSemestre
-        },
         speciality: subject.idSpecialite && {
           id: subject.idSpecialite,
           name: subject.nomSpecialite
@@ -55,17 +46,12 @@ const SubjectProvider = ({ children }) => {
     const {
       code,
       description,
-      teacher,
-      semester,
       speciality
     } = data
 
     if (
       code &&
-      description &&
-      teacher &&
-      semester &&
-      speciality
+      description
     ) {
       const subject = new Subject(data)
 
@@ -81,8 +67,11 @@ const SubjectProvider = ({ children }) => {
     // nothing
   }
 
-  const handleRemoveSubject = (id) => {
-    // nothing
+  const handleRemoveSubject = (codeSubject) => {
+    
+    const newSubjects = subjects.filter(subject => subject.code !== codeSubject)
+
+    setSubjects(newSubjects)
   }
 
   // Context value
