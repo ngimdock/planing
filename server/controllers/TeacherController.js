@@ -8,9 +8,9 @@ class TeacherController {
      * @returns Object data | error
      */
     static getTeachers = async (req, res) => {
-        const data = await TeacherModel.get()
+        const { data } = await TeacherModel.get()
 
-        if(data.length > 0) {
+        if(data !== undefined) {
             res.status(200).json(data)
         } else {
             res.status(500).json({ error : " An error occured " })
@@ -53,9 +53,9 @@ class TeacherController {
         } = req.body
 
         if (matriculeEns && nomEns && sexEns) {
-            const { response, data } = await TeacherModel.create(req.body)
+            const { data } = await TeacherModel.create(req.body)
 
-            if(response && response > 0 && data) {
+            if(data) {
                 return res.status(201).json(data)
             } else {
                 return res.status(500).json({ error: "an error occured" })
@@ -94,7 +94,7 @@ class TeacherController {
                 const response = await TeacherModel.getById(matriculeEns)
 
                 if(response.length > 0){
-                    res.status(200).json(response)    
+                    res.status(200).json(...response)    
                 } else {
                     res.status(404).json({ error: "No such teacher "})
                 }  
@@ -119,7 +119,7 @@ class TeacherController {
             const data = await TeacherModel.delete(matriculeEns)
 
             if(data) {
-                res.status(200).json(data)
+                res.status(200).json(matriculeEns)
             } else if(data == 0) {
                 res.status(404).json({ message: " The teacher doesn't exist " })
             } else {

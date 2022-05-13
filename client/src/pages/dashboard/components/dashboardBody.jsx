@@ -1,11 +1,27 @@
-import React from "react"
+import React, { useContext } from "react"
 import { BsBarChartFill, BsBookFill, BsDoorOpenFill, BsFillPersonFill, BsPeopleFill } from 'react-icons/bs'
 import { MdSchool } from 'react-icons/md'
 import { HiUserGroup } from 'react-icons/hi'
 import styles from "../css/dashboard.module.css"
 import DashboardItem from "./dashboardItem"
+import FacultyContext from "../../../datamanager/contexts/facultyContext"
+import LevelContext from "../../../datamanager/contexts/levelContext"
+import ClassContext from "../../../datamanager/contexts/classContext"
+import SpecialityContext from "../../../datamanager/contexts/specialityContext"
+import RoomContext from "../../../datamanager/contexts/roomContext"
+import SubjectContext from "../../../datamanager/contexts/subjectContext"
+import TeacherContext from "../../../datamanager/contexts/teacherContext"
 
 const DashboardBody = () => {
+  // Get data from global state
+  const { faculties } = useContext(FacultyContext)
+  const { levels } = useContext(LevelContext)
+  const { classes } = useContext(ClassContext)
+  const { specialities } = useContext(SpecialityContext)
+  const { rooms } = useContext(RoomContext)
+  const { teachers } = useContext(TeacherContext)
+  const { subjects } = useContext(SubjectContext)
+
   return (
     <section className={styles.container}>
       <div className={styles.dashboardTitle}> Statistiques Générales</div>
@@ -13,7 +29,7 @@ const DashboardBody = () => {
       <div className={styles.dashboardContent}>
         <DashboardItem
           title="Filières"
-          value={8}
+          value={faculties.length}
           color="#3e4bff"
         >
           <MdSchool
@@ -23,7 +39,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Niveaux"
-          value={6}
+          value={levels.length}
           color="orange"
         >
           <BsBarChartFill 
@@ -33,7 +49,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Classes"
-          value={8}
+          value={classes.length}
           color="#41d813"
         >
           <HiUserGroup 
@@ -43,7 +59,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Spécialités"
-          value={32}
+          value={specialities.length}
           color="#f32f39"
         >
           <HiUserGroup 
@@ -53,7 +69,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Cours"
-          value={124}
+          value={subjects.length}
           color="#2f97a5"
         >
           <BsBookFill 
@@ -63,7 +79,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Enseignants"
-          value={34}
+          value={teachers.length}
           color="violet"
         >
           <BsPeopleFill 
@@ -73,7 +89,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Salles"
-          value={24}
+          value={rooms.length}
           color="#92dffde8"
         >
           <BsDoorOpenFill 
@@ -83,7 +99,7 @@ const DashboardBody = () => {
         </DashboardItem>
         <DashboardItem
           title="Admins"
-          value={5}
+          value={1}
           color="#05502d"
         >
           <BsFillPersonFill 

@@ -9,6 +9,8 @@ import TeacherAPI from "../../../../api/teacher"
 import { BsCheck, BsX } from "react-icons/bs"
 import LoaderCircle from "../../loaders/loaderCircle"
 import LinearLoader from '../../loaders/linearLoader'
+import TeacherContext from "../../../../datamanager/contexts/teacherContext"
+import ToastContext from "../../../../datamanager/contexts/toastContext"
 
 // Initial state
 const initialState = {
@@ -20,12 +22,15 @@ const initialState = {
 const AddTeacherModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const { addTeacher } = useContext(TeacherContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [teacher, setTeacher] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [matriculeAlreadyExist, setMatriculeAlreadyExist] = useState(true)
   const [checkingMatricule, setCheckingMatricule] = useState(false)
+  const [error, setError] = useState("")
 
   // UseEffect section
   useEffect(() => {
@@ -77,10 +82,23 @@ const AddTeacherModalContent = () => {
     setTeacher(teacherPrev)
   }
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
+
     if (!loading) {
       setLoading(true)
-      console.log("you can send request here")
+      const { data, error: err } = await TeacherAPI.createTeacher(teacher.matricule, teacher.name, teacher.sexe)
+      setLoading(false)
+      if(data.matriculeEns) {
+        const payload = { matricule: data.matriculeEns, name: data.nomEns, sex: data.sexEns  } 
+        addTeacher(payload)
+        closeModal()
+        showToast("Nouvelle Enseignant créé", "success")
+      } else {
+        setError(err)
+        console.log(error)
+        closeModal()
+        showToast("Enseignant non créé", "error")
+      }
     }
   }
 

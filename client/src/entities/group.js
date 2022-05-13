@@ -1,13 +1,7 @@
-// Class Group
-
-import Class from './class'
-import Speciality from './speciality'
-
 class Group {
   id
   name
   capacity
-  myClass
   speciality
 
   constructor (data) {
@@ -19,22 +13,18 @@ class Group {
       id,
       name,
       capacity,
-      myClass,
       speciality
     } = data
 
     if (
       id &&
       name &&
-      capacity &&
-      myClass &&
-      speciality
+      capacity
     ) {
       this.id = id
       this.name = name
       this.capacity = capacity
-      this.myClass = new Class(myClass)
-      this.speciality = new Speciality(speciality)
+      this.speciality = speciality
     }
   }
 
@@ -48,11 +38,7 @@ class Group {
   }
 
   get getCapacity () {
-    this.capacity
-  }
-
-  get getMyClass () {
-    return this.myClass
+    return this.capacity
   }
 
   get getSpeciality () {

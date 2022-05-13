@@ -5,7 +5,7 @@ class DayModel{
 		const query = `
 			CREATE TABLE IF NOT EXISTS Jour 
 			(
-				idSalle INTEGER PRIMARY KEY NOT NULL auto_increment,
+				idJour INTEGER PRIMARY KEY NOT NULL auto_increment,
 				nomJour VARCHAR(255) NOT NULL
 			)
 		`

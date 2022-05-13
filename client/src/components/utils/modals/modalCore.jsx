@@ -9,6 +9,8 @@ import AddFacultyModalContent from './components/addFaculty';
 import AddLevelModalContent from './components/addLevel';
 import AddClassModalContent from './components/addClass';
 import AddSpecialityModalContent from './components/addSpeciality';
+import UpdateSpecialityModalContent from './components/update/updateSpeciality';
+import UpdateTeacherModalContent from './components/update/updateTeacher';
 import AddSubjectModalContent from './components/addSubject';
 import AddTeacherModalContent from './components/addTeacher';
 import AddRoomModalContent from './components/addRoom';
@@ -70,6 +72,14 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
 
       case "ADD_ACADEMIC_YEAR": {
         return <AddAcademicYearModalContent />
+      }
+
+      case "UPDATE_SPECIALITY": {
+        return <UpdateSpecialityModalContent />
+      }
+
+      case "UPDATE_TEACHER": {
+        return <UpdateTeacherModalContent />
       }
 
       default: return null

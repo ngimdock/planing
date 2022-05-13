@@ -5,10 +5,13 @@ import { Box } from "@mui/material"
 import Button from "../../buttons/button"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import LinearLoader from "../../loaders/linearLoader"
+import FacultyAPI from "../../../../api/faculty"
+import FacultyContext from "../../../../datamanager/contexts/facultyContext"
 
 const AddFacultyModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const {addFaculty} = useContext(FacultyContext)
 
   // Set local state
   const [name, setName] = useState("")
@@ -17,10 +20,23 @@ const AddFacultyModalContent = () => {
   // Some handlers
   const handleChangeName = (e) => setName(e.target.value)
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async() => {
     if (!loading) {
       setLoading(true)
-      console.log("You can send the request")
+
+      const {data,error} = await FacultyAPI.create({nomFil:name}) 
+      setLoading(false);
+
+      if(data){
+        setName("");
+        console.log(data.data)
+        addFaculty({ id: data.data.id, name: data.data.nomFil });
+
+        closeModal();
+      }
+      else{
+
+      }
     }
   }
 
@@ -38,6 +54,7 @@ const AddFacultyModalContent = () => {
         disabled={loading}
         placeholder="nom de la filière"
         fullWidth
+        value={name}
         onChange={handleChangeName}
       />
 

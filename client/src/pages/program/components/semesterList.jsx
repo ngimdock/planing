@@ -6,11 +6,14 @@ import { BsFillPlusCircleFill } from 'react-icons/bs';
 import ModalContext from '../../../datamanager/contexts/modalContext';
 import ToastContext from '../../../datamanager/contexts/toastContext';
 import AcademicYearAPI from '../../../api/academicYear';
+import PlanningContext from '../../../datamanager/contexts/planningContext';
+import PlanningAction from '../../../datamanager/actions/planning';
 
 const SemesterList = () => {
   // Get data from global state
   const { openModal } = useContext(ModalContext)
   const { showToast } = useContext(ToastContext)
+  const { programs, dispatch, setLoaded } = useContext(PlanningContext)
 
   // Set local state
   const [semestersList, setSemestersList] = useState([])
@@ -22,10 +25,12 @@ const SemesterList = () => {
 
   // Some handlers
   const handleGetAcademicYears = async () => {
+    // Get academic years with semesters
     const { data, error } = await AcademicYearAPI.getAll()
 
     if (data) {
-      console.log(data)
+      // Set the fact that the academic years have been loaded
+      setLoaded()
 
       const academicYears = []
 
@@ -33,7 +38,7 @@ const SemesterList = () => {
         // Initialization of an academic year data
         const academicYear = {
           id: acaY.idAnneeAca,
-          headerTitle: "Annee academique " + acaY.valAnneeAca,
+          value: acaY.valAnneeAca,
           semesters: []
         }
 
@@ -43,7 +48,8 @@ const SemesterList = () => {
           // Initialization of a semester data
           const semesterValue = {
             id: semester.idSemestre,
-            value: "Semestre " + semester.valSemestre
+            value: "Semestre " + semester.valSemestre,
+            faculties: []
           }
 
           semesters.push(semesterValue)
@@ -54,7 +60,7 @@ const SemesterList = () => {
         academicYears.push(academicYear)
       })
 
-      setSemestersList(academicYears)
+      dispatch(PlanningAction.addAcademicYears(academicYears))
     } else {
       showToast("Probleme de chargement de la liste des annees", "error")
     }
@@ -107,13 +113,15 @@ const SemesterList = () => {
 
       <Box>
         {
-          semestersList.map((item, index) => {
+          programs.map((item) => {
             return (
               <AccordionItem 
-                key={index}
-                headerTitle={item.headerTitle}
+                key={item.id}
+                headerTitle={item.value}
                 data={item.semesters}
+                idYear={item.id}
                 target="classes"
+                type="semester"
               />
             )
           })

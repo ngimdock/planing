@@ -15,9 +15,10 @@ const Select = ({
   fullWidth,
   rounded,
   disabled,
-  fontSize
+  fontSize,
+  value
 }) => {
-  const [value, setValue] = React.useState('')
+  const [val, setValue] = React.useState(value ? value : '')
 
   const handleChange = (event) => {
     setValue(event.target.value)
@@ -44,13 +45,13 @@ const Select = ({
         disabled={disabled}
         labelId="demo-select-small"
         id="demo-select-small"
-        value={value}
+        value={val}
         label={label}
         onChange={handleChange}
         sx={{
           borderRadius: rounded ? 50:1,
           fontSize: fontSize && fontSize,
-          fontFamily: "Nunito-Bold",
+          fontFamily: "Nunito-Regular",
           paddingBlock: "auto"
         }}
       >
@@ -58,14 +59,14 @@ const Select = ({
           value=""
           sx={{
             fontSize: fontSize && fontSize,
-            fontFamily: "Nunito-Bold"
+            fontFamily: "Nunito-Regular"
           }}  
         >
           <em>Vide</em>
         </MenuItem>
 
         {
-          options && options.map((option) => <MenuItem value={option.value} sx={{ fontSize: fontSize && fontSize - 2, fontFamily: "Nunito-Bold" }}>{ option.label }</MenuItem>)
+          options && options.map((option) => <MenuItem value={option.value} sx={{ fontSize: fontSize && fontSize - 2, fontFamily: "Nunito-Regular" }}>{ option.label }</MenuItem>)
         }
       </SelectCore>
     </FormControl>

@@ -4,7 +4,7 @@ class RoomModel {
 
 	static init = async () => {
 		const query = `
-			CREATE TABLE IF NOT EXISTS Room 
+			CREATE TABLE IF NOT EXISTS Salle 
 			(
 				idSalle INTEGER PRIMARY KEY NOT NULL auto_increment,
 				nomSal VARCHAR(255) NOT NULL,
@@ -25,7 +25,7 @@ class RoomModel {
 
 		const query = `
 			SELECT *
-			FROM Room
+			FROM Salle
 			WHERE 1
 		`
 
@@ -43,7 +43,7 @@ class RoomModel {
 
 		const query = `
 			SELECT *
-			FROM Room
+			FROM Salle
 			WHERE idSalle = (?)
 		`
 
@@ -60,14 +60,14 @@ class RoomModel {
 	static create = async (payload) => {
 
 		const query = `
-			INSERT INTO Room (nomSal, capaciteSal)
+			INSERT INTO Salle (nomSal, capaciteSal)
 			VALUE (?, ?)
 		`
 
 		try{
 			const [rows] = await connection.execute(query, [payload.nomSal, payload.capaciteSal])
 
-			return{ data: {...rows} }
+			return{ data: {id: rows.insertId, ...payload} }
 		}catch(err){
 			console.log(err)
 
@@ -78,7 +78,7 @@ class RoomModel {
 	static update = async (payload) => {
 
 		const query = `
-			UPDATE Room
+			UPDATE Salle
 			SET nomSal = (?), capaciteSal = (?)
 			WHERE idSalle = (?)
 		`
@@ -96,7 +96,7 @@ class RoomModel {
 
 		const query = `
 			DELETE
-			FROM Room
+			FROM Salle
 			WHERE idSalle = (?)
 		`
 		

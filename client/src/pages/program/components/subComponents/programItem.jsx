@@ -3,7 +3,7 @@ import { Box } from "@mui/system"
 import { useState } from "react"
 import PopOver from '../../../../components/utils/popovers'
 
-const ProgramItem = () => {
+const ProgramItem = ({ program }) => {
   // Set local state
   const [showPopover, setShowPopover] = useState(false)
   const [anchorElement, setAnchorElement] = useState(null)
@@ -12,8 +12,6 @@ const ProgramItem = () => {
   const handlePopover = (anchorEl, val) => {
     setAnchorElement(anchorEl)
     setShowPopover(val)
-
-    console.log(val)
   }
 
   return (
@@ -53,7 +51,7 @@ const ProgramItem = () => {
             fontSize: 14,
             fontFamily: "Nunito-Bold"
           }}
-        >MATH 112</Typography>
+        >{ program.subjectCode.toUpperCase() }</Typography>
         <Typography
           as="span"
           sx={{
@@ -61,7 +59,7 @@ const ProgramItem = () => {
             fontFamily: "Nunito-Bold",
             ml: 1
           }}
-        >(A502)</Typography>
+        >({ program.roomName.toUpperCase() })</Typography>
       </Box>
 
       <Typography
@@ -71,10 +69,11 @@ const ProgramItem = () => {
           fontFamily: "Nunito-Bold",
           color: "#555"
         }}
-      >DILANE3</Typography>
+      >{ program.teacherName.toUpperCase() }</Typography>
 
       <PopOver 
         open={showPopover} 
+        data={program}
         onClose={() => handlePopover(null, false)} 
         anchorEl={anchorElement}  
       />

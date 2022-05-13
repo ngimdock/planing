@@ -7,23 +7,23 @@ import TableRow from "./tableRow"
 const TIMES = [
   {
     id: 1,
-    start: 7,
-    end: 10
+    start: 7 * 3600,
+    end: 10 * 3600
   },
   {
     id: 2,
-    start: 10,
-    end: 13
+    start: 10 * 3600,
+    end: 13 * 3600
   },
   {
     id: 3,
-    start: 13,
-    end: 16
+    start: 13 * 3600,
+    end: 16 * 3600
   },
   {
     id: 4,
-    start: 16,
-    end: 18
+    start: 16 * 3600,
+    end: 19 * 3600
   }
 ]
 
@@ -44,7 +44,7 @@ const Table = () => {
 
         <tbody>
           {
-            TIMES.map(item => <TableRow time={item} color={item.id % 2 === 0 && "#f8f8f8"} />)
+            TIMES.map(item => <TableRow key={item.id} time={item} color={item.id % 2 === 0 && "#f8f8f8"} />)
           }
         </tbody>
       </table>
