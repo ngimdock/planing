@@ -39,6 +39,24 @@ class SubjectAPI extends DefaultApiCall {
     }
   }
 
+  static async getAvailableSubjects (idSemester, codeClasse) {
+    const instance = SubjectAPI.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.get(`/course/available/${idSemester}/${codeClasse}`)
+
+      if (data) {
+        return data
+      }
+
+      return { error }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
+
   static async createSubject(payload) {
 
     // insert token in axios headers

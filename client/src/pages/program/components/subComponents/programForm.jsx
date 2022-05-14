@@ -11,7 +11,9 @@ import ToastContext from "../../../../datamanager/contexts/toastContext"
 import TeacherAPI from "../../../../api/teacher"
 import RoomAPI from '../../../../api/room'
 import ProgramAPI from "../../../../api/program"
+import SubjectAPI from '../../../../api/subject'
 import Teacher from "../../../../entities/teacher"
+import Subject from '../../../../entities/subject'
 import Room from "../../../../entities/room"
 import PlanningAction from "../../../../datamanager/actions/planning"
 
@@ -57,11 +59,15 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
 
     // Get available rooms
     handleGetRoomsAvailable()
+
+    // Get available subjects
+    handleGetSubjectsAvailable()
   }, [])
 
   // Set local state
   const [program, setProgram] = useState({ ...initialState, myClass: currentClass.getCode, start })
   const [groups, setGroups] = useState(currentClass.getGroups)
+  const [availableSubjects, setAvailableSubjects] = useState([])
   const [availableTeachers, setAvailableTeachers] = useState([])
   const [availableRooms, setAvailableRooms] = useState([])
   const [loading, setLoading] = useState(false)
@@ -113,6 +119,9 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
 
         // Get available rooms
         handleGetRoomsAvailable()
+
+        // Get available subjects
+        handleGetSubjectsAvailable()
       }
 
       default: // nothing
@@ -252,6 +261,28 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
     }
   }
 
+  /**
+   * Get the available subjects
+   */
+  const handleGetSubjectsAvailable = async () => {
+    const { data, error } = await SubjectAPI.getAvailableSubjects(currentSemester.idSemester, currentClass.getCode)
+
+    console.log(data)
+
+    if (data) {
+      const subjects = data.map(sub => new Subject({ 
+        code: sub.codeCours, 
+        description: sub.descriptionCours,
+        speciality: { 
+          id: sub.idSpecialte, 
+          name: sub.nomSpecialite 
+        } 
+      }))
+
+      setAvailableSubjects(subjects)
+    }
+  }
+
   // Get programs filtered by class based on the code class
   const handleGetProgramsByClass = async () => {
     const { data } = await ProgramAPI.getByClass({
@@ -300,7 +331,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             rounded
             fontSize={14}
             options={[
-              ...subjects.map(sub => ({ value: sub.getCode, label: sub.getDescription }))
+              ...availableSubjects.map(sub => ({ value: sub.getCode, label: `${sub.getCode}: ${sub.getDescription}` }))
             ]}
             onGetValue={value => handleChange("subject", value)}
             value={program.subject}

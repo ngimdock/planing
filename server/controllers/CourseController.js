@@ -11,10 +11,10 @@ class CourseController {
     }
 
     static getAvailableCourse = async (req, res) => {
-        const { codeClasse } = req.params
+        const { codeClasse, idSemester } = req.params
 
-        if (codeClasse) {
-            const { data, error } = await CourseModel.getAvailableCourses(codeClasse)
+        if (idSemester && codeClasse) {
+            const { data, error } = await CourseModel.getAvailableCourses(idSemester, codeClasse)
 
             if (data) {
                 return res.json({ data })

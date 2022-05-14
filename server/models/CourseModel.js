@@ -40,7 +40,7 @@ class CourseModel {
         }
     }
 
-    static getAvailableCourses = async (codeClasse) => {
+    static getAvailableCourses = async (idSemester, codeClasse) => {
         const query = `
             (
                 SELECT * FROM Cours
@@ -49,6 +49,7 @@ class CourseModel {
                     SELECT C.codeCours, C.descriptionCours, C.idSpecialite
                     FROM Cours C, Programmer P
                     WHERE C.codeCours = P.codeCours
+                    AND P.idSemestre = ?
                 )
             )
             UNION
@@ -59,12 +60,13 @@ class CourseModel {
                 AND C.codeCours = S.codeCours
                 AND G.idGroupe = S.idGroupe
                 AND Cla.codeClasse = ?
+                AND P.idSemestre = ?
                 AND G.codeClasse = Cla.codeClasse
             )
         `
 
         try {
-            const [rows] = await connection.execute(query, [codeClasse])
+            const [rows] = await connection.execute(query, [idSemester, codeClasse, idSemester])
 
             const subjects = await this.addSpecialityToCourses(rows)
 
