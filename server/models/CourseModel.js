@@ -24,7 +24,8 @@ class CourseModel {
     static getCourses = async () => {
         const query = `
             SELECT * 
-            FROM Cours `
+            FROM Cours 
+        `
 
         try{
             const [rows] = await connection.execute(query)
@@ -36,6 +37,42 @@ class CourseModel {
             return{ data: subjects }
         }catch(err){
             return { error: "An error occured while geting courses" }
+        }
+    }
+
+    static getAvailableCourses = async (codeClasse) => {
+        const query = `
+            (
+                SELECT * FROM Cours
+                EXCEPT
+                (
+                    SELECT C.codeCours, C.descriptionCours, C.idSpecialite
+                    FROM Cours C, Programmer P
+                    WHERE C.codeCours = P.codeCours
+                )
+            )
+            UNION
+            (
+                SELECT C.codeCours, C.descriptionCours, C.idSpecialite
+                FROM Cours C, Programmer P, Suivre S, Groupe G, Classe Cla
+                WHERE C.codeCours = P.codeCours
+                AND C.codeCours = S.codeCours
+                AND G.idGroupe = S.idGroupe
+                AND Cla.codeClasse = ?
+                AND G.codeClasse = Cla.codeClasse
+            )
+        `
+
+        try {
+            const [rows] = await connection.execute(query, [codeClasse])
+
+            const subjects = await this.addSpecialityToCourses(rows)
+
+            return { data: subjects }
+        } catch (err) {
+            console.log(err)
+
+            return { error: "An error occured" }
         }
     }
 

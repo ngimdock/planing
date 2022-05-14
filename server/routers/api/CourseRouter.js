@@ -7,6 +7,7 @@ const CourseRouter = express.Router()
 
 //set some routes
 CourseRouter.get("/", authenticationMiddleware, CourseController.getCourses)
+CourseRouter.get("/available/:codeClasse", authenticationMiddleware, CourseController.getAvailableCourse)
 CourseRouter.get("/:codeCours", authenticationMiddleware, CourseController.getCourse)
 CourseRouter.post("/create", CourseController.createCourse)
 CourseRouter.delete("/delete/:codeCours", authenticationMiddleware, CourseController.deleteCourse)
