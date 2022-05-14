@@ -10,7 +10,7 @@ class FacultyAPI extends DefaultApiCall {
 
       console.log(data)
 
-      return data
+      return { data }
     } catch (err) {
       console.log(err)
 
@@ -31,6 +31,38 @@ class FacultyAPI extends DefaultApiCall {
       console.log(err)
 
       return { error: "An error occured" }
+    }
+  }
+
+  static async modifyFaculty(id, name) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.put(`/faculty/update/${id}`, { nomFil: name })
+
+      console.log(data)
+      
+      return { data }
+    } catch(err) {
+      console.log(err)
+
+      return { error : "An error occured" }
+    }
+  }
+
+  static async deleteFaculty(id) {
+    const instance = this.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.delete(`/faculty/delete/${id}`)
+
+      console.log(data)
+      
+      return { data }
+    } catch(err) {
+      console.log(err)
+
+      return { error : "An error occured" }
     }
   }
 }

@@ -9,14 +9,15 @@ import AddFacultyModalContent from './components/addFaculty';
 import AddLevelModalContent from './components/addLevel';
 import AddClassModalContent from './components/addClass';
 import AddSpecialityModalContent from './components/addSpeciality';
-import UpdateSpecialityModalContent from './components/update/updateSpeciality';
-import UpdateTeacherModalContent from './components/update/updateTeacher';
 import AddSubjectModalContent from './components/addSubject';
 import AddTeacherModalContent from './components/addTeacher';
 import AddRoomModalContent from './components/addRoom';
 import AddAdminModalContent from './components/addAdmin'
 import AddAcademicYearModalContent from './components/addAcademicYear';
 import UpdateSubjectModalContent from './components/update/updateSubject';
+import UpdateFacultyModelContent from './components/update/updateFaculty';
+import UpdateSpecialityModalContent from './components/update/updateSpeciality';
+import UpdateTeacherModalContent from './components/update/updateTeacher';
 
 const style = {
   position: 'absolute',
@@ -85,6 +86,10 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
 
       case "UPDATE_SUBJECT": {
         return <UpdateSubjectModalContent />
+      }
+      
+      case "UPDATE_FACULTY": {
+        return <UpdateFacultyModelContent />
       }
 
       default: return null
