@@ -5,17 +5,17 @@ class Classe_specModel{
         const query = `
         CREATE TABLE IF NOT EXISTS Classe_spec
         (
-            codeClass VARCHAR(255), 
-            idSpec INTEGER,
+            codeClasse VARCHAR(255), 
+            idSpecialite INTEGER,
             capacite INTEGER NOT NULL,
             CONSTRAINT PK_avoir
-            PRIMARY KEY(codeClass, idSpec),
+            PRIMARY KEY(codeClasse, idSpecialite),
             CONSTRAINT FK_Class
-            FOREIGN KEY(codeClass) REFERENCES Classe (codeClasse)
+            FOREIGN KEY(codeClasse) REFERENCES Classe (codeClasse)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
             CONSTRAINT FK_Speciality
-            FOREIGN KEY(idSpec) REFERENCES Specialite (idSpecialite)
+            FOREIGN KEY(idSpecialite) REFERENCES Specialite (idSpecialite)
             ON DELETE CASCADE
             ON UPDATE CASCADE
         ) 

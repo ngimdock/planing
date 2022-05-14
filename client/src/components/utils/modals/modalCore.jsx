@@ -16,6 +16,7 @@ import AddTeacherModalContent from './components/addTeacher';
 import AddRoomModalContent from './components/addRoom';
 import AddAdminModalContent from './components/addAdmin'
 import AddAcademicYearModalContent from './components/addAcademicYear';
+import UpdateSubjectModalContent from './components/update/updateSubject';
 
 const style = {
   position: 'absolute',
@@ -80,6 +81,10 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
 
       case "UPDATE_TEACHER": {
         return <UpdateTeacherModalContent />
+      }
+
+      case "UPDATE_SUBJECT": {
+        return <UpdateSubjectModalContent />
       }
 
       default: return null
