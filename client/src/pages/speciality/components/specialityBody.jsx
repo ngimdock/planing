@@ -13,13 +13,14 @@ const SpecialityBody = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.specialityTitle}> Liste des differents specialite</div>
+      <div className={styles.specialityTitle}> Liste des differentes specialites</div>
       <div className={styles.specialityContent}>
          {
             specialities.map(spec => {
                return (
                   <SpecialityItem
                      key={spec.getId}
+                     id={spec.getId}
                      name={spec.getName}
                      color={generateColor()}
                   />

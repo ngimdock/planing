@@ -16,12 +16,10 @@ class CourseController {
         const {
             codeCours,
             descriptionCours,
-            idSemestre,
-            matriculeEns,
             idSpecialite
         } = req.body
 
-        if(codeCours && descriptionCours && idSemestre && matriculeEns  && idSpecialite){
+        if(codeCours && descriptionCours){
 
             // create course
             const { data, error } = await CourseModel.createCourse(req.body)

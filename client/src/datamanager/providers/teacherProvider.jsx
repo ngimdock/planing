@@ -5,6 +5,7 @@ import TeacherContext from "../contexts/teacherContext"
 const TeacherProvider = ({ children }) => {
   // Set local state
   const [teachers, setTeachers] = useState([])
+  const [selectedTeacher, setSelectedTeacher] = useState({})
 
   // Some handlers
 
@@ -62,16 +63,38 @@ const TeacherProvider = ({ children }) => {
    * @param {Object} data 
    */
   const handleUpdateTeacher = (id, data) => {
-    // nothing
+    if(id && data) {
+      teachers.forEach(teacher => {
+        if(teacher.matricule === id) {
+          teacher.matricule = data.matricule
+          teacher.name = data.name
+          teacher.sex = data.sex
+        }
+      })
+      setTeachers(teachers)
+    }
   }
 
   const handleRemoveTeacher = (id) => {
-    // nothing
+    if(id) {
+      const teacherPrevState = [...teachers]
+
+      const teacherIndex = teacherPrevState.findIndex(checkTeacherPosition)
+
+      function checkTeacherPosition(teacher) {
+        return teacher.matricule === id
+      }
+
+      teacherPrevState.splice(teacherIndex, 1)
+      setTeachers(teacherPrevState)
+    }
   }
 
   // Context value
   const contextValue = {
     teachers,
+    selectedTeacher,
+    setTeacher: setSelectedTeacher,
     getTeacher: handleGetTeacher,
     addTeachers: handleAddTeachers,
     addTeacher: handleAddTeacher,

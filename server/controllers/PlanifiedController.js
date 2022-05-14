@@ -17,7 +17,7 @@ class PlanifiedController {
         const { data, error } = await PlanifiedModel.getAllPrograms({ idAnneeAca: Number(idAnneeAca), idSemestre: Number(idSemestre) })
 
         if(data){
-            return res.status(201).json({ data })
+            return res.status(200).json({ data })
         }
 
         return res.status(500).json({ error })
@@ -43,6 +43,75 @@ class PlanifiedController {
         }
     }
 
+    static getProgramByClass = async (req, res) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            codeClasse
+        } = req.params
+
+        if(!idAnneeAca || !idSemestre || !codeClasse) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByclass(req.params)
+
+        if(data !== undefined) return res.status(200).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
+    /**
+     * The controler witch get the specifik teacher's program
+     * @param {Object} req 
+     * @param {Object} res 
+     * @returns data | error
+     */
+    static getProgramByTeacher = async (req, res) => {
+
+        const {
+            idAnneeAca,
+            idSemestre,
+            matriculeEns
+        } = req.params
+
+
+        if(!idAnneeAca || !idSemestre || !matriculeEns) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByTeacher(req.params)
+
+        if(data) return res.status(201).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
+    /**
+     * The controler witch get the specifik classe's program
+     * @param {Object} req 
+     * @param {Object} res 
+     * @returns data of programs | error
+     */
+    static getProgramByRoom = async (req, res) => {
+        const {
+            idAnneeAca,
+            idSemestre,
+            idSalle
+        } = req.params
+
+        console.log({ idAnneeAca, idSalle, idSemestre })
+
+
+        if(!idAnneeAca || !idSemestre || !idSalle) 
+            return res.status(400).json({ error: "Provide all the required data" })
+        
+        const { data, error } = await PlanifiedModel.getProgramByRoom(req.params)
+
+        if(data) return res.status(201).json({ data })
+
+        return res.status(500).json({ error })
+    }
+
     /**
      * Create program 
      * @param {Object} req request
@@ -57,11 +126,24 @@ class PlanifiedController {
             codeCours,
             idSalle,
             idJour,
+            matriculeEns,
+            idSemestre,
             heureDebut,
             heureFin
         } = req.body
 
-        const checkData = (idAdmin && codeCours && idSalle && idJour &&  heureDebut && heureFin) ? true : false
+        console.log(req.body)
+
+        const checkData = (
+            idAdmin && 
+            codeCours && 
+            idSalle && 
+            idJour &&  
+            heureDebut && 
+            heureFin &&
+            matriculeEns &&
+            idSemestre    
+        ) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all informations datas to create the course" })
 
@@ -71,26 +153,6 @@ class PlanifiedController {
         return res.status(500).json({ error })
     }
 
-    // static getProgram = async (req, res) => {
-    //     const { 
-    //         idAdmin, 
-    //         codeCours, 
-    //         idSalle, 
-    //         idJour, 
-    //         heureDebut
-    //     } = req.body
-
-    //     const checkData = (idAdmin && codeCours, idSalle && idJour, heureDebut) ? true : false
-
-    //     if(!checkData) return res.status(400).json({ error: "Provide all the required data to get this program" })
-
-    //     //delete program
-    //     const { data, error } = await PlanifiedModel.getProgram(req.body)
-
-    //     if(data) return res.status(200).json({ data })
-    //     return res.status(404).json({ error })
-    // }
-
     static deleteProgram = async (req, res) => {
 
         const { 
@@ -98,10 +160,12 @@ class PlanifiedController {
             codeCours, 
             idSalle, 
             idJour, 
+            matriculeEns, 
+            idSemestre,
             heureDebut
         } = req.body
 
-        const checkData = (idAdmin && codeCours && idSalle && idJour && heureDebut ) ? true : false
+        const checkData = (idAdmin && codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut ) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all the required data to delete this program" })
 
@@ -118,6 +182,8 @@ class PlanifiedController {
             codeCours, 
             idSalle, 
             idJour, 
+            matriculeEns, 
+            idSemestre,
             heureDebut
         } = req.body.key
 
@@ -132,7 +198,7 @@ class PlanifiedController {
 
         // console.log(newData.keys())
 
-        const checkData = (idAdmin && codeCours && idSalle && idJour && heureDebut && req.body.data) ? true : false
+        const checkData = (idAdmin && codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut && req.body.data) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all the required data to update this program" })
 

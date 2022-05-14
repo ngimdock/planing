@@ -26,11 +26,6 @@ class NiveauController {
 			res.status(400).json({ error: "Provide all the name of the level" })
 		}
 
-		// const { data } = await NiveauModel.create(req.body)
-		
-		// if(data)
-		// 	return res.status(201).json(data)
-		// return res.status(500).json({ error: "an error occured with creating Level" })
 	}
 
 	static getNiveauById = async (req, res) => {
@@ -55,7 +50,7 @@ class NiveauController {
 
 				const {data: newData, error} = await NiveauModel.update(id, req.body)
 				if ( newData )
-					return res.status(201).json({message: "sucessful update"})
+					return res.status(201).json({ newData })
 				return res.status(400).json({error: error})
 			}
 			return res.status(500).json({ error: "an error occured with updated Level" })

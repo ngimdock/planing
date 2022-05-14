@@ -49,7 +49,10 @@ const AddClassModalContent = () => {
         capaciteClasse: classes.capacity,
         idFil: classes.faculty,
         idNiv: classes.level,
-        groups: classes.groups,
+        groups: {
+          nomGroupe: classes.groups.name,
+          capaciteGroupe: classes.groups.capacity
+        },
         specialities: classes.specialities
       }
 

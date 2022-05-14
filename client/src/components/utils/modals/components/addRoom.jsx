@@ -5,10 +5,15 @@ import Button from "../../buttons/button"
 import styles from '../css/modalContent.module.css'
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import LinearLoader from "../../loaders/linearLoader"
+import RoomAPI from '../../../../api/room/index';
+import RoomContext from "../../../../datamanager/contexts/roomContext"
+import ToastContext from "../../../../datamanager/contexts/toastContext"
 
 const AddRoomModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
+  const { addRoom } = useContext(RoomContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [name, setName] = useState("")
@@ -26,10 +31,32 @@ const AddRoomModalContent = () => {
     }
   }
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm =async () => {
     if (!loading) {
       setLoading(true)
-      console.log("You can send request here")
+      const payload = {
+        nomSal : name,
+        capaciteSal: capacity
+      }
+      
+      const {data, error } = await RoomAPI.create(payload)
+      console.log("front",data)
+      setLoading(false)
+      
+      if (data) {
+        addRoom({
+          id: data.id,
+          name: data.nomSal,
+          capacity: data.capaciteSal
+        })
+        closeModal()
+        showToast("creation reussite", "success")
+        
+      } else {
+        console.log(error)
+        showToast("ne peut creer cette salle", "error")
+      }
+
     }
   }
 
@@ -74,7 +101,7 @@ const AddRoomModalContent = () => {
           variant="contained"
           fontSize={14}
           rounded
-          onClick={handleSubmitForm}
+          onClick={ handleSubmitForm }
         />
       </Box>
 

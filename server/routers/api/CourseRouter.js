@@ -1,15 +1,16 @@
 import express from 'express';
 import CourseController from "../../controllers/CourseController.js"
+import authenticationMiddleware from '../../middlewares/auth.js';
 
 
 const CourseRouter = express.Router()
 
 //set some routes
-CourseRouter.get("/", CourseController.getCourses)
-CourseRouter.get("/:codeCours", CourseController.getCourse)
+CourseRouter.get("/", authenticationMiddleware, CourseController.getCourses)
+CourseRouter.get("/:codeCours", authenticationMiddleware, CourseController.getCourse)
 CourseRouter.post("/create", CourseController.createCourse)
-CourseRouter.delete("/delete/:codeCours", CourseController.deleteCourse)
-CourseRouter.patch("/update/:codeCours", CourseController.updateCourse)
-CourseRouter.post("/verify_code", CourseController.checkCode)
+CourseRouter.delete("/delete/:codeCours", authenticationMiddleware, CourseController.deleteCourse)
+CourseRouter.patch("/update/:codeCours", authenticationMiddleware, CourseController.updateCourse)
+CourseRouter.post("/verify_code", authenticationMiddleware, CourseController.checkCode)
 
 export default CourseRouter

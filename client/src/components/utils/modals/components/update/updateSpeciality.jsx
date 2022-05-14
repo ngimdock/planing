@@ -1,22 +1,22 @@
 import React, { useContext, useState } from "react"
-import Input from '../../inputs/input'
+import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
-import Button from "../../buttons/button"
-import ModalContext from "../../../../datamanager/contexts/modalContext"
-import styles from '../css/modalContent.module.css'
-import LinearLoader from "../../loaders/linearLoader"
-import SpecialityAPI from "../../../../api/speciality"
-import SpecialityContext from "../../../../datamanager/contexts/specialityContext"
-import ToastContext from "../../../../datamanager/contexts/toastContext"
+import Button from "../../../buttons/button"
+import ModalContext from "../../../../../datamanager/contexts/modalContext"
+import styles from '../../css/modalContent.module.css'
+import LinearLoader from "../../../loaders/linearLoader"
+import SpecialityAPI from "../../../../../api/speciality"
+import SpecialityContext from "../../../../../datamanager/contexts/specialityContext"
+import ToastContext from "../../../../../datamanager/contexts/toastContext"
 
-const AddSpecialityModalContent = () => {
+const UpdateSpecialityModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { addSpeciality } = useContext(SpecialityContext)
+  const { updateSpeciality, selectedSpeciality, setSelectedSpeciality } = useContext(SpecialityContext)
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [name, setName] = useState("")
+  const [name, setName] = useState(selectedSpeciality.name)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState("")
 
@@ -26,18 +26,21 @@ const AddSpecialityModalContent = () => {
   const handleSubmitForm = async () => {
     if (!loading) {
       setLoading(true)
-      const { data, error: err } = await SpecialityAPI.createSpeciality(name)
+      const { data , error: err } = await SpecialityAPI.modifySpeciality(selectedSpeciality.id, name)
       setLoading(false)
-      if(data.id) {
-        const payload = { id: data.id, name: data.nomSpecialite } 
-        addSpeciality(payload)
+      const {
+          idSpecialite,
+          nomSpecialite
+      } = data
+      if(idSpecialite) {
+        updateSpeciality(idSpecialite, nomSpecialite)
         closeModal()
-        showToast("New Speciality created", "success")
+        showToast("Speciality updated", "success")
       } else {
         setError(err)
         console.log(error)
         closeModal()
-        showToast("Could not create the speciality", "error")
+        showToast("Could not update the speciality", "error")
       }
     }
   }
@@ -54,6 +57,7 @@ const AddSpecialityModalContent = () => {
     <section>
       <Input 
         disabled={loading}
+        value={name}
         placeholder="nom de la spécialité"
         fullWidth
         onChange={handleChangeName}
@@ -87,4 +91,4 @@ const AddSpecialityModalContent = () => {
   )
 }
 
-export default AddSpecialityModalContent
+export default UpdateSpecialityModalContent

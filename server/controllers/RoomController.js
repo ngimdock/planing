@@ -32,8 +32,9 @@ class RoomController {
         if(nomSal && capaciteSal){
 
             //create on db
+            
             const { data, error } = await RoomModel.create(req.body)
-
+            
             if(data) return res.status(201).json(data)
 
             return res.status(500).json({ error })

@@ -20,7 +20,6 @@ class LevelAPI extends DefaultApiCall {
     // to create level
     static async create (payload) {
       const instance = this.insertToken(axiosInstance)
-      // const class = new Class();
   
       try {
         const { data, error } = await instance.post("/level/create", payload)
@@ -29,6 +28,25 @@ class LevelAPI extends DefaultApiCall {
   
         if (data){
           return { data }
+        }
+        return error
+      } catch (err) {
+        console.log(err)
+  
+        return { error: "An error occured" }
+      }
+    }
+  
+    static async update (id, payload) {
+      const instance = this.insertToken(axiosInstance)
+  
+      try {
+        const { newData, error } = await instance.put(`/level/${id}`, payload)
+  
+        console.log("backup", newData)
+  
+        if (newData){
+          return { newData }
         }
         return error
       } catch (err) {

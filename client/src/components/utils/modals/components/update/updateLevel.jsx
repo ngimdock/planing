@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react"
-import Input from '../../inputs/input'
+import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
-import Button from "../../buttons/button"
-import ModalContext from "../../../../datamanager/contexts/modalContext"
-import styles from "../css/modalContent.module.css"
-import LinearLoader from "../../loaders/linearLoader"
-import reducer, { initialState } from '../reducers/classReducer'
-import LevelAPI from '../../../../api/level/index';
-import LevelContext from '../../../../datamanager/contexts/levelContext';
-import ToastContext from "../../../../datamanager/contexts/toastContext"
+import Button from "../../../buttons/button"
+import ModalContext from "../../../../../datamanager/contexts/modalContext"
+import styles from "../../css/modalContent.module.css"
+import LinearLoader from "../../../loaders/linearLoader"
+import reducer, { initialState } from '../../reducers/classReducer'
+import LevelAPI from '../../../../../api/level/index';
+import LevelContext from '../../../../../datamanager/contexts/levelContext';
+import ToastContext from "../../../../../datamanager/contexts/toastContext"
 
-const AddLevelModalContent = () => {
+const UpdateLevelModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { addLevel } = useContext(LevelContext)
+  const { updateLevel, selectedLevel } = useContext(LevelContext)
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [name, setName] = useState("")
+  const [name, setName] = useState(selectedLevel.name)
   const [loading, setLoading] = useState(false)
 
   // Some handlers
@@ -30,17 +30,18 @@ const AddLevelModalContent = () => {
       const payload = {
         nomNiv: name
       }
-      const {data, error } = await LevelAPI.create(payload)
+      const {newData, error } = await LevelAPI.update(selectedLevel.id, payload)
+      console.log(newData)
       setLoading(false)
-      if (data) {
-        addLevel({ id: data.id, name: name })
-        console.log(data.id)
+      if (newData) {
+        updateLevel({ id: newData.idNiv, name: newData.nomNiv })
+        console.log(newData)
         closeModal()
-        showToast("nouveau niveau cree", "success")
+        showToast("niveau mis a jour", "success")
       } else {
       if(error)
         console.log(error)
-        showToast("ne peut creer un niveau", "error")
+        showToast("niveau non modifier", "error")
       }
           
     }
@@ -57,6 +58,7 @@ const AddLevelModalContent = () => {
   return (
     <section>
       <Input 
+        value={name}
         disabled={loading}
         placeholder="nom du niveau"
         fullWidth
@@ -91,4 +93,4 @@ const AddLevelModalContent = () => {
   )
 }
 
-export default AddLevelModalContent
+export default UpdateLevelModalContent

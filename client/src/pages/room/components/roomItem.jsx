@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FiEdit2} from 'react-icons/fi'
 import {RiDeleteBin6Line} from 'react-icons/ri'
 import styles from "../css/roomStyle.module.css"
+import RoomContext from "../../../datamanager/contexts/roomContext"
+import ToastContext from '../../../datamanager/contexts/toastContext'
+import RoomAPI from '../../../api/room/index';
 
-const RoomItem = ({ title, value, color }) => {
-   
+
+const RoomItem = ({ title, id, value, color }) => {
+  //get global state
+  const { removeRoom, setRoom} = useContext(RoomContext)
+  const { showToast } = useContext(ToastContext)
+
+  //delet a level
+  const handleDeleteRoom = async ()=>{
+
+    const { data, error } = await RoomAPI.delete(id)
+    console.log(data)
+    if (data) {
+      removeRoom(id)
+      showToast("salle supprimé", "success")
+    } else {
+      console.log(error)
+      showToast("salle non supprimé", "error")
+    }
+  }
     return (
         <div className={styles.roomItem}
             style={{
@@ -20,7 +40,7 @@ const RoomItem = ({ title, value, color }) => {
                 < RiDeleteBin6Line
                   size="18"
                   color="#ff0000"
-                
+                 onClick={ handleDeleteRoom }
                 />
               </div>
         </div>
