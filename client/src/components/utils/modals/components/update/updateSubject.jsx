@@ -12,20 +12,15 @@ import LoaderCircle from "../../../loaders/loaderCircle"
 
 import SubjectContext from "../../../../../datamanager/contexts/subjectContext"
 import SpecialityContext from '../../../../../datamanager/contexts/specialityContext';
+import ToastContext from "../../../../../datamanager/contexts/toastContext"
 
-
-// Initial state
-const initialState = {
-  code: "",
-  description: "",
-  speciality: null,
-}
 
 const UpdateSubjectModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { selectedSubject } = useContext(SubjectContext)
+  const { selectedSubject, updateSubject } = useContext(SubjectContext)
   const { specialities } = useContext(SpecialityContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [subject, setSubject] = useState(selectedSubject)
@@ -33,8 +28,6 @@ const UpdateSubjectModalContent = () => {
   const [codeAlreadyExist, setCodeAlreadyExist] = useState(true)
   const [checkingCode, setCheckingCode] = useState(false)
   const [error, setError] = useState(null)
-
-  console.log(subject)
 
   // UseEffect section
   useEffect(() => {
@@ -96,20 +89,38 @@ const UpdateSubjectModalContent = () => {
   const handleSubmitForm = async (event) => {
     event.preventDefault()
 
+    console.log(subject)
+    console.log(selectedSubject)
+
     if (!loading) {
       
+      //format data for backend
+      const payload = {
+        newCodeCours: subject.code,
+        newDescriptionCours: subject.description,
+        idSpecialite: subject.speciality
+      }
+
       setLoading(true)
 
-      const { data, error } = await SubjectAPI.updateSubject(subject)
+      //update on backend
+      const { data, error } = await SubjectAPI.updateSubject(selectedSubject.code, payload)
 
       setLoading(false)
 
       if (data) {
-
-        console.log(subject)
-        console.log(data);
+        console.log(data)
+        const payload = {
+          code: subject.code,
+          description: subject.description,
+          speciality: subject.speciality
+        }
+        // update on frontend
+        updateSubject(selectedSubject.code, payload)
+        showToast("Le cours à été modifié avec sucess !!", "success")
       }else{
-        setError(error)
+        console.log(error)
+        showToast("Erreur lors de la modification du cours", "error")
       }
 
       closeModal()

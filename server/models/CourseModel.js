@@ -139,14 +139,18 @@ class CourseModel {
 
     static updateCourse = async (payload) => {
 
+        console.log(payload)
+
         const {
             codeCours,
-            newDescriptionCours
+            newCodeCours,
+            newDescriptionCours,
+            idSpecialite
         } = payload
 
         const query = `
             UPDATE Cours
-            SET descriptionCours = (?), idSpecialite = (?)
+            SET codeCours=(?), descriptionCours = (?), idSpecialite = (?)
             WHERE Cours.codeCours = (?)
         `
 
@@ -158,11 +162,11 @@ class CourseModel {
             if(!data.length) return { data: "The course with the given code is no found" }
 
             //update course
-            const [rows] = await connection.execute(query, [newDescriptionCours, codeCours])
+            const [rows] = await connection.execute(query, [newCodeCours, newDescriptionCours, idSpecialite, codeCours])
 
             console.log(rows);
 
-            return { data: "Course updated on sucessfully" }
+            return { data: rows }
         }catch(err){
             console.log(err.message);
             return { error: "An error occured while updating the course" }

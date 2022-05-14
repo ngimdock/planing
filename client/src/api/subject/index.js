@@ -76,13 +76,15 @@ class SubjectAPI extends DefaultApiCall {
     }
   }
 
-  static async updateSubject(idSubject, newData){
+  static async updateSubject(codeSubject, newData){
 
     // insert token in axios headers
     const instance = this.insertToken(axiosInstance)
 
+    console.log({ codeSubject, newData })
+
     try{
-      const { data, error } = await instance.pash(`/course/update${idSubject}`, newData)
+      const { data, error } = await instance.put(`/course/update/${codeSubject}`, newData)
 
       if(data) return data
       return error

@@ -30,7 +30,7 @@ const SubjectProvider = ({ children }) => {
     const {
       code,
       description,
-      idSpecialite
+      speciality
     } = newData
 
     if(!codeSubject || !code || !description) return;
