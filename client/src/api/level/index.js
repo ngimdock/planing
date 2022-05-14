@@ -41,7 +41,7 @@ class LevelAPI extends DefaultApiCall {
       const instance = this.insertToken(axiosInstance)
   
       try {
-        const { newData, error } = await instance.put(`/level/${id}`, payload)
+        const { data: { newData }, error } = await instance.put(`/level/${id}`, payload)
   
         console.log("backup", newData)
   

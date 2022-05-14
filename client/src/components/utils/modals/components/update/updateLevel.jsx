@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../../buttons/button"
@@ -20,6 +20,10 @@ const UpdateLevelModalContent = () => {
   const [name, setName] = useState(selectedLevel.name)
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    console.log(selectedLevel)
+  }, [])
+
   // Some handlers
   const handleChange = (e) => setName(e.target.value)
 
@@ -31,11 +35,11 @@ const UpdateLevelModalContent = () => {
         nomNiv: name
       }
       const {newData, error } = await LevelAPI.update(selectedLevel.id, payload)
-      console.log(newData)
+   
       setLoading(false)
       if (newData) {
         updateLevel({ id: newData.idNiv, name: newData.nomNiv })
-        console.log(newData)
+       
         closeModal()
         showToast("niveau mis a jour", "success")
       } else {

@@ -4,7 +4,7 @@ const LevelContext = createContext({
   levels: [],
   selectedLevel:{},
   getLevel: (id) => {},
-  setLevel: (id, name) =>{},
+  setLevel: (data) =>{},
   addLevels: (data) => {},
   addLevel: (data) => {},
   removeLevel: (id) => {},

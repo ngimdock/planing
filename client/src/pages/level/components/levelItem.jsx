@@ -28,7 +28,7 @@ const LevelItem = ({ id, name ,color}) => {
     }
   }
   //update a level
-  const handleUpdateLevel = async (id, name) => {
+  const handleUpdateLevel = (id, name) => {
     setLevel({id, name})
     openModal('Modifier Niveau', 'UPDATE_LEVEL')
   }  
@@ -42,7 +42,7 @@ const LevelItem = ({ id, name ,color}) => {
       <span> { name }  </span>
       <div className={styles.levelIcon}>
         <FiEdit2
-          onClick={ handleUpdateLevel }
+          onClick={() => handleUpdateLevel(id, name) }
           ize="18"
           color="#3b3e41"
         />

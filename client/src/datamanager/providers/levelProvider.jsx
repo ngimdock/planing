@@ -5,7 +5,7 @@ import LevelContext from "../contexts/levelContext"
 const LevelProvider = ({ children }) => {
   // Set local state
   const [levels, setLevels] = useState([])
-  const [selectedLevel, setSelectedLevel] = useState({})
+  const [selectedLevel, setSelectedLevel] = useState(null)
 
   // Some handlers
   const handleGetLevel = (id) => {
@@ -44,7 +44,7 @@ const LevelProvider = ({ children }) => {
     }
   }
 
-  const handleUpdateLevel = (id, name) => {
+  const handleUpdateLevel = ({ id, name }) => {
 
     if (id && name) {
       levels.forEach(lev =>{
@@ -75,12 +75,16 @@ const LevelProvider = ({ children }) => {
     
   }
 
+  const handleSelectLevel = (data) => {
+    setSelectedLevel(data)
+  }
+
   // Context value
   const contextValue = {
     levels,
     selectedLevel,
     getLevel: handleGetLevel,
-    setLevel: setSelectedLevel,
+    setLevel: handleSelectLevel,
     addLevels: handleAddLevels,
     addLevel: handleAddLevel,
     removeLevel: handleRemoveLevel,

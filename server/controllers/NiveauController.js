@@ -49,8 +49,11 @@ class NiveauController {
 			else {
 
 				const {data: newData, error} = await NiveauModel.update(id, req.body)
-				if ( newData )
-					return res.status(201).json({ newData })
+
+				if ( newData ) {
+					return res.status(200).json({ newData: { idNiv: id, nomNiv: req.body.nomNiv } })
+				}
+
 				return res.status(400).json({error: error})
 			}
 			return res.status(500).json({ error: "an error occured with updated Level" })
