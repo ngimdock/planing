@@ -13,17 +13,18 @@ import LoaderCircle from "../../../loaders/loaderCircle"
 import SubjectContext from "../../../../../datamanager/contexts/subjectContext"
 import SpecialityContext from '../../../../../datamanager/contexts/specialityContext';
 import ToastContext from "../../../../../datamanager/contexts/toastContext"
+import Speciality from "../../../../../entities/speciality"
 
 
 const UpdateSubjectModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
   const { selectedSubject, updateSubject } = useContext(SubjectContext)
-  const { specialities } = useContext(SpecialityContext)
+  const { specialities, getSpeciality } = useContext(SpecialityContext)
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [subject, setSubject] = useState(selectedSubject)
+  const [subject, setSubject] = useState({...selectedSubject, speciality: selectedSubject.speciality.getId})
   const [loading, setLoading] = useState(false)
   const [codeAlreadyExist, setCodeAlreadyExist] = useState(true)
   const [checkingCode, setCheckingCode] = useState(false)
@@ -89,9 +90,6 @@ const UpdateSubjectModalContent = () => {
   const handleSubmitForm = async (event) => {
     event.preventDefault()
 
-    console.log(subject)
-    console.log(selectedSubject)
-
     if (!loading) {
       
       //format data for backend
@@ -100,6 +98,10 @@ const UpdateSubjectModalContent = () => {
         newDescriptionCours: subject.description,
         idSpecialite: subject.speciality
       }
+
+      console.log(payload)
+      console.log(subject)
+      console.log(selectedSubject)
 
       setLoading(true)
 
@@ -113,8 +115,10 @@ const UpdateSubjectModalContent = () => {
         const payload = {
           code: subject.code,
           description: subject.description,
-          speciality: subject.speciality
+          speciality: getSpeciality(subject.speciality)
         }
+
+        console.log(payload)
         // update on frontend
         updateSubject(selectedSubject.code, payload)
         showToast("Le cours à été modifié avec sucess !!", "success")
@@ -195,6 +199,7 @@ const UpdateSubjectModalContent = () => {
         })}
         label="Specialité"
         fullWidth
+        value={subject.speciality}
         onGetValue={(value) => handleChange("speciality", value)}
       />
 
