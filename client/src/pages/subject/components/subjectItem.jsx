@@ -13,7 +13,7 @@ const SubjectItem = ({ id, title, value, color }) => {
   // get global state
   const { showToast } = useContext(ToastContext)
   const { openModal, closeModal } = useContext(ModalContext)
-  const { removeSubject } = useContext(SubjectContext)
+  const { removeSubject, selectSubject } = useContext(SubjectContext)
 
   // set local state
   const [loading, setLoading] = useState(false)
@@ -46,6 +46,15 @@ const SubjectItem = ({ id, title, value, color }) => {
 
   }
 
+  const handleSelectSubject = async (codeSubject) => {
+
+    //store the selected subject in global state
+    selectSubject(codeSubject)
+
+    // Open the update modal
+    openModal("Update2 Subject", "UPDATE_SUBJECT")
+  }
+
   return (
     <div className={styles.subjectItem}
       style={{
@@ -58,7 +67,7 @@ const SubjectItem = ({ id, title, value, color }) => {
         <FiEdit2
           size="18"
           color="#3b3e41"
-          onClick={() => openModal("Update Subject", "ADD_SUBJECT")}
+          onClick={() => handleSelectSubject(id)}
         />
         < RiDeleteBin6Line
           size="18"

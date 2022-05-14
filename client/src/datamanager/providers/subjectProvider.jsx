@@ -5,6 +5,7 @@ import SubjectContext from "../contexts/subjectContext"
 const SubjectProvider = ({ children }) => {
   // Set local state
   const [subjects, setSubjects] = useState([])
+  const [selectedSubject, setSelectedSubject] = useState(null)
 
   // Some handlers
   const handleGetSubject = (id) => {
@@ -13,6 +14,37 @@ const SubjectProvider = ({ children }) => {
     if (subject) return subject
 
     return null
+  }
+
+  const handleSelectSubject = (codeSubject) => {
+
+    if(!codeSubject) return;
+
+    const subject = subjects.find(subject => subject.getCode === codeSubject)
+
+    if(subject) setSelectedSubject(subject)
+  }
+
+  const handleUpdateSubject = (codeSubject, newData) => {
+
+    const {
+      code,
+      description,
+      idSpecialite
+    } = newData
+
+    if(!codeSubject || !code || !description) return;
+
+    // get the subject position
+    const indexSubject = subjects.findIndex(subject => subject.getCode === codeSubject)
+
+    if(indexSubject > -1){
+      const newSubjects = [...subjects]
+      newSubjects[indexSubject] = new Subject(newData)
+
+      //update subject
+      setSubjects(newSubjects)
+    }
   }
 
   /**
@@ -63,10 +95,6 @@ const SubjectProvider = ({ children }) => {
     }
   }
 
-  const handleUpdateSubject = (id, data) => {
-    // nothing
-  }
-
   const handleRemoveSubject = (codeSubject) => {
     
     const newSubjects = subjects.filter(subject => subject.code !== codeSubject)
@@ -77,7 +105,9 @@ const SubjectProvider = ({ children }) => {
   // Context value
   const contextValue = {
     subjects,
+    selectedSubject,
     getSubject: handleGetSubject,
+    selectSubject: handleSelectSubject,
     addSubjects: handleAddSubjects,
     addSubject: handleAddSubject,
     updateSubject: handleUpdateSubject,
