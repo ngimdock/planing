@@ -70,7 +70,7 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
 
     endMinutes = end
 
-    return `${startHour}H${startMinutes ? ":" + startMinutes : ""} - ${endHour}H:${endMinutes}`
+    return `${startHour}h${startMinutes ? ":" + startMinutes : ""} - ${endHour}h:${endMinutes}`
   }, [data])
 
   const getDuration = useCallback(() => {

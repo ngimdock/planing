@@ -44,7 +44,6 @@ class PlanifiedController {
     }
 
     static getProgramByClass = async (req, res) => {
-
         const {
             idAnneeAca,
             idSemestre,
@@ -127,6 +126,7 @@ class PlanifiedController {
             idAdmin,
             codeCours,
             idSalle,
+            idGroupe,
             idJour,
             matriculeEns,
             idSemestre,
@@ -140,6 +140,7 @@ class PlanifiedController {
             idAdmin && 
             codeCours && 
             idSalle && 
+            idGroupe &&
             idJour &&  
             heureDebut && 
             heureFin &&

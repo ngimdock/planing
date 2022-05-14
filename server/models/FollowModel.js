@@ -94,7 +94,7 @@ class FollowModel {
         } = data
 
         const sql = `
-            INSERT INTO Suivre (idGroupe, codeCours) VALUES (?, ?)
+            INSERT IGNORE INTO Suivre (idGroupe, codeCours) VALUES (?, ?)
         `
         try {
             const response = await connection.query(sql, [idGroupe, codeCours]).then(([result]) => {

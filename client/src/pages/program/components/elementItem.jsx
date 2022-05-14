@@ -5,6 +5,7 @@ import ToastContext from "../../../datamanager/contexts/toastContext"
 import PlanningContext from "../../../datamanager/contexts/planningContext"
 import ProgramAPI from "../../../api/program"
 import PlanningAction from "../../../datamanager/actions/planning"
+import ClassContext from "../../../datamanager/contexts/classContext"
 
 const ElementItem = ({ value, target, year, idSemester }) => {
   // Get global state
@@ -18,6 +19,7 @@ const ElementItem = ({ value, target, year, idSemester }) => {
     dispatch 
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
+  const { getClass: getUniqueClass } = useContext(ClassContext)
 
   // Some handlers
   const handleNavigateTo = () => {
@@ -43,21 +45,26 @@ const ElementItem = ({ value, target, year, idSemester }) => {
     })
 
     if (data !== undefined) {
+      // New class
+      let myClass = null
+
       // When all is OK
       if (data) {
         dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
-
+        
         // Get class from the whole list of classes
-        const myClass = getClass({ 
+        myClass = getClass({ 
           idAcademicYear: currentSemester.idYear, 
           idSemester: currentSemester.idSemester,
           idFaculty: data.id,
           codeClass: value 
         })
-
-        // Save the current class programs in the global state
-        handleSelectClass(myClass)
+      } else {
+        myClass = getUniqueClass(value)
       }
+
+      // Save the current class programs in the global state
+      handleSelectClass(myClass)
     } else {
       showToast(`Le programme de ${value} n'a pas pu etre chargee correctement`, "error")
     }
