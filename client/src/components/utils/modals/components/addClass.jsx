@@ -55,7 +55,9 @@ const AddClassModalContent = () => {
 
       const { data, error } = await ClassAPI.create(payload)
       setLoading(false)
+
       addClass(data)
+
       console.log(data)
       if(error)
         console.log(error)

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../../buttons/button"
@@ -6,6 +6,7 @@ import classStyles from '../../css/classModalContent.module.css'
 import Select from "../../../inputs/select"
 import { BsFillPlusCircleFill, BsX } from 'react-icons/bs'
 import GroupItem from "./groupItem"
+import SpecialityContext from '../../../../../datamanager/contexts/specialityContext'
 
 const SpecialityItem = ({ 
   data: { 
@@ -20,6 +21,10 @@ const SpecialityItem = ({
   onAddSpecialityGroup,
   onDeleteSpecialityGroup
 }) => {
+  // Get data from the global state
+  const { specialities } = useContext(SpecialityContext)
+
+
   return (
     <Box className={classStyles.groupContainer}>
       <span 
@@ -52,8 +57,7 @@ const SpecialityItem = ({
       <Select 
         label="nom"
         options={[
-          { value: 0, label: "Geni Logiciel" },
-          { value: 1, label: "Reseau" }
+          ...specialities.map(spec => ({ value: spec.getId, label: spec.getName }))
         ]}
         value={value}
         fullWidth

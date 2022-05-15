@@ -114,14 +114,18 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
       case "startHour": {
         programPrevState.start = value
 
+        // console.log({ one: value + programPrevState.duration * 3600, two: end })
+
+        if (value + programPrevState.duration * 3600 >= end) {
+          // console.log("GREATER")
+          programPrevState.duration = 2
+        }
+
         // Get available teachers
         handleGetTeachersAvailable()
 
         // Get available rooms
         handleGetRoomsAvailable()
-
-        // Get available subjects
-        handleGetSubjectsAvailable()
       }
 
       default: // nothing
