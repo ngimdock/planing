@@ -97,7 +97,6 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
 
         const speciality = currentClass.specialities.find(spec => +spec.id === +value)
 
-        setGroups(speciality.groups)
         break
       }
 
@@ -209,12 +208,29 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Filters
 
   const filterRoomByCapacity = (rooms) => {
-    const classCapacity = currentClass.capacity
+    const specialityId = program.speciality
+    let classCapacity = currentClass.capacity
+
+    if (specialityId) {
+      const index = currentClass.specialities.findIndex(spec => +spec.id === specialityId)
+
+      if (index > -1) {
+        classCapacity = currentClass.specialities[index].capacity
+      }
+    }
+
     const acceptableCapacity = classCapacity - classCapacity * .2 
 
-    console.log(acceptableCapacity)
-
     return rooms.filter(room => +room.getCapacity >= +acceptableCapacity)
+  }
+
+  const filterGroups = (groups, spec = null) => {
+    console.log(spec)
+    if (!spec) {
+      return groups.filter(group => !group.speciality)
+    }
+
+    return groups.filter(group => Number(group.speciality) === Number(spec))
   }
 
   // Api section
@@ -391,7 +407,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             rounded
             fontSize={14}
             options={[
-              ...groups.map(group => ({ value: group.getId, label: `${program.speciality ? "spec -" : ""} ${group.getName} (${group.getCapacity}places)` }))
+              ...filterGroups(groups, program.speciality).map(group => ({ value: group.getId, label: `${program.speciality ? "spec -" : ""} ${group.getName} (${group.getCapacity}places)` }))
             ]}
             onGetValue={value => handleChange("group", value)}
             value={program.group}

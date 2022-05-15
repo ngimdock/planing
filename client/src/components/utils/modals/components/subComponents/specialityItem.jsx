@@ -83,7 +83,7 @@ const SpecialityItem = ({
         `}
       >
         {
-          groups.map((item) => {
+          groups.slice(1).map((item) => {
             return (
               <GroupItem 
                 key={item.id}

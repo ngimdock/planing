@@ -17,6 +17,10 @@ const classReducer = (state = initialState, action) => {
   const prevState = {...state}
 
   switch (action.type) {
+    case "RESET": {
+      return initialState
+    }
+
     case "CHANGE_VALUE": {
       const {
         field,
@@ -44,7 +48,7 @@ const classReducer = (state = initialState, action) => {
       
       const newGroup = {
         id,
-        name: "Groupe " + id,
+        name: `Groupe ${id-1}`,
         capacity: 0
       }
 
@@ -154,7 +158,7 @@ const classReducer = (state = initialState, action) => {
           
           const newGroup = {
             id,
-            name: "Groupe " + id,
+            name: `Groupe ${id-1}`,
             capacity: 0
           }
     
