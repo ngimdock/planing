@@ -115,7 +115,7 @@ const UpdateSubjectModalContent = () => {
         const payload = {
           code: subject.code,
           description: subject.description,
-          speciality: getSpeciality(subject.speciality)
+          speciality: subject.speciality
         }
 
         console.log(payload)
