@@ -5,12 +5,13 @@ import styles from "../css/roomStyle.module.css"
 import RoomContext from "../../../datamanager/contexts/roomContext"
 import ToastContext from '../../../datamanager/contexts/toastContext'
 import RoomAPI from '../../../api/room/index';
+import ModalContext from '../../../datamanager/contexts/modalContext'
 
-
-const RoomItem = ({ title, id, value, color }) => {
+const RoomItem = ({ title, id, value, capacity, color }) => {
   //get global state
   const { removeRoom, setRoom} = useContext(RoomContext)
   const { showToast } = useContext(ToastContext)
+  const { openModal } = useContext(ModalContext)
 
   //delet a level
   const handleDeleteRoom = async ()=>{
@@ -25,6 +26,12 @@ const RoomItem = ({ title, id, value, color }) => {
       showToast("salle non supprimé", "error")
     }
   }
+
+   //update a level
+   const handleUpdateRoom = (id, name, capacity) => {
+    setRoom({id, name, capacity})
+    openModal('Modifier Salle', 'UPDATE_ROOM')
+  }  
     return (
         <div className={styles.roomItem}
             style={{
@@ -36,11 +43,12 @@ const RoomItem = ({ title, id, value, color }) => {
                 <FiEdit2
                   size="18"
                   color="#3b3e41"
+                  onClick={ () => handleUpdateRoom( id, title, capacity) }
                 />
                 < RiDeleteBin6Line
                   size="18"
                   color="#ff0000"
-                 onClick={ handleDeleteRoom }
+                  onClick={ handleDeleteRoom }
                 />
               </div>
         </div>

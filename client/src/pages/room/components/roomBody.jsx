@@ -23,6 +23,7 @@ const RoomBody = () => {
                 id={room.getId}
                 title={room.getName}
                 value={`${room.getCapacity} Places`}
+                capacity={room.getCapacity}
                 color={generateColor()}
               />
             )

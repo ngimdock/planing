@@ -4,7 +4,8 @@ import RoomContext from "../contexts/roomContext"
 
 const RoomProvider = ({ children }) => {
   // Set local state
-  const [rooms, setRooms] = useState([])
+  const [ rooms, setRooms ] = useState([])
+  const [ selectedRoom, setSelectedRoom ] = useState(null)
 
   // Some handlers
   const handleGetRoom = (id) => {
@@ -51,7 +52,24 @@ const RoomProvider = ({ children }) => {
   }
 
   const handleUpdateRoom = (id, data) => {
-    // nothing
+    const {
+      name,
+      capacity
+    } = data
+
+    const roomsPrev = [...rooms]
+
+    if (id && name && capacity){
+      roomsPrev.forEach(room =>{
+        if(room.id === id){
+          room.name = name
+          room.capacity =capacity
+        }
+
+      })
+    }
+   
+    setRooms(roomsPrev)
   }
 
   const handleRemoveRoom = (id) => {
@@ -70,9 +88,15 @@ const RoomProvider = ({ children }) => {
 
   }
 
+  const handleSelectedRoom = ( data )=>{
+    setSelectedRoom(data)
+  }
+
   // Context value
   const contextValue = {
     rooms,
+    selectedRoom,
+    setRoom: handleSelectedRoom, 
     addRooms: handleAddRooms,
     addRoom: handleAddRoom,
     updateRoom: handleUpdateRoom,

@@ -47,7 +47,6 @@ class RoomController {
 
         // get id from request
         const id = Number(req.params.id)
-        const { nomSalle, capacite } = req.body
 
         if(id){
 
@@ -58,7 +57,10 @@ class RoomController {
 
                 //delete room
                 const { data: data2, error } = await RoomModel.update({ ...req.body, id })
-                if(data2) return res.status(200).json({ data: "Room was updated on successfully" })
+                if(data2) {
+                    console.log(data2,"upback")
+                    return res.status(200).json({ data: "Room was updated on successfully" })
+                }
                 return res.status(400).json({ error })
             }
 

@@ -14,7 +14,7 @@ const LevelItem = ({ id, name ,color}) => {
   const { showToast } = useContext(ToastContext)
   const { openModal } = useContext(ModalContext)
 
-   //delet a level
+  //delet a level
   const handleDeleteClass = async ()=>{
 
     const { data, error } = await LevelAPI.delete(id)
