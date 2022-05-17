@@ -120,6 +120,30 @@ class SpecialityController {
             res.status(400).json({ error: " Provide all required data " })
         }
     }
+
+    /**
+     * Verify the unicity of a speciality
+     * @returns Response
+     */
+     static checkSpeciality = async (req, res) => {
+
+        console.log("presence")
+        const { name } = req.body
+
+        console.log(name)
+
+        if (name) {
+            const { data } = await SpecialityModel.checkSpeciality(name)
+
+            if (data !== undefined) {
+                return res.status(200).json({ data })
+            }
+
+            return res.status(500).json({ error })
+        } else {
+            res.status(400).json({ error: "Provide all the required data" })
+        }
+    }
 }
 
 export default SpecialityController
