@@ -142,7 +142,28 @@ class FacultyModel {
 		  return { error : err }
 		}
 	  }
-	
+
+	  static async checkFaculty(name) {
+		const query = `
+		  SELECT *
+		  FROM Filiere
+		  WHERE nomFil = ?
+		`
+  
+		try {
+		  const [rows] = await connection.execute(query, [name])
+  
+		  if (rows.length > 0) {
+			return { data: true }
+		  }
+  
+		  return { data: false }
+		} catch (err) {
+		  console.log(err)
+  
+		  return { error: "An error occured" }
+		}
+	  }
   }
 
 
