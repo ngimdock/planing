@@ -1,13 +1,15 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import styles from '../../css/modalContent.module.css'
 import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../../buttons/button"
 import ModalContext from "../../../../../datamanager/contexts/modalContext"
 import LinearLoader from "../../../loaders/linearLoader"
+import LoaderCircle from "../../../loaders/loaderCircle"
 import FacultyAPI from "../../../../../api/faculty"
 import FacultyContext from "../../../../../datamanager/contexts/facultyContext"
 import ToastContext from '../../../../../datamanager/contexts/toastContext'
+import { BsX, BsCheck } from "react-icons/bs"
 
 const UpdateFacultyModelContent = () => {
   // Get global state
@@ -17,10 +19,42 @@ const UpdateFacultyModelContent = () => {
 
   // Set local state
   const [name, setName] = useState(selectedFaculty.name)
+  const [loading, setLoading] = useState(false)
+  const [facultyAlreadyExist, setFacultyAlreadyExist] = useState(true)
+  const [checkingFaculty, setCheckingFaculty] = useState(false)
   const [error, setError] = useState("")
-  const [loading, setLoading] = useState("")
+
+  // UseEffect section
+    useEffect(() => {
+      if (name === selectedFaculty.name) {
+        setFacultyAlreadyExist(false)
+      } else {
+        if (!checkingFaculty && name.length > 0) {
+          handleCheckingFaculty(name)
+        } else {
+          setFacultyAlreadyExist(true)
+        }
+      }
+    }, [name]) 
 
   // Some handlers
+  const handleCheckingFaculty = async (name) => {
+
+    // Start checking code
+    setCheckingFaculty(true)
+
+    // Send request
+    const { data, error } = await FacultyAPI.checkFaculty(name)
+    
+    // Stop checking code
+    setCheckingFaculty(false)
+
+    if (data !== undefined) {
+      setFacultyAlreadyExist(data)
+    } else {
+      console.log(error)
+    }
+  }
   const handleChangeName = (e) => setName(e.target.value)
 
   const handleSubmitForm = async() => {
@@ -51,7 +85,9 @@ const UpdateFacultyModelContent = () => {
   }
 
   const verificationForm = () => {
-    if (name) {
+    if (
+      name &&
+      !facultyAlreadyExist ) {
       return true
     }
 
@@ -60,6 +96,7 @@ const UpdateFacultyModelContent = () => {
 
   return (
     <section className={styles.container}>
+    <Box sx={{ "position": "relative"}}>
       <Input 
         disabled={loading}
         placeholder="nom de la filière"
@@ -67,6 +104,27 @@ const UpdateFacultyModelContent = () => {
         value={name}
         onChange={handleChangeName}
       />
+      {
+        checkingFaculty ? <LoaderCircle /> : ( 
+          <Box className={styles.emailStatusIcons}>
+            { 
+              facultyAlreadyExist ? (
+                <BsX 
+                  color="red"
+                  size={30}
+                />
+                ):(
+                <BsCheck 
+                  color="green"
+                  size={30}
+                />
+              )
+            }
+          </Box>
+        )
+      }
+  </Box>
+
 
       <Box className={styles.controls}>
         <Button 
