@@ -2,6 +2,28 @@ import axiosInstance from '../config'
 import DefaultApiCall from '../config/defaultApi'
 
 class FacultyAPI extends DefaultApiCall {
+
+  static async checkFaculty (name) {
+    const instance = this.insertToken(axiosInstance)
+
+    if(name === "") {
+      return false
+    }
+
+    try {
+      const { data, error } = await instance.post("/faculty/verify_faculty", { name: name })
+      if (data !== undefined) {
+        return data
+      }
+
+      return { error }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured while checking the unicity of the faculty's name" }
+    }
+  }
+
   static async getAll () {
     const instance = this.insertToken(axiosInstance)
 
