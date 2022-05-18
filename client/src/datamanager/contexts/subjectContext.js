@@ -2,6 +2,8 @@ import { createContext } from 'react'
 
 const SubjectContext = createContext({
   subjects: [],
+  selectedSubject: {},
+  selectSubject: (codeSubject, data) => {},
   getSubject: (id) => {},
   addSubjects: (data) => {},
   addSubject: (data) => {},

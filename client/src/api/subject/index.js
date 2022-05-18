@@ -39,6 +39,24 @@ class SubjectAPI extends DefaultApiCall {
     }
   }
 
+  static async getAvailableSubjects (idSemester, codeClasse) {
+    const instance = SubjectAPI.insertToken(axiosInstance)
+
+    try {
+      const { data, error } = await instance.get(`/course/available/${idSemester}/${codeClasse}`)
+
+      if (data) {
+        return data
+      }
+
+      return { error }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured" }
+    }
+  }
+
   static async createSubject(payload) {
 
     // insert token in axios headers
@@ -76,13 +94,15 @@ class SubjectAPI extends DefaultApiCall {
     }
   }
 
-  static async updateSubject(idSubject, newData){
+  static async updateSubject(codeSubject, newData){
 
     // insert token in axios headers
     const instance = this.insertToken(axiosInstance)
 
+    console.log({ codeSubject, newData })
+
     try{
-      const { data, error } = await instance.pash(`/course/update${idSubject}`, newData)
+      const { data, error } = await instance.put(`/course/update/${codeSubject}`, newData)
 
       if(data) return data
       return error

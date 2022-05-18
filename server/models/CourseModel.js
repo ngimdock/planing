@@ -24,7 +24,8 @@ class CourseModel {
     static getCourses = async () => {
         const query = `
             SELECT * 
-            FROM Cours `
+            FROM Cours 
+        `
 
         try{
             const [rows] = await connection.execute(query)
@@ -36,6 +37,44 @@ class CourseModel {
             return{ data: subjects }
         }catch(err){
             return { error: "An error occured while geting courses" }
+        }
+    }
+
+    static getAvailableCourses = async (idSemester, codeClasse) => {
+        const query = `
+            (
+                SELECT * FROM Cours
+                EXCEPT
+                (
+                    SELECT C.codeCours, C.descriptionCours, C.idSpecialite
+                    FROM Cours C, Programmer P
+                    WHERE C.codeCours = P.codeCours
+                    AND P.idSemestre = ?
+                )
+            )
+            UNION
+            (
+                SELECT C.codeCours, C.descriptionCours, C.idSpecialite
+                FROM Cours C, Programmer P, Suivre S, Groupe G, Classe Cla
+                WHERE C.codeCours = P.codeCours
+                AND C.codeCours = S.codeCours
+                AND G.idGroupe = S.idGroupe
+                AND Cla.codeClasse = ?
+                AND P.idSemestre = ?
+                AND G.codeClasse = Cla.codeClasse
+            )
+        `
+
+        try {
+            const [rows] = await connection.execute(query, [idSemester, codeClasse, idSemester])
+
+            const subjects = await this.addSpecialityToCourses(rows)
+
+            return { data: subjects }
+        } catch (err) {
+            console.log(err)
+
+            return { error: "An error occured" }
         }
     }
 
@@ -139,14 +178,18 @@ class CourseModel {
 
     static updateCourse = async (payload) => {
 
+        console.log(payload)
+
         const {
             codeCours,
-            newDescriptionCours
+            newCodeCours,
+            newDescriptionCours,
+            idSpecialite
         } = payload
 
         const query = `
             UPDATE Cours
-            SET descriptionCours = (?), idSpecialite = (?)
+            SET codeCours=(?), descriptionCours = (?), idSpecialite = (?)
             WHERE Cours.codeCours = (?)
         `
 
@@ -158,11 +201,11 @@ class CourseModel {
             if(!data.length) return { data: "The course with the given code is no found" }
 
             //update course
-            const [rows] = await connection.execute(query, [newDescriptionCours, codeCours])
+            const [rows] = await connection.execute(query, [newCodeCours, newDescriptionCours, idSpecialite, codeCours])
 
             console.log(rows);
 
-            return { data: "Course updated on sucessfully" }
+            return { data: rows }
         }catch(err){
             console.log(err.message);
             return { error: "An error occured while updating the course" }

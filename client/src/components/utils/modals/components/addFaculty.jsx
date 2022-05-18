@@ -7,14 +7,17 @@ import ModalContext from "../../../../datamanager/contexts/modalContext"
 import LinearLoader from "../../loaders/linearLoader"
 import FacultyAPI from "../../../../api/faculty"
 import FacultyContext from "../../../../datamanager/contexts/facultyContext"
+import ToastContext from '../../../../datamanager/contexts/toastContext'
 
 const AddFacultyModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
   const {addFaculty} = useContext(FacultyContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [name, setName] = useState("")
+  const [error, setError] = useState("")
   const [loading, setLoading] = useState("")
 
   // Some handlers
@@ -24,18 +27,20 @@ const AddFacultyModalContent = () => {
     if (!loading) {
       setLoading(true)
 
-      const {data,error} = await FacultyAPI.create({nomFil:name}) 
+      const { data, error: err } = await FacultyAPI.create({nomFil:name}) 
       setLoading(false);
 
-      if(data){
+      if(data.id){
         setName("");
-        console.log(data.data)
-        addFaculty({ id: data.data.id, name: data.data.nomFil });
-
+        addFaculty({ id: data.id, name: data.nomFil });
         closeModal();
+        showToast("Nouvelle filière ajouté", "success")
       }
       else{
-
+        setError(error)
+        console.log(err)
+        closeModal();
+        showToast("Filière non ajouté", "error")
       }
     }
   }

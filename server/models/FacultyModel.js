@@ -11,13 +11,27 @@ class FacultyModel {
 			)
 		`
 
-	try {
-      await connection.query(query)
+		try {
+		await connection.query(query)
 
-      console.log("Table Filiere OK")
-    } catch (err) {
-      console.log(err)
-    }
+		console.log("Table Filiere OK")
+		} catch (err) {
+		console.log(err)
+		}
+	}
+
+	static async getById(idFil) {
+		const query = "SELECT * FROM Filiere WHERE idFil = ?"
+
+		try {
+			const [rows] = await connection.execute(query, [idFil])
+			
+			return { data : rows }
+		} catch (err) {
+			console.log(err)
+
+			return { error: err }
+		}
 	}
 
 	static async create(data) {
@@ -51,8 +65,8 @@ class FacultyModel {
 			return { error: "An error occured" }
 		}
 	}
-
-	static async update ({ nomFil, idFil }) {
+/*
+	 static async update ({ nomFil, idFil }) {
 		const query = `
 			UPDATE Filiere
 			SET nomFil = ?
@@ -72,6 +86,64 @@ class FacultyModel {
 			return { error: "An error occured while updating a faculty" }
 		}
 	}
-}
+	*/
+	/**
+     * Updating the selected faculty infos in the platform
+     * @param {number} idFil The identifier of the given faculty
+     * @param {String} nomFil The faculty new name
+     * @returns data | error
+     */
+     static async update(idFil,nomFil) {
+
+		const values = [nomFil,idFil]
+  
+		const sql1 = `
+			UPDATE Filiere SET nomFil = ? WHERE idFil = ?
+		  `
+		try {
+  
+		  const queryResult = await connection.query(sql1, values).then(([result]) => {
+			return result.affectedRows
+		  }).catch(error => {
+			return {error}
+		  })
+  
+		  return queryResult
+  
+		} catch(err) {
+			console.log(err)
+  
+			return { error : err }
+		}
+	  }
+  
+	  /**
+	   * Deleting the faculty having the selected identifier
+	   * @param {String} idFil The faculty identifier
+	   * @returns {number} The number of deleted speciality
+	   */
+	   
+	  static async delete(idFil) {
+		const query = `
+		  DELETE FROM Filiere WHERE idFil = ?
+		`
+		try {
+		
+		  const data = await connection.query(query, [idFil]).then(([result]) => {
+			return result.affectedRows
+		  }).catch(error => {
+			console.log(error)
+		  })
+  
+		  return data
+		} catch (err) {
+		  console.log(err)
+  
+		  return { error : err }
+		}
+	  }
+	
+  }
+
 
 export default FacultyModel

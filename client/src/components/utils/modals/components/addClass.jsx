@@ -15,15 +15,16 @@ import SpecialityItem from './subComponents/specialityItem'
 import ClassAPI from '../../../../api/class/index';
 import LinearLoader from "../../loaders/linearLoader"
 import ClassContext from "../../../../datamanager/contexts/classContext"
+import ToastContext from '../../../../datamanager/contexts/toastContext'
 
 const AddClassModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { faculties } = useContext(FacultyContext)
-  const { levels } = useContext(LevelContext)
-  const {addClass} = useContext(ClassContext)
+  const { faculties, getFaculty } = useContext(FacultyContext)
+  const { levels, getLevel } = useContext(LevelContext)
+  const { addClass } = useContext(ClassContext)
+  const { showToast } = useContext(ToastContext)
   const [loading, setLoading] = useState(false)
-  // const [name, setName] = useState("")
 
   // Set local state
   const [classes, dispatch] = useReducer(reducer, initialState)
@@ -54,11 +55,27 @@ const AddClassModalContent = () => {
       }
 
       const { data, error } = await ClassAPI.create(payload)
+
+      // Stop loading
       setLoading(false)
-      addClass(data)
-      console.log(data)
-      if(error)
+
+      if (data) {
+        // Get faculty and level from global state
+        const faculty = getFaculty(classes.faculty)
+        const level = getLevel(classes.level)
+  
+        addClass({ ...classes, code: classes.name, faculty, level })
+        showToast(`La classe ${classes.name} a été créée avec succès`)
+
+        // Reset data
+        dispatch({ type: "RESET" })
+
+        closeModal()
+      } else {
         console.log(error)
+
+        showToast("Un problème est survenu lors de la création d'une classe", "error")
+      }
     }
   }
 
@@ -159,7 +176,7 @@ const AddClassModalContent = () => {
         <span className={classStyles.groupLabel}>Groupes de la classe</span>
         <Box className={classStyles.groupContainer}>
           {
-            classes.groups.map((item) => {
+            classes.groups.slice(1).map((item) => {
               return (
                 <GroupItem 
                   key={item.id}

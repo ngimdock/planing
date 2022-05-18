@@ -41,14 +41,26 @@ class Class {
       this.capacity = capacity
       this.faculty = new Faculty(faculty)
       this.level = new Level(level)
-      this.programs = {}
+      this.programs = {
+        "Lundi": [],
+        "Mardi": [],
+        "Mercredi": [],
+        "Jeudi": [],
+        "Vendredi": [],
+        "Samedi": [],
+        "Dimanche": []
+      }
 
       if (groups.length > 0) {
         this.groups = groups.map(group => new Group(group))
+      } else {
+        this.groups = []
       }
 
       if (specialities.length > 0) {
         this.specialities = specialities.map(spec => new Speciality(spec))
+      } else {
+        this.specialities = []
       }
     }
   }

@@ -15,35 +15,41 @@ class ClassController {
 			specialities
 		} = req.body
 
-		if(req.body.constructor === Object && Object.keys(req.body).length === 0){
-
-           return res.status(400).json({message:"please complete all required field" })
-        }else{
+		if(
+			!codeClasse ||
+			!nomClasse ||
+			!capaciteClasse ||
+			!idFil ||
+			!idNiv 
+		) {
+			return res.status(400).json({message:"please complete all required field" })
+    } else {
 			const { data } = await ClassModel.create(req.body)
 			
-			if(data) {
+			if (data) {
 				// insert of specialities
 				let isOk = true
-				let  groups_spec =false
-				let  groups_classe =false
+				let groups_spec = false
+				let groups_classe = false
 
 				for (let speciality of specialities) {
-					const {  idSpec, capacity, specGroups } = speciality
+					const {  value, capacity, groups: specGroups } = speciality
 
-					const { data } = await Classe_specModel.create({ idSpec, capacity, codeClasse })
+					const { data } = await Classe_specModel.create({ idSpec: value, capacity, codeClasse })
 
 					if (data) {
+						console.log("Speciality OK")
 						// creation de groupe de specialite
 						for (const group of specGroups) {
 							const { 
-								nomGroupe,
-								capaciteGroupe	
+								name,
+								capacity	
 							} = group
 							
-							const { data } = await GroupModel.create({nomGroupe, capaciteGroupe, codeClasse, idSpec })
+							const { data } = await GroupModel.create({ nomGroupe: name, capaciteGroupe: capacity, codeClasse, idSpec: value })
 
 							if (data){
-								console.log(idSpec)
+								console.log("Groupe speciality OK")
 								groups_spec = true
 							}
 						}
@@ -52,18 +58,19 @@ class ClassController {
 						break
 					}
 				}
+
 				//creation de groupe de classe
 				for (const group of groups) {
 					const { 
-						nomGroupe,
-						capaciteGroupe	
+						name,
+						capacity	
 					} = group
 					
-					const { data } = await GroupModel.create({nomGroupe, capaciteGroupe, codeClasse, idSpec: null })
+					const { data } = await GroupModel.create({ nomGroupe: name, capaciteGroupe: capacity, codeClasse, idSpec: null })
 
 					if (data){
-						
 						groups_classe = true
+						console.log("Groupe OK")
 					}
 				}
 

@@ -29,6 +29,26 @@ class ProgramAPI extends DefaultApiCall {
 
     return { error: "Provide all the required params" }
   }
+
+  static async create (payload) {
+    const instance = this.insertToken(axiosInstance)
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data, error } = await instance.post("/planified/create", payload)
+
+        if (data) {
+          resolve(data)
+        } else {
+          reject({ error })
+        }
+      } catch (err) {
+        console.log(err)
+
+        reject({ error: "An error occured" })
+      }
+    })
+  }
 }
 
 export default ProgramAPI
