@@ -385,22 +385,23 @@ class planifiedModel {
 
         const { idAnneeAca, idSemestre, codeClasse } = payload
 
-        const query = `SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
-                        FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
-                        WHERE (C.idSemestre = (?))
-                        AND (Se.idAnneeAca = (?))
-                        AND (Cla.codeClass = (?))
-                        AND (C.idSemestre = Se.idSemestre)
-                        AND (E.matriculeEns = C.matriculeEns)
-                        AND (P.idSalle = S.idSalle) 
-                        AND (P.codeCours = C.codeCours) 
-                        AND (P.idJour = J.idJour) 
-                        AND (C.codeCours = Sui.codeCours)
-                        AND (Sui.idGroupe = G.idGroupe)
-                        AND (Cla.CodeClasse = G.codeClasse)
-                        AND (Cla.idFil = F.idFil)
-                       ORDER BY J.nomJour ASC
-                       `
+        const query = `
+            SELECT DISTINCT P.codeCours, C.descriptionCours, nomSal, E.nomEns, nomJour, heureDebut, heureFin, Cla.codeClasse, F.nomFil, G.nomGroupe
+            FROM Programmer P, Cours C,  Salle S, Jour J, Enseignant E, AnneeAcademique A, Semestre Se, Suivre Sui, Groupe G, Classe Cla, Filiere F
+            WHERE (C.idSemestre = (?))
+            AND (Se.idAnneeAca = (?))
+            AND (Cla.codeClass = (?))
+            AND (C.idSemestre = Se.idSemestre)
+            AND (E.matriculeEns = C.matriculeEns)
+            AND (P.idSalle = S.idSalle) 
+            AND (P.codeCours = C.codeCours) 
+            AND (P.idJour = J.idJour) 
+            AND (C.codeCours = Sui.codeCours)
+            AND (Sui.idGroupe = G.idGroupe)
+            AND (Cla.CodeClasse = G.codeClasse)
+            AND (Cla.idFil = F.idFil)
+            ORDER BY J.nomJour ASC
+        `
                   
         try{
             const [rows] = await connection.execute(query, [idSemestre, idAnneeAca, codeClasse])
@@ -467,7 +468,6 @@ class planifiedModel {
     static deleteProgram = async (payload) => {
 
         const { 
-            idAdmin, 
             codeCours, 
             idSalle, 
             idJour, 
@@ -480,16 +480,16 @@ class planifiedModel {
         const query = `
             DELETE
             FROM Programmer
-            WHERE (idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut) = (?, ?, ?, ?, ?, ?, ?)
-            `
+            WHERE (codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut) = (?, ?, ?, ?, ?, ?)
+        `
             
-        const values = [idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut]
+        const values = [codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut]
 
         try {
 
-            const { data, error } = await this.getProgram(payload)
+            // const { data, error } = await this.getProgram(payload)
 
-            if(!data.length) return { error: "The course is not found on database" }
+            // if(!data.length) return { error: "The course is not found on database" }
 
             const [rows] = await connection.execute(query, values)
 

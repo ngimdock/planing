@@ -4869,6 +4869,7 @@ __metadata:
     react-icons: ^4.3.1
     react-router-dom: ^6.3.0
     react-scripts: ^5.0.1
+    react-to-print: ^2.14.7
     web-vitals: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -10734,6 +10735,18 @@ __metadata:
   peerDependencies:
     react: ^16.3.0 || ^17.0.0
   checksum: 324511ea8f6669555e166b4af280cdf46034bf0e33c486711e3ce17f88f6f21fed17055098408be1347657d0cbcd614bca944cf9f8e4ecfa96a21d13893fe9fc
+  languageName: node
+  linkType: hard
+
+"react-to-print@npm:^2.14.7":
+  version: 2.14.7
+  resolution: "react-to-print@npm:2.14.7"
+  dependencies:
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: a8bb9956f713a89d1b75d186977558c652724641fbbca7d982afd2451e1089bd15b4f8a3ebd2dd7f715e17d1b7a528c833bd849dab01bf7145b0af1b1d6d4910
   languageName: node
   linkType: hard
 

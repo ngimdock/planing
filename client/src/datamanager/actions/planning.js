@@ -101,6 +101,13 @@ class PlanningAction {
       type: "NOTHING"
     })
   }
+
+  static deleteProgram = (payload) => {
+    return ({
+      type: "REMOVE_PROGRAM",
+      payload
+    })
+  }
 }
 
 export default PlanningAction

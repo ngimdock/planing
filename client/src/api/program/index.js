@@ -49,6 +49,38 @@ class ProgramAPI extends DefaultApiCall {
       }
     })
   }
+
+  static async delete (payload) {
+    const instance = this.insertToken(axiosInstance)
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const {
+          codeCours,
+          idSalle,
+          idJour,
+          matriculeEns,
+          idSemestre,
+          heureDebut
+        } = payload
+
+        const url = `planified/delete/?codeCours=${codeCours}&idSalle=${idSalle}&idJour=${idJour}&matriculeEns=${matriculeEns}&idSemestre=${idSemestre}&heureDebut=${heureDebut}`
+        const { data, error } = await instance.delete(url, payload)
+
+        console.log(data)
+
+        if (data) {
+          resolve(data)
+        } else {
+          reject({ error })
+        }
+      } catch (err) {
+        console.log(err)
+
+        reject({ error: "An error occured" })
+      }
+    })
+  }
 }
 
 export default ProgramAPI

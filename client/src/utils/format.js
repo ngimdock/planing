@@ -23,3 +23,16 @@ export function formatTimeToString (time) {
 
   return `${hour}:${minutes}:00`
 }
+
+export function getDayIdFromString (day) {
+  switch (day.toLowerCase()) {
+    case "lundi": return 1
+    case "mardi": return 2
+    case "mercredi": return 3
+    case "jeudi": return 4
+    case "vendredi": return 5
+    case "samedi": return 6
+    case "dimanche": return 7
+    default: break
+  }
+}
