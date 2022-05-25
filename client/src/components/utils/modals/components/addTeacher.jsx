@@ -36,7 +36,7 @@ const AddTeacherModalContent = () => {
   useEffect(() => {
     if (!checkingMatricule && teacher.matricule.length >= 4) {
       handleCheckingMatricule(teacher.matricule)
-    } 
+    }
   }, [teacher.matricule])
 
   // Some handlers
@@ -46,7 +46,7 @@ const AddTeacherModalContent = () => {
 
     // Send request
     const { data, error } = await TeacherAPI.checkMatricule(code)
-    
+
     // Stop checking code
     setCheckingMatricule(false)
 
@@ -58,8 +58,8 @@ const AddTeacherModalContent = () => {
   }
 
   const handleChange = (field, value) => {
-    const teacherPrev = {...teacher}
-    
+    const teacherPrev = { ...teacher }
+
     switch (field) {
       case "matricule": {
         teacherPrev.matricule = value
@@ -88,8 +88,12 @@ const AddTeacherModalContent = () => {
       setLoading(true)
       const { data, error: err } = await TeacherAPI.createTeacher(teacher.matricule, teacher.name, teacher.sexe)
       setLoading(false)
-      if(data.matriculeEns) {
-        const payload = { matricule: data.matriculeEns, name: data.nomEns, sex: data.sexEns  } 
+
+      console.log(data)
+
+      if (data) {
+        console.log(data)
+        const payload = { matricule: data.matriculeEns, name: data.nomEns, sex: data.sexEns }
         addTeacher(payload)
         closeModal()
         showToast("Nouvelle Enseignant créé", "success")
@@ -124,7 +128,7 @@ const AddTeacherModalContent = () => {
   return (
     <section>
       <Box sx={{ position: "relative" }}>
-        <Input 
+        <Input
           disabled={loading}
           placeholder="matricule"
           fullWidth
@@ -132,35 +136,35 @@ const AddTeacherModalContent = () => {
           value={teacher.matricule}
         />
 
-          {
-            checkingMatricule ? <LoaderCircle /> : (
-              <Box className={styles.emailStatusIcons}>
-                {
-                  matriculeAlreadyExist ? (
-                    <BsX 
-                      color="red"
-                      size={30}
-                    />
-                  ):(
-                    <BsCheck 
-                      color="green"
-                      size={30}
-                    />
-                  )
-                }
-              </Box>
-            )
-          }
+        {
+          checkingMatricule ? <LoaderCircle /> : (
+            <Box className={styles.emailStatusIcons}>
+              {
+                matriculeAlreadyExist ? (
+                  <BsX
+                    color="red"
+                    size={30}
+                  />
+                ) : (
+                  <BsCheck
+                    color="green"
+                    size={30}
+                  />
+                )
+              }
+            </Box>
+          )
+        }
 
       </Box>
-      <Input 
+      <Input
         disabled={loading}
         placeholder="nom"
         fullWidth
         onChange={e => handleChange("name", e.target.value)}
         value={teacher.name}
       />
-      <Select 
+      <Select
         disabled={loading}
         options={[
           { value: "feminin", label: "Feminin" },
@@ -173,7 +177,7 @@ const AddTeacherModalContent = () => {
       />
 
       <Box className={styles.controls}>
-        <Button 
+        <Button
           text="Annuler"
           variant="outlined"
           bgColor="#ff8500"
@@ -183,7 +187,7 @@ const AddTeacherModalContent = () => {
           onClick={closeModal}
         />
 
-        <Button 
+        <Button
           disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"

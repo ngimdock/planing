@@ -1,24 +1,28 @@
-import React, { useContext, useState } from "react"
-import Input from '../../inputs/input'
+import React, { useContext, useState, useEffect } from "react"
+import Input from '../../../inputs/input'
 import { Box } from "@mui/material"
-import Button from "../../buttons/button"
-import styles from '../css/modalContent.module.css'
-import ModalContext from "../../../../datamanager/contexts/modalContext"
-import LinearLoader from "../../loaders/linearLoader"
-import RoomAPI from '../../../../api/room/index';
-import RoomContext from "../../../../datamanager/contexts/roomContext"
-import ToastContext from "../../../../datamanager/contexts/toastContext"
+import Button from "../../../buttons/button"
+import styles from '../../css/modalContent.module.css'
+import ModalContext from "../../../../../datamanager/contexts/modalContext"
+import LinearLoader from "../../../loaders/linearLoader"
+import RoomAPI from '../../../../../api/room/index';
+import RoomContext from "../../../../../datamanager/contexts/roomContext"
+import ToastContext from "../../../../../datamanager/contexts/toastContext"
 
-const AddRoomModalContent = () => {
+const UpdateRoomModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { addRoom } = useContext(RoomContext)
+  const { updateRoom, selectedRoom } = useContext(RoomContext)
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [name, setName] = useState("")
-  const [capacity, setCapacity] = useState(0)
+  const [name, setName] = useState(selectedRoom.name)
+  const [capacity, setCapacity] = useState(selectedRoom.capacity)
   const [loading, setLoading] = useState(false)
+
+  useEffect(()=>{
+    console.log(selectedRoom)
+  },[])
 
   // Some handlers
   const handleChange = (field, e) => {
@@ -31,7 +35,7 @@ const AddRoomModalContent = () => {
     }
   }
 
-  const handleSubmitForm =async () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
       setLoading(true)
       const payload = {
@@ -39,22 +43,18 @@ const AddRoomModalContent = () => {
         capaciteSal: capacity
       }
       
-      const {data, error } = await RoomAPI.create(payload)
+      const {data, error } = await RoomAPI.update(selectedRoom.id, payload)
       console.log("front",data)
       setLoading(false)
       
       if (data) {
-        addRoom({
-          id: data.id,
-          name: data.nomSal,
-          capacity: data.capaciteSal
-        })
+        updateRoom( selectedRoom.id, { name: payload.nomSal,capacity: payload.capaciteSal })
         closeModal()
-        showToast("creation reussite", "success")
+        showToast("modification reussite", "success")
         
       } else {
         console.log(error)
-        showToast("ne peut creer cette salle", "error")
+        showToast("echec de modification de salle", "error")
       }
 
     }
@@ -74,6 +74,7 @@ const AddRoomModalContent = () => {
         disabled={loading}
         placeholder="nom de la salle"
         fullWidth
+        value={name}
         onChange={(e) => handleChange("name", e)}
       />
       <Input 
@@ -81,6 +82,7 @@ const AddRoomModalContent = () => {
         placeholder="capacité de la salle"
         fullWidth
         type="number"
+        value={capacity}
         onChange={(e) => handleChange("capacity", e)}
       />
 
@@ -112,4 +114,4 @@ const AddRoomModalContent = () => {
   )
 }
 
-export default AddRoomModalContent
+export default UpdateRoomModalContent

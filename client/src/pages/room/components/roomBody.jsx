@@ -20,8 +20,10 @@ const RoomBody = () => {
             return (
               <RoomItem 
                 key={room.getId}
+                id={room.getId}
                 title={room.getName}
                 value={`${room.getCapacity} Places`}
+                capacity={room.getCapacity}
                 color={generateColor()}
               />
             )
