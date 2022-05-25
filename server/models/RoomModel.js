@@ -31,11 +31,54 @@ class RoomModel {
 
 		try{
 			const [rows] = await connection.execute(query)
+
+			await this.getAvailableRooms({
+				idDay: 1,
+				idSemester: 2,
+				startHour: "7:00:00",
+				endHour: "10:00:00"
+			})
+
 			return { data: rows }
 		}catch(err){
 			console.log(err)
 
 			return { error: "An error occured when geting rooms" }
+		}
+	}
+
+	static getAvailableRooms = async (payload) => {
+		const {
+			idDay,
+			idSemester,
+			startHour,
+			endHour
+		} = payload
+
+		const query = `
+			SELECT S.idSalle, S.nomSal, S.capaciteSal
+			FROM Salle S
+			EXCEPT
+			SELECT S.idSalle, S.nomSal, S.capaciteSal
+			FROM Salle S, Programmer P, Jour J
+			WHERE J.idJour = ?
+			AND P.idSemestre = ?
+			AND P.heureDebut >= ?
+			AND P.heureFin <= ?
+			AND P.idJour = J.idJour
+			AND S.idSalle = P.idSalle
+		`
+
+		try {
+			const [rows] = await connection.execute(query, [idDay, idSemester, startHour, endHour])
+
+			console.log(rows)
+
+			return { data: rows }
+		} catch (err) {
+			console.log(err)
+
+			return { error: "An error occured when getting the available rooms" }
 		}
 	}
 

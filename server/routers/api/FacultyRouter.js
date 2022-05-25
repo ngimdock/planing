@@ -5,8 +5,10 @@ import authenticationMiddleware from "../../middlewares/auth.js"
 const FacultyRouter = express.Router()
 
 // set some routes
-FacultyRouter.get("/all", authenticationMiddleware, FacultyController.getFaculties)
-FacultyRouter.post("/create", authenticationMiddleware, FacultyController.createFaculty)
-FacultyRouter.put("/update/:idFil", authenticationMiddleware, FacultyController.updateFaculty)
+FacultyRouter.get("/all", /*authenticationMiddleware,*/ FacultyController.getFaculties)
+FacultyRouter.post("/create", /*authenticationMiddleware,*/ FacultyController.createFaculty)
+FacultyRouter.post('/verify_faculty', FacultyController.checkFaculty)
+FacultyRouter.put("/update/:idFil", /*authenticationMiddleware,*/ FacultyController.updateFaculty)
+FacultyRouter.delete("/delete/:idFil", /*authenticationMiddleware,*/ FacultyController.deleteFaculty)
 
 export default FacultyRouter

@@ -10,7 +10,7 @@ class TeacherModel {
         (
           matriculeEns VARCHAR(10) NOT NULL PRIMARY KEY,
           nomEns VARCHAR(255) NOT NULL,
-          sexEns ENUM("M", "F") NOT NULL
+          sexEns VARCHAR(10) NOT NULL
         )
       `
 
@@ -34,7 +34,7 @@ class TeacherModel {
       `
 
       try {
-        const data = await connection.execute(query).then(([result]) => {          
+        const data = await connection.execute(query).then(([result]) => {   
           return { data: [...result] }
         }).catch(error => {
           console.log(error)
@@ -46,6 +46,41 @@ class TeacherModel {
         console.log(err)
 
         return { error: err }
+      }
+    }
+
+    static async getAvailableTeachers (payload) {
+      const {
+        idDay,
+        idSemester,
+        startHour,
+        endHour
+      } = payload
+
+      const query = `
+        SELECT E.matriculeEns, E.nomEns, E.sexEns
+        FROM Enseignant E
+        EXCEPT
+        SELECT E.matriculeEns, E.nomEns, E.sexEns
+        FROM Enseignant E, Programmer P, Jour J
+        WHERE J.idJour = ?
+        AND P.idSemestre = ?
+        AND P.heureDebut >= ?
+        AND P.heureFin <= ?
+        AND P.idJour = J.idJour
+        AND E.matriculeEns = P.matriculeEns
+      `
+
+      try {
+        const [rows] = await connection.execute(query, [idDay, idSemester, startHour, endHour])
+
+        console.log(rows)
+
+        return { data: rows }
+      } catch (err) {
+        console.log(err)
+
+        return { error: "An error occured when getting all the available teachers" }
       }
     }
 
@@ -95,7 +130,7 @@ class TeacherModel {
       
       try {
         const [rows] = await connection.execute(query, values)
-        
+
         return { data }
       } catch (err) {
         console.log(err)

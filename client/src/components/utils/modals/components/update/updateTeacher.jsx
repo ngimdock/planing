@@ -98,7 +98,6 @@ const UpdateTeacherModalContent = () => {
         showToast("Enseignant modifié", "success")
       } else {
         setError(err)
-        console.log(error)
         closeModal()
         showToast("Enseignant non modifié", "error")
       }

@@ -15,6 +15,8 @@ const useGetSubjects = () => {
   const handleGetSubjects = async () => {
     const { data } = await SubjectAPI.getAll()
 
+    console.log(data)
+
     if (data) {
       // Store classes inside the global state
       addSubjects(data)

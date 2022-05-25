@@ -9,13 +9,17 @@ import AddFacultyModalContent from './components/addFaculty';
 import AddLevelModalContent from './components/addLevel';
 import AddClassModalContent from './components/addClass';
 import AddSpecialityModalContent from './components/addSpeciality';
-import UpdateSpecialityModalContent from './components/update/updateSpeciality';
-import UpdateTeacherModalContent from './components/update/updateTeacher';
 import AddSubjectModalContent from './components/addSubject';
 import AddTeacherModalContent from './components/addTeacher';
 import AddRoomModalContent from './components/addRoom';
 import AddAdminModalContent from './components/addAdmin'
 import AddAcademicYearModalContent from './components/addAcademicYear';
+import UpdateSpecialityModalContent from './components/update/updateSpeciality';
+import UpdateLevelModalContent from './components/update/updateLevel';
+import UpdateTeacherModalContent from './components/update/updateTeacher';
+import UpdateSubjectModalContent from './components/update/updateSubject';
+import UpdateFacultyModelContent from './components/update/updateFaculty';
+import UpdateRoomModalContent from './components/update/updateRoom';
 
 const style = {
   position: 'absolute',
@@ -57,7 +61,7 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
       case "ADD_SUBJECT": {
         return <AddSubjectModalContent />
       }
-      
+
       case "ADD_TEACHER": {
         return <AddTeacherModalContent />
       }
@@ -78,8 +82,24 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
         return <UpdateSpecialityModalContent />
       }
 
+      case "UPDATE_LEVEL": {
+        return <UpdateLevelModalContent />
+      }
+
+      case "UPDATE_ROOM": {
+        return <UpdateRoomModalContent />
+      }
+
       case "UPDATE_TEACHER": {
         return <UpdateTeacherModalContent />
+      }
+
+      case "UPDATE_SUBJECT": {
+        return <UpdateSubjectModalContent />
+      }
+
+      case "UPDATE_FACULTY": {
+        return <UpdateFacultyModelContent />
       }
 
       default: return null
@@ -102,13 +122,13 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
         <Fade in={open}>
           <Box sx={style}>
             <header className={styles.modalCoreHeader}>
-              <span className={styles.modalCoreHeaderText}>{ title.toUpperCase() }</span>
+              <span className={styles.modalCoreHeaderText}>{title.toUpperCase()}</span>
             </header>
 
             <Box sx={{
               padding: 2
             }}>
-              { generateModalContent() }
+              {generateModalContent()}
             </Box>
           </Box>
         </Fade>

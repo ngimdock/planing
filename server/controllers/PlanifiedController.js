@@ -44,7 +44,6 @@ class PlanifiedController {
     }
 
     static getProgramByClass = async (req, res) => {
-
         const {
             idAnneeAca,
             idSemestre,
@@ -57,6 +56,8 @@ class PlanifiedController {
             return res.status(400).json({ error: "Provide all the required data" })
         
         const { data, error } = await PlanifiedModel.getProgramByclass(req.params)
+
+        console.log({ data, params: req.params })
 
         if(data !== undefined) return res.status(200).json({ data })
 
@@ -127,6 +128,7 @@ class PlanifiedController {
             idAdmin,
             codeCours,
             idSalle,
+            idGroupe,
             idJour,
             matriculeEns,
             idSemestre,
@@ -140,6 +142,7 @@ class PlanifiedController {
             idAdmin && 
             codeCours && 
             idSalle && 
+            idGroupe &&
             idJour &&  
             heureDebut && 
             heureFin &&
@@ -156,23 +159,24 @@ class PlanifiedController {
     }
 
     static deleteProgram = async (req, res) => {
-
-        const { 
-            idAdmin, 
+        const {
             codeCours, 
             idSalle, 
             idJour, 
             matriculeEns, 
             idSemestre,
-            heureDebut
-        } = req.body
+            heureDebut,
+            idGroupe
+        } = req.query
 
-        const checkData = (idAdmin && codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut ) ? true : false
+        console.log(9)
+
+        const checkData = (codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut ) ? true : false
 
         if(!checkData) return res.status(400).json({ error: "Provide all the required data to delete this program" })
 
         //delete program
-        const { data, error } = await PlanifiedModel.deleteProgram(req.body)
+        const { data, error } = await PlanifiedModel.deleteProgram(req.query)
 
         if(data) return res.status(200).json({ data })
         return res.status(500).json({ error })

@@ -1,6 +1,13 @@
 import { Box, Popover, Typography } from "@mui/material"
-import { useCallback } from "react"
+import { useCallback, useContext } from "react"
 import { BsFillTrashFill, BsPencilFill } from 'react-icons/bs'
+import CurrentUserContext from "../../../datamanager/contexts/currentUserContext"
+import PlanningContext from "../../../datamanager/contexts/planningContext"
+import { formatTimeToString, getDayIdFromString } from "../../../utils/format"
+import ProgramAPI from '../../../api/program'
+import PlanningAction from '../../../datamanager/actions/planning'
+import ToastContext from "../../../datamanager/contexts/toastContext"
+import ClassContext from "../../../datamanager/contexts/classContext"
 
 const PopOverContent = ({ title, value, description }) => {
   return (
@@ -19,26 +26,80 @@ const PopOverContent = ({ title, value, description }) => {
           fontFamily: "Nunito-Bold",
           color: "#ff8500"
         }}
-      >{ title }</Typography>
+      >{title}</Typography>
       <Typography
         sx={{
           fontSize: 14,
           fontFamily: "Nunito-Bold"
         }}
-      >{ value }</Typography>
+      >{value}</Typography>
       <Typography
         sx={{
           fontSize: 12,
           fontFamily: "Nunito-Bold",
           color: "#555"
         }}
-      >( { description } )</Typography>
+      >( {description} )</Typography>
     </Box>
   )
 }
 
 const PopOver = ({ open, data, onClose, anchorEl }) => {
+  // Get data from global state
+  const { currentUser } = useContext(CurrentUserContext)
+  const { currentSemester, currentClass, dispatch } = useContext(PlanningContext)
+  const { showToast } = useContext(ToastContext)
+  const { getClass: getUniqueClass } = useContext(ClassContext)
+
   // Some handlers
+  const handleDeleteProgram = async () => {
+    const payload = {
+      codeCours: data.subjectCode,
+      idSalle: data.roomId,
+      idJour: getDayIdFromString(data.day),
+      matriculeEns: data.teacherMatricule,
+      idSemestre: currentSemester.idSemester,
+      heureDebut: formatTimeToString(data.startHour),
+      idGroupe: data.groupId
+    }
+
+    const { data: res, error } = await ProgramAPI.delete(payload)
+
+    if (res) {
+      await handleGetProgramsByClass()
+    } else {
+      showToast(`Le programme n'a pas pu etre supprimé`, "error")
+    }
+  }
+
+  // Get programs filtered by class based on the code class
+  const handleGetProgramsByClass = async () => {
+    const { data } = await ProgramAPI.getByClass({
+      idYear: currentSemester.idYear,
+      idSemester: currentSemester.idSemester,
+      codeClass: currentClass.getCode
+    })
+
+    console.log(data)
+
+    if (data !== undefined) {
+      // When all is OK we update the program of the current class
+      if (data) {
+        dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
+
+        console.log({ data })
+        showToast(`Le programme a été supprimé avec succes`)
+      } else {
+        const myClass = getUniqueClass(currentClass.getCode)
+
+        console.log({ myClass })
+
+        dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, myClass))
+      }
+    } else {
+      showToast(`Le programme de ${currentClass.getCode} n'a pas pu etre chargee correctement`, "error")
+    }
+  }
 
   const reformatTime = useCallback(() => {
     let {
@@ -70,7 +131,7 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
 
     endMinutes = end
 
-    return `${startHour}H${startMinutes ? ":" + startMinutes : ""} - ${endHour}H:${endMinutes}`
+    return `${startHour}h${startMinutes ? ":" + startMinutes : ""} - ${endHour}h:${endMinutes}`
   }, [data])
 
   const getDuration = useCallback(() => {
@@ -128,7 +189,7 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
               fontFamily: "Nunito-Bold",
               color: "#fff"
             }}
-          >{ data.subjectCode.toUpperCase() }</Typography>
+          >{data.subjectCode.toUpperCase()}</Typography>
 
           <Box
             sx={{
@@ -139,13 +200,14 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
               justifyContent: "space-between"
             }}
           >
-            <BsPencilFill 
+            <BsPencilFill
               size={15}
               color="#fff"
             />
-            <BsFillTrashFill 
+            <BsFillTrashFill
               size={15}
               color="#fff"
+              onClick={handleDeleteProgram}
             />
           </Box>
         </Box>
@@ -157,7 +219,7 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
             color: "#f8f8f8"
           }}
         >
-          ( { data.teacherName.toUpperCase() } )
+          ( {data.teacherName.toUpperCase()} )
         </Typography>
       </Box>
 

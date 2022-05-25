@@ -61,7 +61,6 @@ const ClasseList = () => {
    * @returns Array
    */
   const getFaculties = (idAcademicYear, idSemester) => {
-    console.log({ idAcademicYear, idSemester })
     if (idAcademicYear && idSemester) {
       // Get index of academic year
       const acaYIndex = programs.findIndex(acaY => Number(acaY.id) === Number(idAcademicYear))
@@ -69,7 +68,7 @@ const ClasseList = () => {
       if (acaYIndex > -1) {
         // Get index of semester
         const semesterIndex = programs[acaYIndex].semesters.findIndex(semester => Number(semester.id) === Number(idSemester))
-      
+
         if (semesterIndex > -1) {
           return programs[acaYIndex].semesters[semesterIndex].faculties
         }
@@ -78,44 +77,6 @@ const ClasseList = () => {
 
     return []
   }
-
-  // Data for tests
-  const programsT = [
-    {
-      headerTitle: "Informatique",
-      classes: [
-        {
-          id: 1,
-          value: "Info Licence 1"
-        },
-        {
-          id: 2,
-          value: "Info Licence 2"
-        },
-        {
-          id: 3,
-          value: "Info Licence 3"
-        }
-      ]
-    },
-    {
-      headerTitle: "Physique",
-      classes: [
-        {
-          id: 1,
-          value: "Physique Licence 1"
-        },
-        {
-          id: 2,
-          value: "Physique Licence 2"
-        },
-        {
-          id: 3,
-          value: "Physique Licence 3"
-        }
-      ]
-    }
-  ]
 
   return (
     <Box
@@ -139,7 +100,7 @@ const ClasseList = () => {
           alignItems: 'center'
         }}
       >
-        <Box 
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -151,7 +112,7 @@ const ClasseList = () => {
           }}
           onClick={() => navigateTo("semesters")}
         >
-          <BsArrowLeft 
+          <BsArrowLeft
             color="#555"
             size={20}
           />
@@ -174,15 +135,15 @@ const ClasseList = () => {
             marginLeft: "auto"
           }}
         >
-          { currentSemester.value }
+          {currentSemester.value}
         </Typography>
       </Box>
 
       <Box>
-      {
+        {
           getFaculties(currentSemester.idYear, currentSemester.idSemester).map((item) => {
             return (
-              <AccordionItem 
+              <AccordionItem
                 key={item.id}
                 headerTitle={item.value}
                 data={item.classes}

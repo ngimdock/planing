@@ -10,14 +10,14 @@ const TeacherBody = () => {
 
   return (
     <section>
-      <div className={style.teacherTitle} > List of Teachers </div>
+      <div className={style.teacherTitle} > Liste des Enseignants </div>
       <div className={style.teacherBody}>
         <TeacherContent />
       </div>
 
-      <AddButton 
-        title="Ajouter Enseignant" 
-        onClick={() => openModal('Ajouter Enseignant', 'ADD_TEACHER')}  
+      <AddButton
+        title="Ajouter Enseignant"
+        onClick={() => openModal('Ajouter Enseignant', 'ADD_TEACHER')}
       />
     </section>
   )

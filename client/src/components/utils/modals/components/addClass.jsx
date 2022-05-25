@@ -1,4 +1,4 @@
-import React, { useContext, useReducer,useState } from "react"
+import React, { useContext, useReducer, useState } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
@@ -15,15 +15,16 @@ import SpecialityItem from './subComponents/specialityItem'
 import ClassAPI from '../../../../api/class/index';
 import LinearLoader from "../../loaders/linearLoader"
 import ClassContext from "../../../../datamanager/contexts/classContext"
+import ToastContext from '../../../../datamanager/contexts/toastContext'
 
 const AddClassModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
-  const { faculties } = useContext(FacultyContext)
-  const { levels } = useContext(LevelContext)
-  const {addClass} = useContext(ClassContext)
+  const { faculties, getFaculty } = useContext(FacultyContext)
+  const { levels, getLevel } = useContext(LevelContext)
+  const { addClass } = useContext(ClassContext)
+  const { showToast } = useContext(ToastContext)
   const [loading, setLoading] = useState(false)
-  // const [name, setName] = useState("")
 
   // Set local state
   const [classes, dispatch] = useReducer(reducer, initialState)
@@ -54,11 +55,27 @@ const AddClassModalContent = () => {
       }
 
       const { data, error } = await ClassAPI.create(payload)
+
+      // Stop loading
       setLoading(false)
-      addClass(data)
-      console.log(data)
-      if(error)
+
+      if (data) {
+        // Get faculty and level from global state
+        const faculty = getFaculty(classes.faculty)
+        const level = getLevel(classes.level)
+
+        addClass({ ...classes, code: classes.name, faculty, level })
+        showToast(`La classe ${classes.name} a été créée avec succès`)
+
+        // Reset data
+        dispatch({ type: "RESET" })
+
+        closeModal()
+      } else {
         console.log(error)
+
+        showToast("Un problème est survenu lors de la création d'une classe", "error")
+      }
     }
   }
 
@@ -82,8 +99,8 @@ const AddClassModalContent = () => {
   const handleDeleteSpeciality = (id) => dispatch({ type: "DELETE_SPECIALITY", payload: id })
 
   const handleUpdateSpecialityInfo = (id, field, value) => {
-    dispatch({ 
-      type: "UPDATE_SPECIALITY_INFO", 
+    dispatch({
+      type: "UPDATE_SPECIALITY_INFO",
       payload: {
         id,
         field,
@@ -113,7 +130,7 @@ const AddClassModalContent = () => {
 
   return (
     <section>
-      <Box 
+      <Box
         sx={{
           width: "100%",
           marginBottom: 2,
@@ -121,14 +138,14 @@ const AddClassModalContent = () => {
         }}
         className={classStyles.container}
       >
-        <Input 
+        <Input
           placeholder="nom"
           fullWidth
           onChange={(e) => handleChange("name", e.target.value)}
           value={classes.name}
         />
 
-        <Select 
+        <Select
           label="Filiere"
           options={[
             ...faculties.map(fac => ({ value: fac.getId, label: fac.getName }))
@@ -138,7 +155,7 @@ const AddClassModalContent = () => {
           onGetValue={(value) => handleChange("faculty", value)}
         />
 
-        <Select 
+        <Select
           label="Niveau"
           options={[
             ...levels.map(lev => ({ value: lev.getId, label: lev.getName }))
@@ -148,7 +165,7 @@ const AddClassModalContent = () => {
           onGetValue={(value) => handleChange("level", value)}
         />
 
-        <Input 
+        <Input
           placeholder="capacite"
           type="number"
           fullWidth
@@ -159,9 +176,9 @@ const AddClassModalContent = () => {
         <span className={classStyles.groupLabel}>Groupes de la classe</span>
         <Box className={classStyles.groupContainer}>
           {
-            classes.groups.map((item) => {
+            classes.groups.slice(1).map((item) => {
               return (
-                <GroupItem 
+                <GroupItem
                   key={item.id}
                   data={item}
                   onDeleteGroup={handleDeleteGroup}
@@ -170,7 +187,7 @@ const AddClassModalContent = () => {
             })
           }
 
-          <Button 
+          <Button
             text="nouveau groupe"
             variant="outlined"
             bgColor="#ff8500"
@@ -178,24 +195,24 @@ const AddClassModalContent = () => {
             rounded
             onClick={handleAddGroup}
           >
-            <BsFillPlusCircleFill 
+            <BsFillPlusCircleFill
               size={15}
               color="#ff8500"
             />
           </Button>
         </Box>
 
-        <Box 
+        <Box
           sx={{
             display: "block",
           }}
         >
           <p className={classStyles.groupLabel}>Spécialités</p>
-          
+
           {
             classes.specialities.map((speciality, index) => {
               return (
-                <SpecialityItem 
+                <SpecialityItem
                   key={speciality.id}
                   data={speciality}
                   index={index + 1}
@@ -208,7 +225,7 @@ const AddClassModalContent = () => {
             })
           }
 
-          <Button 
+          <Button
             text="Nouvelle spécialité"
             variant="outlined"
             bgColor="#ff8500"
@@ -216,7 +233,7 @@ const AddClassModalContent = () => {
             rounded
             onClick={handleAddSpeciality}
           >
-            <BsFillPlusCircleFill 
+            <BsFillPlusCircleFill
               size={15}
               color="#ff8500"
             />
@@ -226,7 +243,7 @@ const AddClassModalContent = () => {
 
 
       <Box className={styles.controls}>
-        <Button 
+        <Button
           text="Annuler"
           variant="outlined"
           bgColor="#ff8500"
@@ -236,7 +253,7 @@ const AddClassModalContent = () => {
           onClick={closeModal}
         />
 
-        <Button 
+        <Button
           disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"

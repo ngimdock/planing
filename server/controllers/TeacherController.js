@@ -18,6 +18,33 @@ class TeacherController {
     }
 
     /**
+     * Get the available teacher to program
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
+    static getAvailableTeachers = async (req, res) => {
+        const {
+            idSemester,
+            idDay,
+            startHour,
+            endHour
+        } = req.query
+
+        console.log(req.query)
+
+        if (idSemester && idDay && startHour && endHour) {
+            const { data, error } = await TeacherModel.getAvailableTeachers(req.query)
+
+            if (data) return res.json({ data })
+
+            return res.status(500).json({ error })
+        }
+
+        return res.status(400).json({ error: "Provide all the required data" })
+    }
+
+    /**
      * Fetching the researched teacher from the platform
      * @param {String} matriculeEns The identifier of the teacher we are searching for 
      * @returns data | error

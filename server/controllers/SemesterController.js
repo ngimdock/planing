@@ -51,8 +51,10 @@ class SemesterController {
         // Create semester 
         let isOk = true
 
+        const semesters = []
+
         for (let semester = 1; semester <= 2; semester++) {
-          const { error } = await SemesterModel.create({ 
+          const { data: semesterData, error } = await SemesterModel.create({ 
             semester,
             idAcademicYear: acaY.id
           })
@@ -61,10 +63,12 @@ class SemesterController {
             isOk = false
             break
           }
+
+          semesters.push({ ...semesterData, value: semester })
         }
   
         if (isOk) {
-          return res.status(201).json({ data: "Academic year created" })
+          return res.status(201).json({ data: { academicYear: {...acaY, value: academicYear}, semesters } })
         }
   
         return res.status(500).json({ error })

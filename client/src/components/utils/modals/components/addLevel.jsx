@@ -8,11 +8,13 @@ import LinearLoader from "../../loaders/linearLoader"
 import reducer, { initialState } from '../reducers/classReducer'
 import LevelAPI from '../../../../api/level/index';
 import LevelContext from '../../../../datamanager/contexts/levelContext';
+import ToastContext from "../../../../datamanager/contexts/toastContext"
 
 const AddLevelModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
   const { addLevel } = useContext(LevelContext)
+  const { showToast } = useContext(ToastContext)
 
   // Set local state
   const [name, setName] = useState("")
@@ -21,35 +23,40 @@ const AddLevelModalContent = () => {
   // Some handlers
   const handleChange = (e) => setName(e.target.value)
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
       setLoading(true)
 
       const payload = {
         nomNiv: name
       }
-      const {data, error } = LevelAPI.create(payload)
+      const { data, error } = await LevelAPI.create(payload)
       setLoading(false)
-      addLevel(data)
-      console.log(data)
-      
-      if (error) {
+
+      if (data) {
+        addLevel({ id: data.id, name: name })
+
+        closeModal()
+        showToast("nouveau niveau cree")
+      } else {
         console.log(error)
+        showToast("ne peut creer un niveau", "error")
       }
+
     }
   }
 
   const verificationForm = () => {
     if (name) {
       return true
-    } 
+    }
 
     return false
   }
 
   return (
     <section>
-      <Input 
+      <Input
         disabled={loading}
         placeholder="nom du niveau"
         fullWidth
@@ -57,7 +64,7 @@ const AddLevelModalContent = () => {
       />
 
       <Box className={styles.controls}>
-        <Button 
+        <Button
           text="Annuler"
           variant="outlined"
           bgColor="#ff8500"
@@ -67,7 +74,7 @@ const AddLevelModalContent = () => {
           onClick={closeModal}
         />
 
-        <Button 
+        <Button
           disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"

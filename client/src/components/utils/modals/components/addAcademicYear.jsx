@@ -11,11 +11,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LinearLoader from '../../loaders/linearLoader';
 import AcademicYearAPI from '../../../../api/academicYear';
 import ToastContext from '../../../../datamanager/contexts/toastContext';
+import PlanningContext from '../../../../datamanager/contexts/planningContext';
+import PlanningAction from '../../../../datamanager/actions/planning';
 
 const AddAcademicYearModalContent = () => {
   // Get data from global state
   const { closeModal } = useContext(ModalContext)
   const { showToast } = useContext(ToastContext)
+  const { dispatch } = useContext(PlanningContext)
 
   // Set local state
   const [startYear, setStartYear] = useState(new Date(Date.now()))
@@ -39,11 +42,24 @@ const AddAcademicYearModalContent = () => {
 
       if (data) {
         console.log(data)
+        // Add academic year to the context
+        dispatch(PlanningAction.addAcademicYear(data.academicYear))
+
+        // Add semesters
+        for (let semester of data.semesters) {
+          // For each semester, we add it to the global state
+          dispatch(PlanningAction.addSemester({
+            idAcademicYear: data.academicYear.id,
+            idSemester: semester.id,
+            value: `Semestre ${semester.value}`
+          }))
+        }
+
         closeModal()
       } else {
         showToast("Probleme lie a la creation d'une annee academique")
       }
-      
+
     }
   }
 
@@ -56,7 +72,7 @@ const AddAcademicYearModalContent = () => {
   const generateAcademicYearString = (date) => {
     let year = +date.getFullYear()
 
-    return `${year}-${year+1}`
+    return `${year}-${year + 1}`
   }
 
   return (
@@ -81,11 +97,11 @@ const AddAcademicYearModalContent = () => {
               handleChangeYear(newValue);
             }}
             renderInput={(params) => (
-              <TextField 
-                {...params} 
-                fullWidth 
-                size='small' 
-                sx={{ mb: 2 }} 
+              <TextField
+                {...params}
+                fullWidth
+                size='small'
+                sx={{ mb: 2 }}
               />
             )}
           />
@@ -94,7 +110,7 @@ const AddAcademicYearModalContent = () => {
 
       <Box className={styles.controls}>
 
-        <Button 
+        <Button
           text="Annuler"
           variant="outlined"
           bgColor="#ff8500"
@@ -104,7 +120,7 @@ const AddAcademicYearModalContent = () => {
           onClick={closeModal}
         />
 
-        <Button 
+        <Button
           disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"

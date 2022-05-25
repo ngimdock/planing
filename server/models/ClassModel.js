@@ -115,10 +115,10 @@ class ClassModel {
 
   static async getSpecialities (idClass) {
     const query = `
-      SELECT idSpecialite, nomSpecialite, C.capacite
+      SELECT S.idSpecialite, nomSpecialite, C.capacite
       FROM Classe_spec C, Specialite S
-      WHERE C.codeClass = ?
-      AND C.idSpec = S.idSpecialite
+      WHERE C.codeClasse = ?
+      AND C.idSpecialite = S.idSpecialite
     `
 
     try {
