@@ -187,11 +187,13 @@ class CourseModel {
             idSpecialite
         } = payload
 
+        console.log(payload)
+
         const query = `
-            UPDATE Cours
-            SET codeCours=(?), descriptionCours = (?), idSpecialite = (?)
-            WHERE Cours.codeCours = (?)
-        `
+                        UPDATE Cours
+                        SET codeCours=(?), descriptionCours = (?), idSpecialite = (?)
+                        WHERE Cours.codeCours = (?)
+                    `
 
         try {
 
