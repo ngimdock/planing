@@ -1,26 +1,59 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import Input from '../../inputs/input'
 import { Box } from "@mui/material"
 import Button from "../../buttons/button"
 import ModalContext from "../../../../datamanager/contexts/modalContext"
 import styles from '../css/modalContent.module.css'
 import LinearLoader from "../../loaders/linearLoader"
+import LoaderCircle from "../../loaders/loaderCircle"
 import SpecialityAPI from "../../../../api/speciality"
 import SpecialityContext from "../../../../datamanager/contexts/specialityContext"
 import ToastContext from "../../../../datamanager/contexts/toastContext"
+import { BsX, BsCheck } from "react-icons/bs"
 
 const AddSpecialityModalContent = () => {
   // Get global state
   const { closeModal } = useContext(ModalContext)
   const { addSpeciality } = useContext(SpecialityContext)
   const { showToast } = useContext(ToastContext)
-
+  
+  
   // Set local state
+  const [checkingSpeciality, setCheckingSpeciality] = useState(false)
+  const [specialityAlreadyExist, setSpecialityAlreadyExist] = useState(true)
   const [name, setName] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState("")
 
-  // Some handlers
+    // UseEffect section
+    useEffect(() => {
+      if (!checkingSpeciality && name.length > 0) {
+        handleCheckingSpeciality(name)
+      } else {
+        setSpecialityAlreadyExist(true)
+      }
+    }, [name])
+
+   // Some handlers
+   const handleCheckingSpeciality = async (name) => {
+
+    // Start checking code
+    setCheckingSpeciality(true)
+
+    // Send request
+    const { data, error } = await SpecialityAPI.checkSpeciality(name)
+    
+    // Stop checking code
+    setCheckingSpeciality(false)
+
+    if (data !== undefined) {
+      setSpecialityAlreadyExist(data)
+    } else {
+      console.log(error)
+    }
+  }
+
+
   const handleChangeName = (e) => setName(e.target.value)
 
   const handleSubmitForm = async () => {
@@ -43,7 +76,10 @@ const AddSpecialityModalContent = () => {
   }
 
   const verificationForm = () => {
-    if (name) {
+    if (
+      name &&
+      !specialityAlreadyExist 
+      ) {
       return true
     }
 
@@ -52,12 +88,34 @@ const AddSpecialityModalContent = () => {
 
   return (
     <section>
-      <Input 
-        disabled={loading}
-        placeholder="nom de la spécialité"
-        fullWidth
-        onChange={handleChangeName}
-      />
+      <Box sx={{ "position": "relative"}}>
+        <Input 
+          disabled={loading}
+          placeholder="nom de la spécialité"
+          fullWidth
+          onChange={handleChangeName}
+        />
+
+          {
+            checkingSpeciality ? <LoaderCircle /> : ( 
+              <Box className={styles.emailStatusIcons}>
+                { 
+                  specialityAlreadyExist ? (
+                    <BsX 
+                      color="red"
+                      size={30}
+                    />
+                    ):(
+                    <BsCheck 
+                      color="green"
+                      size={30}
+                    />
+                  )
+                }
+              </Box>
+            )
+          }
+      </Box>
 
       <Box className={styles.controls}>
         <Button 

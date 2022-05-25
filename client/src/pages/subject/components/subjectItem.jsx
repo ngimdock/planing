@@ -52,7 +52,7 @@ const SubjectItem = ({ id, title, value, color }) => {
     selectSubject(codeSubject)
 
     // Open the update modal
-    openModal("Update2 Subject", "UPDATE_SUBJECT")
+    openModal("Update Subject", "UPDATE_SUBJECT")
   }
 
   return (

@@ -152,6 +152,28 @@ class SpecialityModel {
         return { error : err }
       }
     }
+
+    static async checkSpeciality(name) {
+      const query = `
+        SELECT *
+        FROM Specialite
+        WHERE nomSpecialite = ?
+      `
+
+      try {
+        const [rows] = await connection.execute(query, [name])
+
+        if (rows.length > 0) {
+          return { data: true }
+        }
+
+        return { data: false }
+      } catch (err) {
+        console.log(err)
+
+        return { error: "An error occured" }
+      }
+    }
 }
 
 export default SpecialityModel

@@ -6,6 +6,7 @@ const SpecialityRouter = express.Router()
 
 SpecialityRouter.get('/all', /*authenticationMiddleware,*/ SpecialityController.getSpecialities)
 SpecialityRouter.get('/:idSpecialite', SpecialityController.getSpeciality)
+SpecialityRouter.post('/verify_speciality', SpecialityController.checkSpeciality)
 SpecialityRouter.post('/create', SpecialityController.createSpeciality)
 SpecialityRouter.put('/update/:idSpecialite', SpecialityController.updateSpeciality)
 SpecialityRouter.delete('/delete/:idSpecialite', SpecialityController.deleteSpeciality)

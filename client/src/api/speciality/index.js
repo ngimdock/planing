@@ -2,6 +2,28 @@ import axiosInstance from '../config'
 import DefaultApiCall from '../config/defaultApi'
 
 class SpecialityAPI extends DefaultApiCall {
+
+  static async checkSpeciality (name) {
+    const instance = this.insertToken(axiosInstance)
+
+    if(name === "") {
+      return false
+    }
+
+    try {
+      const { data, error } = await instance.post("/speciality/verify_speciality", { name: name })
+      if (data !== undefined) {
+        return data
+      }
+
+      return { error }
+    } catch (err) {
+      console.log(err)
+
+      return { error: "An error occured while checking the unicity of the speciality's name" }
+    }
+  }
+
   static async getAll () {
     const instance = this.insertToken(axiosInstance)
 
