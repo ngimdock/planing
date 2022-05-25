@@ -57,6 +57,8 @@ class PlanifiedController {
         
         const { data, error } = await PlanifiedModel.getProgramByclass(req.params)
 
+        console.log({ data, params: req.params })
+
         if(data !== undefined) return res.status(200).json({ data })
 
         return res.status(500).json({ error })

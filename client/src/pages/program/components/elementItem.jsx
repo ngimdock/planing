@@ -6,6 +6,7 @@ import PlanningContext from "../../../datamanager/contexts/planningContext"
 import ProgramAPI from "../../../api/program"
 import PlanningAction from "../../../datamanager/actions/planning"
 import ClassContext from "../../../datamanager/contexts/classContext"
+import Class from "../../../entities/class"
 
 const ElementItem = ({ value, target, year, idSemester }) => {
   // Get global state
@@ -60,7 +61,7 @@ const ElementItem = ({ value, target, year, idSemester }) => {
           codeClass: value
         })
       } else {
-        myClass = getUniqueClass(value)
+        myClass = new Class(getUniqueClass(value))
       }
 
       // Save the current class programs in the global state
