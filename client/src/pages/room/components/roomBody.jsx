@@ -1,4 +1,4 @@
-import { useContext} from "react"
+import { useContext } from "react"
 import AddButton from "../../../components/utils/buttons/addButton"
 import ModalContext from "../../../datamanager/contexts/modalContext"
 import RoomItem from "./roomItem"
@@ -13,12 +13,12 @@ const RoomBody = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.roomTitle}> List of room(04) </div>
+      <div className={styles.roomTitle}> Liste des salles </div>
       <div className={styles.roomContent}>
         {
           rooms.map(room => {
             return (
-              <RoomItem 
+              <RoomItem
                 key={room.getId}
                 id={room.getId}
                 title={room.getName}
@@ -31,9 +31,9 @@ const RoomBody = () => {
         }
       </div>
 
-      <AddButton 
-        title="Ajouter Salle" 
-        onClick={() => openModal('Ajouter Salle', 'ADD_ROOM')}  
+      <AddButton
+        title="Ajouter Salle"
+        onClick={() => openModal('Ajouter Salle', 'ADD_ROOM')}
       />
     </section>
   )

@@ -19,8 +19,6 @@ import UpdateLevelModalContent from './components/update/updateLevel';
 import UpdateTeacherModalContent from './components/update/updateTeacher';
 import UpdateSubjectModalContent from './components/update/updateSubject';
 import UpdateFacultyModelContent from './components/update/updateFaculty';
-import UpdateSpecialityModalContent from './components/update/updateSpeciality';
-import UpdateTeacherModalContent from './components/update/updateTeacher';
 import UpdateRoomModalContent from './components/update/updateRoom';
 
 const style = {
