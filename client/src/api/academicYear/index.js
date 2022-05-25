@@ -28,8 +28,7 @@ class AcademicYearAPI extends DefaultAPICall {
       const { data, error } = await instance.post("/semester/create", { academicYear })
 
       if (data) {
-        console.log(data)
-        return { data: true }
+        return data
       }
 
       return { error }

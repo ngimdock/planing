@@ -7,6 +7,7 @@ import { formatTimeToString, getDayIdFromString } from "../../../utils/format"
 import ProgramAPI from '../../../api/program'
 import PlanningAction from '../../../datamanager/actions/planning'
 import ToastContext from "../../../datamanager/contexts/toastContext"
+import ClassContext from "../../../datamanager/contexts/classContext"
 
 const PopOverContent = ({ title, value, description }) => {
   return (
@@ -48,6 +49,7 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
   const { currentUser } = useContext(CurrentUserContext)
   const { currentSemester, currentClass, dispatch } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
+  const { getClass: getUniqueClass } = useContext(ClassContext)
 
   // Some handlers
   const handleDeleteProgram = async () => {
@@ -57,15 +59,14 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
       idJour: getDayIdFromString(data.day),
       matriculeEns: data.teacherMatricule,
       idSemestre: currentSemester.idSemester,
-      heureDebut: formatTimeToString(data.startHour)
+      heureDebut: formatTimeToString(data.startHour),
+      idGroupe: data.groupId
     }
 
     const { data: res, error } = await ProgramAPI.delete(payload)
 
     if (res) {
-      handleGetProgramsByClass()
-
-      showToast(`Le programme a été supprimé avec succes`)
+      await handleGetProgramsByClass()
     } else {
       showToast(`Le programme n'a pas pu etre supprimé`, "error")
     }
@@ -79,10 +80,21 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
       codeClass: currentClass.getCode
     })
 
+    console.log(data)
+
     if (data !== undefined) {
       // When all is OK we update the program of the current class
       if (data) {
         dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
+
+        console.log({ data })
+        showToast(`Le programme a été supprimé avec succes`)
+      } else {
+        const myClass = getUniqueClass(currentClass.getCode)
+
+        console.log({ myClass })
+
+        dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, myClass))
       }
     } else {
       showToast(`Le programme de ${currentClass.getCode} n'a pas pu etre chargee correctement`, "error")

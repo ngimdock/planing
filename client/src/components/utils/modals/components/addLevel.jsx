@@ -21,20 +21,21 @@ const AddLevelModalContent = () => {
   // Some handlers
   const handleChange = (e) => setName(e.target.value)
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     if (!loading) {
       setLoading(true)
 
       const payload = {
         nomNiv: name
       }
-      const {data, error } = LevelAPI.create(payload)
+      const { data, error } = await LevelAPI.create(payload)
       setLoading(false)
-      addLevel(data)
-      console.log(data)
-      
+
       if (error) {
         console.log(error)
+      } else {
+        addLevel({ ...data, name })
+        closeModal()
       }
     }
   }
@@ -42,14 +43,14 @@ const AddLevelModalContent = () => {
   const verificationForm = () => {
     if (name) {
       return true
-    } 
+    }
 
     return false
   }
 
   return (
     <section>
-      <Input 
+      <Input
         disabled={loading}
         placeholder="nom du niveau"
         fullWidth
@@ -57,7 +58,7 @@ const AddLevelModalContent = () => {
       />
 
       <Box className={styles.controls}>
-        <Button 
+        <Button
           text="Annuler"
           variant="outlined"
           bgColor="#ff8500"
@@ -67,7 +68,7 @@ const AddLevelModalContent = () => {
           onClick={closeModal}
         />
 
-        <Button 
+        <Button
           disabled={!verificationForm() || loading}
           text="Sauver"
           variant="contained"

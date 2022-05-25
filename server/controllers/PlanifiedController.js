@@ -157,14 +157,14 @@ class PlanifiedController {
     }
 
     static deleteProgram = async (req, res) => {
-
         const {
             codeCours, 
             idSalle, 
             idJour, 
             matriculeEns, 
             idSemestre,
-            heureDebut
+            heureDebut,
+            idGroupe
         } = req.query
 
         console.log(9)

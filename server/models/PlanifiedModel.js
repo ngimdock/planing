@@ -295,7 +295,7 @@ class planifiedModel {
 
             const formatedData = this.FormatProgram(rows, "class")
 
-            console.log(rows)
+            console.log({formatedData, rows})
 
             return { data: formatedData ? formatedData : false }
         }catch(err){
@@ -473,7 +473,8 @@ class planifiedModel {
             idJour, 
             matriculeEns, 
             idSemestre,
-            heureDebut
+            heureDebut,
+            idGroupe
         } = payload
 
         
@@ -486,17 +487,13 @@ class planifiedModel {
         const values = [codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut]
 
         try {
-
-            // const { data, error } = await this.getProgram(payload)
-
-            // if(!data.length) return { error: "The course is not found on database" }
-
-            const [rows] = await connection.execute(query, values)
-
-            console.log(rows);
+            await connection.execute(query, values)
+            
+            // Unfollow the course by the group
+            await FollowModel.delete({ idGroupe, codeCours })
 
             return { data: "Program deleted on succesfully" }
-        }catch(err){
+        } catch(err) {
             console.log(err.message)
 
             return { error: "An error occured while deleting the program" }

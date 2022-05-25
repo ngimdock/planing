@@ -17,7 +17,7 @@ const planningReducer = (state = [], action) => {
         // New academic year
         const academicYear = {
           id,
-          headerTitle: value,
+          value,
           semesters: []
         }
 

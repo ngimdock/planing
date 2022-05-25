@@ -11,15 +11,11 @@ class ProgramAPI extends DefaultApiCall {
       codeClass
     } = data
 
-    console.log(data)
-
     if (idYear && idSemester && codeClass) {
       try {
-        const { data } = await instance.get(`/planified/classe/${idYear}/${idSemester}/${codeClass}`)
+        const { data: res } = await instance.get(`/planified/classe/${idYear}/${idSemester}/${codeClass}`)
   
-        console.log(data)
-  
-        return data
+        return res
       } catch (err) {
         console.log(err)
   
@@ -61,13 +57,12 @@ class ProgramAPI extends DefaultApiCall {
           idJour,
           matriculeEns,
           idSemestre,
-          heureDebut
+          heureDebut,
+          idGroupe
         } = payload
 
-        const url = `planified/delete/?codeCours=${codeCours}&idSalle=${idSalle}&idJour=${idJour}&matriculeEns=${matriculeEns}&idSemestre=${idSemestre}&heureDebut=${heureDebut}`
+        const url = `planified/delete/?codeCours=${codeCours}&idSalle=${idSalle}&idJour=${idJour}&matriculeEns=${matriculeEns}&idSemestre=${idSemestre}&heureDebut=${heureDebut}&idGroupe=${idGroupe}`
         const { data, error } = await instance.delete(url, payload)
-
-        console.log(data)
 
         if (data) {
           resolve(data)

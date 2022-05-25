@@ -10,13 +10,13 @@ import ClassContext from "../../../datamanager/contexts/classContext"
 const ElementItem = ({ value, target, year, idSemester }) => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
-  const { 
-    selectSemester, 
-    selectClass, 
+  const {
+    selectSemester,
+    selectClass,
     getClass,
-    currentClass, 
-    currentSemester, 
-    dispatch 
+    currentClass,
+    currentSemester,
+    dispatch
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
   const { getClass: getUniqueClass } = useContext(ClassContext)
@@ -51,13 +51,13 @@ const ElementItem = ({ value, target, year, idSemester }) => {
       // When all is OK
       if (data) {
         dispatch(PlanningAction.addClass(currentSemester.idYear, currentSemester.idSemester, data))
-        
+
         // Get class from the whole list of classes
-        myClass = getClass({ 
-          idAcademicYear: currentSemester.idYear, 
+        myClass = getClass({
+          idAcademicYear: currentSemester.idYear,
           idSemester: currentSemester.idSemester,
           idFaculty: data.id,
-          codeClass: value 
+          codeClass: value
         })
       } else {
         myClass = getUniqueClass(value)
@@ -75,7 +75,7 @@ const ElementItem = ({ value, target, year, idSemester }) => {
   }
 
   return (
-    <Box 
+    <Box
       sx={{
         width: "calc(100% - 32px)",
         p: 2,
@@ -101,7 +101,7 @@ const ElementItem = ({ value, target, year, idSemester }) => {
           transition: "all .4s"
         }}
       >
-        { value }
+        {value}
       </Typography>
     </Box>
   )
