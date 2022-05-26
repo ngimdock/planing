@@ -17,7 +17,7 @@ const planningReducer = (state = [], action) => {
         // New academic year
         const academicYear = {
           id,
-          headerTitle: value,
+          value,
           semesters: []
         }
 
@@ -141,6 +141,65 @@ const planningReducer = (state = [], action) => {
 
     case "ADD_PROGRAM": {
 
+    }
+
+    case "REMOVE_PROGRAM": {
+      const {
+        subjectCode,
+        roomId,
+        day,
+        teacherMatricule,
+        idSemester,
+        idYear,
+        startHour,
+        codeClass,
+        facultyId
+      } = action.payload
+
+      console.log(action.payload)
+
+      // Get the index of the academic year
+      const acaYIndex = prevState.findIndex(acaY => Number(acaY.id) === Number(idYear))
+ 
+      if (acaYIndex > -1) {
+        // Get the index of the semester
+        const semesterIndex = prevState[acaYIndex].semesters.findIndex(semester => Number(semester.id) === Number(idSemester))
+     
+        if (semesterIndex > -1) {
+          // Get the index of the faculty
+          const facIndex = prevState[acaYIndex].semesters[semesterIndex].faculties.findIndex(fac => Number(fac.id) === Number(facultyId))
+       
+          if (facIndex > -1) {
+            // Get the index of the class
+            const classIndex = prevState[acaYIndex].semesters[semesterIndex].faculties[facIndex].classes.findIndex(c => c.code === codeClass)
+            
+            if (classIndex > -1) {
+              const programIndex = prevState[acaYIndex].semesters[semesterIndex].faculties[facIndex].classes[classIndex].programs[day].findIndex(prog => {
+                if (
+                  prog.subjectCode === subjectCode && 
+                  +prog.roomId === +roomId && 
+                  prog.teacherMatricule === teacherMatricule && 
+                  +startHour === +prog.startHour
+                ) {
+                  return true
+                } else {
+                  return false
+                }
+              })
+
+              console.log({ programIndex })
+
+              if (programIndex > -1) {
+                const newProgram = prevState[acaYIndex].semesters[semesterIndex].faculties[facIndex].classes[classIndex].programs[day].splice(programIndex, 1)
+
+                prevState[acaYIndex].semesters[semesterIndex].faculties[facIndex].classes[classIndex].programs[day] = newProgram
+              }
+            }
+          }
+        }
+      }
+
+      return prevState
     }
 
     default: return prevState

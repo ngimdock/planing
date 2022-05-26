@@ -13,7 +13,7 @@ const SubjectBody = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.subjectTitle}> Liste des Unites d'enseignements (04)</div>
+      <div className={styles.subjectTitle}> Liste des Unites d'enseignements</div>
       <div className={styles.subjectContent}>
         {
           subjects.map(subject => {
@@ -30,9 +30,9 @@ const SubjectBody = () => {
         }
       </div>
 
-      <AddButton 
-        title="Ajouter Cours" 
-        onClick={() => openModal('Ajouter Cours', 'ADD_SUBJECT')}  
+      <AddButton
+        title="Ajouter Cours"
+        onClick={() => openModal('Ajouter Cours', 'ADD_SUBJECT')}
       />
     </section>
   )

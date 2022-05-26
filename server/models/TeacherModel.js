@@ -10,7 +10,7 @@ class TeacherModel {
         (
           matriculeEns VARCHAR(10) NOT NULL PRIMARY KEY,
           nomEns VARCHAR(255) NOT NULL,
-          sexEns ENUM("M", "F") NOT NULL
+          sexEns VARCHAR(10) NOT NULL
         )
       `
 
@@ -130,7 +130,7 @@ class TeacherModel {
       
       try {
         const [rows] = await connection.execute(query, values)
-        
+
         return { data }
       } catch (err) {
         console.log(err)

@@ -14,6 +14,8 @@ const useGetClasses = () => {
   const handleGetClasses = async () => {
     const { data } = await ClassAPI.getAll()
 
+    console.log(data)
+
     if (data) {
       // Store classes inside the global state
       addClasses(data)

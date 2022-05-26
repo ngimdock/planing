@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 import { MdOutlineFileUpload } from 'react-icons/md'
 import PlanningContext from '../../../datamanager/contexts/planningContext';
@@ -11,8 +11,18 @@ import ExportBaseLayout from '../../exports/base';
 const ProgramTable = () => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
-  const { currentClass: myClass } = useContext(PlanningContext)
+  const { currentClass } = useContext(PlanningContext)
   const { exportRef, handlePrintByClass } = useContext(ExportContext)
+
+  useEffect(() => {
+    console.log("Updated in UseEffect")
+  }, [currentClass])
+
+  const myClass = useMemo(() => {
+    console.log("Updated")
+
+    return currentClass
+  }, [currentClass])
 
   return (
     <Box
@@ -36,7 +46,7 @@ const ProgramTable = () => {
         }}
       >
 
-        <Box 
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -48,15 +58,15 @@ const ProgramTable = () => {
           }}
           onClick={() => navigateTo("classes")}
         >
-          <BsArrowLeft 
+          <BsArrowLeft
             color="#f8f8f8"
             size={20}
           />
 
-          <Typography 
-            sx={{ 
-              fontFamily: "Nunito-Bold", 
-              fontSize: "14px", 
+          <Typography
+            sx={{
+              fontFamily: "Nunito-Bold",
+              fontSize: "14px",
               ml: 1,
               color: "#fff"
             }}
@@ -65,17 +75,17 @@ const ProgramTable = () => {
           </Typography>
         </Box>
 
-        <Typography 
-          sx={{ 
-            fontFamily: "Nunito-Bold", 
-            fontSize: "18px", 
-            color: "#fff" 
+        <Typography
+          sx={{
+            fontFamily: "Nunito-Bold",
+            fontSize: "18px",
+            color: "#fff"
           }}
         >
-          { myClass && `${myClass.getName} (${myClass.getCapacity} Etudiants)` }
+          {myClass && `${myClass.getName} (${myClass.getCapacity} Etudiants)`}
         </Typography>
 
-        <Box 
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -85,15 +95,15 @@ const ProgramTable = () => {
             }
           }}
         >
-          <MdOutlineFileUpload 
+          <MdOutlineFileUpload
             color="#f8f8f8"
             size={20}
           />
 
-          <Typography 
-            sx={{ 
-              fontFamily: "Nunito-Bold", 
-              fontSize: "14px", 
+          <Typography
+            sx={{
+              fontFamily: "Nunito-Bold",
+              fontSize: "14px",
               ml: 1,
               color: "#fff"
             }}
@@ -105,7 +115,7 @@ const ProgramTable = () => {
         </Box>
       </Box>
 
-      <Box 
+      <Box
         sx={{
           overflowX: "auto"
         }}

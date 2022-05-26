@@ -110,7 +110,7 @@ class ClassController {
 
 	static findById = async (req, res)=>{
 
-		const{ codeClasse } = req.body
+		const { codeClasse } = req.body
 
 		if (codeClasse) {
 			const { data } = await ClassModel.findOne(codeClasse)

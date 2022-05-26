@@ -9,14 +9,14 @@ const ClassBody = () => {
 
   return (
     <section>
-      <div className={style.classTitle} > List of Classes </div>
+      <div className={style.classTitle} > Liste des Classes </div>
       <div className={style.classBody}>
-        <ClassTable />  
+        <ClassTable />
       </div>
 
-      <AddButton 
-        title="Ajouter classe" 
-        onClick={() => openModal('Ajouter classe', 'ADD_CLASS')}  
+      <AddButton
+        title="Ajouter classe"
+        onClick={() => openModal('Ajouter classe', 'ADD_CLASS')}
       />
     </section>
   )

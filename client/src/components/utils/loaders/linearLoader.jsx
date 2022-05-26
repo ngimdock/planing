@@ -7,7 +7,7 @@ const LinearLoader = ({ rounded }) => {
   const defaultRounded = rounded !== undefined ? rounded : true
 
   return (
-    <div 
+    <div
       className={styles.loadingContainer}
       style={{
         borderBottomLeftRadius: defaultRounded && 10,

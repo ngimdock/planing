@@ -15,7 +15,7 @@ const ProgramItem = ({ program }) => {
   }
 
   return (
-    <Box 
+    <Box
       sx={{
         position: "relative",
         width: "calc(100% - 16px)",
@@ -51,7 +51,7 @@ const ProgramItem = ({ program }) => {
             fontSize: 14,
             fontFamily: "Nunito-Bold"
           }}
-        >{ program.subjectCode.toUpperCase() }</Typography>
+        >{program.subjectCode.toUpperCase()}</Typography>
         <Typography
           as="span"
           sx={{
@@ -59,7 +59,7 @@ const ProgramItem = ({ program }) => {
             fontFamily: "Nunito-Bold",
             ml: 1
           }}
-        >({ program.roomName.toUpperCase() })</Typography>
+        >({program.roomName.toUpperCase()})</Typography>
       </Box>
 
       <Typography
@@ -69,13 +69,13 @@ const ProgramItem = ({ program }) => {
           fontFamily: "Nunito-Bold",
           color: "#555"
         }}
-      >{ program.teacherName.toUpperCase() }</Typography>
+      >{program.teacherName.toUpperCase()}</Typography>
 
-      <PopOver 
-        open={showPopover} 
+      <PopOver
+        open={showPopover}
         data={program}
-        onClose={() => handlePopover(null, false)} 
-        anchorEl={anchorElement}  
+        onClose={() => handlePopover(null, false)}
+        anchorEl={anchorElement}
       />
     </Box>
   )

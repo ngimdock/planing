@@ -104,7 +104,7 @@ const SemesterList = () => {
           variant="outlined"
           onClick={handleOpenModal}
         >
-          <BsFillPlusCircleFill 
+          <BsFillPlusCircleFill
             size={15}
             color="#ff8500"
           />
@@ -115,7 +115,7 @@ const SemesterList = () => {
         {
           programs.map((item, index) => {
             return (
-              <AccordionItem 
+              <AccordionItem
                 key={index}
                 headerTitle={item.value}
                 data={item.semesters}

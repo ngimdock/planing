@@ -77,7 +77,7 @@ class Classe_specModel{
             
         const value = [codeClasse, idSpec, capacity]
   
-        const query = "INSERT INTO Classe_spec (codeClass, idSpec, capacite) VALUES (?, ?, ?)"
+        const query = "INSERT INTO Classe_spec (codeClasse, idSpecialite, capacite) VALUES (?, ?, ?)"
   
         try {
                 console.log(value)
