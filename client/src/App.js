@@ -14,36 +14,39 @@ import RoomProvider from './datamanager/providers/roomProvider';
 import ClassProvider from './datamanager/providers/classProvider';
 import SubjectProvider from './datamanager/providers/subjectProvider';
 import PlanningProvider from './datamanager/providers/planningProvider';
+import { ExportProvider } from './datamanager/providers/exportProvider';
 
 function App() {
   return (
     <Fragment>
       <CurrentUserProvider>
-        <NavigationProvider>
-          <ModalProvider>
-            <PlanningNavigationProvider>
-              <ToastProvider>
-                <FacultyProvider>
-                  <LevelProvider>
-                    <SpecialityProvider>
-                      <TeacherProvider>
-                        <RoomProvider>
-                          <ClassProvider>
-                            <SubjectProvider>
-                              <PlanningProvider>
-                                <Navigation />
-                              </PlanningProvider>
-                            </SubjectProvider>
-                          </ClassProvider>
-                        </RoomProvider>
-                      </TeacherProvider>
-                    </SpecialityProvider>
-                  </LevelProvider>
-                </FacultyProvider>
-              </ToastProvider>
-            </PlanningNavigationProvider>
-          </ModalProvider>
-        </NavigationProvider>
+        <ExportProvider>
+          <NavigationProvider>
+              <ModalProvider>
+                <PlanningNavigationProvider>
+                  <ToastProvider>
+                    <FacultyProvider>
+                      <LevelProvider>
+                        <SpecialityProvider>
+                          <TeacherProvider>
+                            <RoomProvider>
+                              <ClassProvider>
+                                <SubjectProvider>
+                                  <PlanningProvider>
+                                    <Navigation />
+                                  </PlanningProvider>
+                                </SubjectProvider>
+                              </ClassProvider>
+                            </RoomProvider>
+                          </TeacherProvider>
+                        </SpecialityProvider>
+                      </LevelProvider>
+                    </FacultyProvider>
+                  </ToastProvider>
+                </PlanningNavigationProvider>
+              </ModalProvider>
+          </NavigationProvider>
+        </ExportProvider>
       </CurrentUserProvider>
     </Fragment>
   );
