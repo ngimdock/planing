@@ -5,12 +5,16 @@ import ModalContext from "../../../datamanager/contexts/modalContext"
 import TeacherAPI from '../../../api/teacher'
 import ToastContext from '../../../datamanager/contexts/toastContext'
 import TeacherContext from '../../../datamanager/contexts/teacherContext'
+import { MdOutlineFileUpload } from 'react-icons/md'
+import { ExportContext } from '../../../datamanager/contexts/exportContext'
+import ExportBaseLayout from '../../exports/base'
 
 const TeacherItem = ({ matricule, sexe, name, color }) => {
   //  get global state
   const { openModal } = useContext(ModalContext)
   const { showToast } = useContext(ToastContext)
   const { removeTeacher, setTeacher } = useContext(TeacherContext)
+  const { exportRef , handlePrintByTeacher } = useContext(ExportContext)
 
   // set local state
   const [error, setError] = useState("")
@@ -90,13 +94,28 @@ const TeacherItem = ({ matricule, sexe, name, color }) => {
 
                 <Box
                     sx={{
-                    width: 60,
+                    width: 80,
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between"
                     }}
                 >
+                    <Box 
+                        sx={{
+                            "&:hover": {
+                                cursor: 'pointer'
+                            }
+                        }}
+                        onClick={handlePrintByTeacher}
+                    >
+                        <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
+                        <MdOutlineFileUpload 
+                        color="#f8f8f8"
+                        size={28}
+                        />
+                    </Box>
+
                     <Box
                         sx={{
                             "&:hover" : {
