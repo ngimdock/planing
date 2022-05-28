@@ -55,7 +55,7 @@ const FacultyItem = ({ id, name, color }) => {
               cursor: 'pointer'
             }
           }}
-          onClick={() => openModal("Choisir le semestre", "EXPORT_PROGRAM")}
+          onClick={() => openModal("Choisir le semestre", "EXPORT_PROGRAM", { type: "faculty", data: { id, name } })}
         >
           <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
           <MdOutlineFileUpload

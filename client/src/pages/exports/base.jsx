@@ -10,12 +10,12 @@ const ExportBaseLayout = React.forwardRef((props, ref) => {
   const { programs } = useContext(ExportContext)
 
   return (
-    <div ref={ ref } className={styles.wrapper}
+    <div ref={ref} className={styles.wrapper}
     >
       <ExportHeader semestre={programs.semester} anneeAcademique={programs.academicYear} />
-        {/* {programs.map(program => ( */}
-          <TableContainer programs={programs} />
-        {/* ))} */}
+      {/* {programs.map(program => ( */}
+      <TableContainer programs={programs} />
+      {/* ))} */}
       <ExportFooter semestre={programs.semester} anneeAcademique={programs.academicYear} />
     </div>
   )

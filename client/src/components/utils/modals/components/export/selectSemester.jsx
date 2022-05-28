@@ -6,18 +6,28 @@ import Button from "../../../buttons/button"
 import styles from '../../css/modalContent.module.css'
 import AccordionItem from '../../../../../pages/program/components/AccordionItem';
 import PlanningContext from '../../../../../datamanager/contexts/planningContext';
+import { ExportContext } from '../../../../../datamanager/contexts/exportContext';
+import ExportBaseLayout from '../../../../../pages/exports/base'
 
 const SelectSemesterModalContent = () => {
   // Get data from global state
-  const { closeModal } = useContext(ModalContext)
+  const { closeModal, currentModalData } = useContext(ModalContext)
   const { programs } = useContext(PlanningContext)
+  const {
+    exportRef,
+    handlePrintByRoom,
+    handlePrintByFaculty,
+    handlePrintByTeacher,
+  } = useContext(ExportContext)
 
   // Set local state
-  const [academicYear, setAcademicYear] = useState(null)
+  const [academicYear, setAcademicYear] = useState(null) // This state contains data about semester and the academic year
 
   // UseEffect section
   useEffect(() => {
-    console.log("You can launch the printer here")
+    if (academicYear) {
+      handlePrintProgram()
+    }
   }, [academicYear])
 
   // Some handlers
@@ -27,9 +37,22 @@ const SelectSemesterModalContent = () => {
       idSemester: value.idSemester
     }
 
-    console.log(value)
-
     setAcademicYear(newValue)
+
+    closeModal()
+  }
+
+  const handlePrintProgram = () => {
+    // You can use this data to do what you want
+    console.log(currentModalData.data)
+
+    if (currentModalData.type === "faculty") {
+      handlePrintByFaculty()
+    } else if (currentModalData.type === "room") {
+      handlePrintByRoom()
+    } else if (currentModalData.type === "teacher") {
+      handlePrintByTeacher()
+    }
   }
 
   return (
@@ -69,6 +92,8 @@ const SelectSemesterModalContent = () => {
           onClick={closeModal}
         />
       </Box>
+
+      <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
     </section>
   )
 }

@@ -6,11 +6,16 @@ const ModalProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [currentModalName, setCurrentModalName] = useState("")
   const [currentModalCode, setCurrentModalCode] = useState("")
+  const [currentModalData, setCurrentModalData] = useState("")
 
   // Some handlers
-  const handleOpenModal = (modalName, modalCode) => {
+  const handleOpenModal = (modalName, modalCode, modalData) => {
     setCurrentModalName(modalName)
     setCurrentModalCode(modalCode)
+
+    if (modalData)
+      setCurrentModalData(modalData)
+
     setIsOpen(true)
   }
 
@@ -23,13 +28,14 @@ const ModalProvider = ({ children }) => {
     isOpen,
     currentModalName,
     currentModalCode,
+    currentModalData,
     openModal: handleOpenModal,
     closeModal: handleCloseModal
   }
 
   return (
     <ModalContext.Provider value={contextValue}>
-      { children }
+      {children}
     </ModalContext.Provider>
   )
 }
