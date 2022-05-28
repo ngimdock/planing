@@ -15,57 +15,6 @@ const SemesterList = () => {
   const { showToast } = useContext(ToastContext)
   const { programs, dispatch, setLoaded } = useContext(PlanningContext)
 
-  // Set local state
-  const [semestersList, setSemestersList] = useState([])
-
-  // UseEffect section
-  useEffect(() => {
-    handleGetAcademicYears()
-  }, [])
-
-  // Some handlers
-  const handleGetAcademicYears = async () => {
-    // Get academic years with semesters
-    const { data, error } = await AcademicYearAPI.getAll()
-
-    if (data) {
-      // Set the fact that the academic years have been loaded
-      setLoaded()
-
-      const academicYears = []
-
-      data.forEach(acaY => {
-        // Initialization of an academic year data
-        const academicYear = {
-          id: acaY.idAnneeAca,
-          value: acaY.valAnneeAca,
-          semesters: []
-        }
-
-        const semesters = []
-
-        acaY.semestres.forEach((semester) => {
-          // Initialization of a semester data
-          const semesterValue = {
-            id: semester.idSemestre,
-            value: "Semestre " + semester.valSemestre,
-            faculties: []
-          }
-
-          semesters.push(semesterValue)
-        })
-
-        academicYear.semesters = semesters
-
-        academicYears.push(academicYear)
-      })
-
-      dispatch(PlanningAction.addAcademicYears(academicYears))
-    } else {
-      showToast("Probleme de chargement de la liste des annees", "error")
-    }
-  }
-
   const handleOpenModal = () => {
     openModal("Ajouter Annee Academique", "ADD_ACADEMIC_YEAR")
   }

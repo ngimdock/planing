@@ -8,7 +8,7 @@ import PlanningAction from "../../../datamanager/actions/planning"
 import ClassContext from "../../../datamanager/contexts/classContext"
 import Class from "../../../entities/class"
 
-const ElementItem = ({ value, target, year, idSemester }) => {
+const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
   const {
@@ -31,6 +31,11 @@ const ElementItem = ({ value, target, year, idSemester }) => {
         value: `${value} | ${year.value}`
       })
       navigateTo(target, { field: "ACADEMIC_YEAR", value: 1 })
+    } else if (target === "export") {
+      onGetValue({
+        idAcay: year.id,
+        idSemester
+      })
     } else {
       handleGetProgramsByClass()
       navigateTo(target, { field: "CLASS", value: 1 })

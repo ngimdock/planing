@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import {Typography} from '@mui/material';
+import { Typography } from '@mui/material';
 import { BiChevronUp } from 'react-icons/bi'
 import ElementItem from './elementItem';
 
 
-const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
+const AccordionItem = ({ headerTitle, data, target, type, idYear, onGetValue }) => {
   const [expanded, setExpanded] = useState(false);
   const handleChange = (event) => {
     setExpanded(prev => !prev);
@@ -17,7 +17,7 @@ const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
     <Accordion expanded={expanded} onChange={handleChange}>
       <AccordionSummary
         expandIcon={
-          <BiChevronUp 
+          <BiChevronUp
             size={25}
             color="#fff"
           />
@@ -30,14 +30,14 @@ const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
         }}
       >
         <Typography sx={{ width: 'max-content', flexShrink: 0, fontFamily: "Nunito-Bold", marginRight: '15px' }}>
-          { headerTitle }
+          {headerTitle}
         </Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ p: 0 }}>
         {
           data?.map(item => {
             return (
-              <ElementItem 
+              <ElementItem
                 key={item.id}
                 value={type === "semester" ? item.value : item.getCode}
                 idSemester={type === "semester" && item.id}
@@ -46,6 +46,7 @@ const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
                   value: headerTitle
                 }}
                 target={target}
+                onGetValue={onGetValue ? onGetValue : (value) => { }}
               />
             )
           })
