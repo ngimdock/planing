@@ -1,52 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ExportHeader from './components/subComponents/exportHeader'
 import ExportFooter from './components/subComponents/exportFooter'
 import styles from './css/exports.module.css'
 import TableContainer from './components/tableContainer'
-
-const programs =  [
-  {
-    semestre: "1",
-    anneeAcademique: "2021-2022",
-    target: "INF-L1"
-  },
-  {
-    semestre: "2",
-    anneeAcademique: "2021-2022",
-    target: "INF-L1"
-  },
-  {
-    semestre: "1",
-    anneeAcademique: "2021-2022",
-    target: "INF-L2"
-  },
-  {
-    semestre: "2",
-    anneeAcademique: "2021-2022",
-    target: "INF-L2"
-  },
-  {
-    semestre: "1",
-    anneeAcademique: "2021-2022",
-    target: "INF-L3"
-  },
-  {
-    semestre: "2",
-    anneeAcademique: "2021-2022",
-    target: "INF-L3"
-  }
-]
+import { ExportContext } from '../../datamanager/contexts/exportContext'
 
 const ExportBaseLayout = React.forwardRef((props, ref) => {
+  // get program global state
+  const { programs } = useContext(ExportContext)
 
   return (
     <div ref={ ref } className={styles.wrapper}
     >
-      <ExportHeader />
-        {programs.map(program => (
-          <TableContainer program={program} />
-        ))}
-      <ExportFooter />
+      <ExportHeader semestre={programs.semester} anneeAcademique={programs.academicYear} />
+        {/* {programs.map(program => ( */}
+          <TableContainer programs={programs} />
+        {/* ))} */}
+      <ExportFooter semestre={programs.semester} anneeAcademique={programs.academicYear} />
     </div>
   )
 })
