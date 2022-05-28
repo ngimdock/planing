@@ -72,6 +72,29 @@ class ProgramAPI extends DefaultApiCall {
     }
 
   }
+  
+  static async getByRoom (data) {
+
+    const instance = this.insertToken(axiosInstance)
+
+    const {
+      idYear,
+      idSemester,
+      idSalle
+    } = data
+
+    if(!idYear || !idSemester || !idSalle) return { error: "Provide all the required params" }
+    
+    try{
+      const { data } = await instance.get(`/planified/room/${idYear}/${idSemester}/${idSalle}`)
+
+      if(data) return data
+    }catch(err){
+      console.log(err)
+      return { error: "An error occured" }
+    }
+
+  }
 
   static async getFaculty (data) {
 
