@@ -1,12 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import { ExportContext } from "../contexts/exportContext";
+import PlanningContext from "../contexts/planningContext";
 
-export const ExportProvider = ({ children }) => {
+export const ExportProvider = ({ children }) => {    
     // State section
     const exportRef = useRef();
     const [placeExport, setPlaceExport] = useState("")
+    const { getClass, currentSemester, currentClass } = useContext(PlanningContext)
+    const [programs, setPrograms] = useState({})
 
     // some setters
     const setAll = async() => {
@@ -16,9 +19,23 @@ export const ExportProvider = ({ children }) => {
     const setTeacher = async() => {
         setPlaceExport("Teacher")
     }
-
+    
     const setClass = async() => {
-        setPlaceExport("Class")
+        const payload = {
+            idAcademicYear : currentSemester.idYear,
+            idSemester: currentSemester.idSemester,
+            idFaculty: currentClass.faculty.id,
+            codeClass: currentClass.code
+        }
+        const prevResult = getClass(payload)
+        const newResult = {
+            ...prevResult,
+            semester: currentSemester.value.slice(9,10),
+            academicYear: currentSemester.value.slice(13,22)
+        }
+        setPrograms(newResult)
+        setPlaceExport(programs)
+        console.log(prevResult)
     }
 
     const setRoom = async() => {
@@ -45,7 +62,7 @@ export const ExportProvider = ({ children }) => {
             await setClass()
         },
         content: () => exportRef.current,
-        documentTitle: "Class",
+        documentTitle: `Time_Table_${currentClass && currentClass.code.replace("_", "-")}_Semester_${currentSemester && currentSemester.value.slice(9,10)}_Year_${currentSemester && currentSemester.value.slice(13,22)}`,
         copyStyles: true
     })
 
@@ -85,7 +102,8 @@ export const ExportProvider = ({ children }) => {
             handlePrintByFaculty,
             handlePrintByTeacher, 
             setPlaceExport,
-            placeExport
+            placeExport,
+            programs
         }}>
             {children}
         </ExportContext.Provider>
