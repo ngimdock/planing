@@ -4,14 +4,15 @@ import exportBaseStyle from '../css/exports.module.css'
 import TableHeader from './tableHeader'
 import TableItem from './tableItem'
 
-const TableContainer = ({ program }) => {
+const TableContainer = ({ programs }) => {
+
   return (
     <div className={exportBaseStyle.divisor}>
-        <TableHeader semestre={program.semestre} anneeAcademique={program.anneeAcademique} />
+        <TableHeader semestre={programs.semester} anneeAcademique={programs.academicYear} />
         <b>
-            <h3 className={styles.fac_level}>{program.target}</h3>
+            <h3 className={styles.fac_level}>{programs.code}</h3>
         </b>
-        <TableItem />
+        <TableItem program={programs.programs} />
     </div>
 
   )
