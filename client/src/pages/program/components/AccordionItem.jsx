@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import {Typography, Box} from '@mui/material';
+import {Typography} from '@mui/material';
 import { BiChevronUp } from 'react-icons/bi'
 import ElementItem from './elementItem';
-import { MdOutlineFileUpload } from 'react-icons/md'
-import { ExportContext } from '../../../datamanager/contexts/exportContext';
 
 
 const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
   const [expanded, setExpanded] = useState(false);
-  const { handlePrint } = useContext(ExportContext)
   const handleChange = (event) => {
     setExpanded(prev => !prev);
   }
@@ -32,46 +29,9 @@ const AccordionItem = ({ headerTitle, data, target, type, idYear }) => {
           color: "#fff"
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            width: "95%",
-            justifyContent: "space-between"
-          }}
-        >
-          <Typography sx={{ width: 'max-content', flexShrink: 0, fontFamily: "Nunito-Bold", marginRight: '15px' }}>
-            { headerTitle }
-          </Typography>
-
-          <Box 
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              "&:hover": {
-                cursor: 'pointer'
-              }
-            }}
-          >
-            <MdOutlineFileUpload 
-              color="#f8f8f8"
-              size={20}
-            />
-
-            <Typography 
-              sx={{ 
-                fontFamily: "Nunito-Bold", 
-                fontSize: "14px", 
-                ml: 1,
-                color: "#fff"
-              }}
-              onClick={handlePrint}
-            >
-              Exporter
-            </Typography>
-          </Box> 
-        </Box>
-
+        <Typography sx={{ width: 'max-content', flexShrink: 0, fontFamily: "Nunito-Bold", marginRight: '15px' }}>
+          { headerTitle }
+        </Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ p: 0 }}>
         {

@@ -3,11 +3,11 @@ import TableHeader from '../tableHeader'
 import exportBaseStyle from '../../css/exports.module.css'
 import styles from './css/exportFooter.module.css'
 
-const ExportFooter = () => {
+const ExportFooter = ({ semestre, anneeAcademique }) => {
     return (
 
         <div className={exportBaseStyle.divisor}>
-            <TableHeader />
+            <TableHeader semestre={semestre} anneeAcademique={anneeAcademique}  />
             <nav className={styles.nav}>
                 <ul>
                     <li>LE PORT DES MASQUES EST OBLIGATOIRE DANS LES SALLES DE COURS</li>

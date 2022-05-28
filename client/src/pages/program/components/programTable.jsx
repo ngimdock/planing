@@ -17,16 +17,16 @@ const ProgramTable = () => {
   useEffect(() => {
     console.log("Updated in UseEffect")
   }, [currentClass])
-
+  
   const myClass = useMemo(() => {
     console.log("Updated")
-
+    
     return currentClass
   }, [currentClass])
-
+  
   return (
     <Box
-      sx={{
+    sx={{
         borderRadius: 2,
         width: "calc(100% - 5px)",
         flexShrink: 0,
