@@ -20,11 +20,12 @@ function App() {
   return (
     <Fragment>
       <CurrentUserProvider>
-        <ExportProvider>
-          <NavigationProvider>
-              <ModalProvider>
-                <PlanningNavigationProvider>
-                  <ToastProvider>
+        <NavigationProvider>
+          <ModalProvider>
+            <PlanningNavigationProvider>
+              <ToastProvider>
+                <PlanningProvider>
+                  <ExportProvider>
                     <FacultyProvider>
                       <LevelProvider>
                         <SpecialityProvider>
@@ -32,9 +33,7 @@ function App() {
                             <RoomProvider>
                               <ClassProvider>
                                 <SubjectProvider>
-                                  <PlanningProvider>
-                                    <Navigation />
-                                  </PlanningProvider>
+                                  <Navigation />
                                 </SubjectProvider>
                               </ClassProvider>
                             </RoomProvider>
@@ -42,11 +41,12 @@ function App() {
                         </SpecialityProvider>
                       </LevelProvider>
                     </FacultyProvider>
-                  </ToastProvider>
-                </PlanningNavigationProvider>
-              </ModalProvider>
-          </NavigationProvider>
-        </ExportProvider>
+                  </ExportProvider>
+                </PlanningProvider>
+              </ToastProvider>
+            </PlanningNavigationProvider>
+          </ModalProvider>
+        </NavigationProvider>
       </CurrentUserProvider>
     </Fragment>
   );
