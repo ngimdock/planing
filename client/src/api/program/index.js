@@ -110,7 +110,7 @@ class ProgramAPI extends DefaultApiCall {
     return { error: "Provide all the required params" } 
 
     try{
-      const { data } = await instance.get(`/planified/teacher/${idYear}/${idSemester}/${idFaculty}`)
+      const { data } = await instance.get(`/planified/filiere/${idYear}/${idSemester}/${idFaculty}`)
 
       if(data) return data
     }catch(err){

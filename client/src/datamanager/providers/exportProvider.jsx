@@ -1,13 +1,16 @@
 import React, { useContext, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
+import ProgramAPI from "../../api/program";
 
 import { ExportContext } from "../contexts/exportContext";
 import PlanningContext from "../contexts/planningContext";
 
 export const ExportProvider = ({ children }) => {    
+
     // State section
     const exportRef = useRef();
     const [placeExport, setPlaceExport] = useState("")
+    const [currentExportData, setCurrentExportData] = useState({})
     const { getClass, currentSemester, currentClass } = useContext(PlanningContext)
     const [programs, setPrograms] = useState({})
 
@@ -17,7 +20,29 @@ export const ExportProvider = ({ children }) => {
     }
 
     const setTeacher = async() => {
-        setPlaceExport("Teacher")
+        const payload = {
+            idYear: currentExportData.academicYear.idAcademicYear,
+            idSemester: currentExportData.academicYear.idSemester,
+            matriculeTeacher: currentExportData.objectData.id
+        }
+        console.log(payload)
+        const { data } = await ProgramAPI.getByTeacher(payload)
+        // console.log(programmation)
+        console.log(data)
+
+        // correct the presence of codeRoom here
+        // fix the formats of the dates
+        // set a get method for the semester and the academicYear
+        const prevResult = { ...data }
+        console.log(prevResult)
+        const newResult = {
+            ...prevResult,
+            semester: "1",
+            academicYear: "1"
+        }
+        setPrograms(newResult)
+        setPlaceExport(programs)
+        console.log(newResult)
     }
     
     const setClass = async() => {
@@ -39,11 +64,51 @@ export const ExportProvider = ({ children }) => {
     }
 
     const setRoom = async() => {
-        setPlaceExport("Room")
+        const payload = {
+            idYear: currentExportData.academicYear.idAcademicYear,
+            idSemester: currentExportData.academicYear.idSemester,
+            idSalle: currentExportData.objectData.id
+        }
+        console.log(payload)
+        const { data } = await ProgramAPI.getByRoom(payload)
+        // console.log(programmation)
+        console.log(data)
+
+        // correct the presence of codeRoom here
+        // fix the formats of the dates
+        // set a get method for the semester and the academicYear
+        const prevResult = { ...data }
+        console.log(prevResult)
+        const newResult = {
+            ...prevResult,
+            semester: "1",
+            academicYear: "1"
+        }
+        setPrograms(newResult)
+        setPlaceExport(programs)
+        console.log(newResult)
     }
 
     const setFaculty = async() => {
-        setPlaceExport("Faculty")
+        const payload = {
+            idYear: currentExportData.academicYear.idAcademicYear,
+            idSemester: currentExportData.academicYear.idSemester,
+            idFaculty: currentExportData.objectData.id
+        }
+        const { data } = await ProgramAPI.getFaculty(payload)
+        // console.log(programmation)
+        // Fix the formats of the dates
+        // set a get method for the semester and the academicYear
+        const prevResult = { ...data }
+        console.log(prevResult)
+        const newResult = {
+            ...prevResult,
+            semester: "1",
+            academicYear: "1"
+        }
+        setPrograms(newResult)
+        setPlaceExport(programs)
+        console.log(newResult)
     }
 
     // some export handlers
@@ -103,7 +168,9 @@ export const ExportProvider = ({ children }) => {
             handlePrintByTeacher, 
             setPlaceExport,
             placeExport,
-            programs
+            programs,
+            currentExportData,
+            setCurrentExportData
         }}>
             {children}
         </ExportContext.Provider>

@@ -15,10 +15,14 @@ const SelectSemesterModalContent = () => {
   const { programs } = useContext(PlanningContext)
   const {
     exportRef,
+    // currentExportData,
+    setCurrentExportData,
     handlePrintByRoom,
     handlePrintByFaculty,
     handlePrintByTeacher,
   } = useContext(ExportContext)
+
+  console.log(programs)
 
   // Set local state
   const [academicYear, setAcademicYear] = useState(null) // This state contains data about semester and the academic year
@@ -38,8 +42,12 @@ const SelectSemesterModalContent = () => {
     }
 
     setAcademicYear(newValue)
-
     closeModal()
+    handleSetCurrentExportData(newValue)
+  }
+  
+  const handleSetCurrentExportData = (newValue) => {
+    setCurrentExportData({ objectData: currentModalData.data, academicYear: newValue })
   }
 
   const handlePrintProgram = () => {
