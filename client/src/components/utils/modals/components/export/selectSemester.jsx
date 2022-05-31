@@ -26,6 +26,7 @@ const SelectSemesterModalContent = () => {
   // UseEffect section
   useEffect(() => {
     if (academicYear) {
+      console.log(academicYear)
       handlePrintProgram()
     }
   }, [academicYear])
@@ -33,8 +34,9 @@ const SelectSemesterModalContent = () => {
   // Some handlers
   const handleChange = (value) => {
     const newValue = {
+      ...value,
       idAcademicYear: value.idAcay,
-      idSemester: value.idSemester
+      idAcay: undefined
     }
 
     setAcademicYear(newValue)

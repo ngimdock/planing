@@ -47,14 +47,14 @@ const LevelProvider = ({ children }) => {
   const handleUpdateLevel = ({ id, name }) => {
 
     if (id && name) {
-      levels.forEach(lev =>{
+      levels.forEach(lev => {
         if (lev.id === id) {
           lev.name = name
         }
       })
       setLevels(levels)
     }
-    
+
   }
 
   const handleRemoveLevel = (id) => {
@@ -65,14 +65,14 @@ const LevelProvider = ({ children }) => {
       console.log(id)
       const levelsPrevState = [...levels]
 
-      levelsPrevState.forEach(lev =>{
-        if ( lev.id !== id ) {
+      levelsPrevState.forEach(lev => {
+        if (lev.id !== id) {
           levelNewState.push(lev)
         }
       })
       setLevels(levelNewState)
     }
-    
+
   }
 
   const handleSelectLevel = (data) => {
@@ -93,7 +93,7 @@ const LevelProvider = ({ children }) => {
 
   return (
     <LevelContext.Provider value={contextValue}>
-      { children }
+      {children}
     </LevelContext.Provider>
   )
 }

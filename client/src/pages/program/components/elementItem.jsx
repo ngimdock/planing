@@ -34,7 +34,9 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
     } else if (target === "export") {
       onGetValue({
         idAcay: year.id,
-        idSemester
+        acayValue: year.value,
+        idSemester,
+        semesterValue: value
       })
     } else {
       handleGetProgramsByClass()
