@@ -7,6 +7,9 @@ import ProgramAPI from "../../../api/program"
 import PlanningAction from "../../../datamanager/actions/planning"
 import ClassContext from "../../../datamanager/contexts/classContext"
 import Class from "../../../entities/class"
+import ExportBaseLayout from "../../exports/base"
+import { ExportContext } from "../../../datamanager/contexts/exportContext"
+import { MdOutlineFileUpload } from "react-icons/md"
 
 const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   // Get global state
@@ -21,6 +24,7 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
   const { getClass: getUniqueClass } = useContext(ClassContext)
+  const { exportRef, handlePrintAll } = useContext(ExportContext)
 
   // Some handlers
   const handleNavigateTo = () => {
@@ -34,7 +38,9 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
     } else if (target === "export") {
       onGetValue({
         idAcay: year.id,
-        idSemester
+        acayValue: year.value,
+        idSemester,
+        semesterValue: value
       })
     } else {
       handleGetProgramsByClass()
@@ -80,35 +86,92 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
     selectClass(myClass)
   }
 
+  const handlePrint = () => {
+    const academicYear = {
+      idAcay: year.id,
+      acayValue: year.value,
+      idSemester,
+      semesterValue: value
+    }
+
+    console.log(academicYear)
+
+    handlePrintAll()
+  }
+
   return (
     <Box
       sx={{
-        width: "calc(100% - 32px)",
-        p: 2,
-        transition: "all .4s",
-        "&:hover": {
-          backgroundColor: "#fff2e4",
-          cursor: "pointer"
-        },
-        "&:hover > span": {
-          color: "#ff8500"
-        },
-        "&:not(:last-child)": {
-          borderBottom: "1px solid #ccc"
-        }
+        position: "relative"
       }}
-      onClick={handleNavigateTo}
     >
-      <Typography
-        as="span"
+      <Box
         sx={{
-          color: "#555",
-          fontFamily: "Nunito-Bold",
-          transition: "all .4s"
+          position: "relative",
+          width: "calc(100% - 32px)",
+          p: 2,
+          transition: "all .4s",
+          "&:hover": {
+            backgroundColor: "#fff2e4",
+            cursor: "pointer"
+          },
+          "&:hover > span": {
+            color: "#ff8500"
+          },
+          "&:not(:last-child)": {
+            borderBottom: "1px solid #ccc"
+          }
         }}
+        onClick={handleNavigateTo}
       >
-        {value}
-      </Typography>
+        <Typography
+          as="span"
+          sx={{
+            color: "#555",
+            fontFamily: "Nunito-Bold",
+            transition: "all .4s"
+          }}
+        >
+          {value}
+        </Typography>
+
+      </Box>
+
+      {
+        target === "classes" && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: "120px",
+              height: "55px",
+              zIndex: 15,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer"
+            }}
+          >
+            <MdOutlineFileUpload
+              color="#555"
+              size={25}
+            />
+            <Typography
+              sx={{
+                fontFamily: "Nunito-Bold",
+                fontSize: "14px",
+                ml: 1,
+                color: "#555"
+              }}
+              onClick={handlePrint}
+            >
+              <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
+              Exporter
+            </Typography>
+          </Box>
+        )
+      }
     </Box>
   )
 }
