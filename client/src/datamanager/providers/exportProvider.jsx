@@ -84,8 +84,8 @@ export const ExportProvider = ({ children }) => {
             return newResult
         } else {
             const payload = {
-                idYear: currentExportData.idAcay,
-                idSemester: currentExportData.idSemester
+                idYear: currentExportData.academicYear.idAcay,
+                idSemester: currentExportData.academicYear.idSemester
             }
             console.log(payload)
             const { data } = await ProgramAPI.getAll(payload)
@@ -98,8 +98,8 @@ export const ExportProvider = ({ children }) => {
             console.log(prevResult)
             const newResult = [
                 prevResult,
-                currentExportData.semesterValue.slice(9,10),
-                currentExportData.acayValue
+                currentExportData.academicYear.semesterValue.slice(9,10),
+                currentExportData.academicYear.acayValue
             ]
             console.log(newResult)
             return newResult
