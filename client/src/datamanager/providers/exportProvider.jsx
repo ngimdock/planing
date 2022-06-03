@@ -1,23 +1,118 @@
 import React, { useContext, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
+import ProgramAPI from "../../api/program";
 
 import { ExportContext } from "../contexts/exportContext";
 import PlanningContext from "../contexts/planningContext";
+import ToastContext from "../contexts/toastContext";
 
 export const ExportProvider = ({ children }) => {    
+
     // State section
     const exportRef = useRef();
     const [placeExport, setPlaceExport] = useState("")
     const { getClass, currentSemester, currentClass } = useContext(PlanningContext)
     const [programs, setPrograms] = useState({})
+    const { showToast } = useContext(ToastContext)
+    const [readyToExport, setReadyToExport] = useState(false)
+
+    const handleChargeTheExportComponent = async(type, currentExportData) => {
+        if(type === "teacher") {
+            console.log(currentExportData);
+            const payload = {
+                idYear: currentExportData.academicYear.idAcademicYear,
+                idSemester: currentExportData.academicYear.idSemester,
+                matriculeTeacher: currentExportData.objectData.id
+            }
+            console.log(payload)
+            const { data } = await ProgramAPI.getByTeacher(payload)
+            console.log(data)
+    
+            // correct the presence of codeRoom here
+            // fix the formats of the dates
+            // fix the format of the data
+            const prevResult = { ...data }
+            console.log(prevResult)
+            const newResult = {
+                code: {...prevResult}.NameTeacher || currentExportData.objectData.name,
+                programs: {...prevResult}.programs,
+                semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                academicYear: currentExportData.academicYear.acayValue
+            }
+            console.log(newResult)
+            return newResult
+        } else if(type === "room") {
+            const payload = {
+                idYear: currentExportData.academicYear.idAcademicYear,
+                idSemester: currentExportData.academicYear.idSemester,
+                idSalle: currentExportData.objectData.id
+            }
+            console.log(payload)
+            const { data } = await ProgramAPI.getByRoom(payload)
+            console.log(data)
+    
+            // correct the presence of codeRoom here
+            // fix the formats of the dates
+            // fix the format of the data
+            const prevResult = { ...data }
+            console.log(prevResult)
+            const newResult = {
+                code: {...prevResult}.CodeRoom || currentExportData.objectData.name,
+                programs: {...prevResult}.programs,
+                semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                academicYear: currentExportData.academicYear.acayValue
+            }
+            console.log(newResult)
+            return newResult
+        } else if(type === "faculty") {
+            const payload = {
+                idYear: currentExportData.academicYear.idAcademicYear,
+                idSemester: currentExportData.academicYear.idSemester,
+                idFaculty: currentExportData.objectData.id
+            }
+            const { data } = await ProgramAPI.getFaculty(payload)
+            // Fix the formats of the dates
+            // fix the format of the data
+            const prevResult = { ...data }
+            console.log(prevResult)
+            const newResult = {
+                ...prevResult,
+                semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                academicYear: currentExportData.academicYear.acayValue
+            }
+            console.log(newResult)
+            return newResult
+        } else {
+            const payload = {
+                idYear: currentExportData.idAcay,
+                idSemester: currentExportData.idSemester
+            }
+            console.log(payload)
+            const { data } = await ProgramAPI.getAll(payload)
+            console.log(data)    
+    
+            // correct the presence of codeRoom here
+            // fix the formats of the dates
+            // fix the format of the data
+            const prevResult = [...data]
+            console.log(prevResult)
+            const newResult = [
+                prevResult,
+                currentExportData.semesterValue.slice(9,10),
+                currentExportData.acayValue
+            ]
+            console.log(newResult)
+            return newResult
+        }
+    }
 
     // some setters
     const setAll = async() => {
-        setPlaceExport("All")
+        showToast("Semester X programs exporting", "success")
     }
 
     const setTeacher = async() => {
-        setPlaceExport("Teacher")
+        showToast("Teacher X programs exporting", "success")
     }
     
     const setClass = async() => {
@@ -34,16 +129,15 @@ export const ExportProvider = ({ children }) => {
             academicYear: currentSemester.value.slice(13,22)
         }
         setPrograms(newResult)
-        setPlaceExport(programs)
         console.log(prevResult)
     }
 
     const setRoom = async() => {
-        setPlaceExport("Room")
+        showToast("Room X programs exporting", "success")
     }
 
     const setFaculty = async() => {
-        setPlaceExport("Faculty")
+        showToast("Faculty X programs exporting", "success")
     }
 
     // some export handlers
@@ -71,7 +165,8 @@ export const ExportProvider = ({ children }) => {
             await setFaculty()
         },
         content: () => exportRef.current,
-        documentTitle: "Faculty",
+        documentTitle: `Time_Table_${"code"}_Semester_${"undefined"}_Year_${"undefined"}`,
+            // Semester_${currentExportData.academicYear.semesterValue.slice(9,10)}_Year_${// currentExportData.academicYear.acayValue == undefined ? 
         copyStyles: true
     })
 
@@ -103,7 +198,11 @@ export const ExportProvider = ({ children }) => {
             handlePrintByTeacher, 
             setPlaceExport,
             placeExport,
-            programs
+            programs,
+            setPrograms,
+            handleChargeTheExportComponent,
+            readyToExport,
+            setReadyToExport
         }}>
             {children}
         </ExportContext.Provider>

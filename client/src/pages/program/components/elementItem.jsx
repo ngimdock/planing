@@ -7,7 +7,7 @@ import ProgramAPI from "../../../api/program"
 import PlanningAction from "../../../datamanager/actions/planning"
 import ClassContext from "../../../datamanager/contexts/classContext"
 import Class from "../../../entities/class"
-import ExportBaseLayout from "../../exports/base"
+import ExportAllBaseLayout from "../../exports/baseAll"
 import { ExportContext } from "../../../datamanager/contexts/exportContext"
 import { MdOutlineFileUpload } from "react-icons/md"
 
@@ -24,7 +24,7 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
   const { getClass: getUniqueClass } = useContext(ClassContext)
-  const { exportRef, handlePrintAll } = useContext(ExportContext)
+  const { exportRef, handlePrintAll, setCurrentExportData } = useContext(ExportContext)
 
   // Some handlers
   const handleNavigateTo = () => {
@@ -94,9 +94,13 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
       semesterValue: value
     }
 
+    handleSetCurrentExportData(academicYear)
     console.log(academicYear)
-
     handlePrintAll()
+  }
+  
+  const handleSetCurrentExportData = (academicYear) => {
+    setCurrentExportData(academicYear)
   }
 
   return (
@@ -166,7 +170,7 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
               }}
               onClick={handlePrint}
             >
-              <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
+              <div style={{ display: "none" }}><ExportAllBaseLayout ref={exportRef} /></div>
               Exporter
             </Typography>
           </Box>

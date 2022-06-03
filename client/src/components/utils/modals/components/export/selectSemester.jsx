@@ -18,30 +18,38 @@ const SelectSemesterModalContent = () => {
     handlePrintByRoom,
     handlePrintByFaculty,
     handlePrintByTeacher,
+    setPrograms,
+    readyToExport,
+    setReadyToExport,
+    handleChargeTheExportComponent
   } = useContext(ExportContext)
 
-  // Set local state
-  const [academicYear, setAcademicYear] = useState(null) // This state contains data about semester and the academic year
+  console.log(programs)
 
-  // UseEffect section
   useEffect(() => {
-    if (academicYear) {
-      console.log(academicYear)
+    if (readyToExport) {
       handlePrintProgram()
+      setReadyToExport(false)
     }
-  }, [academicYear])
+  }, [readyToExport])
 
   // Some handlers
-  const handleChange = (value) => {
+  const handleChange = async(value) => {
     const newValue = {
       ...value,
       idAcademicYear: value.idAcay,
       idAcay: undefined
     }
 
-    setAcademicYear(newValue)
-
+    console.log(newValue);
+    await handleSetCurrentExportData(newValue)
     closeModal()
+  }
+  
+  const handleSetCurrentExportData = async(newValue) => {
+    const newProgram = await handleChargeTheExportComponent(currentModalData.type, { objectData: currentModalData.data, academicYear: newValue })
+    setPrograms(newProgram)
+    setReadyToExport(true)
   }
 
   const handlePrintProgram = () => {
