@@ -24,7 +24,7 @@ const UpdateSubjectModalContent = () => {
   const { showToast } = useContext(ToastContext)
 
   // Set local state
-  const [subject, setSubject] = useState({...selectedSubject, speciality: selectedSubject.speciality.getId})
+  const [subject, setSubject] = useState({...selectedSubject, speciality: selectedSubject.speciality?.getId})
   const [loading, setLoading] = useState(false)
   const [codeAlreadyExist, setCodeAlreadyExist] = useState(true)
   const [checkingCode, setCheckingCode] = useState(false)
