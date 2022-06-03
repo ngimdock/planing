@@ -100,12 +100,50 @@ class planifiedModel {
 
     static SimpleFormatProgram = (data, type) => {
 
+        if (data.length > 0) {
+            const property = type === "teacher" ? "NameTeacher" : "CodeRoom"
+            const value = type === "teacher" ? data[0].nomEns : data[0].nomSal
+            
+            // data formated
+            const programsFormated = {
+                [property] : value,
+                programs: {
+                    "Lundi": [],
+                    "Mardi": [],
+                    "Mercredi": [],
+                    "Jeudi": [],
+                    "Vendredi": [],
+                    "Samedi": [],
+                    "Dimanche": []
+                }
+            }
+    
+            // remove teacher's name from all data
+            const formatData = data.map(program => {
+                return({
+                    subjectCode: program.codeCours,
+                    subjectDescription: program.descriptionCours,
+                    roomName: program.nomSal,
+                    teacherName: program.nomEns,
+                    day: program.nomJour,
+                    group: program.nomGroupe,
+                    startHour: program.heureDebut,
+                    endHour: program.heureFin
+                })
+            })
+    
+            for(let program of formatData){
+                programsFormated.programs[program.day].push(program)
+            }
+    
+            return programsFormated
+        }
+
         const property = type === "teacher" ? "NameTeacher" : "CodeRoom"
-        const value = type === "teacher" ? data[0].nomEns : data[0].nomSal
-        
+            
         // data formated
         const programsFormated = {
-            [property] : value,
+            [property] : "",
             programs: {
                 "Lundi": [],
                 "Mardi": [],
@@ -115,24 +153,6 @@ class planifiedModel {
                 "Samedi": [],
                 "Dimanche": []
             }
-        }
-
-        // remove teacher's name from all data
-        const formatData = data.map(program => {
-            return({
-                subjectCode: program.codeCours,
-                subjectDescription: program.descriptionCours,
-                roomName: program.nomSal,
-                teacherName: program.nomEns,
-                day: program.nomJour,
-                group: program.nomGroupe,
-                startHour: program.heureDebut,
-                endHour: program.heureFin
-            })
-        })
-
-        for(let program of formatData){
-            programsFormated.programs[program.day].push(program)
         }
 
         return programsFormated
@@ -329,12 +349,14 @@ class planifiedModel {
 
         try{
             const [rows] = await connection.execute(query, [idSemestre, idAnneeAca, matriculeEns])
+            console.log(rows);
 
             const programFormated = this.SimpleFormatProgram(rows, "teacher")
 
+
             return { data: programFormated }
         }catch(err){
-            console.log(err.message)
+            console.log(err)
 
             return{ error: "An error occured while geting programs by teachers" }
         }
