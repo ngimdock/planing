@@ -1,3 +1,4 @@
+import { convertTimeFromStringToNumber } from "../utils/format.js";
 import connection from "../utils/index.js";
 import FollowModel from "./FollowModel.js";
 
@@ -120,8 +121,8 @@ class planifiedModel {
           teacherName: program.nomEns,
           day: program.nomJour,
           group: program.nomGroupe,
-          startHour: program.heureDebut,
-          endHour: program.heureFin,
+          startHour: convertTimeFromStringToNumber(program.heureDebut),
+          endHour: convertTimeFromStringToNumber(program.heureFin),
         };
       });
 
@@ -195,8 +196,8 @@ class planifiedModel {
         day: prog.nomJour,
         groupId: prog.idGroupe,
         group: prog.nomGroupe,
-        startHour: prog.heureDebut,
-        endHour: prog.heureFin,
+        startHour: convertTimeFromStringToNumber(prog.heureDebut),
+        endHour: convertTimeFromStringToNumber(prog.heureFin),
       };
 
       // Get indexes of faculty and class
