@@ -15,7 +15,7 @@ class ProgramAPI extends DefaultApiCall {
     if(!idYear || !idSemester) return { error: "Provide all the required params" }
 
     try{
-      const { data } = await instance.get(`/planified/classe/${idYear}/${idSemester}`)
+      const { data } = await instance.get(`/planified/${idYear}/${idSemester}`)
 
       if(data) return data
     }catch(err){

@@ -84,7 +84,7 @@ class PlanifiedController {
         
         const { data, error } = await PlanifiedModel.getProgramByTeacher(req.params)
 
-        if(data) return res.status(201).json({ data })
+        if(data) return res.status(200).json({ data })
 
         return res.status(500).json({ error })
     }
