@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import PlanningNavigationContext from "../../../datamanager/contexts/planningNavigationContext"
 import ToastContext from "../../../datamanager/contexts/toastContext"
 import PlanningContext from "../../../datamanager/contexts/planningContext"
@@ -24,7 +24,23 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
   const { getClass: getUniqueClass } = useContext(ClassContext)
-  const { exportRef, handlePrintAll, setCurrentExportData } = useContext(ExportContext)
+  const { 
+    programs, 
+    setPrograms,
+    exportRef, 
+    handlePrintAll, 
+    setCurrentExportData, 
+    readyToExport, 
+    setReadyToExport,
+    handleChargeTheExportComponent
+  } = useContext(ExportContext)
+
+  useEffect(() => {
+    if (readyToExport) {
+      handlePrintAll()
+      setReadyToExport(false)
+    }
+  }, [readyToExport])
 
   // Some handlers
   const handleNavigateTo = () => {
@@ -86,7 +102,7 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
     selectClass(myClass)
   }
 
-  const handlePrint = () => {
+  const handlePrint = async() => {
     const academicYear = {
       idAcay: year.id,
       acayValue: year.value,
@@ -94,13 +110,15 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
       semesterValue: value
     }
 
-    handleSetCurrentExportData(academicYear)
+    await handleSetCurrentExportData(academicYear)
     console.log(academicYear)
-    handlePrintAll()
   }
   
-  const handleSetCurrentExportData = (academicYear) => {
-    setCurrentExportData(academicYear)
+  const handleSetCurrentExportData = async(academicYear) => {
+
+    const newProgram = await handleChargeTheExportComponent("all", { academicYear })
+    setPrograms(newProgram)
+    setReadyToExport(true)
   }
 
   return (
