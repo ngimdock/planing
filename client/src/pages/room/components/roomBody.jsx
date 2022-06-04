@@ -24,7 +24,7 @@ const RoomBody = () => {
                 title={room.getName}
                 value={`${room.getCapacity} Places`}
                 capacity={room.getCapacity}
-                color={generateColor()}
+                color={room.getColor}
               />
             )
           })
