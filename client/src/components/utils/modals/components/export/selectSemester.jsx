@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Box } from "@mui/material"
 import { useContext } from "react"
 import ModalContext from "../../../../../datamanager/contexts/modalContext"
@@ -8,13 +8,16 @@ import AccordionItem from '../../../../../pages/program/components/AccordionItem
 import PlanningContext from '../../../../../datamanager/contexts/planningContext';
 import { ExportContext } from '../../../../../datamanager/contexts/exportContext';
 import ExportBaseLayout from '../../../../../pages/exports/base'
+import ToastContext from '../../../../../datamanager/contexts/toastContext';
 
 const SelectSemesterModalContent = () => {
   // Get data from global state
   const { closeModal, currentModalData } = useContext(ModalContext)
   const { programs } = useContext(PlanningContext)
+  const { showToast } = useContext(ToastContext)
   const {
     exportRef,
+    setExportName,
     handlePrintByRoom,
     handlePrintByFaculty,
     handlePrintByTeacher,
@@ -42,14 +45,20 @@ const SelectSemesterModalContent = () => {
     }
 
     console.log(newValue);
+    setExportName(currentModalData.data.name)
     await handleSetCurrentExportData(newValue)
     closeModal()
   }
   
   const handleSetCurrentExportData = async(newValue) => {
-    const newProgram = await handleChargeTheExportComponent(currentModalData.type, { objectData: currentModalData.data, academicYear: newValue })
-    setPrograms(newProgram)
-    setReadyToExport(true)
+    const {newProgram, hasProgram } = await handleChargeTheExportComponent(currentModalData.type, { objectData: currentModalData.data, academicYear: newValue })
+    if(hasProgram) {
+      setPrograms(newProgram)
+      setReadyToExport(hasProgram)
+    } else {
+      showToast("A program has not yet been defined", "error")
+      setReadyToExport(hasProgram)
+    }
   }
 
   const handlePrintProgram = () => {
