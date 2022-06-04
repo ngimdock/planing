@@ -12,7 +12,7 @@ class ProgramAPI extends DefaultApiCall {
 
     try {
       const { data } = await instance.get(
-        `/planified/classe/${idYear}/${idSemester}`
+        `/planified/${idYear}/${idSemester}`
       );
 
       if (data) return data;
@@ -95,7 +95,7 @@ class ProgramAPI extends DefaultApiCall {
 
     try {
       const { data } = await instance.get(
-        `/planified/teacher/${idYear}/${idSemester}/${idFaculty}`
+        `/planified/filiere/${idYear}/${idSemester}/${idFaculty}`
       );
 
       if (data) return data;
