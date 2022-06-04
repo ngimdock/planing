@@ -14,6 +14,12 @@ const ProgramItem = ({ program }) => {
     setShowPopover(val)
   }
 
+  const formatGroupName = (groupName) => {
+    const groupNameSplited = groupName.split(" ")
+
+    return `${groupNameSplited[0][0].toUpperCase()}${groupNameSplited[1]}:  `
+  }
+
   return (
     <Box
       sx={{
@@ -51,7 +57,7 @@ const ProgramItem = ({ program }) => {
             fontSize: 14,
             fontFamily: "Nunito-Bold"
           }}
-        >{program.subjectCode.toUpperCase()}</Typography>
+        >{`${program.group === "Groupe Principale" ? "" : formatGroupName(program.group)} ${program.subjectCode.toUpperCase()}`}</Typography>
         <Typography
           as="span"
           sx={{
