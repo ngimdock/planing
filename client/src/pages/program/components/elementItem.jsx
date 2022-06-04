@@ -7,7 +7,7 @@ import ProgramAPI from "../../../api/program"
 import PlanningAction from "../../../datamanager/actions/planning"
 import ClassContext from "../../../datamanager/contexts/classContext"
 import Class from "../../../entities/class"
-import ExportAllBaseLayout from "../../exports/baseAll"
+import ExportBaseLayout from "../../exports/base"
 import { ExportContext } from "../../../datamanager/contexts/exportContext"
 import { MdOutlineFileUpload } from "react-icons/md"
 
@@ -18,18 +18,15 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
     selectSemester,
     selectClass,
     getClass,
-    currentClass,
     currentSemester,
     dispatch
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
   const { getClass: getUniqueClass } = useContext(ClassContext)
   const { 
-    programs, 
     setPrograms,
     exportRef, 
-    handlePrintAll, 
-    setCurrentExportData, 
+    handlePrintAll,  
     readyToExport, 
     setReadyToExport,
     handleChargeTheExportComponent
@@ -116,9 +113,14 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   
   const handleSetCurrentExportData = async(academicYear) => {
 
-    const newProgram = await handleChargeTheExportComponent("all", { academicYear })
-    setPrograms(newProgram)
-    setReadyToExport(true)
+    const { newProgram, hasProgram } = await handleChargeTheExportComponent("all", { academicYear })
+    if(hasProgram) {
+      setPrograms(newProgram)
+      setReadyToExport(hasProgram)
+    } else {
+      showToast("A program is not yet available", "error")
+      setReadyToExport(hasProgram)
+    }
   }
 
   return (
@@ -188,7 +190,7 @@ const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
               }}
               onClick={handlePrint}
             >
-              <div style={{ display: "none" }}><ExportAllBaseLayout ref={exportRef} /></div>
+              <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
               Exporter
             </Typography>
           </Box>
