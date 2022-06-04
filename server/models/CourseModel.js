@@ -203,7 +203,7 @@ class CourseModel {
             if(!data.length) return { data: "The course with the given code is no found" }
 
             //update course
-            const [rows] = await connection.execute(query, [newCodeCours, newDescriptionCours, idSpecialite, codeCours])
+            const [rows] = await connection.execute(query, [newCodeCours, newDescriptionCours, idSpecialite || null, codeCours])
 
             console.log(rows);
 
