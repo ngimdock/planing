@@ -1,19 +1,15 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import styles from './css/exportHeader.module.css'
 import exportBaseStyle from '../../css/exports.module.css'
 import img from '../../../../assets/images/logo/logoFac.png'
 
-const ExportHeader = ({ semestre, anneeAcademique }) => {
-    // some handlers
-    const handleSetCoursesStart = (anneeAcademique) => {
-        if(anneeAcademique) {
-            const courseStartDate = anneeAcademique.slice(5, 9)
-            return courseStartDate
-        }
-        return ""
+const ExportHeader = ({ semestre, anneeAcademique, code }) => {
+    var courseStartDate = "" 
+    if(anneeAcademique) {
+        courseStartDate = semestre === "1" ? 
+            "LUNDI 07 SEPTEMBRE " + anneeAcademique.slice(0, 4) + " A 07H00" :
+            "LUNDI 21 MARS " + anneeAcademique.slice(5, 9) + " A 07H00"
     }
-
-    const coursesStart = useMemo(() => handleSetCoursesStart(anneeAcademique), [anneeAcademique])
     
     return (
         <div className={exportBaseStyle.divisor}>
@@ -68,6 +64,7 @@ const ExportHeader = ({ semestre, anneeAcademique }) => {
                     "textAlign": "center"
                 }}>
                     <h1>EMPLOIS DE TEMPS - TIME TABLE</h1>
+                    <h1>{code}</h1>
                 </div>
     
     
@@ -75,7 +72,7 @@ const ExportHeader = ({ semestre, anneeAcademique }) => {
                     "marginBottom": "20vh",
                     "textAlign": "center"
                 }}>
-                    <h2>DEBUT DES COURS: LUNDI 21 MARS {coursesStart} A 07H00</h2>
+                    <h2>DEBUT DES COURS: {courseStartDate}</h2>
                 </div>
     
         </div>
