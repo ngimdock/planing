@@ -10,12 +10,16 @@ export const ExportProvider = ({ children }) => {
 
     // State section
     const exportRef = useRef();
-    const [placeExport, setPlaceExport] = useState("")
+    const [semAndAcay, setSemAndAcay] = useState({})
+    const [exportName, setExportName] = useState("")
     const { getClass, currentSemester, currentClass } = useContext(PlanningContext)
     const [programs, setPrograms] = useState({})
     const { showToast } = useContext(ToastContext)
     const [readyToExport, setReadyToExport] = useState(false)
 
+    /* The role of this function is to performat the informations comming from the backend
+     * to a format that that can be held by the ExportComponent for display   
+    */ 
     const handleChargeTheExportComponent = async(type, currentExportData) => {
         if(type === "teacher") {
             console.log(currentExportData);
@@ -27,20 +31,24 @@ export const ExportProvider = ({ children }) => {
             console.log(payload)
             const { data } = await ProgramAPI.getByTeacher(payload)
             console.log(data)
-    
-            // correct the presence of codeRoom here
-            // fix the formats of the dates
-            // fix the format of the data
-            const prevResult = { ...data }
-            console.log(prevResult)
-            const newResult = {
-                code: {...prevResult}.NameTeacher || currentExportData.objectData.name,
-                programs: {...prevResult}.programs,
-                semester: currentExportData.academicYear.semesterValue.slice(9,10),
-                academicYear: currentExportData.academicYear.acayValue
+            if(data.NameTeacher !== "") {
+                const prevResult = { ...data }
+                console.log(prevResult)
+                const newResult = {
+                    code: {...prevResult}.NameTeacher || currentExportData.objectData.name,
+                    programs: {...prevResult}.programs,
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                }
+                setSemAndAcay({
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                })
+                return { newProgram : newResult, hasProgram: true }
+            } else {
+                return { newProgram: {}, hasProgram: false }
             }
-            console.log(newResult)
-            return newResult
+    
         } else if(type === "room") {
             const payload = {
                 idYear: currentExportData.academicYear.idAcademicYear,
@@ -50,20 +58,24 @@ export const ExportProvider = ({ children }) => {
             console.log(payload)
             const { data } = await ProgramAPI.getByRoom(payload)
             console.log(data)
-    
-            // correct the presence of codeRoom here
-            // fix the formats of the dates
-            // fix the format of the data
-            const prevResult = { ...data }
-            console.log(prevResult)
-            const newResult = {
-                code: {...prevResult}.CodeRoom || currentExportData.objectData.name,
-                programs: {...prevResult}.programs,
-                semester: currentExportData.academicYear.semesterValue.slice(9,10),
-                academicYear: currentExportData.academicYear.acayValue
+            if(data.CodeRoom !== "") {
+                const prevResult = { ...data }
+                console.log(prevResult)
+                const newResult = {
+                    code: {...prevResult}.CodeRoom || currentExportData.objectData.name,
+                    programs: {...prevResult}.programs,
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                }
+                setSemAndAcay({
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                })
+                return { newProgram: newResult, hasProgram: true }
+            } else {
+                return { newProgram: {}, hasProgram: false }
             }
-            console.log(newResult)
-            return newResult
+    
         } else if(type === "faculty") {
             const payload = {
                 idYear: currentExportData.academicYear.idAcademicYear,
@@ -71,17 +83,23 @@ export const ExportProvider = ({ children }) => {
                 idFaculty: currentExportData.objectData.id
             }
             const { data } = await ProgramAPI.getFaculty(payload)
-            // Fix the formats of the dates
-            // fix the format of the data
-            const prevResult = { ...data }
-            console.log(prevResult)
-            const newResult = {
-                ...prevResult,
-                semester: currentExportData.academicYear.semesterValue.slice(9,10),
-                academicYear: currentExportData.academicYear.acayValue
+            console.log(data)
+            if(data.facultyName) {
+                const prevResult = { ...data }
+                console.log(prevResult)
+                const newResult = {
+                    ...prevResult,
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                }
+                setSemAndAcay({
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                })
+                return { newProgram: newResult, hasProgram: true }
+            } else {
+                return { newProgram: {}, hasProgram: false }
             }
-            console.log(newResult)
-            return newResult
         } else {
             const payload = {
                 idYear: currentExportData.academicYear.idAcay,
@@ -90,29 +108,35 @@ export const ExportProvider = ({ children }) => {
             console.log(payload)
             const { data } = await ProgramAPI.getAll(payload)
             console.log(data)    
-    
-            // correct the presence of codeRoom here
-            // fix the formats of the dates
-            // fix the format of the data
-            const prevResult = [...data]
-            console.log(prevResult)
-            const newResult = [
-                prevResult,
-                currentExportData.academicYear.semesterValue.slice(9,10),
-                currentExportData.academicYear.acayValue
-            ]
-            console.log(newResult)
-            return newResult
+            if(data.length > 0) {
+                const prevResult = [...data]
+                console.log(prevResult)
+                const newResult = {
+                    prevResult,
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                }
+                setSemAndAcay({
+                    semester: currentExportData.academicYear.semesterValue.slice(9,10),
+                    academicYear: currentExportData.academicYear.acayValue
+                })
+                return { newProgram: newResult, hasProgram: true }
+            } else {
+                return { newProgram: {}, hasProgram: false }
+            }
         }
     }
 
     // some setters
+    /* Their role is to indicate to the user which program he is exporting
+     * while notifying that the operation has been successfull
+    */
     const setAll = async() => {
-        showToast("Semester X programs exporting", "success")
+        showToast(`Semester ${semAndAcay.semester} Year ${semAndAcay.academicYear} programs exported`, "success")
     }
 
     const setTeacher = async() => {
-        showToast("Teacher X programs exporting", "success")
+        showToast(`Teacher ${exportName} Semester ${semAndAcay.semester} Year ${semAndAcay.academicYear} programs exported`, "success")
     }
     
     const setClass = async() => {
@@ -133,20 +157,21 @@ export const ExportProvider = ({ children }) => {
     }
 
     const setRoom = async() => {
-        showToast("Room X programs exporting", "success")
+        showToast(`Room ${exportName} Semester ${semAndAcay.semester} Year ${semAndAcay.academicYear} programs exported`, "success")
     }
 
     const setFaculty = async() => {
-        showToast("Faculty X programs exporting", "success")
+        showToast(`Faculty ${exportName} Semester ${semAndAcay.semester} Year ${semAndAcay.academicYear} programs exported`, "success")
     }
 
     // some export handlers
+    // This handlers are the hooks connected to ReactToPrint library permitting to export a program
     const handlePrintByTeacher = useReactToPrint({
         onBeforeGetContent: async() => {
             await setTeacher()
         },
         content: () => exportRef.current,
-        documentTitle: "Teacher",
+        documentTitle: `Time_Table_${exportName && exportName}_Semester_${semAndAcay.semester}_Year_${semAndAcay.academicYear}`,
         copyStyles: true
     })
 
@@ -165,7 +190,7 @@ export const ExportProvider = ({ children }) => {
             await setFaculty()
         },
         content: () => exportRef.current,
-        documentTitle: `Time_Table_${"code"}_Semester_${"undefined"}_Year_${"undefined"}`,
+        documentTitle: `Time_Table_${exportName && exportName}_Semester_${semAndAcay.semester}_Year_${semAndAcay.academicYear}`,
             // Semester_${currentExportData.academicYear.semesterValue.slice(9,10)}_Year_${// currentExportData.academicYear.acayValue == undefined ? 
         copyStyles: true
     })
@@ -175,7 +200,7 @@ export const ExportProvider = ({ children }) => {
             await setRoom()
         },
         content: () => exportRef.current,
-        documentTitle: "Room",
+        documentTitle: `Time_Table_${exportName && exportName}_Semester_${semAndAcay.semester}_Year_${semAndAcay.academicYear}`,
         copyStyles: true
     })
 
@@ -184,21 +209,20 @@ export const ExportProvider = ({ children }) => {
             await setAll()
         },
         content: () => exportRef.current,
-        documentTitle: "All",
+        documentTitle: `Time_Table_Semester_${semAndAcay.semester}_Year_${semAndAcay.academicYear}`,
         copyStyles: true
     })
 
     return (
         <ExportContext.Provider value={{ 
-            exportRef, 
+            exportRef,
             handlePrintAll,
             handlePrintByClass,
             handlePrintByRoom,
             handlePrintByFaculty,
-            handlePrintByTeacher, 
-            setPlaceExport,
-            placeExport,
+            handlePrintByTeacher,
             programs,
+            setExportName,
             setPrograms,
             handleChargeTheExportComponent,
             readyToExport,
