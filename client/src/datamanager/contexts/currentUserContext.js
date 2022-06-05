@@ -1,9 +1,11 @@
-import { createContext } from 'react'
+import { createContext } from "react";
 
 const CurrentUserContext = createContext({
   currentUser: null,
+  adminNumber: 0,
   login: (data) => {},
-  logout: () => {}
-})
+  logout: () => {},
+  setAdminNumber: (value) => {},
+});
 
-export default CurrentUserContext
+export default CurrentUserContext;

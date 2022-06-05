@@ -11,6 +11,7 @@ import SpecialityContext from "../../../datamanager/contexts/specialityContext"
 import RoomContext from "../../../datamanager/contexts/roomContext"
 import SubjectContext from "../../../datamanager/contexts/subjectContext"
 import TeacherContext from "../../../datamanager/contexts/teacherContext"
+import CurrentUserContext from "../../../datamanager/contexts/currentUserContext"
 
 const DashboardBody = () => {
   // Get data from global state
@@ -21,6 +22,7 @@ const DashboardBody = () => {
   const { rooms } = useContext(RoomContext)
   const { teachers } = useContext(TeacherContext)
   const { subjects } = useContext(SubjectContext)
+  const { adminNumber } = useContext(CurrentUserContext)
 
   return (
     <section className={styles.container}>
@@ -42,7 +44,7 @@ const DashboardBody = () => {
           value={levels.length}
           color="orange"
         >
-          <BsBarChartFill 
+          <BsBarChartFill
             size={20}
             color={"#fff"}
           />
@@ -52,7 +54,7 @@ const DashboardBody = () => {
           value={classes.length}
           color="#41d813"
         >
-          <HiUserGroup 
+          <HiUserGroup
             size={20}
             color={"#fff"}
           />
@@ -62,7 +64,7 @@ const DashboardBody = () => {
           value={specialities.length}
           color="#f32f39"
         >
-          <HiUserGroup 
+          <HiUserGroup
             size={20}
             color={"#fff"}
           />
@@ -72,7 +74,7 @@ const DashboardBody = () => {
           value={subjects.length}
           color="#2f97a5"
         >
-          <BsBookFill 
+          <BsBookFill
             size={20}
             color={"#fff"}
           />
@@ -82,7 +84,7 @@ const DashboardBody = () => {
           value={teachers.length}
           color="violet"
         >
-          <BsPeopleFill 
+          <BsPeopleFill
             size={25}
             color={"#fff"}
           />
@@ -92,20 +94,20 @@ const DashboardBody = () => {
           value={rooms.length}
           color="#92dffde8"
         >
-          <BsDoorOpenFill 
+          <BsDoorOpenFill
             size={20}
             color={"#fff"}
           />
         </DashboardItem>
         <DashboardItem
           title="Admins"
-          value={1}
+          value={adminNumber}
           color="#05502d"
         >
-          <BsFillPersonFill 
+          <BsFillPersonFill
             size={20}
             color={"#fff"}
-          />     
+          />
         </DashboardItem>
       </div>
     </section>

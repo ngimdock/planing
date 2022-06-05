@@ -1,9 +1,7 @@
-import requestConnection from "../utils/index.js";
+import connection from "../utils/index.js";
 import bcrypt from "bcrypt";
 
 class AdminModel {
-  static connection = requestConnection();
-
   /**
    * Create the table Admin
    */
@@ -21,7 +19,7 @@ class AdminModel {
     `;
 
     try {
-      await (await this.connection).execute(query);
+      await connection.execute(query);
       console.log("Table Admin OK");
 
       await AdminModel.createMainAdmin({
@@ -33,8 +31,6 @@ class AdminModel {
       });
     } catch (err) {
       console.log(err);
-    } finally {
-      (await this.connection).destroy();
     }
   }
 
@@ -50,9 +46,7 @@ class AdminModel {
     `;
 
     try {
-      const [rows] = await (
-        await this.connection
-      ).execute(query, [
+      const [rows] = await connection.execute(query, [
         payload.name,
         payload.password,
         payload.email,
@@ -65,8 +59,6 @@ class AdminModel {
       console.log(err);
 
       return { error: "An error occured while creating an admin user" };
-    } finally {
-      (await this.connection).destroy();
     }
   }
 
@@ -77,7 +69,7 @@ class AdminModel {
     `;
 
     try {
-      const [rows] = await (await this.connection).execute(query);
+      const [rows] = await connection.execute(query);
 
       if (rows.length === 0) {
         bcrypt.hash(payload.password.toLowerCase(), 10, async (err, hash) => {
@@ -92,8 +84,6 @@ class AdminModel {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      (await this.connection).destroy();
     }
   }
 
@@ -111,7 +101,7 @@ class AdminModel {
 
     try {
       // Execute the query
-      const [rows] = await (await this.connection).execute(query, [email]);
+      const [rows] = await connection.execute(query, [email]);
 
       return { data: rows };
     } catch (err) {
@@ -121,8 +111,6 @@ class AdminModel {
         error:
           "An error occured while checking if an email has been already taken",
       };
-    } finally {
-      (await this.connection).destroy();
     }
   }
 
@@ -140,7 +128,7 @@ class AdminModel {
 
     try {
       // Execute the query
-      const [rows] = await (await this.connection).execute(query, [email]);
+      const [rows] = await connection.execute(query, [email]);
 
       if (rows.length > 0) {
         return { data: rows[0] };
@@ -151,14 +139,10 @@ class AdminModel {
       console.log(err);
 
       return { error: "An error occured while getting admin's informations" };
-    } finally {
-      (await this.connection).destroy();
     }
   }
 
   static async signin(email, password) {
-    const connection = await requestConnection();
-
     const query = `
       SELECT *
       FROM Admin
@@ -178,8 +162,6 @@ class AdminModel {
       console.log(err);
 
       return { error: "An error occured while login a user" };
-    } finally {
-      connection.destroy();
     }
   }
 
@@ -190,7 +172,7 @@ class AdminModel {
     `;
 
     try {
-      const [rows] = await (await this.connection).execute(query);
+      const [rows] = await connection.execute(query);
 
       console.log(rows);
 
@@ -199,8 +181,6 @@ class AdminModel {
       console.log(err);
 
       return { error: "An error occured while getting the admin number" };
-    } finally {
-      (await this.connection).destroy();
     }
   }
 }
