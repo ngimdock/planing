@@ -47,7 +47,7 @@ const StartTime = [
 const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Global state
   const { subjects } = useContext(SubjectContext)
-  const { currentClass, currentSemester, dispatch, selectClass } = useContext(PlanningContext)
+  const { currentClass, currentSemester, dispatch, selectClass, getClass } = useContext(PlanningContext)
   const { currentUser } = useContext(CurrentUserContext)
   const { showToast } = useContext(ToastContext)
 
@@ -162,6 +162,22 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
           onClose()
 
           showToast(`Le cours de ${program.subject} a été cree avec succès`)
+
+          // Get class
+
+          const payload = {
+            idAcademicYear: currentSemester.idYear,
+            idSemester: currentSemester.idSemester,
+            idFaculty: currentClass.getFaculty.getId,
+            codeClass: currentClass.getCode
+          }
+
+          console.log(payload)
+
+          const myClass = getClass(payload)
+
+          // Update the current class
+          selectClass(myClass)
         })
         .catch(err => {
           console.log(err)

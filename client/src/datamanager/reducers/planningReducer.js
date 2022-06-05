@@ -128,11 +128,23 @@ const planningReducer = (state = [], action) => {
               (c) => c.code === data.classes[0].code
             );
 
-            console.log({ classIndex, classe: data.classes[0] });
+            console.log({
+              classIndex,
+              classe: data.classes[0],
+              prevState:
+                prevState[acaYIndex].semesters[semesterIndex].faculties[
+                  facIndex
+                ].classes,
+            });
+
             if (classIndex > -1) {
               prevState[acaYIndex].semesters[semesterIndex].faculties[
                 facIndex
               ].classes[classIndex].programs = data.classes[0].programs;
+            } else {
+              prevState[acaYIndex].semesters[semesterIndex].faculties[
+                facIndex
+              ].classes.push(data.classes[0]);
             }
           }
         }
