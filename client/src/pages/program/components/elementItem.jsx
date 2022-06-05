@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import PlanningNavigationContext from "../../../datamanager/contexts/planningNavigationContext"
 import ToastContext from "../../../datamanager/contexts/toastContext"
 import PlanningContext from "../../../datamanager/contexts/planningContext"
@@ -7,20 +7,37 @@ import ProgramAPI from "../../../api/program"
 import PlanningAction from "../../../datamanager/actions/planning"
 import ClassContext from "../../../datamanager/contexts/classContext"
 import Class from "../../../entities/class"
+import ExportBaseLayout from "../../exports/base"
+import { ExportContext } from "../../../datamanager/contexts/exportContext"
+import { MdOutlineFileUpload } from "react-icons/md"
 
-const ElementItem = ({ value, target, year, idSemester }) => {
+const ElementItem = ({ value, target, year, idSemester, onGetValue }) => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
   const {
     selectSemester,
     selectClass,
     getClass,
-    currentClass,
     currentSemester,
     dispatch
   } = useContext(PlanningContext)
   const { showToast } = useContext(ToastContext)
   const { getClass: getUniqueClass } = useContext(ClassContext)
+  const { 
+    setPrograms,
+    exportRef, 
+    handlePrintAll,  
+    readyToExport, 
+    setReadyToExport,
+    handleChargeTheExportComponent
+  } = useContext(ExportContext)
+
+  useEffect(() => {
+    if (readyToExport) {
+      handlePrintAll()
+      setReadyToExport(false)
+    }
+  }, [readyToExport])
 
   // Some handlers
   const handleNavigateTo = () => {
@@ -31,6 +48,13 @@ const ElementItem = ({ value, target, year, idSemester }) => {
         value: `${value} | ${year.value}`
       })
       navigateTo(target, { field: "ACADEMIC_YEAR", value: 1 })
+    } else if (target === "export") {
+      onGetValue({
+        idAcay: year.id,
+        acayValue: year.value,
+        idSemester,
+        semesterValue: value
+      })
     } else {
       handleGetProgramsByClass()
       navigateTo(target, { field: "CLASS", value: 1 })
@@ -75,35 +99,103 @@ const ElementItem = ({ value, target, year, idSemester }) => {
     selectClass(myClass)
   }
 
+  const handlePrint = async() => {
+    const academicYear = {
+      idAcay: year.id,
+      acayValue: year.value,
+      idSemester,
+      semesterValue: value
+    }
+
+    await handleSetCurrentExportData(academicYear)
+    console.log(academicYear)
+  }
+  
+  const handleSetCurrentExportData = async(academicYear) => {
+
+    const { newProgram, hasProgram } = await handleChargeTheExportComponent("all", { academicYear })
+    if(hasProgram) {
+      setPrograms(newProgram)
+      setReadyToExport(hasProgram)
+    } else {
+      showToast("A program is not yet available", "error")
+      setReadyToExport(hasProgram)
+    }
+  }
+
   return (
     <Box
       sx={{
-        width: "calc(100% - 32px)",
-        p: 2,
-        transition: "all .4s",
-        "&:hover": {
-          backgroundColor: "#fff2e4",
-          cursor: "pointer"
-        },
-        "&:hover > span": {
-          color: "#ff8500"
-        },
-        "&:not(:last-child)": {
-          borderBottom: "1px solid #ccc"
-        }
+        position: "relative"
       }}
-      onClick={handleNavigateTo}
     >
-      <Typography
-        as="span"
+      <Box
         sx={{
-          color: "#555",
-          fontFamily: "Nunito-Bold",
-          transition: "all .4s"
+          position: "relative",
+          width: "calc(100% - 32px)",
+          p: 2,
+          transition: "all .4s",
+          "&:hover": {
+            backgroundColor: "#fff2e4",
+            cursor: "pointer"
+          },
+          "&:hover > span": {
+            color: "#ff8500"
+          },
+          "&:not(:last-child)": {
+            borderBottom: "1px solid #ccc"
+          }
         }}
+        onClick={handleNavigateTo}
       >
-        {value}
-      </Typography>
+        <Typography
+          as="span"
+          sx={{
+            color: "#555",
+            fontFamily: "Nunito-Bold",
+            transition: "all .4s"
+          }}
+        >
+          {value}
+        </Typography>
+
+      </Box>
+
+      {
+        target === "classes" && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: "120px",
+              height: "55px",
+              zIndex: 15,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer"
+            }}
+          >
+            <MdOutlineFileUpload
+              color="#555"
+              size={25}
+            />
+            <Typography
+              sx={{
+                fontFamily: "Nunito-Bold",
+                fontSize: "14px",
+                ml: 1,
+                color: "#555"
+              }}
+              onClick={handlePrint}
+            >
+              <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
+              Exporter
+            </Typography>
+          </Box>
+        )
+      }
     </Box>
   )
 }

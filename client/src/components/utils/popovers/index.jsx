@@ -80,8 +80,6 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
       codeClass: currentClass.getCode
     })
 
-    console.log(data)
-
     if (data !== undefined) {
       // When all is OK we update the program of the current class
       if (data) {
@@ -151,6 +149,12 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
     return 3
   }, [data])
 
+  const formatGroupName = (groupName) => {
+    const groupNameSplited = groupName.split(" ")
+
+    return `${groupNameSplited[0][0].toUpperCase()}${groupNameSplited[1]}:  `
+  }
+
   return (
     <Popover
       open={open}
@@ -189,7 +193,7 @@ const PopOver = ({ open, data, onClose, anchorEl }) => {
               fontFamily: "Nunito-Bold",
               color: "#fff"
             }}
-          >{data.subjectCode.toUpperCase()}</Typography>
+          >{`${data.group === "Groupe Principale" ? "" : formatGroupName(data.group)}${data.subjectCode.toUpperCase()}`}</Typography>
 
           <Box
             sx={{

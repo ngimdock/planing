@@ -15,9 +15,6 @@ const SemesterList = () => {
   const { showToast } = useContext(ToastContext)
   const { programs, dispatch, setLoaded } = useContext(PlanningContext)
 
-  // Set local state
-  const [semestersList, setSemestersList] = useState([])
-
   // UseEffect section
   useEffect(() => {
     handleGetAcademicYears()

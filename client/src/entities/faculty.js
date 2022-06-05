@@ -1,31 +1,36 @@
-class Faculty {
-  id
-  name
+import generateColor from "../utils/generateColor";
 
-  constructor (data) {
-    this.initialization(data)
+class Faculty {
+  id;
+  name;
+  color;
+
+  constructor(data) {
+    this.initialization(data);
   }
 
-  initialization (data) {
-    const {
-      id,
-      name
-    } = data
+  initialization(data) {
+    const { id, name } = data;
 
     if (id && name) {
-      this.id = id
-      this.name = name
+      this.id = id;
+      this.name = name;
+      this.color = generateColor();
     }
   }
 
   // Getters
-  get getId () {
-    return this.id
+  get getId() {
+    return this.id;
   }
 
-  get getName () {
-    return this.name
+  get getName() {
+    return this.name;
+  }
+
+  get getColor() {
+    return this.color;
   }
 }
 
-export default Faculty
+export default Faculty;

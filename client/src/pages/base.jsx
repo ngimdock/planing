@@ -12,6 +12,8 @@ import CurrentUserContext from "../datamanager/contexts/currentUserContext"
 import ModalContext from "../datamanager/contexts/modalContext"
 import NavigationContext from "../datamanager/contexts/navigationContext"
 import ToastContext from "../datamanager/contexts/toastContext"
+import useGetAcademicYear from "../hooks/useGetAcademicYear"
+import useGetAdminNumber from "../hooks/useGetAdminNumber"
 import useGetClasses from "../hooks/useGetClasses"
 import useGetFaculties from "../hooks/useGetFaculties"
 import useGetLevels from "../hooks/useGetLevels"
@@ -25,13 +27,13 @@ const BaseLayout = ({ children }) => {
   const location = useLocation()
   const pathname = location.pathname
   const pagename = pathname.substring(1)
-  
+
   // Get global state
   const { navigateTo } = useContext(NavigationContext)
   const { isOpen, currentModalName, closeModal } = useContext(ModalContext)
   const { currentUser, login } = useContext(CurrentUserContext)
   const { open: isOpenToast, message, closeToast, type } = useContext(ToastContext)
-  
+
   // Set local state
   const [loading, setLoading] = useState(!currentUser ? true : false)
 
@@ -48,6 +50,7 @@ const BaseLayout = ({ children }) => {
   }, [currentUser])
 
   // Fetch Data section
+  useGetAcademicYear()
   useGetFaculties()
   useGetLevels()
   useGetSpecialities()
@@ -55,6 +58,7 @@ const BaseLayout = ({ children }) => {
   useGetRooms()
   useGetClasses()
   useGetSubjects()
+  useGetAdminNumber()
 
   // Some handlers
   const getCurrentUser = async () => {
@@ -73,7 +77,7 @@ const BaseLayout = ({ children }) => {
       // Login the user
       login(payload)
     }
-      
+
     setLoading(false)
   }
 
@@ -86,38 +90,38 @@ const BaseLayout = ({ children }) => {
           currentUser ? (
             <section className={styles.container}>
               <NavigationBlock />
-  
+
               <main className={styles.baseContentContainer}>
                 <Navbar />
-  
-                <section className={styles.baseContent}>
-                  { children }
 
-                  <Snackbar 
-                    open={isOpenToast} 
-                    autoHideDuration={6000} 
+                <section className={styles.baseContent}>
+                  {children}
+
+                  <Snackbar
+                    open={isOpenToast}
+                    autoHideDuration={6000}
                     onClose={closeToast}
                     sx={{
                       position: 'fixed'
-                    }}  
+                    }}
                   >
                     <Alert onClose={closeToast} severity={type} sx={{ width: '100%' }}>
-                      { message }
+                      {message}
                     </Alert>
                   </Snackbar>
                 </section>
-  
+
                 <Footer />
               </main>
-  
+
               <ModalCoreContainer
-                title={currentModalName} 
-                open={isOpen} 
-                closeModal={closeModal} 
+                title={currentModalName}
+                open={isOpen}
+                closeModal={closeModal}
               />
 
             </section>
-          ):<Navigate to="/signin" />
+          ) : <Navigate to="/signin" />
         )
       }
 

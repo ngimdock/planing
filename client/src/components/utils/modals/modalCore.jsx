@@ -20,6 +20,7 @@ import UpdateTeacherModalContent from './components/update/updateTeacher';
 import UpdateSubjectModalContent from './components/update/updateSubject';
 import UpdateFacultyModelContent from './components/update/updateFaculty';
 import UpdateRoomModalContent from './components/update/updateRoom';
+import SelectSemesterModalContent from './components/export/selectSemester'
 
 const style = {
   position: 'absolute',
@@ -28,11 +29,13 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   minHeight: 200,
+  maxHeight: 500,
   height: 'auto',
   bgcolor: '#fff',
   boxShadow: 35,
   borderRadius: 2,
-  overflow: 'hidden'
+  overflowX: 'hidden',
+  overflowY: "auto"
 };
 
 const ModalCoreContainer = ({ open, title, closeModal }) => {
@@ -100,6 +103,10 @@ const ModalCoreContainer = ({ open, title, closeModal }) => {
 
       case "UPDATE_FACULTY": {
         return <UpdateFacultyModelContent />
+      }
+
+      case "EXPORT_PROGRAM": {
+        return <SelectSemesterModalContent />
       }
 
       default: return null

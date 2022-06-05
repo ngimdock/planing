@@ -5,25 +5,28 @@ import { MdOutlineFileUpload } from 'react-icons/md'
 import PlanningContext from '../../../datamanager/contexts/planningContext';
 import PlanningNavigationContext from '../../../datamanager/contexts/planningNavigationContext';
 import Table from './subComponents/table';
+import { ExportContext } from '../../../datamanager/contexts/exportContext';
+import ExportBaseLayout from '../../exports/base';
 
 const ProgramTable = () => {
   // Get global state
   const { navigateTo } = useContext(PlanningNavigationContext)
   const { currentClass } = useContext(PlanningContext)
+  const { exportRef, handlePrintByClass } = useContext(ExportContext)
 
   useEffect(() => {
     console.log("Updated in UseEffect")
   }, [currentClass])
-
+  
   const myClass = useMemo(() => {
     console.log("Updated")
-
+    
     return currentClass
   }, [currentClass])
-
+  
   return (
     <Box
-      sx={{
+    sx={{
         borderRadius: 2,
         width: "calc(100% - 5px)",
         flexShrink: 0,
@@ -104,7 +107,9 @@ const ProgramTable = () => {
               ml: 1,
               color: "#fff"
             }}
+            onClick={handlePrintByClass}
           >
+          <div style={{ display: "none" }}><ExportBaseLayout ref={exportRef} /></div>
             Exporter
           </Typography>
         </Box>

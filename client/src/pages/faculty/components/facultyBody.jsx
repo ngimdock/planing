@@ -18,20 +18,20 @@ const FacultyBody = () => {
         {
           faculties.map(fac => {
             return (
-              <FacultyItem 
+              <FacultyItem
                 key={fac.getId}
                 id={fac.getId}
                 name={fac.getName}
-                color={generateColor()}
+                color={fac.getColor}
               />
             )
           })
         }
       </div>
-      
-      <AddButton 
-        title="Ajouter Filiere" 
-        onClick={() => openModal('Ajouter Filiere', 'ADD_FACULTY')}  
+
+      <AddButton
+        title="Ajouter Filiere"
+        onClick={() => openModal('Ajouter Filiere', 'ADD_FACULTY')}
       />
     </section>
   )

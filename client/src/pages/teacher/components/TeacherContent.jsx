@@ -10,12 +10,12 @@ const TeacherContent = () => {
 
     return (
         teachers.map(teacher => (
-            <TeacherItem 
+            <TeacherItem
                 key={teacher.getMatricule}
-                name={formatName(teacher.getName)} 
-                sexe={formatName(teacher.getSex)} 
-                matricule={teacher.getMatricule} 
-                color={generateColor()} 
+                name={formatName(teacher.getName)}
+                sexe={formatName(teacher.getSex)}
+                matricule={teacher.getMatricule}
+                color={teacher.getColor}
             />
         ))
     )

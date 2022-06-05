@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header_fr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+    align-items:center;
+}
+
+.header_en {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: auto;
+    align-items:center;
+}
+
+h1 {
+    font-size: 4rem;
+}

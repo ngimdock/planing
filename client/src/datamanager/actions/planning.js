@@ -1,113 +1,94 @@
 class PlanningAction {
   static addAcademicYears = (data) => ({
     type: "ADD_ACADEMIC_YEARS",
-    payload: data
-  })
+    payload: data,
+  });
 
   static addAcademicYear = (data) => {
-    const {
-      id,
-      value
-    } = data
+    const { id, value } = data;
 
-    console.log({data})
+    console.log({ data });
 
     if (id && value) {
-      return ({
+      return {
         type: "ADD_ACADEMIC_YEAR",
-        payload: data
-      })
+        payload: data,
+      };
     }
 
-    return ({
-      type: "NOTHING"
-    })
-  }
+    return {
+      type: "NOTHING",
+    };
+  };
 
   static addSemester = (data) => {
-    const {
-      idAcademicYear,
-      idSemester,
-      value
-    } = data
+    const { idAcademicYear, idSemester, value } = data;
 
     if (idAcademicYear && idSemester && value) {
-      return ({
+      return {
         type: "ADD_SEMESTER",
-        payload: data
-      })
+        payload: data,
+      };
     }
-  }
+  };
 
   static addFaculties = (data) => {
-    const {
-      faculties
-    } = data
+    const { faculties } = data;
 
     if (faculties.length > 0) {
-      return ({
+      return {
         type: "ADD_FACULTIES",
-        payload: data
-      })
+        payload: data,
+      };
     }
 
-    return ({
-      type: "NOTHING"
-    })
-  }
+    return {
+      type: "NOTHING",
+    };
+  };
 
   static addFaculty = (data) => {
-    const {
-      idAcademicYear,
-      idSemester,
-      idFaculty,
-      value
-    } = data
+    const { idAcademicYear, idSemester, idFaculty, value } = data;
 
-    if (
-      idAcademicYear &&
-      idSemester &&
-      idFaculty &&
-      value
-    ) {
-      return ({
+    if (idAcademicYear && idSemester && idFaculty && value) {
+      return {
         type: "ADD_FACULTY",
-        payload: data
-      })
+        payload: data,
+      };
     }
 
-    return ({
-      type: "NOTHING"
-    })
-  }
+    return {
+      type: "NOTHING",
+    };
+  };
 
   static addClass = (idAcademicYear, idSemester, data) => {
-    const { id: idFaculty } = data
+    const { id: idFaculty } = data;
 
-    console.log(idFaculty)
+    console.log(data);
 
     if (idAcademicYear && idSemester && idFaculty) {
-      return ({
+      return {
         type: "ADD_CLASS",
         payload: {
           idAcademicYear,
           idSemester,
-          data
-        }
-      })
-    } 
+          data,
+        },
+      };
+    }
 
-    return ({
-      type: "NOTHING"
-    })
-  }
+    return {
+      type: "NOTHING",
+    };
+  };
 
   static deleteProgram = (payload) => {
-    return ({
+    return {
       type: "REMOVE_PROGRAM",
-      payload
-    })
-  }
+      payload,
+    };
+  };
 }
 
-export default PlanningAction
+export default PlanningAction;

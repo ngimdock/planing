@@ -47,7 +47,7 @@ const StartTime = [
 const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Global state
   const { subjects } = useContext(SubjectContext)
-  const { currentClass, currentSemester, dispatch, selectClass } = useContext(PlanningContext)
+  const { currentClass, currentSemester, dispatch, selectClass, getClass } = useContext(PlanningContext)
   const { currentUser } = useContext(CurrentUserContext)
   const { showToast } = useContext(ToastContext)
 
@@ -74,7 +74,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
 
   // Some handlers
   const handleChange = (field, value) => {
-    const programPrevState = {...program}
+    const programPrevState = { ...program }
 
     switch (field) {
       case "subject": {
@@ -91,7 +91,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
         programPrevState.room = value
         break
       }
-      
+
       case "speciality": {
         programPrevState.speciality = value
 
@@ -137,8 +137,8 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
   const handleSubmitForm = () => {
     if (!loading) {
       // Get the course duration
-      const duration = program.duration === 2 ? 2*3600 : (3*60 - 5)*60
-      
+      const duration = program.duration === 2 ? 2 * 3600 : (3 * 60 - 5) * 60
+
       // Payload
       const payload = {
         idAdmin: currentUser.getId,
@@ -152,27 +152,41 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
         idGroupe: program.group
       }
 
-      console.log(payload)
-
       setLoading(true)
 
       ProgramAPI.create(payload)
-      .then(data => {
-        handleGetProgramsByClass()
+        .then(data => {
+          handleGetProgramsByClass()
 
-        // Close form
-        onClose()
+          // Close form
+          onClose()
 
-        showToast(`Le cours de ${program.subject} a été cree avec succès`)
-      })
-      .catch(err => {
-        console.log(err)
+          showToast(`Le cours de ${program.subject} a été cree avec succès`)
 
-        showToast(`Le cours de ${program.subject} n'a pas pu etre programmé, veillez reessayer`, "error")
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+          // Get class
+
+          const payload = {
+            idAcademicYear: currentSemester.idYear,
+            idSemester: currentSemester.idSemester,
+            idFaculty: currentClass.getFaculty.getId,
+            codeClass: currentClass.getCode
+          }
+
+          console.log(payload)
+
+          const myClass = getClass(payload)
+
+          // Update the current class
+          selectClass(myClass)
+        })
+        .catch(err => {
+          console.log(err)
+
+          showToast(`Le cours de ${program.subject} n'a pas pu etre programmé, veillez reessayer`, "error")
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }
 
@@ -196,7 +210,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
       group &&
       start &&
       duration &&
-      myClass && 
+      myClass &&
       currentSemester.idSemester
     ) {
       return true
@@ -210,16 +224,34 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
   const filterRoomByCapacity = (rooms) => {
     const specialityId = program.speciality
     let classCapacity = currentClass.capacity
+    let groupId = program.group
+
 
     if (specialityId) {
-      const index = currentClass.specialities.findIndex(spec => +spec.id === specialityId)
+      const index = currentClass.specialities.findIndex(spec => +spec.id === +specialityId)
 
       if (index > -1) {
         classCapacity = currentClass.specialities[index].capacity
       }
+
+      if (groupId) {
+        const groupIndex = currentClass.groups.findIndex(group => +group.id === +groupId)
+
+        if (groupIndex > -1) {
+          classCapacity = currentClass.groups[groupIndex].capacity
+        }
+      }
+    } else {
+      if (groupId) {
+        const groupIndex = currentClass.groups.findIndex(group => +group.id === +groupId)
+
+        if (groupIndex > -1) {
+          classCapacity = currentClass.groups[groupIndex].capacity
+        }
+      }
     }
 
-    const acceptableCapacity = classCapacity - classCapacity * .2 
+    const acceptableCapacity = classCapacity - classCapacity * .2
 
     return rooms.filter(room => +room.getCapacity >= +acceptableCapacity)
   }
@@ -236,7 +268,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
   // Api section
   const handleGetTeachersAvailable = async () => {
     if (currentSemester.idSemester && idDay && start && end) {
-      const { data, error } = await TeacherAPI.getAvailableTeachers({ 
+      const { data, error } = await TeacherAPI.getAvailableTeachers({
         idSemester: currentSemester.idSemester,
         idDay,
         start: `${start / 3600}:00:00`,
@@ -261,7 +293,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
    */
   const handleGetRoomsAvailable = async () => {
     if (currentSemester.idSemester && idDay && start && end) {
-      const { data, error } = await RoomAPI.getAvailableRooms({ 
+      const { data, error } = await RoomAPI.getAvailableRooms({
         idSemester: currentSemester.idSemester,
         idDay,
         start: `${start / 3600}:00:00`,
@@ -290,13 +322,13 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
     console.log(data)
 
     if (data) {
-      const subjects = data.map(sub => new Subject({ 
-        code: sub.codeCours, 
+      const subjects = data.map(sub => new Subject({
+        code: sub.codeCours,
         description: sub.descriptionCours,
-        speciality: { 
-          id: sub.idSpecialte, 
-          name: sub.nomSpecialite 
-        } 
+        speciality: {
+          id: sub.idSpecialte,
+          name: sub.nomSpecialite
+        }
       }))
 
       setAvailableSubjects(subjects)
@@ -310,6 +342,8 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
       idSemester: currentSemester.idSemester,
       codeClass: program.myClass
     })
+
+    console.log(data)
 
     if (data !== undefined) {
       // When all is OK we update the program of the current class
@@ -345,7 +379,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             flexDirection: "column"
           }}
         >
-          <Select 
+          <Select
             disabled={loading}
             label="cours"
             rounded
@@ -356,7 +390,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             onGetValue={value => handleChange("subject", value)}
             value={program.subject}
           />
-          <Select 
+          <Select
             disabled={loading}
             label="enseignant"
             rounded
@@ -367,7 +401,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             onGetValue={value => handleChange("teacher", value)}
             value={program.teacher}
           />
-          <Select 
+          <Select
             disabled={loading}
             label="heure de debut"
             rounded
@@ -378,7 +412,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             onGetValue={value => handleChange("startHour", value)}
             value={program.start}
           />
-          <Select 
+          <Select
             disabled={loading}
             label="duree"
             rounded
@@ -390,7 +424,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             onGetValue={value => handleChange("duration", value)}
             value={program.duration}
           />
-          <Select 
+          <Select
             disabled={loading}
             label="salle"
             rounded
@@ -401,7 +435,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             onGetValue={value => handleChange("room", value)}
             value={program.room}
           />
-          <Select 
+          <Select
             disabled={loading}
             label="groupe"
             rounded
@@ -414,7 +448,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
           />
           {
             currentClass.specialities.length > 0 && (
-              <Select 
+              <Select
                 disabled={loading}
                 label="specialite"
                 rounded
@@ -429,7 +463,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
           }
         </Box>
 
-        <Box 
+        <Box
           sx={{
             width: "100%",
             display: "flex",
@@ -440,7 +474,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             }
           }}
         >
-          <Button 
+          <Button
             text="Annuler"
             variant="outlined"
             bgColor="#ff8500"
@@ -449,7 +483,7 @@ const ProgramForm = ({ onClose, start, end, idDay }) => {
             rounded
             onClick={onClose}
           />
-          <Button 
+          <Button
             disabled={!verificationForm() || loading}
             text="Sauver"
             fontSize={10}

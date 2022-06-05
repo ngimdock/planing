@@ -4,7 +4,6 @@ import ModalContext from "../../../datamanager/contexts/modalContext"
 import SubjectItem from "./subjectItem"
 import styles from "../css/subjetStyle.module.css"
 import SubjectContext from "../../../datamanager/contexts/subjectContext"
-import generateColor from "../../../utils/generateColor"
 
 const SubjectBody = () => {
   // Global state
@@ -23,7 +22,7 @@ const SubjectBody = () => {
                 id={subject.getCode}
                 title={subject.getCode}
                 value={subject.getDescription}
-                color={generateColor()}
+                color={subject.getColor}
               />
             )
           })
