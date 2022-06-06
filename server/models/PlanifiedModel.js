@@ -13,6 +13,7 @@ class planifiedModel {
                 idJour INTEGER,
                 idSemestre INTEGER,
                 matriculeEns VARCHAR(10),
+                idGroupe INTEGER,
                 heureDebut TIME,
                 heureFin TIME NOT NULL,
                 CONSTRAINT PK_Programmer 
@@ -39,6 +40,10 @@ class planifiedModel {
                 ON UPDATE CASCADE,
                 CONSTRAINT FK_ProgrammerEnseignant
                 FOREIGN KEY(matriculeEns) REFERENCES Enseignant(matriculeEns)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+                CONSTRAINT FK_ProgrammerGroupe
+                FOREIGN KEY(idGroupe) REFERENCES Groupe(idGroupe)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
             )
@@ -70,6 +75,7 @@ class planifiedModel {
             AND (P.codeCours = C.codeCours) 
             AND (P.idJour = J.idJour) 
             AND (P.matriculeEns = E.matriculeEns)
+            AND (P.idGroupe = G.idGroupe)
             AND (P.idSemestre = Se.idSemestre)
             AND (C.codeCours = Sui.codeCours)
             AND (Sui.idGroupe = G.idGroupe)
@@ -261,6 +267,7 @@ class planifiedModel {
             AND (P.codeCours = C.codeCours) 
             AND (P.idJour = J.idJour) 
             AND (P.matriculeEns = E.matriculeEns)
+            AND (P.idGroupe = G.idGroupe)
             AND (P.idSemestre = Se.idSemestre)
             AND (C.codeCours = Sui.codeCours)
             AND (Sui.idGroupe = G.idGroupe)
@@ -301,6 +308,7 @@ class planifiedModel {
             AND (P.idJour = J.idJour) 
             AND (P.matriculeEns = E.matriculeEns)
             AND (P.idSemestre = Se.idSemestre)
+            AND (P.idGroupe = G.idGroupe)
             AND (Cla.codeClasse = (?))
             AND (Cla.CodeClasse = G.codeClasse)
             AND (C.codeCours = Sui.codeCours)
@@ -336,6 +344,7 @@ class planifiedModel {
             AND (Ens.matriculeEns = (?))
             AND (Pro.codeCours = Cou.codeCours)
             AND (Pro.idSalle = Sal.idSalle)
+            AND (Pro.idGroupe = Gro.idGroupe)
             AND (Pro.idJour = Jou.idJour)
             AND (Cou.codeCours = Sui.codeCours)
             AND (Sui.idGroupe = Gro.idGroupe)
@@ -371,6 +380,7 @@ class planifiedModel {
             AND (Sal.idSalle = (?))
             AND (Pro.codeCours = Cou.codeCours)
             AND (Pro.idSalle = Sal.idSalle)
+            AND (Pro.idGroupe = Gro.idGroupe)
             AND (Pro.idJour = Jou.idJour)
             AND (Cou.codeCours = Sui.codeCours)
             AND (Sui.idGroupe = Gro.idGroupe)
@@ -454,15 +464,16 @@ class planifiedModel {
     } = payload;
 
     const query = `
-            INSERT INTO Programmer(idAdmin, codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut, heureFin)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `;
+      INSERT INTO Programmer(idAdmin, codeCours, idSalle, idJour, idGroupe, matriculeEns, idSemestre, heureDebut, heureFin)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
 
     const values = [
       idAdmin,
       codeCours,
       idSalle,
       idJour,
+      idGroupe,
       matriculeEns,
       idSemestre,
       heureDebut,
@@ -508,16 +519,17 @@ class planifiedModel {
     } = payload;
 
     const query = `
-            DELETE
-            FROM Programmer
-            WHERE (codeCours, idSalle, idJour, matriculeEns, idSemestre, heureDebut) = (?, ?, ?, ?, ?, ?)
-        `;
+      DELETE
+      FROM Programmer
+      WHERE (codeCours, idSalle, idJour, matriculeEns, idGroupe, idSemestre, heureDebut) = (?, ?, ?, ?, ?, ?, ?)
+    `;
 
     const values = [
       codeCours,
       idSalle,
       idJour,
       matriculeEns,
+      idGroupe,
       idSemestre,
       heureDebut,
     ];

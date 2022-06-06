@@ -15,36 +15,36 @@ const SigninBody = () => {
   return (
     <section className={styles.container}>
       <div className={styles.FirstSigninPage}>
-         <div className={styles.FirstSigninContent}>
-           <img 
-           src={logo} 
-           alt="logo" 
-           className={styles.LogoImg}
-           />
-           <span className={styles.SignInDescription}>
-              Connectez-vous est générez votre emploi de temps des cours facilement ...
-           </span>
-         </div>
+        <div className={styles.FirstSigninContent}>
+          <img
+            src={logo}
+            alt="logo"
+            className={styles.LogoImg}
+          />
+          <span className={styles.SignInDescription}>
+            Connectez-vous et générez votre emploi de temps des cours facilement ...
+          </span>
+        </div>
       </div>
       <div className={styles.SecondSinginPage}>
-        <img 
-          src={svg} 
-          alt="svg" 
-          className={styles.signinSvg}  
+        <img
+          src={svg}
+          alt="svg"
+          className={styles.signinSvg}
         />
-        <SigninForm/>
+        <SigninForm />
       </div>
 
-      <Snackbar 
-        open={isOpenToast} 
-        autoHideDuration={6000} 
+      <Snackbar
+        open={isOpenToast}
+        autoHideDuration={6000}
         onClose={closeToast}
         sx={{
           position: 'fixed'
-        }}  
+        }}
       >
         <Alert onClose={closeToast} severity={type} sx={{ width: '100%' }}>
-          { message }
+          {message}
         </Alert>
       </Snackbar>
     </section>

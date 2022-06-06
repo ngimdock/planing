@@ -8,33 +8,33 @@ import generateColor from "../../../utils/generateColor"
 
 const LevelBody = () => {
    // Get global state
-  const { openModal } = useContext(ModalContext)
-  const { levels } = useContext(LevelContext)
+   const { openModal } = useContext(ModalContext)
+   const { levels } = useContext(LevelContext)
 
-  return (
-    <section className={styles.container}>
-      <div className={styles.levelTitle}> Liste des differents niveaux</div>
-      <div className={styles.levelContent}>
-         {
-            levels.map(level => {
-               return (
-                  <LevelItem
-                     key={level.getId}
-                     id={level.getId}
-                     name={level.getName}
-                     color={generateColor()}
-                  />
-               )
-            })
-         }
-      </div>
+   return (
+      <section className={styles.container}>
+         <div className={styles.levelTitle}> Liste des differents niveaux</div>
+         <div className={styles.levelContent}>
+            {
+               levels.map(level => {
+                  return (
+                     <LevelItem
+                        key={level.getId}
+                        id={level.getId}
+                        name={level.getName}
+                        color={level.getColor}
+                     />
+                  )
+               })
+            }
+         </div>
 
-      <AddButton 
-        title="Ajouter Niveau" 
-        onClick={() => openModal('Ajouter Niveau', 'ADD_LEVEL')}  
-      />
-    </section>
-  )
+         <AddButton
+            title="Ajouter Niveau"
+            onClick={() => openModal('Ajouter Niveau', 'ADD_LEVEL')}
+         />
+      </section>
+   )
 }
 
 export default LevelBody

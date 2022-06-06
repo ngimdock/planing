@@ -4,12 +4,13 @@ import ModalContext from "../../../datamanager/contexts/modalContext"
 import RoomItem from "./roomItem"
 import styles from "../css/roomStyle.module.css"
 import RoomContext from "../../../datamanager/contexts/roomContext"
-import generateColor from "../../../utils/generateColor"
 
 const RoomBody = () => {
   // Gel data from global state
   const { openModal } = useContext(ModalContext)
   const { rooms } = useContext(RoomContext)
+
+  console.log("Hello")
 
   return (
     <section className={styles.container}>
@@ -24,7 +25,7 @@ const RoomBody = () => {
                 title={room.getName}
                 value={`${room.getCapacity} Places`}
                 capacity={room.getCapacity}
-                color={generateColor()}
+                color={room.getColor}
               />
             )
           })

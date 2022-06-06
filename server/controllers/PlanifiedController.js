@@ -160,7 +160,13 @@ class PlanifiedController {
     console.log(9);
 
     const checkData =
-      codeCours && idSalle && idJour && matriculeEns && idSemestre && heureDebut
+      codeCours &&
+      idSalle &&
+      idJour &&
+      matriculeEns &&
+      idSemestre &&
+      heureDebut &&
+      idGroupe
         ? true
         : false;
 
