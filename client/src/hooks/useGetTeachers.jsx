@@ -16,7 +16,11 @@ const useGetTeachers = () => {
 
     if (data) {
       // Store levels inside the global state
-      addTeachers(data)
+      console.log("hello datassss");
+      console.log(data);
+      const sortedData = data.sort((teacher1, teacher2) => teacher1.nomEns.localeCompare(teacher2.nomEns))
+      console.log(sortedData);
+      addTeachers(sortedData)
     }
   }
 }
