@@ -10,12 +10,14 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    line-height: .3em;
 }
 
 .header_en {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    line-height: .3em;
 }
 
 .sub_header {

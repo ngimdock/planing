@@ -68,14 +68,14 @@ const TableItem = ({ program }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr className={styles.tableRow}>
                         <td className={styles.td}>7h - 9h55</td>
 
                         <td className={styles.td}>{
                             mondayPrograms ?
                                 mondayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -83,7 +83,7 @@ const TableItem = ({ program }) => {
                             tuesdayPrograms ?
                                 tuesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -91,7 +91,7 @@ const TableItem = ({ program }) => {
                             wednesdayPrograms ?
                                 wednesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -99,7 +99,7 @@ const TableItem = ({ program }) => {
                             thursdayPrograms ?
                                 thursdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -107,7 +107,7 @@ const TableItem = ({ program }) => {
                             fridayPrograms ?
                                 fridayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -115,7 +115,7 @@ const TableItem = ({ program }) => {
                             saturdayPrograms ?
                                 saturdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -123,19 +123,19 @@ const TableItem = ({ program }) => {
                             sundayPrograms ?
                                 sundayPrograms.map((course) =>
                                     course.startHour / 3600 >= 7 && course.endHour / 3600 <= 10 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
                     </tr>
-                    <tr>
+                    <tr className={styles.tableRow}>
                         <td className={styles.td}>10h05 - 12h55</td>
 
                         <td className={styles.td}>{
                             mondayPrograms ?
                                 mondayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -143,7 +143,7 @@ const TableItem = ({ program }) => {
                             tuesdayPrograms ?
                                 tuesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -151,7 +151,7 @@ const TableItem = ({ program }) => {
                             wednesdayPrograms ?
                                 wednesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -159,7 +159,7 @@ const TableItem = ({ program }) => {
                             thursdayPrograms ?
                                 thursdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -167,7 +167,7 @@ const TableItem = ({ program }) => {
                             fridayPrograms ?
                                 fridayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -175,7 +175,7 @@ const TableItem = ({ program }) => {
                             saturdayPrograms ?
                                 saturdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -183,19 +183,19 @@ const TableItem = ({ program }) => {
                             sundayPrograms ?
                                 sundayPrograms.map((course) =>
                                     course.startHour / 3600 >= 10 && course.endHour / 3600 <= 13 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
                     </tr>
-                    <tr>
+                    <tr className={styles.tableRow}>
                         <td className={styles.td}>13h05 - 15h55</td>
 
                         <td className={styles.td}>{
                             mondayPrograms ?
                                 mondayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -203,7 +203,7 @@ const TableItem = ({ program }) => {
                             tuesdayPrograms ?
                                 tuesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -211,7 +211,7 @@ const TableItem = ({ program }) => {
                             wednesdayPrograms ?
                                 wednesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -219,7 +219,7 @@ const TableItem = ({ program }) => {
                             thursdayPrograms ?
                                 thursdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -227,7 +227,7 @@ const TableItem = ({ program }) => {
                             fridayPrograms ?
                                 fridayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -235,7 +235,7 @@ const TableItem = ({ program }) => {
                             saturdayPrograms ?
                                 saturdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -243,19 +243,19 @@ const TableItem = ({ program }) => {
                             sundayPrograms ?
                                 sundayPrograms.map((course) =>
                                     course.startHour / 3600 >= 13 && course.endHour / 3600 <= 16 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
                     </tr>
-                    <tr>
+                    <tr className={styles.tableRow}>
                         <td className={styles.td}>16h05 - 18h55</td>
 
                         <td className={styles.td}>{
                             mondayPrograms ?
                                 mondayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -263,7 +263,7 @@ const TableItem = ({ program }) => {
                             tuesdayPrograms ?
                                 tuesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -271,7 +271,7 @@ const TableItem = ({ program }) => {
                             wednesdayPrograms ?
                                 wednesdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -279,7 +279,7 @@ const TableItem = ({ program }) => {
                             thursdayPrograms ?
                                 thursdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -287,7 +287,7 @@ const TableItem = ({ program }) => {
                             fridayPrograms ?
                                 fridayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -295,7 +295,7 @@ const TableItem = ({ program }) => {
                             saturdayPrograms ?
                                 saturdayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
@@ -303,7 +303,7 @@ const TableItem = ({ program }) => {
                             sundayPrograms ?
                                 sundayPrograms.map((course) =>
                                     course.startHour / 3600 >= 16 && course.endHour / 3600 <= 19 ?
-                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} </div>)
+                                        (<div>{` ${course.group === "Groupe Principale" ? "" : formatGroupName(course.group)}${course.subjectCode} (${course.roomName}) ${course.teacherName}`} <hr/> </div>)
                                         : null
                                 ) : null
                         }</td>
